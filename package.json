@@ -1,0 +1,12 @@
+{
+  "name": "@gradebook/utils",
+  "description": "Shared utilities used by Gradebook",
+  "repository": "git@github.com:gradebook/utils",
+  "authors": [
+    "Josh Costa <joshcosta38@tamu.edu>",
+    "Vikas Potluri <vikaspotluri123.github@gmail.com>",
+    "Ramsay Smith <ramsaysmith@outlook.com>"
+  ],
+  "license": "MIT",
+  "private": true
+}
