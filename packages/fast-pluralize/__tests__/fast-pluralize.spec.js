@@ -1,5 +1,6 @@
-import {expect} from 'chai';
-import {singularize} from '../lib/fast-pluralize';
+// @ts-check
+const {expect} = require('chai');
+const {singularize} = require('../lib/fast-pluralize');
 
 describe('Unit > Singularize', function () {
 	it('Singular-plural pairs', function () {
