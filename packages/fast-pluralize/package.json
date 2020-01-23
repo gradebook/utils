@@ -1,6 +1,7 @@
 {
   "name": "@gradebook/fast-pluralize",
   "version": "0.0.1",
+  "private": false,
   "description": "Singularize and pluralize words",
   "keywords": [
     "plural"
@@ -30,5 +31,6 @@
   },
   "bugs": {
     "url": "https://github.com/gradebook/utils/issues"
-  }
+  },
+  "gitHead": "678566fe4820ecba14466049a2a3f9226a89a517"
 }
