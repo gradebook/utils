@@ -9,9 +9,12 @@
   ],
   "license": "MIT",
   "private": true,
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "@types/node": "^13.1.8",
+    "chai": "^4.2.0",
     "lerna": "^3.20.2",
     "typescript": "^3.7.5"
   }
