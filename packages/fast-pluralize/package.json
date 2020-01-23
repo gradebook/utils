@@ -24,7 +24,8 @@
     "url": "git+https://github.com/gradebook/utils.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "pretest": "tsc",
+    "test": "mocha __tests__ --recursive"
   },
   "bugs": {
     "url": "https://github.com/gradebook/utils/issues"
