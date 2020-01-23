@@ -1,6 +1,6 @@
 {
   "name": "@gradebook/fast-pluralize",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "Singularize and pluralize words",
   "keywords": [
     "plural"
