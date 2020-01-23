@@ -33,19 +33,9 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
-backend/config.js
 
 # System Files
 .DS_Store
 Thumbs.db
 
-landing
-
-test/fixtures/test-database\.db
-content/user-data/*.json
-content/*.db
-
-.gradebook-cli
-config.*.json
-!config.example.json
-logs/
+packages/*/lib
