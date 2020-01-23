@@ -25,7 +25,8 @@
   },
   "scripts": {
     "pretest": "tsc",
-    "test": "mocha __tests__ --recursive"
+    "test": "mocha __tests__ --recursive",
+    "prepublish": "tsc"
   },
   "bugs": {
     "url": "https://github.com/gradebook/utils/issues"
