@@ -1,41 +1,6 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
-# compiled output
-release/
-/tmp
-/out-tsc
-
-# dependencies
-node_modules/
-
-# profiling files
-chrome-profiler-events.json
-speed-measure-plugin.json
-
-# IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
-
-# IDE - VSCode
-.vscode/*
-
-# misc
-/.sass-cache
-/coverage
-.nyc_output
-/libpeerconnection.log
-npm-debug.log
+node_modules
 yarn-error.log
-testem.log
-/typings
-
-# System Files
-.DS_Store
-Thumbs.db
 
 packages/*/lib
+packages/*/coverage
+packages/*/.nyc_output
