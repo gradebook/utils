@@ -24,13 +24,45 @@
     "type": "git",
     "url": "git+https://github.com/gradebook/utils.git"
   },
+  "devDependencies": {
+    "chai": "^4.2.0"
+  },
   "scripts": {
     "pretest": "tsc",
     "test": "mocha __tests__ --recursive",
-    "prepublish": "tsc"
+    "test:coverage": "nyc --reporter=html --reporter=text mocha __tests__ --recursive",
+    "prepublish": "tsc",
+    "tsc": "tsc",
+    "lint": "xo"
   },
   "bugs": {
     "url": "https://github.com/gradebook/utils/issues"
+  },
+  "xo": {
+    "ignores": [
+      "lib"
+    ],
+    "rules": {
+      "func-names": [
+        "error",
+        "as-needed"
+      ],
+      "func-name-matching": "off"
+    },
+    "overrides": [
+      {
+        "files": "__tests__/**/*.js",
+        "envs": [
+          "node",
+          "mocha"
+        ],
+        "rules": {
+          "func-names": "off",
+          "prefer-arrow-callback": "off",
+          "no-unused-expressions": "off"
+        }
+      }
+    ]
   },
   "gitHead": "678566fe4820ecba14466049a2a3f9226a89a517"
 }
