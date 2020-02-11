@@ -13,6 +13,7 @@
     "packages/*"
   ],
   "scripts": {
+    "lerna": "node scripts/lerna.js && lerna",
     "new": "node scripts/new.js"
   },
   "devDependencies": {
