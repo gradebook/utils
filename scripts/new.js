@@ -61,7 +61,7 @@ async function exec(unscopedPackage) {
 
 	packageContents.repository.directory = `packages/${justName}`;
 	if (!isExistingProject) {
-		packageContents.version = '0.1.0';
+		packageContents.version = '0.0.1';
 		packageContents.scripts = {
 			pretest: 'tsc',
 			test: 'mocha __tests__ --recursive',
