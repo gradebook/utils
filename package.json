@@ -13,15 +13,15 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@types/mocha": "^7.0.1",
-    "@types/node": "^13.7.0",
-    "chai": "^4.2.0",
-    "lerna": "^3.20.2",
-    "mocha": "^7.0.1",
-    "nyc": "^15.0.0",
-    "sinon": "^8.1.1",
-    "typescript": "^3.7.5",
-    "xo": "^0.25.3"
+    "@types/mocha": "7.0.1",
+    "@types/node": "13.7.0",
+    "chai": "4.2.0",
+    "lerna": "3.20.2",
+    "mocha": "7.0.1",
+    "nyc": "15.0.0",
+    "sinon": "8.1.1",
+    "typescript": "3.7.5",
+    "xo": "0.25.3"
   },
   "xo": {
     "ignores": [
