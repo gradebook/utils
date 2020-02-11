@@ -1,3 +1,4 @@
+/* eslint-env browser */
 export class ExternalWindowService {
 	public promise: Promise<void>;
 
@@ -33,6 +34,6 @@ export class ExternalWindowService {
 
 		return `width=${width}px,height=${height}px,left=${widthOffset}px,top=${heightOffset}px`;
 	}
-};
+}
 
 export default ExternalWindowService;

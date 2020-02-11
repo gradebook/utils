@@ -6,6 +6,9 @@ const got = require('got');
 const _module = require('..');
 const sendPayload = _module.default;
 
+/**
+ * @returns {void}
+ */
 const noop = () => null;
 
 const TESTING_PAYLOAD_HASH = 'sha256=79ee8ebb044e31f5ec95e87202d1c61cad14703847a5edafe82f36018760f915';

@@ -15,14 +15,14 @@ export function cleanup(): void {
 interface SpawnedProcess {
 	name: string;
 	child: execa.ExecaChildProcess;
-};
+}
 
 export default class Together {
-	private _children: SpawnedProcess[] = [];
+	private readonly _children: SpawnedProcess[] = [];
 
 	private _terminated = false;
 
-	constructor(commands: [string, string][]) {
+	constructor(commands: Array<[string, string]>) {
 		instances.push(this);
 
 		if (!cleanupScheduled) {

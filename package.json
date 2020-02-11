@@ -19,7 +19,10 @@
   "devDependencies": {
     "@types/mocha": "7.0.1",
     "@types/node": "13.7.0",
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
+    "@typescript-eslint/parser": "^2.19.2",
     "chai": "4.2.0",
+    "eslint-config-xo-typescript": "^0.26.0",
     "fs-extra": "*",
     "lerna": "3.20.2",
     "mocha": "7.0.1",
@@ -29,6 +32,8 @@
     "xo": "0.25.3"
   },
   "xo": {
+    "extends": "xo-typescript",
+    "extensions": ["js", "ts"],
     "ignores": [
       "lib"
     ],
@@ -37,7 +42,14 @@
         "error",
         "as-needed"
       ],
-      "func-name-matching": "off"
+      "func-name-matching": "off",
+      "@typescript-eslint/restrict-template-expressions": [
+        "error",
+        {
+          "allowBoolean": true,
+          "allowNumber": true
+        }
+      ]
     },
     "overrides": [
       {
@@ -49,7 +61,9 @@
         "rules": {
           "func-names": "off",
           "prefer-arrow-callback": "off",
-          "no-unused-expressions": "off"
+          "@typescript-eslint/no-unused-expressions": "off",
+          "@typescript-eslint/no-var-requires": "off",
+          "@typescript-eslint/explicit-function-return-type": "off"
         }
       }
     ]

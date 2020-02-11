@@ -1,24 +1,26 @@
 import {createHmac} from 'crypto';
 import got from 'got';
+
 // @NOTE: we ignore this next line because we want to use the package.json that's shipped rather than a copy that might have missing or outdated data.
 // @ts-ignore
 import {name, version} from '../package.json';
 
+// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 export const userAgent = `${name}@${version} (Actions)`;
 
 export interface ConditionalHook {
 	branch?: string;
 	isPush?: boolean;
 	repository?: string;
-};
+}
 
 export interface PayloadOptions {
 	url?: string;
 	payload: object | string;
 	secret?: string;
 	log?: (message: string) => void;
-	onlyIf?: false | ConditionalHook
-};
+	onlyIf?: false | ConditionalHook;
+}
 
 export async function sendPayload({
 	url = process.env.WEBHOOK_URL,
@@ -46,6 +48,7 @@ export async function sendPayload({
 			repository: process.env.GITHUB_REPOSITORY
 		};
 
+		// eslint-disable-next-line guard-for-in
 		for (const filter in onlyIf) {
 			if (!Object.hasOwnProperty.call(config, filter)) {
 				log(`[actions-hook](warning) unknown filter "${filter}"`);
@@ -53,9 +56,9 @@ export async function sendPayload({
 			}
 
 			// @ts-ignore
-			const received = config[filter];
+			const received: string | boolean = config[filter];
 			// @ts-ignore
-			const expected = onlyIf[filter];
+			const expected: string | boolean = onlyIf[filter];
 
 			if (expected !== received) {
 				log(
@@ -70,18 +73,14 @@ export async function sendPayload({
 
 	log(`Sending payload ${payload} to webhook\n\n`);
 
-	try {
-		await got.post(url, {
-			headers: {
-				'Content-Type': 'application/json',
-				'User-Agent': userAgent,
-				'X-Actions-Secret': `sha256=${hmac}`
-			},
-			body: payload
-		});
-	} catch (error) {
-		throw error;
-	}
-};
+	await got.post(url, {
+		headers: {
+			'Content-Type': 'application/json',
+			'User-Agent': userAgent,
+			'X-Actions-Secret': `sha256=${hmac}`
+		},
+		body: payload
+	});
+}
 
 export default sendPayload;
