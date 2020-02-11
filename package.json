@@ -12,10 +12,14 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "new": "node scripts/new.js"
+  },
   "devDependencies": {
     "@types/mocha": "7.0.1",
     "@types/node": "13.7.0",
     "chai": "4.2.0",
+    "fs-extra": "*",
     "lerna": "3.20.2",
     "mocha": "7.0.1",
     "nyc": "15.0.0",
