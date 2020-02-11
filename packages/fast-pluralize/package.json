@@ -8,6 +8,7 @@
   ],
   "author": "Ramsay Smith <ramsaysmith@outlook.com>",
   "homepage": "https://github.com/gradebook/utils#readme",
+  "bugs": "https://github.com/gradebook/utils/issues",
   "license": "MIT",
   "main": "lib/fast-pluralize.js",
   "directories": {
@@ -19,10 +20,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gradebook/utils.git"
-  },
-  "devDependencies": {
-    "chai": "^4.2.0"
+    "url": "https://github.com/gradebook/utils.git",
+    "directory": "packages/fast-pluralize"
   },
   "scripts": {
     "pretest": "tsc",
@@ -32,8 +31,8 @@
     "tsc": "tsc",
     "lint": "xo"
   },
-  "bugs": {
-    "url": "https://github.com/gradebook/utils/issues"
+  "devDependencies": {
+    "chai": "^4.2.0"
   },
   "xo": {
     "ignores": [

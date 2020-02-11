@@ -4,7 +4,8 @@
   "private": false,
   "description": "Run multiple processes in a terminal",
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
-  "homepage": "https://github.com/gradebook/cli-utils/tree/master/packages/together",
+  "homepage": "https://github.com/gradebook/utils/tree/master/packages/together",
+  "bugs": "https://github.com/gradebook/utils/issues",
   "license": "MIT",
   "main": "lib/together.js",
   "directories": {
@@ -16,7 +17,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gradebook/cli-utils.git"
+    "url": "https://github.com/gradebook/utils.git",
+    "directory": "packages/together"
   },
   "scripts": {
     "pretest": "tsc",
@@ -25,9 +27,6 @@
     "prepublish": "tsc",
     "tsc": "tsc",
     "lint": "xo"
-  },
-  "bugs": {
-    "url": "https://github.com/gradebook/cli-utils/issues"
   },
   "dependencies": {
     "execa": "^4.0.0"
