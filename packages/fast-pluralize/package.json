@@ -32,7 +32,7 @@
     "lint": "xo"
   },
   "devDependencies": {
-    "chai": "^4.2.0"
+    "chai": "4.2.0"
   },
   "xo": false,
   "gitHead": "678566fe4820ecba14466049a2a3f9226a89a517"
