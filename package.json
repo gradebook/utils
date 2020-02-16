@@ -23,6 +23,7 @@
     "@typescript-eslint/parser": "2.19.2",
     "chai": "4.2.0",
     "eslint-config-xo-typescript": "0.26.0",
+    "execa": "4.0.0",
     "fs-extra": "*",
     "lerna": "3.20.2",
     "mocha": "7.0.1",
@@ -33,7 +34,10 @@
   },
   "xo": {
     "extends": "xo-typescript",
-    "extensions": ["js", "ts"],
+    "extensions": [
+      "js",
+      "ts"
+    ],
     "ignores": [
       "lib"
     ],
