@@ -34,7 +34,7 @@
   "devDependencies": {
     "@types/got": "9.6.9",
     "chai": "4.2.0",
-    "sinon": "8.1.1"
+    "sinon": "9.0.0"
   },
   "xo": false
 }
