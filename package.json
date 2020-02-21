@@ -18,9 +18,9 @@
   },
   "devDependencies": {
     "@types/mocha": "7.0.1",
-    "@types/node": "13.7.0",
-    "@typescript-eslint/eslint-plugin": "2.19.2",
-    "@typescript-eslint/parser": "2.19.2",
+    "@types/node": "13.7.4",
+    "@typescript-eslint/eslint-plugin": "2.20.0",
+    "@typescript-eslint/parser": "2.20.0",
     "chai": "4.2.0",
     "eslint-config-xo-typescript": "0.26.0",
     "execa": "4.0.0",
@@ -28,9 +28,9 @@
     "lerna": "3.20.2",
     "mocha": "7.0.1",
     "nyc": "15.0.0",
-    "sinon": "8.1.1",
-    "typescript": "3.7.5",
-    "xo": "0.25.3"
+    "sinon": "9.0.0",
+    "typescript": "3.8.2",
+    "xo": "0.26.1"
   },
   "xo": {
     "extends": "xo-typescript",
