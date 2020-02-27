@@ -70,6 +70,7 @@ async function exec(unscopedPackage) {
 			tsc: 'tsc',
 			lint: 'xo'
 		};
+		packageContents.files = ['lib', 'src'];
 	}
 
 	const newPackageContents = {};
