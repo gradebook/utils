@@ -141,7 +141,8 @@ async function exec(unscopedPackage) {
 
 			const testPath = path.resolve(packageRoot, '__tests__', packageBaseName + '.test.js');
 			fileContents = fs.readFileSync(srcPath, 'utf8');
-			fs.writeFileSync(testPath, transform(fileContents));
+			fs.unlinkSync(testPath);
+			fs.writeFileSync(testPath.replace(/\.test\.js$/, '.spec.js'), transform(fileContents));
 		} catch (error) {
 			console.error(`Failed transforming files: ${error.message}`);
 		}
