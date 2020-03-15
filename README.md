@@ -12,6 +12,5 @@ Each package has common code-quality scripts:
 
 - `test` to run the tests (located in the `__tests__` folder)
 - `test:coverage` to run tests with test coverage enabled. We don't have CI coverage enabled at the moment
-- `lint` to run `xo`, our linter of choice. We don't have lint set up for TypeScript at the moment
 
 The code for each package is written in the `src` folder, and compiled to the `lib` folder
