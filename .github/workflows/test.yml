@@ -17,7 +17,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
-      - name: Get Cache
+    - name: Get Cache
       id: yarn-cache
       run: echo "::set-output name=dir::$(yarn cache dir)"
     - uses: actions/cache@v1
@@ -43,7 +43,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
-      - name: Get Cache
+    - name: Get Cache
       id: yarn-cache
       run: echo "::set-output name=dir::$(yarn cache dir)"
     - uses: actions/cache@v1
