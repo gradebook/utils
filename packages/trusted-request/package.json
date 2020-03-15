@@ -26,10 +26,8 @@
     "test": "mocha __tests__ --recursive",
     "test:coverage": "nyc --reporter=html --reporter=text mocha __tests__ --recursive",
     "prepublish": "tsc",
-    "tsc": "tsc",
-    "lint": "xo"
+    "tsc": "tsc"
   },
-  "xo": false,
   "devDependencies": {
     "@types/express": "4.17.3"
   }

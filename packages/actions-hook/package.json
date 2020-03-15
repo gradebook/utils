@@ -26,8 +26,7 @@
     "test": "mocha __tests__ --recursive",
     "test:coverage": "nyc --reporter=html --reporter=text mocha __tests__ --recursive",
     "prepublish": "tsc",
-    "tsc": "tsc",
-    "lint": "xo"
+    "tsc": "tsc"
   },
   "dependencies": {
     "got": "10.6.0"
@@ -36,6 +35,5 @@
     "@types/got": "9.6.9",
     "chai": "4.2.0",
     "sinon": "9.0.1"
-  },
-  "xo": false
+  }
 }

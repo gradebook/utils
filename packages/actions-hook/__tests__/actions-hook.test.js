@@ -91,14 +91,14 @@ describe('actions-hook', () => {
 	});
 
 	it('throws got errors', async function () {
-		const e = new Error('this is an error');
-		gotStub.throws(e);
+		const _error = new Error('this is an error');
+		gotStub.throws(_error);
 
 		try {
 			await sendPayload({url: 'test.local', secret: 'secret', payload: 'test', log: noop});
 			expect(false, 'error should have been thrown').to.be.true;
 		} catch (error) {
-			expect(error).to.equal(e);
+			expect(error).to.equal(_error);
 		}
 	});
 

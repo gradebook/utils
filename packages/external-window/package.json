@@ -26,8 +26,6 @@
     "test": "mocha __tests__ --recursive",
     "test:coverage": "nyc --reporter=html --reporter=text mocha __tests__ --recursive",
     "prepublish": "tsc",
-    "tsc": "tsc",
-    "lint": "xo"
-  },
-  "xo": false
+    "tsc": "tsc"
+  }
 }

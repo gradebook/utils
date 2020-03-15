@@ -5,7 +5,6 @@ import got from 'got';
 // @ts-ignore
 import {name, version} from '../package.json';
 
-// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 export const userAgent = `${name}@${version} (Actions)`;
 
 export interface ConditionalHook {

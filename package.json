@@ -13,16 +13,14 @@
     "packages/*"
   ],
   "scripts": {
+    "lint": "xo",
     "lerna": "node scripts/lerna.js && lerna",
     "new": "node scripts/new.js"
   },
   "devDependencies": {
     "@types/mocha": "7.0.2",
     "@types/node": "13.9.1",
-    "@typescript-eslint/eslint-plugin": "2.23.0",
-    "@typescript-eslint/parser": "2.23.0",
     "chai": "4.2.0",
-    "eslint-config-xo-typescript": "0.26.0",
     "execa": "4.0.0",
     "fs-extra": "*",
     "lerna": "3.20.2",
@@ -30,34 +28,23 @@
     "nyc": "15.0.0",
     "sinon": "9.0.1",
     "typescript": "3.8.3",
-    "xo": "0.26.1"
+    "xo": "0.28.0"
   },
   "xo": {
-    "extends": "xo-typescript",
-    "extensions": [
-      "js",
-      "ts"
-    ],
     "ignores": [
       "lib"
     ],
     "rules": {
+      "@typescript-eslint/restrict-template-expressions": "off",
       "func-names": [
         "error",
         "as-needed"
       ],
-      "func-name-matching": "off",
-      "@typescript-eslint/restrict-template-expressions": [
-        "error",
-        {
-          "allowBoolean": true,
-          "allowNumber": true
-        }
-      ]
+      "func-name-matching": "off"
     },
     "overrides": [
       {
-        "files": "__tests__/**/*.js",
+        "files": "packages/**/__tests__/**/*.js",
         "envs": [
           "node",
           "mocha"
@@ -65,9 +52,9 @@
         "rules": {
           "func-names": "off",
           "prefer-arrow-callback": "off",
-          "@typescript-eslint/no-unused-expressions": "off",
-          "@typescript-eslint/no-var-requires": "off",
-          "@typescript-eslint/explicit-function-return-type": "off"
+          "no-unused-expressions": "off",
+          "no-var-requires": "off",
+          "explicit-function-return-type": "off"
         }
       }
     ]
