@@ -13,7 +13,7 @@ const noop = () => null;
 
 const TESTING_PAYLOAD_HASH = 'sha256=79ee8ebb044e31f5ec95e87202d1c61cad14703847a5edafe82f36018760f915';
 
-describe('actions-hook', () => {
+describe('actions-hook', function () {
 	/** @type sinon.SinonStub */
 	let gotStub;
 

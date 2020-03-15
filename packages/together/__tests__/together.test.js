@@ -6,7 +6,7 @@ const together = require('..');
 
 const Together = together.default;
 
-describe('together', () => {
+describe('together', function () {
 	/** @type {sinon.SinonStub} */
 	let execStub;
 	/** @type {sinon.SinonStub} */
