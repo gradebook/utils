@@ -4,8 +4,21 @@
 
 ## Usage
 
-```
-const importer = require('@gradebook/importer');
+```ts
+import {readFileSync} from 'fs';
+import {generateAPICalls} from './importer';
+import {ValidationError} from './errors';
 
-// TODO: DEMONSTRATE API
+const exampleExport = readFileSync('./export.json');
+
+try {
+	console.log(generateAPICalls(exampleExport));
+} catch (error) {
+	if (error instanceof ValidationError) {
+		console.log(error.message);
+	} else {
+		console.error(error);
+	}
+}
+
 ```
