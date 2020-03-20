@@ -69,7 +69,7 @@ export function runBasicValidations(payload: Buffer | string | object): Export {
 	return payload as Export;
 }
 
-export function generateAPICalls(data: Buffer | string | object, options: ImportOptions): Query[] {
+export function generateAPICalls(data: Buffer | string | object, options: ImportOptions = {}): Query[] {
 	const uExport = runBasicValidations(data);
 	const uid = oid.generate();
 	const queries: Query[] = [];
