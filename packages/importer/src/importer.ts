@@ -58,11 +58,17 @@ export function runBasicValidations(payload: Buffer | string | object): Export {
 	const passesBasicValidations = validator.validate('gradebook-v0-import', payload);
 
 	if (!passesBasicValidations) {
-		const error = validator.errorsText(validator.errors);
-		throw new ValidationError({
-			message: 'Export is invalid',
-			originalError: new Error(error.normalize())
-		});
+		const paths = new Set<string>();
+		let message = 'Export is invalid:';
+
+		for (const error of validator.errors) {
+			if (!paths.has(error.dataPath)) {
+				message += `\n\t${error.dataPath} ${error.message}`;
+				paths.add(error.dataPath);
+			}
+		}
+
+		throw new ValidationError({message});
 	}
 
 	// Note: once the payload passes all the validation errors, we know the type
