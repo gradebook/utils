@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "gradebook-v0-import",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "enum": ["0"]
+    },
+    "courses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "$ref": "gradebook-course"
+      }
+    },
+    "user": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "lastName": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "settings": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
