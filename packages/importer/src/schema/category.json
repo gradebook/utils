@@ -35,10 +35,7 @@
     },
     "grades": {
       "type": "array",
-      "items": {
-        "type": "object",
-        "$ref": "gradebook-grade"
-      }
+      "items": {"$ref": "gradebook-grade"}
     }
   }
 }

@@ -26,10 +26,7 @@
     },
     "categories": {
       "type": "array",
-      "items": {
-        "type": "object",
-        "$ref": "gradebook-category"
-      }
+      "items": {"$ref": "gradebook-category"}
     },
     "cut1": {"$ref": "gradebook-util-cut"},
     "cut2": {"$ref": "gradebook-util-cut"},

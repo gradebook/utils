@@ -10,10 +10,7 @@
     },
     "courses": {
       "type": "array",
-      "items": {
-        "type": "object",
-        "$ref": "gradebook-course"
-      }
+      "items": {"$ref": "gradebook-course"}
     },
     "user": {
       "type": "object",
