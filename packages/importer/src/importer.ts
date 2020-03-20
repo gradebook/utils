@@ -4,7 +4,6 @@ import {ValidationError} from './errors';
 import {SCHEMAS} from './schema';
 import {Export, Query} from './interfaces';
 import {generateCourseQuery} from './generators';
-import {format} from 'url';
 
 const VALID_SETTINGS = new Set(['previous_notification', 'tour', 'redirectFromHome']);
 
@@ -20,9 +19,9 @@ export interface ImportOptions {
 export function coerceJSON(payload: Buffer | string | object, name = 'input'): object {
 	let coerced;
 
-	if (typeof payload !== 'object') {
+	if (typeof payload === 'string' || payload instanceof Buffer) {
 		try {
-			coerced = JSON.parse(payload);
+			coerced = JSON.parse(payload.toString());
 		} catch (error) {
 			throw new ValidationError({
 				message: `Unable to parse ${name}`,
@@ -55,6 +54,7 @@ export function validateUser(user: Export['user']): void {
 }
 
 export function runBasicValidations(payload: Buffer | string | object): Export {
+	payload = coerceJSON(payload);
 	const passesBasicValidations = validator.validate('gradebook-v0-import', payload);
 
 	if (!passesBasicValidations) {
