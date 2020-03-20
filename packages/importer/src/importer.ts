@@ -14,6 +14,7 @@ export interface ImportOptions {
 	maxCoursesPerSemester?: number;
 	maxCategoriesPerCourse?: number;
 	maxGradesPerCategory?: number;
+	preserveDates?: boolean;
 	gid: string;
 }
 
@@ -35,7 +36,7 @@ export function coerceJSON(payload: Buffer | string | object, name = 'input'): o
 }
 
 // @TODO: validate remaining fields!
-export function validateUser(user: Export['user']): void {
+export function validateUser(user: Export['user'], preserveDates: boolean): void {
 	const settings = coerceJSON(user.settings, 'settings');
 	for (const key of Object.keys(settings)) {
 		if (!VALID_SETTINGS.has(key)) {
@@ -45,11 +46,11 @@ export function validateUser(user: Export['user']): void {
 
 	const formattedDate = new Date().toISOString().slice(0, 20) + '000Z';
 
-	if (!user.created_at) {
+	if (!user.created_at || !preserveDates) {
 		user.created_at = formattedDate;
 	}
 
-	if (!user.updated_at) {
+	if (!user.updated_at || !preserveDates) {
 		user.updated_at = formattedDate;
 	}
 }
@@ -81,15 +82,15 @@ export function generateAPICalls(data: Buffer | string | object, options: Import
 	const uid = oid.generate();
 	const queries: Query[] = [];
 
-	validateUser(uExport.user);
-
 	const {
 		maxCoursesPerSemester = 7,
 		maxCategoriesPerCourse = 25,
 		maxGradesPerCategory = 40,
+		preserveDates = true,
 		gid
 	} = options;
 
+	validateUser(uExport.user, preserveDates);
 	queries.push(['user', {id: uid, gid, ...uExport.user}]);
 
 	const semesters = new Map<string, number>();
