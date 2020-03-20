@@ -39,6 +39,11 @@ export function generateCategoryQuery(user_id: string, course_id: string, catego
 	const categoryRow = {...category, id, user_id, course_id};
 	delete categoryRow.grades;
 
+	// @TODO: Why did we disallow 0 weights?
+	if (categoryRow.weight === 0) {
+		categoryRow.weight = null;
+	}
+
 	const queries: Query[] = [['category', categoryRow]];
 
 	if (Array.isArray(category.grades)) {
