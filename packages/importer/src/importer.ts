@@ -1,5 +1,6 @@
 import oid from 'bson-objectid';
 import AJV from 'ajv';
+import Knex from 'knex';
 import {ValidationError} from './errors';
 import {SCHEMAS} from './schema';
 import {Export, Query} from './interfaces';
@@ -15,6 +16,7 @@ export interface ImportOptions {
 	maxCategoriesPerCourse?: number;
 	maxGradesPerCategory?: number;
 	preserveDates?: boolean;
+	user_id?: string;
 	gid: string;
 }
 
@@ -119,6 +121,34 @@ export function generateAPICalls(data: Buffer | string | object, options: Import
 	}
 
 	return queries;
+}
+
+export async function runQueries(knex: Knex, queries: Query[], preserveUser = false): Promise<void> {
+	const txn = await knex.transaction();
+
+	if (!preserveUser) {
+		if (queries[0][0] !== 'user') {
+			throw new Error('Cannot find user in query list');
+		}
+
+		const {id} = queries[0][1];
+		await txn('grades').where('id', id).del();
+		await txn('categories').whereIn('id', txn('courses').where('user_id', id)).del();
+		await txn('courses').where('user_id', id).del();
+		await txn('users').where('id', id).del();
+	}
+
+	try {
+		for (const [table, data] of queries) {
+			/* eslint-disable-next-line no-await-in-loop */
+			await txn(table).insert(data);
+		}
+
+		await txn.commit();
+	} catch (error) {
+		await txn.rollback();
+		throw error;
+	}
 }
 
 export default generateAPICalls;
