@@ -44,6 +44,7 @@ export interface GradeRow extends MinimalGrade {
 
 export interface UserRow {
 	id: string;
+	gid: string;
 	firstName: string;
 	lastName: string;
 	created_at: string;

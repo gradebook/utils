@@ -14,6 +14,7 @@ export interface ImportOptions {
 	maxCoursesPerSemester?: number;
 	maxCategoriesPerCourse?: number;
 	maxGradesPerCategory?: number;
+	gid: string;
 }
 
 export function coerceJSON(payload: Buffer | string | object, name = 'input'): object {
@@ -75,20 +76,21 @@ export function runBasicValidations(payload: Buffer | string | object): Export {
 	return payload as Export;
 }
 
-export function generateAPICalls(data: Buffer | string | object, options: ImportOptions = {}): Query[] {
+export function generateAPICalls(data: Buffer | string | object, options: ImportOptions): Query[] {
 	const uExport = runBasicValidations(data);
 	const uid = oid.generate();
 	const queries: Query[] = [];
 
 	validateUser(uExport.user);
 
-	queries.push(['user', {id: uid, ...uExport.user}]);
-
 	const {
 		maxCoursesPerSemester = 7,
 		maxCategoriesPerCourse = 25,
-		maxGradesPerCategory = 40
+		maxGradesPerCategory = 40,
+		gid
 	} = options;
+
+	queries.push(['user', {id: uid, gid, ...uExport.user}]);
 
 	const semesters = new Map<string, number>();
 
