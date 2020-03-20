@@ -1,6 +1,6 @@
 # `@gradebook/importer`
 
-> TODO: description
+> Generate SQL-like queries to import a user into a gradebook database
 
 ## Usage
 
