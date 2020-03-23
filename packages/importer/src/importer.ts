@@ -132,8 +132,8 @@ export async function runQueries(knex: Knex, queries: Query[], preserveUser = fa
 		}
 
 		const {id} = queries[0][1];
-		await txn('grades').where('id', id).del();
-		await txn('categories').whereIn('id', txn('courses').where('user_id', id)).del();
+		await txn('grades').where('user_id', id).del();
+		await txn('categories').whereIn('id', txn('courses').select('id').where('user_id', id)).del();
 		await txn('courses').where('user_id', id).del();
 		await txn('users').where('id', id).del();
 	}
