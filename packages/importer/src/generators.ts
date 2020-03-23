@@ -36,7 +36,7 @@ export function generateCourseQuery(
 
 export function generateCategoryQuery(user_id: string, course_id: string, category: Category): Query[] {
 	const id = oid.generate();
-	const categoryRow = {...category, id, user_id, course_id};
+	const categoryRow = {...category, id, course_id};
 	delete categoryRow.grades;
 
 	const queries: Query[] = [['categories', categoryRow]];

@@ -93,7 +93,7 @@ export function generateAPICalls(data: Buffer | string | object, options: Import
 	} = options;
 
 	validateUser(uExport.user, preserveDates);
-	queries.push(['user', {id: uid, gid, ...uExport.user}]);
+	queries.push(['users', {id: uid, gid, ...uExport.user}]);
 
 	const semesters = new Map<string, number>();
 
@@ -127,7 +127,7 @@ export async function runQueries(knex: Knex, queries: Query[], preserveUser = fa
 	const txn = await knex.transaction();
 
 	if (!preserveUser) {
-		if (queries[0][0] !== 'user') {
+		if (queries[0][0] !== 'users') {
 			throw new Error('Cannot find user in query list');
 		}
 
