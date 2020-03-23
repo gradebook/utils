@@ -1,6 +1,6 @@
 {
   "name": "@gradebook/importer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Generate SQL-like queries to import a user into a gradebook database",
   "keywords": [],
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
