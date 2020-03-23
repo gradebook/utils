@@ -12,7 +12,7 @@ export function generateCourseQuery(
 	const courseRow = {...course, id, user_id};
 	delete courseRow.categories;
 
-	const queries: Query[] = [['course', courseRow]];
+	const queries: Query[] = [['courses', courseRow]];
 
 	if (!Array.isArray(course.categories)) {
 		return queries;
@@ -39,7 +39,7 @@ export function generateCategoryQuery(user_id: string, course_id: string, catego
 	const categoryRow = {...category, id, user_id, course_id};
 	delete categoryRow.grades;
 
-	const queries: Query[] = [['category', categoryRow]];
+	const queries: Query[] = [['categories', categoryRow]];
 
 	if (Array.isArray(category.grades)) {
 		for (const grade of category.grades) {
@@ -55,5 +55,5 @@ export function generateCategoryQuery(user_id: string, course_id: string, catego
 
 export function generateGradeQuery(grade: Grade, user_id: string, course_id: string, category_id: string): Query {
 	const id = oid.generate();
-	return ['grade', {...grade, id, user_id, course_id, category_id}];
+	return ['grades', {...grade, id, user_id, course_id, category_id}];
 }

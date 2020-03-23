@@ -31,7 +31,6 @@ export interface CourseRow extends MinimalCourse {
 
 export interface CategoryRow extends MinimalCategory {
 	id: string;
-	user_id: string;
 	course_id: string;
 }
 
@@ -53,10 +52,10 @@ export interface UserRow {
 	settings: string;
 }
 
-type CourseQuery = ['course', CourseRow];
-type CategoryQuery = ['category', CategoryRow];
-type GradeQuery = ['grade', GradeRow];
-type UserQuery = ['user', UserRow];
+type CourseQuery = ['courses', CourseRow];
+type CategoryQuery = ['categories', CategoryRow];
+type GradeQuery = ['grades', GradeRow];
+type UserQuery = ['users', UserRow];
 export type Query = CourseQuery | CategoryQuery | GradeQuery | UserQuery;
 
 export interface Course extends MinimalCourse {
