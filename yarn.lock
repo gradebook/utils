@@ -1158,13 +1158,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/knex@^0.16.1":
-  version "0.16.1"
-  resolved "https://registry.yarnpkg.com/@types/knex/-/knex-0.16.1.tgz#619678407265c675463c563ed38323461a49515d"
-  integrity sha512-54gWD1HWwdVx5iLHaJ1qxH3I6KyBsj5fFqzRpXFn7REWiEB2jwspeVCombNsocSrqPd7IRPqKrsIME7/cD+TFQ==
-  dependencies:
-    knex "*"
-
 "@types/mime@*":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.1.tgz#dc488842312a7f075149312905b5e3c0b054c79d"
@@ -4912,10 +4905,10 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-knex@*:
-  version "0.20.12"
-  resolved "https://registry.yarnpkg.com/knex/-/knex-0.20.12.tgz#33e576fb53b624c6cf346f7a4c81f0a1e06191fc"
-  integrity sha512-pxJBsfW9EGfc1l5ObD5+91/gveDXZZrx35kW+2tihJYpsAqUoqAnUT2v0xBQrWTDlt3Tifg9Gt84P/0abomPrA==
+knex@^0.20.13:
+  version "0.20.13"
+  resolved "https://registry.yarnpkg.com/knex/-/knex-0.20.13.tgz#056c310d963f7efce1b3c7397576add1323f1146"
+  integrity sha512-YVl//Te0G5suc+d9KyeI6WuhtgVlxu6HXYQB+WqrccFkSZAbHqlqZlUMogYG3UoVq69c3kiFbbxgUNkrO0PVfg==
   dependencies:
     colorette "1.1.0"
     commander "^4.1.1"
