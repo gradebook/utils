@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import oid from 'bson-objectid';
 import {ValidationError} from './errors';
 import {Course, Category, Grade, Query} from './interfaces';
