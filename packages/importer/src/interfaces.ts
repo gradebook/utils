@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 export type MinimalCourse = {
 	semester: string;
 	name: string;

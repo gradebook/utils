@@ -16,7 +16,7 @@ export interface ImportOptions {
 	maxCategoriesPerCourse?: number;
 	maxGradesPerCategory?: number;
 	preserveDates?: boolean;
-	user_id?: string;
+	user_id?: string; // eslint-disable-line camelcase
 	gid: string;
 }
 
@@ -49,11 +49,11 @@ export function validateUser(user: Export['user'], preserveDates: boolean): void
 	const formattedDate = new Date().toISOString().slice(0, 20) + '000Z';
 
 	if (!user.created_at || !preserveDates) {
-		user.created_at = formattedDate;
+		user.created_at = formattedDate; // eslint-disable-line camelcase
 	}
 
 	if (!user.updated_at || !preserveDates) {
-		user.updated_at = formattedDate;
+		user.updated_at = formattedDate; // eslint-disable-line camelcase
 	}
 }
 
