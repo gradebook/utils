@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@types/mocha": "7.0.2",
-    "@types/node": "13.9.1",
+    "@types/node": "13.11.0",
     "chai": "4.2.0",
     "eslint-plugin-mocha": "6.3.0",
     "execa": "4.0.0",
