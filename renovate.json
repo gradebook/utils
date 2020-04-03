@@ -1,5 +1,5 @@
 {
   "extends": [
-    "github>gradebook/renovate-config:default"
+    "github>gradebook/renovate-config:noPinnedDeps"
   ]
 }
