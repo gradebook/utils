@@ -1,0 +1,448 @@
+{
+  "id": "5d5f61ecfa8fcd6565dea001",
+  "semester": "2019F",
+  "name": "Example Course",
+  "cut1": 90,
+  "cut2": 80,
+  "cut3": 70,
+  "cut4": 60,
+  "cut1Name": "A",
+  "cut2Name": "B",
+  "cut3Name": "C",
+  "cut4Name": "D",
+  "credits": 0,
+  "categories": [
+    {
+      "id": "5d685c85f44a7568e9d91f60",
+      "course_id": "5d5f61ecfa8fcd6565dea001",
+      "name": "Attendance",
+      "weight": 0,
+      "position": 100,
+      "dropped": null,
+      "grades": [
+        {
+          "id": "5d685c85f44a7568e9d91f61",
+          "name": "8/29, 8/30",
+          "grade": 100,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685c85f44a7568e9d91f60"
+        },
+        {
+          "id": "5d685c8df44a7568e9d91f62",
+          "name": "9/5, 9/6",
+          "grade": 100,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685c85f44a7568e9d91f60"
+        },
+        {
+          "id": "5d685e271b3ed46c2cdb4f35",
+          "name": "9/10, 9/11",
+          "grade": 100,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685c85f44a7568e9d91f60"
+        },
+        {
+          "id": "5d685e271b3ed46c2cdb4f36",
+          "name": "9/19, 9/20",
+          "grade": 100,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685c85f44a7568e9d91f60"
+        },
+        {
+          "id": "5d685e271b3ed46c2cdb4f37",
+          "name": "Attendance 5",
+          "grade": null,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685c85f44a7568e9d91f60"
+        },
+        {
+          "id": "5d685e271b3ed46c2cdb4f38",
+          "name": "Attendance 6",
+          "grade": null,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685c85f44a7568e9d91f60"
+        },
+        {
+          "id": "5d685e271b3ed46c2cdb4f39",
+          "name": "Attendance 7",
+          "grade": null,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685c85f44a7568e9d91f60"
+        },
+        {
+          "id": "5d685e271b3ed46c2cdb4f3a",
+          "name": "Attendance 8",
+          "grade": null,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685c85f44a7568e9d91f60"
+        },
+        {
+          "id": "5d685e271b3ed46c2cdb4f3b",
+          "name": "Attendance 9",
+          "grade": null,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685c85f44a7568e9d91f60"
+        },
+        {
+          "id": "5d685e271b3ed46c2cdb4f3c",
+          "name": "Attendance 10",
+          "grade": null,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685c85f44a7568e9d91f60"
+        },
+        {
+          "id": "5d685e271b3ed46c2cdb4f3d",
+          "name": "Attendance 11",
+          "grade": null,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685c85f44a7568e9d91f60"
+        },
+        {
+          "id": "5d685e271b3ed46c2cdb4f3e",
+          "name": "Attendance 12",
+          "grade": null,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685c85f44a7568e9d91f60"
+        },
+        {
+          "id": "5d685e271b3ed46c2cdb4f3f",
+          "name": "Attendance 13",
+          "grade": null,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685c85f44a7568e9d91f60"
+        },
+        {
+          "id": "5d685e271b3ed46c2cdb4f40",
+          "name": "Attendance 14",
+          "grade": null,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685c85f44a7568e9d91f60"
+        },
+        {
+          "id": "5d685e271b3ed46c2cdb4f41",
+          "name": "Attendance 15",
+          "grade": null,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685c85f44a7568e9d91f60"
+        },
+        {
+          "id": "5d685e271b3ed46c2cdb4f42",
+          "name": "Attendance 16",
+          "grade": null,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685c85f44a7568e9d91f60"
+        },
+        {
+          "id": "5d685e271b3ed46c2cdb4f43",
+          "name": "Attendance 17",
+          "grade": null,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685c85f44a7568e9d91f60"
+        },
+        {
+          "id": "5d685e271b3ed46c2cdb4f44",
+          "name": "Attendance 18",
+          "grade": null,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685c85f44a7568e9d91f60"
+        },
+        {
+          "id": "5d685e271b3ed46c2cdb4f45",
+          "name": "Attendance 19",
+          "grade": null,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685c85f44a7568e9d91f60"
+        },
+        {
+          "id": "5d685e271b3ed46c2cdb4f46",
+          "name": "Attendance 20",
+          "grade": null,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685c85f44a7568e9d91f60"
+        }
+      ]
+    },
+    {
+      "id": "5d685503f44a7568e9d91f4d",
+      "course_id": "5d5f61ecfa8fcd6565dea001",
+      "name": "Online Quizzes",
+      "weight": 1,
+      "position": 200,
+      "dropped": null,
+      "grades": [
+        {
+          "id": "5d685503f44a7568e9d91f4e",
+          "name": "Analyzing Moral Problems",
+          "grade": 100,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685503f44a7568e9d91f4d"
+        },
+        {
+          "id": "5d685a9ff44a7568e9d91f5f",
+          "name": "Utilitarian Ethics",
+          "grade": 100,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685503f44a7568e9d91f4d"
+        },
+        {
+          "id": "5d70403c31ba6f09449e0e8a",
+          "name": "Line Drawing",
+          "grade": 90,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685503f44a7568e9d91f4d"
+        },
+        {
+          "id": "5d70403c31ba6f09449e0e8b",
+          "name": "Duty Ethics",
+          "grade": 90,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685503f44a7568e9d91f4d"
+        },
+        {
+          "id": "5d70403c31ba6f09449e0e8c",
+          "name": "Aspirational Ethics",
+          "grade": 100,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685503f44a7568e9d91f4d"
+        },
+        {
+          "id": "5d70403c31ba6f09449e0e8d",
+          "name": "Risk Ethics",
+          "grade": 100,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685503f44a7568e9d91f4d"
+        },
+        {
+          "id": "5d70403c31ba6f09449e0e8e",
+          "name": "Impediments to Moral Responsibility",
+          "grade": 100,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685503f44a7568e9d91f4d"
+        },
+        {
+          "id": "5d70403c31ba6f09449e0e8f",
+          "name": "Engineering Professionalism",
+          "grade": 100,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685503f44a7568e9d91f4d"
+        },
+        {
+          "id": "5d70403c31ba6f09449e0e90",
+          "name": "Privacy",
+          "grade": 100,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685503f44a7568e9d91f4d"
+        },
+        {
+          "id": "5d70403c31ba6f09449e0e91",
+          "name": "Ethics and Artefacts",
+          "grade": 100,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685503f44a7568e9d91f4d"
+        },
+        {
+          "id": "5d70403c31ba6f09449e0e92",
+          "name": "Ellul's Critique of the Technological Society",
+          "grade": 100,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685503f44a7568e9d91f4d"
+        },
+        {
+          "id": "5d70403c31ba6f09449e0e93",
+          "name": "International Professionalism",
+          "grade": 100,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685503f44a7568e9d91f4d"
+        },
+        {
+          "id": "5d70403c31ba6f09449e0e94",
+          "name": "Environmental Ethics and Sustainable Practices",
+          "grade": 100,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685503f44a7568e9d91f4d"
+        }
+      ]
+    },
+    {
+      "id": "5d68553ff44a7568e9d91f57",
+      "course_id": "5d5f61ecfa8fcd6565dea001",
+      "name": "Cultural Discourse Journal",
+      "weight": 5,
+      "position": 300,
+      "dropped": null,
+      "grades": [
+        {
+          "id": "5d68553ff44a7568e9d91f58",
+          "name": "Cultural Discourse Journal 1",
+          "grade": 100,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d68553ff44a7568e9d91f57"
+        },
+        {
+          "id": "5d842b6734eb8a0b97ec5103",
+          "name": "Cultural Discourse Journal 2",
+          "grade": 85,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d68553ff44a7568e9d91f57"
+        },
+        {
+          "id": "5d842b7134eb8a0b97ec5104",
+          "name": "Cultural Discourse Journal 3",
+          "grade": 100,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d68553ff44a7568e9d91f57"
+        },
+        {
+          "id": "5d842b7134eb8a0b97ec5105",
+          "name": "Cultural Discourse Journal 4",
+          "grade": 100,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d68553ff44a7568e9d91f57"
+        }
+      ]
+    },
+    {
+      "id": "5d685522f44a7568e9d91f51",
+      "course_id": "5d5f61ecfa8fcd6565dea001",
+      "name": "Exam 1",
+      "weight": 20,
+      "position": 400,
+      "dropped": null,
+      "grades": [
+        {
+          "id": "5d685522f44a7568e9d91f52",
+          "name": null,
+          "grade": 88,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685522f44a7568e9d91f51"
+        }
+      ]
+    },
+    {
+      "id": "5d68552ff44a7568e9d91f53",
+      "course_id": "5d5f61ecfa8fcd6565dea001",
+      "name": "Exam 2",
+      "weight": 20,
+      "position": 500,
+      "dropped": null,
+      "grades": [
+        {
+          "id": "5d68552ff44a7568e9d91f54",
+          "name": null,
+          "grade": 86,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d68552ff44a7568e9d91f53"
+        }
+      ]
+    },
+    {
+      "id": "5d685553f44a7568e9d91f5b",
+      "course_id": "5d5f61ecfa8fcd6565dea001",
+      "name": "Initial Essay",
+      "weight": 5,
+      "position": 550,
+      "dropped": null,
+      "grades": [
+        {
+          "id": "5d685553f44a7568e9d91f5c",
+          "name": null,
+          "grade": 94,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685553f44a7568e9d91f5b"
+        }
+      ]
+    },
+    {
+      "id": "5da679029d34671d710818b0",
+      "course_id": "5d5f61ecfa8fcd6565dea001",
+      "name": "Final Essay",
+      "weight": 15,
+      "position": 675,
+      "dropped": null,
+      "grades": [
+        {
+          "id": "5da679029d34671d710818b1",
+          "name": null,
+          "grade": 98,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5da679029d34671d710818b0"
+        }
+      ]
+    },
+    {
+      "id": "5d68554bf44a7568e9d91f59",
+      "course_id": "5d5f61ecfa8fcd6565dea001",
+      "name": "Short Paper",
+      "weight": 10,
+      "position": 800,
+      "dropped": null,
+      "grades": [
+        {
+          "id": "5d68554bf44a7568e9d91f5a",
+          "name": "Paper 1",
+          "grade": 88,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d68554bf44a7568e9d91f59"
+        },
+        {
+          "id": "5d8e421d9206294eb70eab86",
+          "name": "Paper 2",
+          "grade": 95,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d68554bf44a7568e9d91f59"
+        }
+      ]
+    },
+    {
+      "id": "5d685538f44a7568e9d91f55",
+      "course_id": "5d5f61ecfa8fcd6565dea001",
+      "name": "Participation",
+      "weight": 5,
+      "position": 900,
+      "dropped": null,
+      "grades": [
+        {
+          "id": "5d685538f44a7568e9d91f56",
+          "name": null,
+          "grade": 100,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d685538f44a7568e9d91f55"
+        }
+      ]
+    },
+    {
+      "id": "5d68550cf44a7568e9d91f4f",
+      "course_id": "5d5f61ecfa8fcd6565dea001",
+      "name": "Presentation",
+      "weight": 5,
+      "position": 1000,
+      "dropped": null,
+      "grades": [
+        {
+          "id": "5d68550cf44a7568e9d91f50",
+          "name": null,
+          "grade": 97,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5d68550cf44a7568e9d91f4f"
+        }
+      ]
+    },
+    {
+      "id": "5deec02e767d706925733899",
+      "course_id": "5d5f61ecfa8fcd6565dea001",
+      "name": "Online Quizzes after dropped",
+      "weight": 15,
+      "position": 1100,
+      "dropped": null,
+      "grades": [
+        {
+          "id": "5deec02e767d706925733898",
+          "name": null,
+          "grade": 100,
+          "course": "5d5f61ecfa8fcd6565dea001",
+          "category": "5deec02e767d706925733899"
+        }
+      ]
+    }
+  ]
+}
