@@ -1,0 +1,89 @@
+{
+  "version": 0,
+  "year": 2020,
+  "credits": 0,
+  "cut1": 90,
+  "cut2": 80,
+  "cut3": 70,
+  "cut4": 60,
+  "name": "Example Course",
+  "categories": [
+    {
+      "isReallyCategory": false,
+      "droppedGrades": 0,
+      "numGrades": 20,
+      "weight": 0,
+      "name": "Attendance"
+    },
+    {
+      "isReallyCategory": false,
+      "droppedGrades": 0,
+      "numGrades": 13,
+      "weight": 1,
+      "name": "Online Quizzes"
+    },
+    {
+      "isReallyCategory": false,
+      "droppedGrades": 0,
+      "numGrades": 4,
+      "weight": 5,
+      "name": "Cultural Discourse Journal"
+    },
+    {
+      "isReallyCategory": true,
+      "droppedGrades": 0,
+      "numGrades": 1,
+      "weight": 20,
+      "name": "Exam 1"
+    },
+    {
+      "isReallyCategory": true,
+      "droppedGrades": 0,
+      "numGrades": 1,
+      "weight": 20,
+      "name": "Exam 2"
+    },
+    {
+      "isReallyCategory": true,
+      "droppedGrades": 0,
+      "numGrades": 1,
+      "weight": 5,
+      "name": "Initial Essay"
+    },
+    {
+      "isReallyCategory": true,
+      "droppedGrades": 0,
+      "numGrades": 1,
+      "weight": 15,
+      "name": "Final Essay"
+    },
+    {
+      "isReallyCategory": false,
+      "droppedGrades": 0,
+      "numGrades": 2,
+      "weight": 10,
+      "name": "Short Paper"
+    },
+    {
+      "isReallyCategory": true,
+      "droppedGrades": 0,
+      "numGrades": 1,
+      "weight": 5,
+      "name": "Participation"
+    },
+    {
+      "isReallyCategory": true,
+      "droppedGrades": 0,
+      "numGrades": 1,
+      "weight": 5,
+      "name": "Presentation"
+    },
+    {
+      "isReallyCategory": true,
+      "droppedGrades": 0,
+      "numGrades": 1,
+      "weight": 15,
+      "name": "Online Quizzes after dropped"
+    }
+  ]
+}

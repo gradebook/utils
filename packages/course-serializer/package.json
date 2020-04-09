@@ -1,0 +1,33 @@
+{
+  "name": "@gradebook/course-serializer",
+  "version": "0.0.1",
+  "description": "Utilities to make a course shareable via URLs",
+  "keywords": [],
+  "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
+  "homepage": "https://github.com/gradebook/utils#readme",
+  "bugs": "https://github.com/gradebook/utils/issues",
+  "license": "MIT",
+  "main": "lib/course-serializer.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gradebook/utils.git",
+    "directory": "packages/course-serializer"
+  },
+  "scripts": {
+    "pretest": "tsc",
+    "test": "mocha __tests__ --recursive",
+    "test:coverage": "nyc --reporter=html --reporter=text mocha __tests__ --recursive",
+    "prepublish": "tsc",
+    "tsc": "tsc",
+    "lint": "xo"
+  },
+  "xo": false
+}
