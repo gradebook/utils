@@ -21,7 +21,7 @@ export function isomorphicAtoB(input: string): string {
 		return atob(input); // eslint-disable-line no-undef
 	}
 
-	return Buffer.from(input).toString('base64');
+	return Buffer.from(input, 'base64').toString('utf8');
 }
 
 export function isomorphicBtoA(input: string): string {
@@ -31,7 +31,7 @@ export function isomorphicBtoA(input: string): string {
 		return btoa(input); // eslint-disable-line no-undef
 	}
 
-	return Buffer.from(input, 'base64').toString('utf8');
+	return Buffer.from(input).toString('base64');
 }
 
 export function _validateCategory(category: ICategory): boolean {
@@ -203,11 +203,11 @@ export function serialize(validatedCourse: ICourse): string {
 		z: validatedCourse.categories.map(_serializeCategory)
 	};
 
-	return isomorphicAtoB(JSON.stringify(compressedPayload));
+	return isomorphicBtoA(JSON.stringify(compressedPayload));
 }
 
 export function deserialize(hash: string): ICourse {
-	const payload: _ISerializedPayload = JSON.parse(isomorphicBtoA(hash));
+	const payload: _ISerializedPayload = JSON.parse(isomorphicAtoB(hash));
 
 	return {
 		..._deserializeCourseMeta(payload.m),
