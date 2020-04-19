@@ -2,11 +2,13 @@ import {Category as ICategory} from './interfaces/category';
 import {Course as ICourse} from './interfaces/course';
 
 const COURSE_NAME = /^[a-z]{3,4}-\d{3,4}$/i;
+const CUTOFFS = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-'];
 
 const validCourseName = (name: string): boolean => COURSE_NAME.test(name);
 const validCategoryName = (name: string): boolean => name.length >= 1 && name.length <= 50;
 const validWeight = (weight: number): boolean => weight >= 0 && weight < 1000000;
 const validCut = (cut: number): boolean => cut >= 10 && cut <= 10000;
+const validCutName = (cutName: string): boolean => CUTOFFS.indexOf(cutName) !== -1;
 const validCredits = (credits: number): boolean => credits >= 0 && credits <= 5;
 const validTotalGrades = (totalGrades: number): boolean => totalGrades >= 1 && totalGrades <= 40;
 const validDroppedGrades = (totalDropped: number, totalGrades: number): boolean =>
@@ -55,6 +57,10 @@ export function validate(course: ICourse): boolean {
 		validCut(course.cut2) &&
 		validCut(course.cut3) &&
 		validCut(course.cut4) &&
+		validCutName(course.cut1Name) &&
+		validCutName(course.cut2Name) &&
+		validCutName(course.cut3Name) &&
+		validCutName(course.cut4Name) &&
 		validCredits(course.credits) &&
 		course.categories.map(_validateCategory).filter(t => !t).length > 0
 	);
@@ -82,13 +88,13 @@ export interface IUnsafeCourse {
 	name: string;
 	credits: number;
 	cut1: number;
-	cut1Name?: string;
+	cut1Name: string;
 	cut2: number;
-	cut2Name?: string;
+	cut2Name: string;
 	cut3: number;
-	cut3Name?: string;
+	cut3Name: string;
 	cut4: number;
-	cut4Name?: string;
+	cut4Name: string;
 	semester?: string;
 	categories?: IUnsafeCategory[] | ICategory[];
 }
@@ -139,6 +145,10 @@ export function _serializeCourseMeta(course: ICourse): string {
 	built += `${course.cut2}|`;
 	built += `${course.cut3}|`;
 	built += `${course.cut4}|`;
+	built += `${course.cut1Name}|`;
+	built += `${course.cut2Name}|`;
+	built += `${course.cut3Name}|`;
+	built += `${course.cut4Name}|`;
 	built += course.name;
 	return built;
 }
@@ -156,7 +166,7 @@ export function _deserializeCategory(category: string): ICategory {
 }
 
 export function _deserializeCourseMeta(course: string): ICourseWithMeta {
-	const [v, y, cr, a, b, c, d, ...n] = course.split('|');
+	const [v, y, cr, a, b, c, d, e, f, g, h, ...n] = course.split('|');
 
 	return {
 		version: Number(v),
@@ -166,6 +176,10 @@ export function _deserializeCourseMeta(course: string): ICourseWithMeta {
 		cut2: Number(b),
 		cut3: Number(c),
 		cut4: Number(d),
+		cut1Name: e,
+		cut2Name: f,
+		cut3Name: g,
+		cut4Name: h,
 		name: n.join('|'),
 		categories: null
 	};
@@ -192,6 +206,10 @@ export function strip(course: ICourse | IUnsafeCourse): ICourse {
 		cut2: course.cut2,
 		cut3: course.cut3,
 		cut4: course.cut4,
+		cut1Name: course.cut1Name,
+		cut2Name: course.cut2Name,
+		cut3Name: course.cut3Name,
+		cut4Name: course.cut4Name,
 		// @ts-ignore
 		categories: course.categories.map(_stripCategory)
 	};
