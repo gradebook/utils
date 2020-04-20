@@ -194,7 +194,7 @@ export function _stripCategory(category: ICategory | IUnsafeCategory): ICategory
 		droppedGrades: category.dropped ?? category.droppedGrades ?? 0,
 		weight: category.weight,
 		// @ts-ignore
-		isReallyCategory: category.grades?.length === 1
+		isReallyCategory: category.grades?.length !== 1
 	};
 }
 
