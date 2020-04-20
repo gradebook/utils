@@ -8,7 +8,7 @@ const validCourseName = (name: string): boolean => COURSE_NAME.test(name);
 const validCategoryName = (name: string): boolean => name.length >= 1 && name.length <= 50;
 const validWeight = (weight: number): boolean => weight >= 0 && weight < 1000000;
 const validCut = (cut: number): boolean => cut >= 10 && cut <= 10000;
-const validCutName = (cutName: string): boolean => CUTOFFS.indexOf(cutName) !== -1;
+const validCutName = (cutName: string): boolean => CUTOFFS.includes(cutName);
 const validCredits = (credits: number): boolean => credits >= 0 && credits <= 5;
 const validTotalGrades = (totalGrades: number): boolean => totalGrades >= 1 && totalGrades <= 40;
 const validDroppedGrades = (totalDropped: number, totalGrades: number): boolean =>
@@ -166,7 +166,7 @@ export function _deserializeCategory(category: string): ICategory {
 }
 
 export function _deserializeCourseMeta(course: string): ICourseWithMeta {
-	const [v, y, cr, a, b, c, d, e, f, g, h, ...n] = course.split('|');
+	const [v, y, cr, a, b, c, d, e, f, g, h, ...n] = course.split('|'); // eslint-disable-line unicorn/prevent-abbreviations
 
 	return {
 		version: Number(v),
