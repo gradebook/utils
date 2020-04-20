@@ -6,6 +6,10 @@
   "cut2": 80,
   "cut3": 70,
   "cut4": 60,
+  "cut1Name": "A",
+  "cut2Name": "B",
+  "cut3Name": "C",
+  "cut4Name": "D",
   "name": "Example Course",
   "categories": [
     {
