@@ -10,6 +10,7 @@ const validWeight = (weight: number): boolean => weight >= 0 && weight < 1000000
 const validCut = (cut: number): boolean => cut >= 10 && cut <= 10000;
 const validCutName = (cutName: string): boolean => CUTOFFS.includes(cutName);
 const validCredits = (credits: number): boolean => credits >= 0 && credits <= 5;
+const validNumCategories = (categories: ICategory[]): boolean => categories.length >= 2;
 const validTotalGrades = (totalGrades: number): boolean => totalGrades >= 1 && totalGrades <= 40;
 const validDroppedGrades = (totalDropped: number, totalGrades: number): boolean =>
 	totalDropped >= 0 && totalGrades > totalDropped;
@@ -62,6 +63,7 @@ export function validate(course: ICourse): boolean {
 		validCutName(course.cut3Name) &&
 		validCutName(course.cut4Name) &&
 		validCredits(course.credits) &&
+		validNumCategories(course.categories) &&
 		course.categories.map(_validateCategory).filter(t => !t).length > 0
 	);
 }
@@ -186,6 +188,7 @@ export function _deserializeCourseMeta(course: string): ICourseWithMeta {
 }
 
 export function _stripCategory(category: ICategory | IUnsafeCategory): ICategory {
+	console.log(category);
 	return {
 		name: category.name,
 		// @ts-ignore
@@ -194,7 +197,7 @@ export function _stripCategory(category: ICategory | IUnsafeCategory): ICategory
 		droppedGrades: category.dropped ?? category.droppedGrades ?? 0,
 		weight: category.weight,
 		// @ts-ignore
-		isReallyCategory: category.grades?.length !== 1
+		isReallyCategory: (category.grades?.length !== 1)
 	};
 }
 
