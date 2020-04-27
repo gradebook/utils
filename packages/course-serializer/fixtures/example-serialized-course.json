@@ -13,77 +13,77 @@
   "name": "Example Course",
   "categories": [
     {
-      "isReallyCategory": false,
+      "isReallyCategory": true,
       "droppedGrades": 0,
       "numGrades": 20,
       "weight": 0,
       "name": "Attendance"
     },
     {
-      "isReallyCategory": false,
+      "isReallyCategory": true,
       "droppedGrades": 0,
       "numGrades": 13,
       "weight": 1,
       "name": "Online Quizzes"
     },
     {
-      "isReallyCategory": false,
+      "isReallyCategory": true,
       "droppedGrades": 0,
       "numGrades": 4,
       "weight": 5,
       "name": "Cultural Discourse Journal"
     },
     {
-      "isReallyCategory": true,
+      "isReallyCategory": false,
       "droppedGrades": 0,
       "numGrades": 1,
       "weight": 20,
       "name": "Exam 1"
     },
     {
-      "isReallyCategory": true,
+      "isReallyCategory": false,
       "droppedGrades": 0,
       "numGrades": 1,
       "weight": 20,
       "name": "Exam 2"
     },
     {
-      "isReallyCategory": true,
+      "isReallyCategory": false,
       "droppedGrades": 0,
       "numGrades": 1,
       "weight": 5,
       "name": "Initial Essay"
     },
     {
-      "isReallyCategory": true,
+      "isReallyCategory": false,
       "droppedGrades": 0,
       "numGrades": 1,
       "weight": 15,
       "name": "Final Essay"
     },
     {
-      "isReallyCategory": false,
+      "isReallyCategory": true,
       "droppedGrades": 0,
       "numGrades": 2,
       "weight": 10,
       "name": "Short Paper"
     },
     {
-      "isReallyCategory": true,
+      "isReallyCategory": false,
       "droppedGrades": 0,
       "numGrades": 1,
       "weight": 5,
       "name": "Participation"
     },
     {
-      "isReallyCategory": true,
+      "isReallyCategory": false,
       "droppedGrades": 0,
       "numGrades": 1,
       "weight": 5,
       "name": "Presentation"
     },
     {
-      "isReallyCategory": true,
+      "isReallyCategory": false,
       "droppedGrades": 0,
       "numGrades": 1,
       "weight": 15,
