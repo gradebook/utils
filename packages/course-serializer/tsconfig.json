@@ -5,6 +5,7 @@
     "__tests__/"
   ],
   "compilerOptions": {
-    "outDir": "lib"
+    "outDir": "lib",
+    "target": "es2017"
   }
 }
