@@ -22,7 +22,7 @@ export default class Together {
 
 	private _terminated = false;
 
-	constructor(commands: Array<[string, string]>) {
+	constructor(commands: Array<[string, string, execa.Options?]>) {
 		instances.push(this);
 
 		if (!cleanupScheduled) {
@@ -31,9 +31,9 @@ export default class Together {
 			cleanupScheduled = true;
 		}
 
-		for (const [name, command] of commands) {
+		for (const [name, command, options = {}] of commands) {
 			console.log('Launching', name);
-			const child = execa.command(command, {stdio: 'inherit'});
+			const child = execa.command(command, Object.assign(options, {stdio: 'inherit'}));
 			this._children.push({name, child});
 		}
 	}
