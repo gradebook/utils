@@ -18,11 +18,12 @@ interface SpawnedProcess {
 }
 
 export default class Together {
+export type Command = [string, string, execa.Options?];
 	private readonly _children: SpawnedProcess[] = [];
 
 	private _terminated = false;
 
-	constructor(commands: Array<[string, string, execa.Options?]>) {
+	constructor(commands: Command[]) {
 		instances.push(this);
 
 		if (!cleanupScheduled) {
