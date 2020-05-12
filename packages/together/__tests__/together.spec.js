@@ -54,6 +54,17 @@ describe('together', function () {
 		expect(instance._children).to.be.an('array').with.lengthOf(3);
 	});
 
+	it('supports passing arguments to execa', function () {
+		// eslint-disable-next-line no-unused-vars
+		const instance = new Together([
+			['build', '/path/to/build', {env: {NODE_ENV: 'production'}}]
+		]);
+
+		expect(logStub.calledOnce).to.be.true;
+		expect(execStub.calledOnce).to.be.true;
+		expect(execStub.args[0][1]).to.deep.equal({stdio: 'inherit', env: {NODE_ENV: 'production'}});
+	});
+
 	it('shutsdown with context', function () {
 		const instance = new Together([['child', 'process'], ['baby', 'boy']]);
 		const shutdownStub = sinon.stub();
