@@ -1,6 +1,6 @@
 {
   "name": "@gradebook/together",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
   "description": "Run multiple processes in a terminal",
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
