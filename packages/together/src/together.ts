@@ -17,8 +17,9 @@ interface SpawnedProcess {
 	child: execa.ExecaChildProcess;
 }
 
-export default class Together {
 export type Command = [string, string, execa.Options?];
+
+export class Together {
 	private readonly _children: SpawnedProcess[] = [];
 
 	private _terminated = false;
@@ -52,3 +53,5 @@ export type Command = [string, string, execa.Options?];
 		}
 	}
 }
+
+export default Together;
