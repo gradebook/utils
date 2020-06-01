@@ -33,6 +33,6 @@
   },
   "devDependencies": {
     "chai": "4.2.0",
-    "sinon": "9.0.1"
+    "sinon": "9.0.2"
   }
 }
