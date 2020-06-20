@@ -127,13 +127,36 @@ describe('Unit > Passport Utils', function () {
 			expect(request._passportRedirect).to.be.a('string').and.equal('//school.gbdev.cf/my/');
 		});
 
-		it('handles new profiles', async function () {
+		it('finds unapproved profiles', async function () {
 			const userProfile = makeFakeProfile();
 
 			const user = await deserialize(makeFakeMessage({session: {userProfile}}), '__school__:1234');
 
 			expect(user).to.equal(userProfile);
 			expect(getUser.called).to.be.false;
+		});
+
+		it('finds newly approved users (without host matching)', async function () {
+			const expectedUser = {};
+			getUser.withArgs('1234', null).resolves(expectedUser);
+
+			const user = await deserialize(makeFakeMessage({session: {school: 'null'}}), '__school__:1234');
+
+			expect(user).to.equal(expectedUser);
+			expect(getUser.calledWithExactly('1234', null)).to.be.true;
+		});
+
+		it('finds newly approved users (with host matching)', async function () {
+			const expectedUser = {};
+			getUser.withArgs('1234', 'school').resolves(expectedUser);
+
+			const user = await deserialize(
+				makeFakeMessage({session: {school: 'school'}, _table: 'school'}),
+				'__school__:1234'
+			);
+
+			expect(user).to.equal(expectedUser);
+			expect(getUser.calledWithExactly('1234', 'school')).to.be.true;
 		});
 	});
 

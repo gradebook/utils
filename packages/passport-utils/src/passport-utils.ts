@@ -28,6 +28,7 @@ export type UserProfile = {
 export interface BasicRequest extends IncomingMessage {
 	session: {
 		userProfile?: NewUserSessionProfile;
+		school?: string;
 	};
 	_table?: string;
 	_passportRedirect?: string;
@@ -108,15 +109,21 @@ export function createUserDeserializer(
 			return callback(new Error(`Deserializer: Unable to parse profile: ${profile}`));
 		}
 
-		const [school, id] = profile.split(':');
+		let [school, id] = profile.split(':');
 
-		if (domain && school !== 'null' && school !== request._table) {
+		if (school === '__school__') {
+			school = request.session.school;
+		}
+
+		school = school === 'null' ? null : school;
+
+		if (domain && request._table && school !== request._table) {
 			request._passportRedirect = `//${school}.${domain}/my/`;
 			return callback(null, {});
 		}
 
 		try {
-			const user = await getUser(id, school === 'null' ? null : school);
+			const user = await getUser(id, school);
 
 			if (!user) {
 				return callback(null, null);
