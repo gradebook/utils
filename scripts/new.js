@@ -64,8 +64,8 @@ async function exec(unscopedPackage) {
 		packageContents.version = '0.0.1';
 		packageContents.scripts = {
 			pretest: 'tsc',
-			test: 'mocha __tests__ --recursive',
-			'test:coverage': 'nyc --reporter=html --reporter=text mocha __tests__ --recursive',
+			test: 'mocha __tests__ --recursive --colors',
+			'test:coverage': 'nyc --reporter=html --reporter=text mocha __tests__ --recursive --colors',
 			prepublish: 'tsc',
 			tsc: 'tsc',
 			lint: 'xo'
