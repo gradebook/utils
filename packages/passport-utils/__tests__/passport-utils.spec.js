@@ -65,6 +65,90 @@ describe('Unit > Passport Utils', function () {
 			expect(session.userProfile.firstName).to.equal('Texas A&M');
 			expect(session.userProfile.lastName).to.equal('University');
 		});
+
+		it('stores the proper first and last name: no last name provided', async function () {
+			const session = {};
+			const profile = makeFakeProfile();
+			profile.name.familyName = '';
+			userFunction.resolves(null);
+
+			const user = await instance({
+				session
+			}, null, null, profile);
+
+			expect(session.userProfile).to.be.ok;
+			expect(user).to.equal(session.userProfile);
+			expect(session.userProfile.firstName).to.equal('Texas A&M');
+			expect(session.userProfile.lastName).to.equal('');
+		});
+
+		it('stores the proper first and last name: no first name provided', async function () {
+			const session = {};
+			const profile = makeFakeProfile();
+			profile.name.givenName = '';
+			userFunction.resolves(null);
+
+			const user = await instance({
+				session
+			}, null, null, profile);
+
+			expect(session.userProfile).to.be.ok;
+			expect(user).to.equal(session.userProfile);
+			expect(session.userProfile.firstName).to.equal('Aggie');
+			expect(session.userProfile.lastName).to.equal('University');
+		});
+
+		it('stores the proper first and last name: only first name provided', async function () {
+			const session = {};
+			const profile = makeFakeProfile();
+			profile.displayName = '';
+			profile.name.familyName = '';
+			userFunction.resolves(null);
+
+			const user = await instance({
+				session
+			}, null, null, profile);
+
+			expect(session.userProfile).to.be.ok;
+			expect(user).to.equal(session.userProfile);
+			expect(session.userProfile.firstName).to.equal('Texas A&M');
+			expect(session.userProfile.lastName).to.equal('');
+		});
+
+		it('stores the proper first and last name: only last name provided', async function () {
+			const session = {};
+			const profile = makeFakeProfile();
+			profile.displayName = '';
+			profile.name.givenName = '';
+			userFunction.resolves(null);
+
+			const user = await instance({
+				session
+			}, null, null, profile);
+
+			expect(session.userProfile).to.be.ok;
+			expect(user).to.equal(session.userProfile);
+			expect(session.userProfile.firstName).to.equal('University');
+			expect(session.userProfile.lastName).to.equal('');
+		});
+
+		it('stores the proper first and last name: no fields are provided', async function () {
+			const session = {};
+			const profile = makeFakeProfile();
+			profile.displayName = '';
+			profile.name.familyName = '';
+			profile.name.givenName = '';
+			userFunction.resolves(null);
+
+			const user = await instance({
+				session
+			}, null, null, profile);
+
+			expect(session.userProfile).to.be.ok;
+			expect(user).to.equal(session.userProfile);
+			expect(session.userProfile.firstName).to.equal('Student');
+			expect(session.userProfile.lastName).to.equal('');
+		});
 	});
 
 	describe('createUserDeserializer', function () {

@@ -58,13 +58,29 @@ export function createProfileHandler(getUser: (gid: string, table: string) => Pr
 			return;
 		}
 
-		const {id: gid, emails, displayName, name: {givenName: firstName, familyName: lastName}} = profile;
-		let firstNameFallback = displayName.slice(0, displayName.indexOf(' '));
-		let lastNameFallback = displayName.slice(displayName.indexOf(' ') + 1);
+		const {id: gid, emails, displayName, name: {givenName, familyName}} = profile;
 
-		if (!firstNameFallback || !lastNameFallback) {
+		let firstName = givenName;
+		let lastName = familyName;
+		let firstNameFallback = displayName;
+		let lastNameFallback = '';
+
+		// CASE: displayName can be split
+		if (displayName.includes(' ')) {
+			firstNameFallback = displayName.slice(0, displayName.indexOf(' ') + 1);
+			lastNameFallback = displayName.slice(displayName.indexOf(' ') + 1);
+		}
+
+		// CASE: There was no display name
+		if (!displayName) {
 			firstNameFallback = 'Student';
 			lastNameFallback = '';
+		}
+
+		// CASE: Only last name was given. Use as first name since that is more important i.e. "Howdy, {{firstName}}!"
+		if (familyName && !displayName) {
+			firstName = familyName;
+			lastName = '';
 		}
 
 		const id = objectId.generate();
