@@ -107,6 +107,16 @@ describe('Unit > Passport Utils', function () {
 			expect(user).to.equal(expectedUser);
 		});
 
+		it('can find the user when host matching is disabled', async function () {
+			const expectedUser = {};
+			getUser.resolves(expectedUser);
+
+			const user = await deserialize(makeFakeMessage({_table: null, session: {}}), 'null:id');
+
+			expect(user).to.equal(expectedUser);
+			expect(getUser.calledWithExactly('id', null)).to.be.true;
+		});
+
 		it('redirects the user when they are on the incorrect domain', async function () {
 			deserialize = promisify(_module.createUserDeserializer(getUser, 'gbdev.cf'));
 

@@ -116,7 +116,7 @@ export function createUserDeserializer(
 		}
 
 		try {
-			const user = await getUser(id, school);
+			const user = await getUser(id, school === 'null' ? null : school);
 
 			if (!user) {
 				return callback(null, null);
