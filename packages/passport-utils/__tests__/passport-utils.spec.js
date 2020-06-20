@@ -73,7 +73,16 @@ describe('Unit > Passport Utils', function () {
 
 		beforeEach(function () {
 			getUser = sinon.stub();
-			deserialize = promisify(_module.createUserDeserializer(getUser, null));
+			deserialize = promisify(_module.createUserDeserializer(getUser, false));
+		});
+
+		it('cleans up domain', async function () {
+			deserialize = promisify(_module.createUserDeserializer(getUser, '.gbdev.cf'));
+			const request = makeFakeMessage({_table: 'notAschool', session: {}});
+
+			await deserialize(request, 'school:id');
+
+			expect(request._passportRedirect).to.equal('//school.gbdev.cf/my/');
 		});
 
 		it('gracefully handles getUser() failing', async function () {

@@ -91,9 +91,9 @@ export function createProfileHandler(getUser: (gid: string, table: string) => Pr
 
 export function createUserDeserializer(
 	getUser: (id: string, school: string) => Promise<UserProfile>,
-	domain: string = null
+	domain: string | false = false
 ): (request: BasicRequest, profile: string, callback: BasicCallback<UserProfile | object>) => Promise<void> {
-	domain = domain?.replace(/^\./, '');
+	domain = typeof domain === 'string' ? domain.replace(/^\./, '') : domain;
 
 	return async function deserializeUser(
 		request: BasicRequest,
