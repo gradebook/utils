@@ -1774,6 +1774,11 @@ bson-objectid@^1.3.0:
   resolved "https://registry.yarnpkg.com/bson-objectid/-/bson-objectid-1.3.0.tgz#f0f4c7c949fece975f12790510d75d7fe39fb456"
   integrity sha512-YcB+lRJEEEIcHNLKyhmHujW7OCVE3+xr9IpEhlprBZnXgF3hqeePeexIsAaOtu1SbkgZRlJVUxvYZ3ngUOyIew==
 
+bson-objectid@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/bson-objectid/-/bson-objectid-1.3.1.tgz#11e4ce4c3419161fd388113781bb62c1dfbce34b"
+  integrity sha512-eQBNQXsisEAXlwiSy8zRNZdW2xDBJaEVkTPbodYR9hGxxtE548Qq7ilYOd8WAQ86xF7NRUdiWSQ1pa/TkKiE2A==
+
 btoa-lite@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/btoa-lite/-/btoa-lite-1.0.0.tgz#337766da15801210fdd956c22e9c6891ab9d0337"
@@ -2524,6 +2529,11 @@ dateformat@^3.0.0:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-3.0.3.tgz#a6e37499a4d9a9cf85ef5872044d62901c9889ae"
   integrity sha512-jyCETtSl3VMZMWeRo7iY1FL19ges1t55hMo5yaam4Jrsm5EPL89UQkoQRyiI+Yf4k8r2ZpdngkV8hr1lIdjb3Q==
+
+dayjs@^1.8.28:
+  version "1.8.28"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.28.tgz#37aa6201df483d089645cb6c8f6cef6f0c4dbc07"
+  integrity sha512-ccnYgKC0/hPSGXxj7Ju6AV/BP4HUkXC2u15mikXT5mX9YorEaoi1bEKOmAqdkJHN4EEkmAf97SpH66Try5Mbeg==
 
 debug@3.1.0:
   version "3.1.0"
