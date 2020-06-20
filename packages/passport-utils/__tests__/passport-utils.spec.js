@@ -33,19 +33,19 @@ describe('Unit > Passport Utils', function () {
 
 		it('returns the user provided by getUser()', async function () {
 			const fakeUser = {};
-			userFunction.resolves(fakeUser);
+			userFunction.withArgs('id', 'school').resolves(fakeUser);
 
-			const response = await instance({}, null, null, {id: 'nope'});
+			const response = await instance({_table: 'school'}, null, null, {id: 'id'});
 
 			expect(response).to.equal(fakeUser);
 		});
 
 		it('gracefully fails when getUser() fails', async function () {
 			const expectedError = new Error('oops');
-			userFunction.rejects(expectedError);
+			userFunction.withArgs('id', 'school').rejects(expectedError);
 
 			try {
-				await instance({}, null, null, {id: 'nope'});
+				await instance({_table: 'school'}, null, null, {id: 'id'});
 				throw new Error('Expect instance to throw');
 			} catch (error) {
 				expect(error).to.equal(expectedError);
@@ -56,11 +56,9 @@ describe('Unit > Passport Utils', function () {
 		it('stores the proper first and last name: all fields are provided', async function () {
 			const session = {};
 			const profile = makeFakeProfile();
-			userFunction.resolves(null);
+			userFunction.withArgs(profile.id, undefined).resolves(null);
 
-			const user = await instance({
-				session
-			}, null, null, profile);
+			const user = await instance({session}, null, null, profile);
 
 			expect(session.userProfile).to.be.ok;
 			expect(user).to.equal(session.userProfile);
@@ -80,7 +78,7 @@ describe('Unit > Passport Utils', function () {
 
 		it('gracefully handles getUser() failing', async function () {
 			const expectedError = new Error('oops');
-			getUser.rejects(expectedError);
+			getUser.withArgs('id', 'school').rejects(expectedError);
 
 			try {
 				await deserialize(makeFakeMessage({_table: 'school', session: {}}), 'school:id');
@@ -91,7 +89,7 @@ describe('Unit > Passport Utils', function () {
 		});
 
 		it('successfully fails when the user does not exist', async function () {
-			getUser.resolves(null);
+			getUser.withArgs('id', 'school').resolves(null);
 
 			const user = await deserialize(makeFakeMessage({_table: 'school', session: {}}), 'school:id');
 
@@ -100,7 +98,7 @@ describe('Unit > Passport Utils', function () {
 
 		it('returns the user under normal circumstances', async function () {
 			const expectedUser = {};
-			getUser.resolves(expectedUser);
+			getUser.withArgs('id', 'school').resolves(expectedUser);
 
 			const user = await deserialize(makeFakeMessage({_table: 'school', session: {}}), 'school:id');
 
@@ -109,7 +107,7 @@ describe('Unit > Passport Utils', function () {
 
 		it('can find the user when host matching is disabled', async function () {
 			const expectedUser = {};
-			getUser.resolves(expectedUser);
+			getUser.withArgs('id', null).resolves(expectedUser);
 
 			const user = await deserialize(makeFakeMessage({_table: null, session: {}}), 'null:id');
 
@@ -125,6 +123,7 @@ describe('Unit > Passport Utils', function () {
 			const user = await deserialize(request, 'school:id');
 
 			expect(user).to.be.an('object').and.not.keys;
+			expect(getUser.called).to.be.false;
 			expect(request._passportRedirect).to.be.a('string').and.equal('//school.gbdev.cf/my/');
 		});
 
@@ -134,6 +133,7 @@ describe('Unit > Passport Utils', function () {
 			const user = await deserialize(makeFakeMessage({session: {userProfile}}), '__school__:1234');
 
 			expect(user).to.equal(userProfile);
+			expect(getUser.called).to.be.false;
 		});
 	});
 
