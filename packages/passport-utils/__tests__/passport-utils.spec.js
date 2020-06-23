@@ -1,10 +1,13 @@
 // @ts-check
+const {IncomingMessage} = require('http');
 const {promisify} = require('util');
 const {expect} = require('chai');
 const sinon = require('sinon');
 
 const _module = require('../lib/passport-utils');
-const {IncomingMessage} = require('http');
+
+/** @returns {import ('../lib/_passport-types').PassportOauth20Profile} */
+// @ts-ignore
 const makeFakeProfile = () => ({
 	id: 'this is a gid',
 	emails: [{value: 'test@gbdev.cf'}],
@@ -51,19 +54,64 @@ describe('Unit > Passport Utils', function () {
 				expect(error).to.equal(expectedError);
 			}
 		});
+	});
 
-		// @todo(vikaspotluri123): for joshcosta - Add tests for remaining types (engineering#3)
+	describe('_parseNameFromGoogle', function () {
 		it('stores the proper first and last name: all fields are provided', async function () {
-			const session = {};
 			const profile = makeFakeProfile();
-			userFunction.withArgs(profile.id, undefined).resolves(null);
+			const {firstName, lastName} = _module._parseNameFromGoogle(profile);
 
-			const user = await instance({session}, null, null, profile);
+			expect(firstName).to.equal('Texas A&M');
+			expect(lastName).to.equal('University');
+		});
 
-			expect(session.userProfile).to.be.ok;
-			expect(user).to.equal(session.userProfile);
-			expect(session.userProfile.firstName).to.equal('Texas A&M');
-			expect(session.userProfile.lastName).to.equal('University');
+		it('stores the proper first and last name: no last name provided', async function () {
+			const profile = makeFakeProfile();
+			profile.name.familyName = '';
+			const {firstName, lastName} = _module._parseNameFromGoogle(profile);
+
+			expect(firstName).to.equal('Texas A&M');
+			expect(lastName).to.equal('');
+		});
+
+		it('stores the proper first and last name: no first name provided', async function () {
+			const profile = makeFakeProfile();
+			profile.name.givenName = '';
+			const {firstName, lastName} = _module._parseNameFromGoogle(profile);
+
+			expect(firstName).to.equal('Aggie');
+			expect(lastName).to.equal('University');
+		});
+
+		it('stores the proper first and last name: only first name provided', async function () {
+			const profile = makeFakeProfile();
+			profile.displayName = '';
+			profile.name.familyName = '';
+			const {firstName, lastName} = _module._parseNameFromGoogle(profile);
+
+			expect(firstName).to.equal('Texas A&M');
+			expect(lastName).to.equal('');
+		});
+
+		it('stores the proper first and last name: only last name provided', async function () {
+			const profile = makeFakeProfile();
+			profile.displayName = '';
+			profile.name.givenName = '';
+			const {firstName, lastName} = _module._parseNameFromGoogle(profile);
+
+			expect(firstName).to.equal('University');
+			expect(lastName).to.equal('');
+		});
+
+		it('stores the proper first and last name: no fields are provided', async function () {
+			const profile = makeFakeProfile();
+			profile.displayName = '';
+			profile.name.familyName = '';
+			profile.name.givenName = '';
+			const {firstName, lastName} = _module._parseNameFromGoogle(profile);
+
+			expect(firstName).to.equal('Student');
+			expect(lastName).to.equal('');
 		});
 	});
 

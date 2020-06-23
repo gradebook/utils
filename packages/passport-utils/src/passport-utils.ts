@@ -58,21 +58,15 @@ export function createProfileHandler(getUser: (gid: string, table: string) => Pr
 			return;
 		}
 
-		const {id: gid, emails, displayName, name: {givenName: firstName, familyName: lastName}} = profile;
-		let firstNameFallback = displayName.slice(0, displayName.indexOf(' '));
-		let lastNameFallback = displayName.slice(displayName.indexOf(' ') + 1);
-
-		if (!firstNameFallback || !lastNameFallback) {
-			firstNameFallback = 'Student';
-			lastNameFallback = '';
-		}
+		const {id: gid, emails} = profile;
+		const {firstName, lastName} = _parseNameFromGoogle(profile);
 
 		const id = objectId.generate();
 		user = {
 			id,
 			gid,
-			firstName: firstName || firstNameFallback,
-			lastName: lastName || lastNameFallback,
+			firstName,
+			lastName,
 			email: emails[0].value,
 			isNew: true,
 			// https://github.com/tgriesser/knex/issues/2649
@@ -162,4 +156,36 @@ export function serializeUser(
 	// @ts-ignore
 	error.context = profile;
 	return callback(error);
+}
+
+export function _parseNameFromGoogle(
+	{displayName, name: {givenName, familyName}}: Profile
+): {firstName: string; lastName: string} {
+	let firstName = givenName;
+	let lastName = familyName;
+	let firstNameFallback = displayName;
+	let lastNameFallback = '';
+
+	// CASE: displayName can be split
+	if (displayName.includes(' ')) {
+		firstNameFallback = displayName.slice(0, displayName.indexOf(' ') + 1);
+		lastNameFallback = displayName.slice(displayName.indexOf(' ') + 1);
+	}
+
+	// CASE: There was no display name
+	if (!displayName) {
+		firstNameFallback = 'Student';
+		lastNameFallback = '';
+	}
+
+	// CASE: Only last name was given. Use as first name since that is more important i.e. "Howdy, {{firstName}}!"
+	if (familyName && !displayName) {
+		firstName = familyName;
+		lastName = '';
+	}
+
+	firstName = firstName || firstNameFallback;
+	lastName = lastName || lastNameFallback;
+
+	return {firstName, lastName};
 }
