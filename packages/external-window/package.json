@@ -1,6 +1,6 @@
 {
   "name": "@gradebook/external-window",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "promisify window.open",
   "keywords": [],
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
@@ -29,5 +29,7 @@
     "prepublish": "node ../../scripts/compile-all.js",
     "tsc": "tsc"
   },
-  "targets": ["module"]
+  "targets": [
+    "module"
+  ]
 }
