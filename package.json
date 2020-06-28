@@ -61,6 +61,11 @@
           "no-var-requires": "off",
           "explicit-function-return-type": "off"
         }
+      }, {
+        "files": "scripts/**/*",
+        "rules": {
+          "unicorn/no-process-exit": "off"
+        }
       }
     ]
   }
