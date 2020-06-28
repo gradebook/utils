@@ -234,3 +234,5 @@ export function deserialize(hash: string): ICourse {
 		categories: payload.z.map(_deserializeCategory)
 	};
 }
+
+export {ICategory, ICourse};
