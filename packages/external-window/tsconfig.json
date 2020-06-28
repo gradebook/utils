@@ -5,7 +5,7 @@
     "__tests__/"
   ],
   "compilerOptions": {
-    "outDir": "lib",
+    "outDir": "lib/commonjs",
     "lib": ["DOM"]
   }
 }
