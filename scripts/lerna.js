@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-process-exit */
 if (process.env.GB_SKIP_CHECK) {
 	console.log('I hope you know what you’re doing…');
 	process.exit(0);

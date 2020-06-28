@@ -1,6 +1,6 @@
 // @ts-check
 const {expect} = require('chai');
-const serializer = require('../lib/course-serializer');
+const serializer = require('../lib/commonjs/course-serializer');
 
 const getSafeCourse = () => JSON.parse(JSON.stringify(require('../fixtures/example-serialized-course.json')));
 const getExampleCourse = () => JSON.parse(JSON.stringify(require('../fixtures/example-course.json')));

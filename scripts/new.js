@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-process-exit */
 // @ts-check
 const path = require('path');
 const fs = require('fs-extra');
