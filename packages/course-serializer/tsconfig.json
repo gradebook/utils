@@ -5,7 +5,7 @@
     "__tests__/"
   ],
   "compilerOptions": {
-    "outDir": "lib",
+    "outDir": "lib/commonjs",
     "target": "es2017"
   }
 }
