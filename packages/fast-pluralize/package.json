@@ -10,7 +10,8 @@
   "homepage": "https://github.com/gradebook/utils#readme",
   "bugs": "https://github.com/gradebook/utils/issues",
   "license": "MIT",
-  "main": "lib/fast-pluralize.js",
+  "main": "lib/commonjs/fast-pluralize.js",
+  "module": "lib/module/fast-pluralize.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -28,11 +29,11 @@
     "pretest": "tsc",
     "test": "mocha __tests__ --recursive --colors",
     "test:coverage": "nyc --reporter=html --reporter=text mocha __tests__ --recursive --colors",
-    "prepublish": "tsc",
+    "prepublish": "node ../../scripts/compile-all.js",
     "tsc": "tsc"
   },
+  "targets": ["module"],
   "devDependencies": {
     "chai": "4.2.0"
-  },
-  "gitHead": "678566fe4820ecba14466049a2a3f9226a89a517"
+  }
 }
