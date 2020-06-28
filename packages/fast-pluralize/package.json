@@ -1,6 +1,6 @@
 {
   "name": "@gradebook/fast-pluralize",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": false,
   "description": "Singularize and pluralize words",
   "keywords": [
@@ -32,7 +32,9 @@
     "prepublish": "node ../../scripts/compile-all.js",
     "tsc": "tsc"
   },
-  "targets": ["module"],
+  "targets": [
+    "module"
+  ],
   "devDependencies": {
     "chai": "4.2.0"
   }
