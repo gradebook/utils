@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import date from 'dayjs';
 import objectId from 'bson-objectid';
 import {IncomingMessage} from 'http';
@@ -153,7 +154,7 @@ export function serializeUser(
 	}
 
 	const error = new Error('Serializer: Unknown profile');
-	// @ts-ignore
+	// @ts-expect-error
 	error.context = profile;
 	return callback(error);
 }

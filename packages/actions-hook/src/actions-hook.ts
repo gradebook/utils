@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import {createHmac} from 'crypto';
 import got from 'got';
 
 // @NOTE: we ignore this next line because we want to use the package.json that's shipped rather than a copy that might have missing or outdated data.
-// @ts-ignore
+// @ts-expect-error
 import {name, version} from '../package.json';
 
 export const userAgent = `${name}@${version} (Actions)`;
@@ -30,6 +31,8 @@ export async function sendPayload({
 }: PayloadOptions): Promise<void> {
 	if (typeof payload !== 'string') {
 		if (Object.prototype.hasOwnProperty.call(payload, 'toString')) {
+			// Object.hasOwnProperty prevents us calling toString up the prototype chain
+			// eslint-disable-next-line @typescript-eslint/no-base-to-string
 			payload = payload.toString();
 		} else {
 			payload = JSON.stringify(payload);
@@ -54,9 +57,9 @@ export async function sendPayload({
 				continue;
 			}
 
-			// @ts-ignore
+			// @ts-expect-error
 			const received: string | boolean = config[filter];
-			// @ts-ignore
+			// @ts-expect-error
 			const expected: string | boolean = onlyIf[filter];
 
 			if (expected !== received) {

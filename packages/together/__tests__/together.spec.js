@@ -23,12 +23,12 @@ describe('together', function () {
 
 	it('registers exit hooks once', function () {
 		const stub = sinon.stub(process, 'on');
-		// eslint-disable-next-line no-unused-vars
 		let instance = new Together([['name', 'path']]);
 
 		expect(stub.calledTwice).to.be.true;
 		stub.reset();
 
+		// eslint-disable-next-line no-unused-vars
 		instance = new Together([['name2', 'path2']]);
 
 		expect(stub.called).to.be.false;

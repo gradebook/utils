@@ -2,13 +2,13 @@ import {Category as ICategory} from './interfaces/category';
 import {Course as ICourse} from './interfaces/course';
 
 const COURSE_NAME = /^[a-z]{3,4}-\d{3,4}$/i;
-const CUTOFFS = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-'];
+const CUTOFFS = new Set(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-']);
 
 const validCourseName = (name: string): boolean => COURSE_NAME.test(name);
 const validCategoryName = (name: string): boolean => name.length >= 1 && name.length <= 50;
 const validWeight = (weight: number): boolean => weight >= 0 && weight < 1000000;
 const validCut = (cut: number): boolean => cut >= 10 && cut <= 10000;
-const validCutName = (cutName: string): boolean => CUTOFFS.includes(cutName);
+const validCutName = (cutName: string): boolean => CUTOFFS.has(cutName);
 const validCredits = (credits: number): boolean => credits >= 0 && credits <= 5;
 const validNumberCategories = (categories: ICategory[]): boolean => categories.length >= 2;
 const validTotalGrades = (totalGrades: number): boolean => totalGrades >= 1 && totalGrades <= 40;
@@ -18,9 +18,9 @@ const validDroppedGrades = (totalDropped: number, totalGrades: number): boolean 
 export const EXPORT_VERSION = 0;
 
 export function isomorphicAtoB(input: string): string {
-	// @ts-ignore
+	// @ts-expect-error
 	if (typeof atob === 'function') { // eslint-disable-line no-undef
-		// @ts-ignore
+		// @ts-expect-error
 		return atob(input); // eslint-disable-line no-undef
 	}
 
@@ -28,9 +28,9 @@ export function isomorphicAtoB(input: string): string {
 }
 
 export function isomorphicBtoA(input: string): string {
-	// @ts-ignore
+	// @ts-expect-error
 	if (typeof btoa === 'function') { // eslint-disable-line no-undef
-		// @ts-ignore
+		// @ts-expect-error
 		return btoa(input); // eslint-disable-line no-undef
 	}
 
@@ -64,7 +64,7 @@ export function validate(course: ICourse): boolean {
 		validCutName(course.cut4Name) &&
 		validCredits(course.credits) &&
 		validNumberCategories(course.categories) &&
-		course.categories.map(_validateCategory).filter(t => !t).length > 0
+		course.categories.map(category => _validateCategory(category)).filter(t => !t).length > 0
 	);
 }
 
@@ -190,12 +190,12 @@ export function _deserializeCourseMeta(course: string): ICourseWithMeta {
 export function _stripCategory(category: ICategory | IUnsafeCategory): ICategory {
 	return {
 		name: category.name,
-		// @ts-ignore
+		// @ts-expect-error
 		numGrades: category.grades?.length ?? 0,
-		// @ts-ignore
+		// @ts-expect-error
 		droppedGrades: category.dropped ?? category.droppedGrades ?? 0,
 		weight: category.weight,
-		// @ts-ignore
+		// @ts-expect-error
 		isReallyCategory: (category.grades?.length !== 1)
 	};
 }
@@ -212,15 +212,15 @@ export function strip(course: ICourse | IUnsafeCourse): ICourse {
 		cut2Name: course.cut2Name,
 		cut3Name: course.cut3Name,
 		cut4Name: course.cut4Name,
-		// @ts-ignore
-		categories: course.categories.map(_stripCategory)
+		// @ts-expect-error
+		categories: course.categories.map(category => _stripCategory(category))
 	};
 }
 
 export function serialize(validatedCourse: ICourse): string {
 	const compressedPayload: _ISerializedPayload = {
 		m: _serializeCourseMeta(validatedCourse),
-		z: validatedCourse.categories.map(_serializeCategory)
+		z: validatedCourse.categories.map(category => _serializeCategory(category))
 	};
 
 	return isomorphicBtoA(JSON.stringify(compressedPayload));
@@ -231,7 +231,7 @@ export function deserialize(hash: string): ICourse {
 
 	return {
 		..._deserializeCourseMeta(payload.m),
-		categories: payload.z.map(_deserializeCategory)
+		categories: payload.z.map(category => _deserializeCategory(category))
 	};
 }
 

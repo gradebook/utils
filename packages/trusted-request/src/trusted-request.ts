@@ -1,7 +1,7 @@
 import {Request, Response, NextFunction, RequestHandler} from 'express';
 
 export class TrustedRequestError extends Error {
-	public readonly errorType = 'PermissionError';
+	public readonly errorType = 'PermissionError'; // eslint-disable-line @typescript-eslint/class-literal-property-style
 }
 
 export interface TrustedRequestConfig {
@@ -9,7 +9,7 @@ export interface TrustedRequestConfig {
 	trustProxy: boolean;
 }
 
-export default (config: TrustedRequestConfig): RequestHandler => {
+const allowTrustedIPs = (config: TrustedRequestConfig): RequestHandler => {
 	const {trustedIPs: whitelist = [], trustProxy = false} = config;
 
 	return function isTrustedRequest(request: Request, response: Response, next: NextFunction) {
@@ -29,3 +29,5 @@ export default (config: TrustedRequestConfig): RequestHandler => {
 		next();
 	};
 };
+
+export default allowTrustedIPs;

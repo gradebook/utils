@@ -20,7 +20,8 @@ export interface ImportOptions {
 	gid: string;
 }
 
-export function coerceJSON(payload: Buffer | string | object, name = 'input'): object {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function coerceJSON(payload: Buffer | string | object, name = 'input'): any {
 	let coerced;
 
 	if (typeof payload === 'string' || payload instanceof Buffer) {
@@ -57,6 +58,7 @@ export function validateUser(user: Export['user'], preserveDates: boolean): void
 	}
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export function runBasicValidations(payload: Buffer | string | object): Export {
 	payload = coerceJSON(payload);
 	const passesBasicValidations = validator.validate('gradebook-v0-import', payload);
@@ -79,6 +81,7 @@ export function runBasicValidations(payload: Buffer | string | object): Export {
 	return payload as Export;
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export function generateAPICalls(data: Buffer | string | object, options: ImportOptions): Query[] {
 	const uExport = runBasicValidations(data);
 	const uid = options.user_id || oid.generate();
