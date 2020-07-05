@@ -117,6 +117,10 @@ export interface ICourseWithMeta extends ICourse {
  * escaping on top of decoding
  */
 export function _serializeCategory(category: ICategory): string {
+	if (!(category.name && (category.weight || category.weight === 0))) {
+		return null;
+	}
+
 	let built = '';
 
 	built += `${category.isReallyCategory ? 1 : 0}|`;
@@ -220,7 +224,7 @@ export function strip(course: ICourse | IUnsafeCourse): ICourse {
 export function serialize(validatedCourse: ICourse): string {
 	const compressedPayload: _ISerializedPayload = {
 		m: _serializeCourseMeta(validatedCourse),
-		z: validatedCourse.categories.map(category => _serializeCategory(category))
+		z: validatedCourse.categories.map(category => _serializeCategory(category)).filter(Boolean)
 	};
 
 	return isomorphicBtoA(JSON.stringify(compressedPayload));

@@ -25,4 +25,38 @@ describe('Unit > Serializer', function () {
 	it('course serialization produces the correct hash', function () {
 		expect(serializer.serialize(serializer.strip(getExampleCourse()))).to.equal(SERIALIZED_COURSE);
 	});
+
+	it('category serialization removes invalid categories', function () {
+		expect(serializer._serializeCategory({
+			name: null,
+			weight: null,
+			numGrades: 10,
+			droppedGrades: 5,
+			isReallyCategory: true
+		}), 'no name or weight').to.equal(null);
+
+		expect(serializer._serializeCategory({
+			name: 'Homework',
+			weight: null,
+			numGrades: 10,
+			droppedGrades: 5,
+			isReallyCategory: true
+		}), 'name but no weight').to.equal(null);
+
+		expect(serializer._serializeCategory({
+			name: null,
+			weight: 25,
+			numGrades: 10,
+			droppedGrades: 5,
+			isReallyCategory: true
+		}), 'weight but no name').to.equal(null);
+
+		expect(serializer._serializeCategory({
+			name: 'Homework',
+			weight: 25,
+			numGrades: 10,
+			droppedGrades: 5,
+			isReallyCategory: true
+		}), 'name and weight').to.equal('1|5|10|25|Homework');
+	});
 });
