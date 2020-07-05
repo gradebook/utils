@@ -117,7 +117,7 @@ export interface ICourseWithMeta extends ICourse {
  * escaping on top of decoding
  */
 export function _serializeCategory(category: ICategory): string {
-	if (!(category.name && (category.weight >= 0))) {
+	if (!(category.name && (category.weight || category.weight === 0))) {
 		return null;
 	}
 
