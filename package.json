@@ -15,6 +15,7 @@
   "scripts": {
     "lint": "xo",
     "lerna": "node scripts/lerna.js && lerna",
+    "tsc": "node scripts/tsc.js && tsc",
     "new": "node scripts/new.js"
   },
   "devDependencies": {
@@ -29,7 +30,7 @@
     "mocha": "8.0.1",
     "nyc": "15.1.0",
     "sinon": "9.0.2",
-    "typescript": "3.8.3",
+    "typescript": "3.9.6",
     "xo": "0.32.1"
   },
   "xo": {
