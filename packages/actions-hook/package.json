@@ -29,7 +29,7 @@
     "tsc": "tsc"
   },
   "dependencies": {
-    "got": "^10.7.0"
+    "got": "^11.4.0"
   },
   "devDependencies": {
     "@types/got": "9.6.11",

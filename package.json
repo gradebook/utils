@@ -21,15 +21,16 @@
     "@types/mocha": "7.0.2",
     "@types/node": "13.9.1",
     "chai": "4.2.0",
-    "eslint-plugin-mocha": "6.3.0",
+    "eslint-config-xo-typescript": "^0.31.0",
+    "eslint-plugin-mocha": "7.0.1",
     "execa": "4.0.2",
-    "fs-extra": "*",
+    "fs-extra": "9.0.1",
     "lerna": "3.22.1",
-    "mocha": "7.2.0",
+    "mocha": "8.0.1",
     "nyc": "15.1.0",
     "sinon": "9.0.2",
     "typescript": "3.8.3",
-    "xo": "0.28.2"
+    "xo": "0.32.1"
   },
   "xo": {
     "ignores": [
@@ -41,6 +42,9 @@
     "plugins": "mocha",
     "rules": {
       "@typescript-eslint/restrict-template-expressions": "off",
+      "no-unused-expressions": "error",
+      "no-unused-vars": "error",
+      "camelcase": "error",
       "func-names": [
         "error",
         "as-needed"
@@ -61,7 +65,8 @@
           "no-var-requires": "off",
           "explicit-function-return-type": "off"
         }
-      }, {
+      },
+      {
         "files": "scripts/**/*",
         "rules": {
           "unicorn/no-process-exit": "off"
