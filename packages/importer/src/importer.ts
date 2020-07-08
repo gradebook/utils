@@ -6,7 +6,14 @@ import {SCHEMAS} from './schema';
 import {Export, Query} from './interfaces';
 import {generateCourseQuery} from './generators';
 
-const VALID_SETTINGS = new Set(['previous_notification', 'tour', 'redirectFromHome']);
+const VALID_SETTINGS = new Set([
+	'previous_notification',
+	'tour',
+	'redirectFromHome',
+	'overallCredits',
+	'overallGpa',
+	'gpaSemester'
+]);
 
 export const validator = new AJV();
 validator.addSchema(SCHEMAS);
