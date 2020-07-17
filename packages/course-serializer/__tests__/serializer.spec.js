@@ -5,7 +5,7 @@ const serializer = require('../lib/commonjs/course-serializer');
 const getSafeCourse = () => JSON.parse(JSON.stringify(require('../fixtures/example-serialized-course.json')));
 const getExampleCourse = () => JSON.parse(JSON.stringify(require('../fixtures/example-course.json')));
 
-const SERIALIZED_COURSE = 'eyJtIjoiMHwyMDIwfDB8OTB8ODB8NzB8NjB8QXxCfEN8RHxFeGFtcGxlIENvdXJzZSIsInoiOlsiMXwwfDIwfDB8QXR0ZW5kYW5jZSIsIjF8MHwxM3wxfE9ubGluZSBRdWl6emVzIiwiMXwwfDR8NXxDdWx0dXJhbCBEaXNjb3Vyc2UgSm91cm5hbCIsIjB8MHwxfDIwfEV4YW0gMSIsIjB8MHwxfDIwfEV4YW0gMiIsIjB8MHwxfDV8SW5pdGlhbCBFc3NheSIsIjB8MHwxfDE1fEZpbmFsIEVzc2F5IiwiMXwwfDJ8MTB8U2hvcnQgUGFwZXIiLCIwfDB8MXw1fFBhcnRpY2lwYXRpb24iLCIwfDB8MXw1fFByZXNlbnRhdGlvbiIsIjB8MHwxfDE1fE9ubGluZSBRdWl6emVzIGFmdGVyIGRyb3BwZWQiXX0=';
+const SERIALIZED_COURSE = 'eyJtIjoiMXwyMDIwfDB8NHxBLDkwfEIsODB8Qyw3MHxELDYwfEV4YW1wbGUgQ291cnNlIiwieiI6WyIxfDB8MjB8MHxBdHRlbmRhbmNlIiwiMXwwfDEzfDF8T25saW5lIFF1aXp6ZXMiLCIxfDB8NHw1fEN1bHR1cmFsIERpc2NvdXJzZSBKb3VybmFsIiwiMHwwfDF8MjB8RXhhbSAxIiwiMHwwfDF8MjB8RXhhbSAyIiwiMHwwfDF8NXxJbml0aWFsIEVzc2F5IiwiMHwwfDF8MTV8RmluYWwgRXNzYXkiLCIxfDB8MnwxMHxTaG9ydCBQYXBlciIsIjB8MHwxfDV8UGFydGljaXBhdGlvbiIsIjB8MHwxfDV8UHJlc2VudGF0aW9uIiwiMHwwfDF8MTV8T25saW5lIFF1aXp6ZXMgYWZ0ZXIgZHJvcHBlZCJdfQ==';
 
 describe('Unit > Serializer', function () {
 	it('strip properly removes PII from a category', function () {
