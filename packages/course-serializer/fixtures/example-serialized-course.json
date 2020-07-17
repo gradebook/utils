@@ -1,15 +1,13 @@
 {
-  "version": 0,
+  "version": 1,
   "year": 2020,
   "credits": 0,
-  "cut1": 90,
-  "cut2": 80,
-  "cut3": 70,
-  "cut4": 60,
-  "cut1Name": "A",
-  "cut2Name": "B",
-  "cut3Name": "C",
-  "cut4Name": "D",
+  "cutoffs": {
+    "A": 90,
+    "B": 80,
+    "C": 70,
+    "D": 60
+  },
   "name": "Example Course",
   "categories": [
     {
