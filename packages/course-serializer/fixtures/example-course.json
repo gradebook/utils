@@ -2,14 +2,12 @@
   "id": "5d5f61ecfa8fcd6565dea001",
   "semester": "2019F",
   "name": "Example Course",
-  "cut1": 90,
-  "cut2": 80,
-  "cut3": 70,
-  "cut4": 60,
-  "cut1Name": "A",
-  "cut2Name": "B",
-  "cut3Name": "C",
-  "cut4Name": "D",
+  "cutoffs": {
+    "A": 90,
+    "B": 80,
+    "C": 70,
+    "D": 60
+  },
   "credits": 0,
   "categories": [
     {

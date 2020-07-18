@@ -1,5 +1,5 @@
 import {Category as ICategory} from './interfaces/category';
-import {Course as ICourse} from './interfaces/course';
+import {Course as ICourse, Cutoffs as ICutoffs} from './interfaces/course';
 
 const COURSE_NAME = /^[a-z]{3,4}-\d{3,4}$/i;
 const CUTOFFS = new Set(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-']);
@@ -7,15 +7,24 @@ const CUTOFFS = new Set(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+'
 const validCourseName = (name: string): boolean => COURSE_NAME.test(name);
 const validCategoryName = (name: string): boolean => name.length >= 1 && name.length <= 50;
 const validWeight = (weight: number): boolean => weight >= 0 && weight < 1000000;
-const validCut = (cut: number): boolean => cut >= 10 && cut <= 10000;
-const validCutName = (cutName: string): boolean => CUTOFFS.has(cutName);
 const validCredits = (credits: number): boolean => credits >= 0 && credits <= 5;
 const validNumberCategories = (categories: ICategory[]): boolean => categories.length >= 2;
 const validTotalGrades = (totalGrades: number): boolean => totalGrades >= 1 && totalGrades <= 40;
 const validDroppedGrades = (totalDropped: number, totalGrades: number): boolean =>
 	totalDropped >= 0 && totalGrades > totalDropped;
+const validCut = (cut: number): boolean => cut >= 10 && cut <= 10000;
+const validCutName = (cutName: string): boolean => CUTOFFS.has(cutName);
+const validCutoffs = (cutoffs: ICutoffs): boolean => {
+	for (const [cutName, cutValue] of Object.entries(cutoffs)) {
+		if (!validCutName(cutName) || !validCut(cutValue)) {
+			return false;
+		}
+	}
 
-export const EXPORT_VERSION = 0;
+	return true;
+};
+
+export const EXPORT_VERSION = 1;
 
 export function isomorphicAtoB(input: string): string {
 	// @ts-expect-error
@@ -54,14 +63,7 @@ export function _validateCategory(category: ICategory): boolean {
 export function validate(course: ICourse): boolean {
 	return (
 		validCourseName(course.name) &&
-		validCut(course.cut1) &&
-		validCut(course.cut2) &&
-		validCut(course.cut3) &&
-		validCut(course.cut4) &&
-		validCutName(course.cut1Name) &&
-		validCutName(course.cut2Name) &&
-		validCutName(course.cut3Name) &&
-		validCutName(course.cut4Name) &&
+		validCutoffs(course.cutoffs) &&
 		validCredits(course.credits) &&
 		validNumberCategories(course.categories) &&
 		course.categories.map(category => _validateCategory(category)).filter(t => !t).length > 0
@@ -89,14 +91,7 @@ export interface IUnsafeCategory {
 export interface IUnsafeCourse {
 	name: string;
 	credits: number;
-	cut1: number;
-	cut1Name: string;
-	cut2: number;
-	cut2Name: string;
-	cut3: number;
-	cut3Name: string;
-	cut4: number;
-	cut4Name: string;
+	cutoffs: ICutoffs;
 	semester?: string;
 	categories?: IUnsafeCategory[] | ICategory[];
 }
@@ -137,24 +132,23 @@ export function _serializeCategory(category: ICategory): string {
  * @description converts a course into a compressed stream that can be parsed
  * by _deserializeCourseMeta while adding some metadata
  *
- * Output format: {version}|{year}|{credits}|{cut1}|{cut2}|{cut3}|{cut4}|{name}
+ * Output format: {version}|{year}|{credits}|{numCutoffs}|({cut1Name},{cut1Value}|)[numCutoffs]|{name}
  *
  * Name goes last because it can contain pipes and there's no need to add
  * escaping on top of decoding
  */
 export function _serializeCourseMeta(course: ICourse): string {
 	let built = `${EXPORT_VERSION}|`;
+	const cutoffs = Object.entries(course.cutoffs);
 
 	built += new Date().getFullYear().toString() + '|';
 	built += `${course.credits}|`;
-	built += `${course.cut1}|`;
-	built += `${course.cut2}|`;
-	built += `${course.cut3}|`;
-	built += `${course.cut4}|`;
-	built += `${course.cut1Name}|`;
-	built += `${course.cut2Name}|`;
-	built += `${course.cut3Name}|`;
-	built += `${course.cut4Name}|`;
+	built += `${cutoffs.length}|`;
+
+	for (const [name, value] of cutoffs) {
+		built += `${name},${value}|`;
+	}
+
 	built += course.name;
 	return built;
 }
@@ -172,22 +166,45 @@ export function _deserializeCategory(category: string): ICategory {
 }
 
 export function _deserializeCourseMeta(course: string): ICourseWithMeta {
-	const [v, y, cr, a, b, c, d, e, f, g, h, ...n] = course.split('|'); // eslint-disable-line unicorn/prevent-abbreviations
+	let [
+		version,
+		year,
+		credits,
+		totalCutoffs,
+		...remaining
+	] = course.split('|');
+
+	let cutoffs: string[] = [];
+	let name = '';
+
+	if (version === '0') {
+		// Map v0 order to v1
+		// v0: {version}|{year}|{credits}|{cut1}|{cut2}|{cut3}|{cut4}|{cut1Name}|{cut2Name}|{cut3Name}|{cut4Name}|{name}
+		cutoffs.push(`${remaining[3]},${totalCutoffs}`);
+		cutoffs.push(`${remaining[4]},${remaining[0]}`);
+		cutoffs.push(`${remaining[5]},${remaining[1]}`);
+		cutoffs.push(`${remaining[6]},${remaining[2]}`);
+		name = remaining.slice(7).join('|');
+		totalCutoffs = '4';
+	} else if (version === '1') {
+		cutoffs = remaining.slice(0, Number(totalCutoffs));
+		name = remaining.slice(Number(totalCutoffs)).join('|');
+	}
 
 	return {
-		version: Number(v),
-		year: Number(y),
-		credits: Number(cr),
-		cut1: Number(a),
-		cut2: Number(b),
-		cut3: Number(c),
-		cut4: Number(d),
-		cut1Name: e,
-		cut2Name: f,
-		cut3Name: g,
-		cut4Name: h,
-		name: n.join('|'),
-		categories: null
+		version: Number(version),
+		year: Number(year),
+		credits: Number(credits),
+		name,
+		categories: null,
+		// Vikas wrote this code so blame him for using reduce :) He says it's the easiest
+		// way to transform an array to an object inline
+		// eslint-disable-next-line unicorn/no-reduce
+		cutoffs: cutoffs.reduce<{[s: string]: number}>((allCutoffs, currentCutoff) => {
+			const [name, value] = currentCutoff.split(',');
+			allCutoffs[name] = Number(value);
+			return allCutoffs;
+		}, {})
 	};
 }
 
@@ -208,14 +225,7 @@ export function strip(course: ICourse | IUnsafeCourse): ICourse {
 	return {
 		name: course.name,
 		credits: course.credits,
-		cut1: course.cut1,
-		cut2: course.cut2,
-		cut3: course.cut3,
-		cut4: course.cut4,
-		cut1Name: course.cut1Name,
-		cut2Name: course.cut2Name,
-		cut3Name: course.cut3Name,
-		cut4Name: course.cut4Name,
+		cutoffs: course.cutoffs,
 		// @ts-expect-error
 		categories: course.categories.map(category => _stripCategory(category))
 	};
