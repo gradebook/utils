@@ -178,6 +178,8 @@ export function _deserializeCourseMeta(course: string): ICourseWithMeta {
 	let name = '';
 
 	if (version === '0') {
+		// Map v0 order to v1
+		// v0: {version}|{year}|{credits}|{cut1}|{cut2}|{cut3}|{cut4}|{cut1Name}|{cut2Name}|{cut3Name}|{cut4Name}|{name}
 		cutoffs.push(`${remaining[3]},${totalCutoffs}`);
 		cutoffs.push(`${remaining[4]},${remaining[0]}`);
 		cutoffs.push(`${remaining[5]},${remaining[1]}`);
