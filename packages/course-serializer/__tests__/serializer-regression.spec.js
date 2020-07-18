@@ -9,9 +9,7 @@ describe('Regression > Course Serializer', function () {
 	it('v0', function () {
 		// We need to allow the version to come back as 0 since this is a regression test for that version
 		// Must create new object to make sure we don't affect other tests
-		const exampleCourse = require('../fixtures/example-serialized-course.json');
-		const exampleAsV0 = {...exampleCourse, version: 0};
-
-		expect(serializer.deserialize(SERIALIZED_V0_COURSE)).to.deep.equal(exampleAsV0);
+		const exampleCourse = require('../fixtures/v0-example-serialized-course.json');
+		expect(serializer.deserialize(SERIALIZED_V0_COURSE)).to.deep.equal(exampleCourse);
 	});
 });
