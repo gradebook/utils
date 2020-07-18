@@ -7,7 +7,7 @@ export interface Course {
 	categories: Category[];
 }
 
-export interface Cutoffs {
+export type Cutoffs = {
 	'A+'?: number;
 	A?: number;
 	'A-'?: number;
