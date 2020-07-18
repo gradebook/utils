@@ -20,4 +20,4 @@ export type Cutoffs = {
 	'D+'?: number;
 	D?: number;
 	'D-'?: number;
-}
+};
