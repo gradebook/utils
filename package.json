@@ -24,7 +24,7 @@
     "chai": "4.2.0",
     "eslint-config-xo-typescript": "0.31.0",
     "eslint-plugin-mocha": "7.0.1",
-    "execa": "4.0.2",
+    "execa": "4.0.3",
     "fs-extra": "9.0.1",
     "lerna": "3.22.1",
     "mocha": "8.0.1",
