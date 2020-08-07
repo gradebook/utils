@@ -2,14 +2,7 @@
 export type MinimalCourse = {
 	semester: string;
 	name: string;
-	cut1: string;
-	cut2: string;
-	cut3: string;
-	cut4: string;
-	cut1Name: string;
-	cut2Name: string;
-	cut3Name: string;
-	cut4Name: string;
+	cutoffs: string;
 	credit_hours: string;
 };
 
@@ -23,6 +16,21 @@ export type MinimalCategory = {
 export type MinimalGrade = {
 	name: string;
 	grade: number;
+};
+
+export type Cutoffs = {
+	'A+'?: number;
+	A?: number;
+	'A-'?: number;
+	'B+'?: number;
+	B?: number;
+	'B-'?: number;
+	'C+'?: number;
+	C?: number;
+	'C-'?: number;
+	'D+'?: number;
+	D?: number;
+	'D-'?: number;
 };
 
 export interface CourseRow extends MinimalCourse {

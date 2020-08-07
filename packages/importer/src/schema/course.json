@@ -4,7 +4,7 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "name", "semester", "credit_hours", "cut1", "cut2", "cut3", "cut4", "cut1Name", "cut2Name", "cut3Name", "cut4Name"
+    "name", "semester", "credit_hours", "cutoffs"
   ],
   "properties": {
     "name": {
@@ -28,13 +28,10 @@
       "type": "array",
       "items": {"$ref": "gradebook-category"}
     },
-    "cut1": {"$ref": "gradebook-util-cut"},
-    "cut2": {"$ref": "gradebook-util-cut"},
-    "cut3": {"$ref": "gradebook-util-cut"},
-    "cut4": {"$ref": "gradebook-util-cut"},
-    "cut1Name": {"$ref": "gradebook-util-cut-name"},
-    "cut2Name": {"$ref": "gradebook-util-cut-name"},
-    "cut3Name": {"$ref": "gradebook-util-cut-name"},
-    "cut4Name": {"$ref": "gradebook-util-cut-name"}
+    "cutoffs": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 200
+    }
   }
 }

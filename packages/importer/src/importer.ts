@@ -3,7 +3,7 @@ import AJV from 'ajv';
 import Knex from 'knex';
 import {ValidationError} from './errors';
 import {SCHEMAS} from './schema';
-import {Export, Query} from './interfaces';
+import {Export, Query, Cutoffs} from './interfaces';
 import {generateCourseQuery} from './generators';
 
 const VALID_SETTINGS = new Set([
@@ -27,8 +27,22 @@ export interface ImportOptions {
 	gid: string;
 }
 
+function _throwAJVValidationError(message_ = ''): never {
+	const paths = new Set<string>();
+	let message = message_ + ':';
+
+	for (const error of validator.errors) {
+		if (!paths.has(error.dataPath)) {
+			message += `\n\t${error.dataPath} ${error.message}`;
+			paths.add(error.dataPath);
+		}
+	}
+
+	throw new ValidationError({message});
+}
+
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function coerceJSON(payload: Buffer | string | object, name = 'input'): any {
+export function coerceJSON<T extends object>(payload: Buffer | string | object, name = 'input'): T {
 	let coerced;
 
 	if (typeof payload === 'string' || payload instanceof Buffer) {
@@ -66,26 +80,25 @@ export function validateUser(user: Export['user'], preserveDates: boolean): void
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function runBasicValidations(payload: Buffer | string | object): Export {
-	payload = coerceJSON(payload);
+export function runBasicValidations(payload_: Buffer | string | object): Export {
+	const payload = coerceJSON<Export>(payload_);
 	const passesBasicValidations = validator.validate('gradebook-v0-import', payload);
 
 	if (!passesBasicValidations) {
-		const paths = new Set<string>();
-		let message = 'Export is invalid:';
-
-		for (const error of validator.errors) {
-			if (!paths.has(error.dataPath)) {
-				message += `\n\t${error.dataPath} ${error.message}`;
-				paths.add(error.dataPath);
-			}
-		}
-
-		throw new ValidationError({message});
+		_throwAJVValidationError('Export is invalid');
 	}
 
-	// Note: once the payload passes all the validation errors, we know the type
-	return payload as Export;
+	for (const [index, course] of payload.courses?.entries()) {
+		const {cutoffs} = course;
+		const parsedCuts = coerceJSON<Cutoffs>(cutoffs, `.course[${index}].cutoffs`);
+		const isValid = validator.validate('gradebook-cutoffs', parsedCuts);
+
+		if (!isValid) {
+			_throwAJVValidationError(`.course[${index}].cutoffs is invalid`);
+		}
+	}
+
+	return payload;
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
