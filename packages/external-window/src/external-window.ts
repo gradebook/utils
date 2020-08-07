@@ -23,7 +23,7 @@ export class ExternalWindowService {
 	}
 
 	requestFocus(): void {
-		this._window?.focus(); // eslint-disable-line no-unused-expressions
+		this._window?.focus();
 	}
 
 	private get _externalWindowFeatures(): string {
