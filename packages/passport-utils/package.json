@@ -1,6 +1,6 @@
 {
   "name": "@gradebook/passport-utils",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Abstractions for auth integration with Google using passport",
   "keywords": [],
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
