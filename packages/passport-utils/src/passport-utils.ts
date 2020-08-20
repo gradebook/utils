@@ -66,8 +66,8 @@ export function createProfileHandler(getUser: (gid: string, table: string) => Pr
 		user = {
 			id,
 			gid,
-			first_name: firstName, // eslint-disable-line camelcase
-			last_name: lastName, // eslint-disable-line camelcase
+			firstName,
+			lastName,
 			email: emails[0].value,
 			isNew: true,
 			// https://github.com/tgriesser/knex/issues/2649
