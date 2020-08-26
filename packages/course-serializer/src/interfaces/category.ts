@@ -9,7 +9,7 @@ export interface Category {
 export interface ApiCategory {
 	name: string;
 	weight: number;
-	grades: number;
+	numGrades: number;
 	position: number;
 	dropped: number;
 }
