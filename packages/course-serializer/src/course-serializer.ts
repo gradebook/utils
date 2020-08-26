@@ -263,7 +263,7 @@ export function prepareCourseForAPI(course: ICourse, semester: string): IApiCour
 			weight: category.weight,
 			position: currentPosition,
 			dropped: category.droppedGrades,
-			grades: category.numGrades
+			numGrades: category.numGrades
 		};
 	});
 

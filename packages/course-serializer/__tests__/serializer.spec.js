@@ -81,10 +81,10 @@ describe('Unit > Serializer', function () {
 				cutoffs: '{"A":90,"B":80}'
 			},
 			categories: [
-				{name: 'Homework', dropped: 4, weight: 15, position: 100, grades: 10},
-				{name: 'Quizzes', dropped: 1, weight: 25, position: 200, grades: 5},
-				{name: 'Labs', dropped: 0, weight: 15, position: 300, grades: 8},
-				{name: 'Final', dropped: 0, weight: 45, position: 400, grades: 1}
+				{name: 'Homework', dropped: 4, weight: 15, position: 100, numGrades: 10},
+				{name: 'Quizzes', dropped: 1, weight: 25, position: 200, numGrades: 5},
+				{name: 'Labs', dropped: 0, weight: 15, position: 300, numGrades: 8},
+				{name: 'Final', dropped: 0, weight: 45, position: 400, numGrades: 1}
 			]
 		});
 	});
