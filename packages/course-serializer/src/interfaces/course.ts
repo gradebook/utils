@@ -1,10 +1,20 @@
-import {Category} from './category';
+import {Category, ApiCategory} from './category';
 
 export interface Course {
 	name: string;
 	credits: number;
 	cutoffs: Cutoffs;
 	categories: Category[];
+}
+
+export interface ApiCourse {
+	course: {
+		name: string;
+		semester: string;
+		credits: number;
+		cutoffs: string;
+	};
+	categories: ApiCategory[];
 }
 
 export type Cutoffs = {
