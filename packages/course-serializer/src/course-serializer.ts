@@ -1,5 +1,5 @@
-import {Category as ICategory} from './interfaces/category';
-import {Course as ICourse, Cutoffs as ICutoffs} from './interfaces/course';
+import {Category as ICategory, ApiCategory as IApiCategory} from './interfaces/category';
+import {Course as ICourse, Cutoffs as ICutoffs, ApiCourse as IApiCourse} from './interfaces/course';
 
 const COURSE_NAME = /^[a-z]{3,4}-\d{3,4}$/i;
 const CUTOFFS = new Set(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-']);
@@ -250,6 +250,31 @@ export function deserialize(hash: string): ICourse {
 	return {
 		..._deserializeCourseMeta(payload.m),
 		categories: payload.z.map(category => _deserializeCategory(category))
+	};
+}
+
+export function prepareCourseForAPI(course: ICourse, semester: string): IApiCourse {
+	let currentPosition = 0;
+	const categories: IApiCategory[] = course.categories.map(category => {
+		currentPosition += 100;
+
+		return {
+			name: category.name,
+			weight: category.weight,
+			position: currentPosition,
+			dropped: category.droppedGrades,
+			grades: category.numGrades
+		};
+	});
+
+	return {
+		course: {
+			semester,
+			name: course.name,
+			credits: course.credits,
+			cutoffs: JSON.stringify(course.cutoffs)
+		},
+		categories
 	};
 }
 
