@@ -1,0 +1,39 @@
+{
+  "name": "@gradebook/time",
+  "version": "0.0.1",
+  "description": "Make time-based work fun again",
+  "keywords": [],
+  "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
+  "homepage": "https://github.com/gradebook/utils#readme",
+  "bugs": "https://github.com/gradebook/utils/issues",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gradebook/utils.git",
+    "directory": "packages/time"
+  },
+  "scripts": {
+    "pretest": "tsc",
+    "test": "mocha __tests__ --recursive --colors",
+    "test:coverage": "nyc --reporter=html --reporter=text mocha __tests__ --recursive --colors",
+    "prepublish": "tsc",
+    "tsc": "tsc",
+    "lint": "xo"
+  },
+  "xo": false,
+  "devDependencies": {
+    "rewire": "^5.0.0"
+  },
+  "dependencies": {
+    "dayjs": "^1.8.35"
+  }
+}
