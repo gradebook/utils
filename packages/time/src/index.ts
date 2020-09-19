@@ -1,4 +1,4 @@
-import * as dayjs_ from 'dayjs';
+import dayjs_ from 'dayjs';
 import cpf from 'dayjs/plugin/customParseFormat';
 
 dayjs_.extend(cpf);
