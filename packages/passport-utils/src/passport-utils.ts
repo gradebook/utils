@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import date from 'dayjs';
+import {dayjs as date} from '@gradebook/time';
 import objectId from 'bson-objectid';
 import {IncomingMessage} from 'http';
 
