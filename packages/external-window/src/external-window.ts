@@ -6,6 +6,8 @@ export class ExternalWindowService {
 
 	private readonly _window: Window;
 
+	private readonly _listener$: () => void;
+
 	private _resolve: () => void;
 
 	constructor(url: string, title = '') {
@@ -13,10 +15,13 @@ export class ExternalWindowService {
 			this._resolve = resolve;
 		});
 
+		this._listener$ = this._registerListener();
+
 		this._window = window.open(url, title, this._externalWindowFeatures);
 		this._interval = window.setInterval(() => {
 			if (this._window?.closed) {
 				clearInterval(this._interval);
+				window?.removeEventListener('beforeunload', this._listener$);
 				this._resolve();
 			}
 		}, 500);
@@ -24,6 +29,16 @@ export class ExternalWindowService {
 
 	requestFocus(): void {
 		this._window?.focus();
+	}
+
+	private _registerListener() {
+		const handleUnload = (): void => {
+			debugger;
+			this._window?.close();
+		};
+
+		window?.addEventListener('beforeunload', handleUnload);
+		return handleUnload;
 	}
 
 	private get _externalWindowFeatures(): string {
