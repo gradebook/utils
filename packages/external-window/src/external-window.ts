@@ -33,7 +33,6 @@ export class ExternalWindowService {
 
 	private _registerListener() {
 		const handleUnload = (): void => {
-			debugger;
 			this._window?.close();
 		};
 
