@@ -24,6 +24,10 @@ const validCutoffs = (cutoffs: ICutoffs): boolean => {
 	return true;
 };
 
+const isValidCategory = (category: ICategory): boolean =>
+	(category.name && category.name !== 'null') &&
+	(Boolean(category.weight) || category.weight === 0);
+
 export const EXPORT_VERSION = 1;
 
 export function isomorphicAtoB(input: string): string {
@@ -112,7 +116,7 @@ export interface ICourseWithMeta extends ICourse {
  * escaping on top of decoding
  */
 export function _serializeCategory(category: ICategory): string {
-	if (!(category.name && (category.weight || category.weight === 0))) {
+	if (!isValidCategory(category)) {
 		return null;
 	}
 
@@ -153,16 +157,22 @@ export function _serializeCourseMeta(course: ICourse): string {
 	return built;
 }
 
-export function _deserializeCategory(category: string): ICategory {
-	const [r, d, t, w, ...n] = category.split('|');
+export function _deserializeCategory(payload: string): ICategory {
+	const [r, d, t, w, ...n] = payload.split('|');
 
-	return {
+	const category = {
 		isReallyCategory: Number(r) === 1,
 		droppedGrades: Number(d),
 		numGrades: Number(t),
 		weight: Number(w),
 		name: n.join('|')
 	};
+
+	if (!isValidCategory(category)) {
+		return null;
+	}
+
+	return category;
 }
 
 export function _deserializeCourseMeta(course: string): ICourseWithMeta {

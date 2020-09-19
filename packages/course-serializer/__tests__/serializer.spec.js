@@ -88,4 +88,10 @@ describe('Unit > Serializer', function () {
 			]
 		});
 	});
+
+	it('deserialization removes invalid categories', function () {
+		expect(serializer._deserializeCategory('1|5|10|15|null'), 'name is null (string)').to.equal(null);
+		expect(serializer._deserializeCategory('1|5|10|0|'), 'name is empty').to.equal(null);
+		expect(serializer._deserializeCategory('1|5|10|0|valid'), 'empty weight is ok').to.not.equal(null);
+	});
 });
