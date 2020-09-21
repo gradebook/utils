@@ -13,11 +13,12 @@ describe('Unit > Singularize', function () {
 			['Essays', 'Essay'],
 			['Cases', 'Case'],
 			['Analysis', 'Analysis'],
-			['Activities', 'Activity']
+			['Activities', 'Activity'],
+			['Bonuses', 'Bonus']
 		];
 
 		plurals.forEach(([plural, singular]) => {
-			expect(singularize(plural)).to.equal(singular);
+			expect(singularize(plural), plural).to.equal(singular);
 		});
 	});
 });
