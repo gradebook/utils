@@ -8,7 +8,8 @@ export class ExternalWindowService {
 
 	private readonly _listener$: () => void;
 
-	private readonly _resolve: () => void;
+	// eslint-disable-next-line @typescript-eslint/prefer-readonly
+	private _resolve: () => void;
 
 	constructor(url: string, title = '') {
 		this.promise = new Promise(resolve => {
