@@ -29,11 +29,11 @@
     "tsc": "tsc"
   },
   "dependencies": {
-    "got": "^11.5.1"
+    "got": "^11.7.0"
   },
   "devDependencies": {
     "@types/got": "9.6.11",
     "chai": "4.2.0",
-    "sinon": "9.1.0"
+    "sinon": "9.2.0"
   }
 }
