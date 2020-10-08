@@ -8,7 +8,7 @@ export class ExternalWindowService {
 
 	private readonly _listener$: () => void;
 
-	private _resolve: () => void;
+	private readonly _resolve: () => void;
 
 	constructor(url: string, title = '') {
 		this.promise = new Promise(resolve => {
