@@ -11,21 +11,30 @@ export class ExternalWindowService {
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly
 	private _resolve: () => void;
 
+	// eslint-disable-next-line @typescript-eslint/prefer-readonly
+	private _reject: (error: Error) => void;
+
 	constructor(url: string, title = '') {
-		this.promise = new Promise(resolve => {
+		this.promise = new Promise((resolve, reject) => {
 			this._resolve = resolve;
+			this._reject = reject;
 		});
 
 		this._listener$ = this._registerListener();
 
 		this._window = window.open(url, title, this._externalWindowFeatures);
-		this._interval = window.setInterval(() => {
-			if (this._window?.closed) {
-				clearInterval(this._interval);
-				window?.removeEventListener('beforeunload', this._listener$);
-				this._resolve();
-			}
-		}, 500);
+
+		if (this._window) {
+			this._interval = window.setInterval(() => {
+				if (this._window?.closed) {
+					clearInterval(this._interval);
+					window?.removeEventListener('beforeunload', this._listener$);
+					this._resolve();
+				}
+			}, 500);
+		} else {
+			this._reject(new Error('E_BLOCKED_BY_CLIENT'));
+		}
 	}
 
 	requestFocus(): void {
