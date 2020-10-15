@@ -1,6 +1,6 @@
 {
   "name": "@gradebook/external-window",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "promisify window.open",
   "keywords": [],
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
