@@ -24,7 +24,7 @@ export class ExternalWindowService {
 
 		this._window = window.open(url, title, this._externalWindowFeatures);
 
-		if (this._window) {
+		if (this._window && !this._window.closed) {
 			this._interval = window.setInterval(() => {
 				if (this._window?.closed) {
 					clearInterval(this._interval);
