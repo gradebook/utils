@@ -34,6 +34,6 @@
   "devDependencies": {
     "@types/got": "9.6.11",
     "chai": "4.2.0",
-    "sinon": "9.2.0"
+    "sinon": "9.2.1"
   }
 }
