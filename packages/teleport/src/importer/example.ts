@@ -1,5 +1,5 @@
 import {readFileSync} from 'fs';
-import {generateAPICalls} from './importer';
+import {generateAPICalls} from './api';
 import {ValidationError} from './errors';
 
 const exampleExport = readFileSync('./export.json');
