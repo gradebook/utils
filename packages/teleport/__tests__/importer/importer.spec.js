@@ -3,7 +3,7 @@ const {expect} = require('chai');
 const sinon = require('sinon');
 const oid = require('bson-objectid').default;
 
-const importer = require('../lib/importer');
+const {importer} = require('../../lib/api');
 
 describe('Unit > Importer', function () {
 	it('generateAPICalls with a v0 export', function () {
@@ -13,8 +13,8 @@ describe('Unit > Importer', function () {
 
 		try {
 			expect(
-				importer.generateAPICalls(require('./test.json'), {gid: '1243'})
-			).to.deep.equal(require('./test.converted.json'));
+				importer.generateAPICalls(require('./example-export.json'), {gid: '1243'})
+			).to.deep.equal(require('./example-api-calls.json'));
 		} finally {
 			stub.restore();
 		}

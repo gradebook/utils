@@ -1,8 +1,12 @@
-# `@gradebook/importer`
+# `@gradebook/teleport`
 
-> Generate SQL-like queries to import a user into a gradebook database
+> Move data across @gradebook/server instances
 
-## Usage
+## Importer
+
+> Generate SQL-like queries to import a user into an @gradebook/server database
+
+### Usage
 
 ```ts
 import {readFileSync} from 'fs';
