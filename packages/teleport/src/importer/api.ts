@@ -3,7 +3,7 @@ import AJV from 'ajv';
 import Knex from 'knex';
 import {ValidationError} from './errors';
 import {SCHEMAS} from './schema';
-import {Export, Query, Cutoffs} from './interfaces';
+import {Export, Query, Cutoffs} from '../shared/interfaces';
 import {generateCourseQuery} from './generators';
 
 const VALID_SETTINGS = new Set([
