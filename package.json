@@ -19,19 +19,18 @@
     "new": "node scripts/new.js"
   },
   "devDependencies": {
-    "@types/mocha": "8.0.4",
-    "@types/node": "13.9.1",
+    "@types/mocha": "8.2.0",
+    "@types/node": "14.14.14",
     "chai": "4.2.0",
-    "eslint-config-xo-typescript": "0.32.0",
     "eslint-plugin-mocha": "8.0.0",
-    "execa": "4.1.0",
+    "execa": "5.0.0",
     "fs-extra": "9.0.1",
     "lerna": "3.22.1",
     "mocha": "8.2.1",
     "nyc": "15.1.0",
-    "sinon": "9.2.1",
-    "typescript": "4.1.2",
-    "xo": "0.33.1"
+    "sinon": "9.2.2",
+    "typescript": "4.1.3",
+    "xo": "0.36.1"
   },
   "xo": {
     "ignores": [
@@ -43,8 +42,8 @@
     "plugins": "mocha",
     "rules": {
       "@typescript-eslint/restrict-template-expressions": "off",
+      "@typescript-eslint/no-implicit-any-catch": "off",
       "no-unused-expressions": "error",
-      "no-unused-vars": "error",
       "camelcase": "error",
       "func-names": [
         "error",

@@ -6,7 +6,7 @@ const endings = [
 	['s', '']
 ];
 
-const OVERRIDES: {[plural: string]: string} = {
+const OVERRIDES: Record<string, string> = {
 	bonuses: 'bonus'
 };
 

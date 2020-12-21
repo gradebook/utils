@@ -8,10 +8,8 @@ export class ExternalWindowService {
 
 	private readonly _listener$: () => void;
 
-	// eslint-disable-next-line @typescript-eslint/prefer-readonly
 	private _resolve: () => void;
 
-	// eslint-disable-next-line @typescript-eslint/prefer-readonly
 	private _reject: (error: Error) => void;
 
 	constructor(url: string, title = '') {

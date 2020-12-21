@@ -32,9 +32,9 @@ export const EXPORT_VERSION = 1;
 
 export function isomorphicAtoB(input: string): string {
 	// @ts-expect-error
-	if (typeof atob === 'function') { // eslint-disable-line no-undef
+	if (typeof atob === 'function') {
 		// @ts-expect-error
-		return atob(input); // eslint-disable-line no-undef
+		return atob(input);
 	}
 
 	return Buffer.from(input, 'base64').toString('utf8');
@@ -42,9 +42,9 @@ export function isomorphicAtoB(input: string): string {
 
 export function isomorphicBtoA(input: string): string {
 	// @ts-expect-error
-	if (typeof btoa === 'function') { // eslint-disable-line no-undef
+	if (typeof btoa === 'function') {
 		// @ts-expect-error
-		return btoa(input); // eslint-disable-line no-undef
+		return btoa(input);
 	}
 
 	return Buffer.from(input).toString('base64');
@@ -214,7 +214,7 @@ export function _deserializeCourseMeta(course: string): ICourseWithMeta {
 		// Vikas wrote this code so blame him for using reduce :) He says it's the easiest
 		// way to transform an array to an object inline
 		// eslint-disable-next-line unicorn/no-reduce
-		cutoffs: cutoffs.reduce<{[s: string]: number}>((allCutoffs, currentCutoff) => {
+		cutoffs: cutoffs.reduce<Record<string, number>>((allCutoffs, currentCutoff) => {
 			const [name, value] = currentCutoff.split(',');
 			allCutoffs[name] = Number(value);
 			return allCutoffs;

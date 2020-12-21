@@ -1,10 +1,10 @@
 // @ts-check
-const {resolve} = require('path');
+const path = require('path');
 const {readdir} = require('fs').promises;
 const execa = require('execa');
 const chalk = require('chalk').default;
 
-const tsc = resolve(__dirname, '../node_modules/.bin/tsc');
+const tsc = path.resolve(__dirname, '../node_modules/.bin/tsc');
 
 /**
  * @param {object} packageJSON
@@ -37,7 +37,7 @@ async function compileProject(project) {
 
 async function failIfLibContainsIllegalFiles() {
 	try {
-		const fileContents = await readdir(resolve(process.cwd(), 'lib'));
+		const fileContents = await readdir(path.resolve(process.cwd(), 'lib'));
 
 		for (const file of fileContents) {
 			if (file.includes('.')) {
@@ -63,7 +63,7 @@ async function failIfLibContainsIllegalFiles() {
 
 async function run() {
 	await failIfLibContainsIllegalFiles();
-	const pkg = require(resolve(process.cwd(), 'package.json'));
+	const pkg = require(path.resolve(process.cwd(), 'package.json'));
 	const projects = determineCompileTargets(pkg);
 
 	const totalPackages = projects.length;

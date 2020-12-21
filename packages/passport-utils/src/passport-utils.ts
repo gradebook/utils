@@ -97,11 +97,13 @@ export function createUserDeserializer(
 	): Promise<void> {
 		// CASE: user has not approved their account
 		if (request.session.userProfile) {
-			return callback(null, request.session.userProfile);
+			callback(null, request.session.userProfile);
+			return;
 		}
 
 		if (!profile.includes(':')) {
-			return callback(new Error(`Deserializer: Unable to parse profile: ${profile}`));
+			callback(new Error(`Deserializer: Unable to parse profile: ${profile}`));
+			return;
 		}
 
 		let [school, id] = profile.split(':');
@@ -114,19 +116,22 @@ export function createUserDeserializer(
 
 		if (domain && request._table && school !== request._table) {
 			request._passportRedirect = `//${school}.${domain}/my/`;
-			return callback(null, {});
+			callback(null, {});
+			return;
 		}
 
 		try {
 			const user = await getUser(id, school);
 
 			if (!user) {
-				return callback(null, null);
+				callback(null, null);
+				return;
 			}
 
-			return callback(null, user);
+			callback(null, user);
+			return;
 		} catch (error) {
-			return callback(error);
+			callback(error);
 		}
 	};
 }
@@ -140,23 +145,26 @@ export function serializeUser(
 	if ('id' in profile) {
 		// CASE: User is new so return the special school identifier
 		if (profile.isNew) {
-			return callback(null, `__school__:${profile.id}`);
+			callback(null, `__school__:${profile.id}`);
+			return;
 		}
 
 		const table = request._table || null;
 
-		return callback(null, `${table}:${profile.id}`);
+		callback(null, `${table}:${profile.id}`);
+		return;
 	}
 
 	// CASE: user reference object
 	if ('school' in profile && 'school_id' in profile) {
-		return callback(null, `${profile.school}:${profile.school_id}`);
+		callback(null, `${profile.school}:${profile.school_id}`);
+		return;
 	}
 
 	const error = new Error('Serializer: Unknown profile');
 	// @ts-expect-error
 	error.context = profile;
-	return callback(error);
+	callback(error);
 }
 
 export function _parseNameFromGoogle(

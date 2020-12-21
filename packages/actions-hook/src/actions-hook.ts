@@ -30,13 +30,8 @@ export async function sendPayload({
 	onlyIf = false
 }: PayloadOptions): Promise<void> {
 	if (typeof payload !== 'string') {
-		if (Object.prototype.hasOwnProperty.call(payload, 'toString')) {
-			// Object.hasOwnProperty prevents us calling toString up the prototype chain
-			// eslint-disable-next-line @typescript-eslint/no-base-to-string
-			payload = payload.toString();
-		} else {
-			payload = JSON.stringify(payload);
-		}
+		// eslint-disable-next-line @typescript-eslint/no-base-to-string
+		payload = Object.prototype.hasOwnProperty.call(payload, 'toString') ? payload.toString() : JSON.stringify(payload);
 	}
 
 	if (!url || !secret) {
