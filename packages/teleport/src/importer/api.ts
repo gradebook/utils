@@ -94,7 +94,7 @@ export function runBasicValidations(payload_: Buffer | string | object): Export 
 		_throwAJVValidationError('Export is invalid');
 	}
 
-	for (const [index, course] of payload.courses?.entries()) {
+	for (const [index, course] of (payload.courses ?? []).entries()) {
 		const {cutoffs} = course;
 		const parsedCuts = coerceJSON<Cutoffs>(cutoffs, `.course[${index}].cutoffs`);
 		const isValid = validator.validate('gradebook-cutoffs', parsedCuts);

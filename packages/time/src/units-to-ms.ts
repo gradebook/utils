@@ -35,7 +35,7 @@ export function unitsToMs(timeString: string): number {
 		}
 	}
 
-	// eslint-disable-next-line unicorn/no-reduce
+	// eslint-disable-next-line unicorn/no-array-reduce
 	return times.reduce((current, match) => current + unitsToMs(match), 0);
 }
 

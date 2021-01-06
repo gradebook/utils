@@ -5,11 +5,11 @@ const COURSE_NAME = /^[a-z]{3,4}-\d{3,4}$/i;
 const CUTOFFS = new Set(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-']);
 
 const validCourseName = (name: string): boolean => COURSE_NAME.test(name);
-const validCategoryName = (name: string): boolean => name.length >= 1 && name.length <= 50;
+const validCategoryName = (name: string): boolean => name.length > 0 && name.length <= 50;
 const validWeight = (weight: number): boolean => weight >= 0 && weight < 1000000;
 const validCredits = (credits: number): boolean => credits >= 0 && credits <= 5;
 const validNumberCategories = (categories: ICategory[]): boolean => categories.length >= 2;
-const validTotalGrades = (totalGrades: number): boolean => totalGrades >= 1 && totalGrades <= 40;
+const validTotalGrades = (totalGrades: number): boolean => totalGrades > 0 && totalGrades <= 40;
 const validDroppedGrades = (totalDropped: number, totalGrades: number): boolean =>
 	totalDropped >= 0 && totalGrades > totalDropped;
 const validCut = (cut: number): boolean => cut >= 10 && cut <= 10000;
@@ -213,7 +213,7 @@ export function _deserializeCourseMeta(course: string): ICourseWithMeta {
 		categories: null,
 		// Vikas wrote this code so blame him for using reduce :) He says it's the easiest
 		// way to transform an array to an object inline
-		// eslint-disable-next-line unicorn/no-reduce
+		// eslint-disable-next-line unicorn/no-array-reduce
 		cutoffs: cutoffs.reduce<Record<string, number>>((allCutoffs, currentCutoff) => {
 			const [name, value] = currentCutoff.split(',');
 			allCutoffs[name] = Number(value);

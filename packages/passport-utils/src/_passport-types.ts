@@ -27,4 +27,4 @@ export type PassportOauth20Profile = {
 	_json: any;
 };
 
-export type PassportOauth20VerifyCallback = (err?: string | Error, user?: any, info?: any) => void;
+export type PassportOauth20VerifyCallback = (error?: string | Error, user?: any, info?: any) => void;

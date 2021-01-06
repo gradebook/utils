@@ -10,22 +10,22 @@ export interface TrustedRequestConfig {
 }
 
 const allowTrustedIPs = (config: TrustedRequestConfig): RequestHandler => {
-	const {trustedIPs: whitelist = [], trustProxy = false} = config;
+	const {trustedIPs: allowList = [], trustProxy = false} = config;
 
 	return function isTrustedRequest(request: Request, response: Response, next: NextFunction) {
 		// Only allow local ips
-		if (!whitelist.includes(request.ip)) {
+		if (!allowList.includes(request.ip)) {
 			next(new TrustedRequestError('You are not authorized to access this resource'));
 			return;
 		}
 
-		if (!trustProxy) {
+		if (!trustProxy &&
 			// Production - NGINX sits in front and adds `x-real-ip` header, nginx requests should not be trusted
 			// We don't want to trust the x-forwarded-for header
-			if ('x-real-ip' in request.headers || 'x-forwarded-for' in request.headers) {
-				next(new TrustedRequestError('You are not authorized to access this resource'));
-				return;
-			}
+			('x-real-ip' in request.headers || 'x-forwarded-for' in request.headers)
+		) {
+			next(new TrustedRequestError('You are not authorized to access this resource'));
+			return;
 		}
 
 		next();
