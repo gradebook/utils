@@ -24,7 +24,7 @@
     "chai": "4.2.0",
     "eslint-plugin-mocha": "8.0.0",
     "execa": "5.0.0",
-    "fs-extra": "9.0.1",
+    "fs-extra": "9.1.0",
     "lerna": "3.22.1",
     "mocha": "8.2.1",
     "nyc": "15.1.0",
