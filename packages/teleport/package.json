@@ -37,6 +37,6 @@
   },
   "devDependencies": {
     "knex": "0.21.17",
-    "nock": "13.0.5"
+    "nock": "13.0.7"
   }
 }
