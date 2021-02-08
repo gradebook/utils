@@ -30,5 +30,8 @@
     "tsc": "tsc",
     "lint": "xo"
   },
-  "xo": false
+  "xo": false,
+  "dependencies": {
+    "got": "^11.8.1"
+  }
 }
