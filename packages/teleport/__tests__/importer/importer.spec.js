@@ -9,7 +9,7 @@ describe('Unit > Importer', function () {
 	it('generateAPICalls with a v0 export', function () {
 		let currentID = 0;
 
-		const stub = sinon.stub(oid, 'generate').callsFake(() => String(currentID++));
+		const stub = sinon.stub(oid.prototype, 'toHexString').callsFake(() => String(currentID++));
 
 		try {
 			expect(

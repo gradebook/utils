@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import {dayjs as date} from '@gradebook/time';
-import objectId from 'bson-objectid';
+import ObjectId from 'bson-objectid';
 import {IncomingMessage} from 'http';
 
 import {
@@ -62,7 +62,7 @@ export function createProfileHandler(getUser: (gid: string, table: string) => Pr
 		const {id: gid, emails} = profile;
 		const {firstName, lastName} = _parseNameFromGoogle(profile);
 
-		const id = objectId.generate();
+		const id = new ObjectId().toHexString();
 		user = {
 			id,
 			gid,

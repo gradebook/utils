@@ -1,6 +1,6 @@
-import oid from 'bson-objectid';
+import ObjectId from 'bson-objectid';
 import AJV, {Format} from 'ajv';
-import Knex from 'knex';
+import {Knex} from 'knex';
 import {ValidationError} from './errors';
 import {SCHEMAS} from './schema';
 import {Export, Query, Cutoffs} from '../shared/interfaces';
@@ -38,9 +38,9 @@ function _throwAJVValidationError(message_ = ''): never {
 	let message = message_ + ':';
 
 	for (const error of validator.errors) {
-		if (!paths.has(error.dataPath)) {
-			message += `\n\t${error.dataPath} ${error.message}`;
-			paths.add(error.dataPath);
+		if (!paths.has(error.instancePath)) {
+			message += `\n\t${error.instancePath} ${error.message}`;
+			paths.add(error.instancePath);
 		}
 	}
 
@@ -110,7 +110,7 @@ export function runBasicValidations(payload_: Buffer | string | object): Export 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function generateAPICalls(data: Buffer | string | object, options: ImportOptions): Query[] {
 	const uExport = runBasicValidations(data);
-	const uid = options.user_id || oid.generate();
+	const uid = options.user_id || new ObjectId().toHexString();
 	const queries: Query[] = [];
 
 	const {

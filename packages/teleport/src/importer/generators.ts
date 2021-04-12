@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import oid from 'bson-objectid';
+import ObjectId from 'bson-objectid';
 import {ValidationError} from './errors';
 import {Course, Category, Grade, Query} from '../shared/interfaces';
 
@@ -9,7 +9,7 @@ export function generateCourseQuery(
 	course: Course,
 	maxGradesPerCategory: number
 ): Query[] {
-	const id = oid.generate();
+	const id = new ObjectId().toHexString();
 	const courseRow = {...course, id, user_id};
 	delete courseRow.categories;
 
@@ -36,7 +36,7 @@ export function generateCourseQuery(
 }
 
 export function generateCategoryQuery(user_id: string, course_id: string, category: Category): Query[] {
-	const id = oid.generate();
+	const id = new ObjectId().toHexString();
 	const categoryRow = {...category, id, course_id};
 	delete categoryRow.grades;
 
@@ -55,6 +55,6 @@ export function generateCategoryQuery(user_id: string, course_id: string, catego
 }
 
 export function generateGradeQuery(grade: Grade, user_id: string, course_id: string, category_id: string): Query {
-	const id = oid.generate();
+	const id = new ObjectId().toHexString();
 	return ['grades', {...grade, id, user_id, course_id, category_id}];
 }
