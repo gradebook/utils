@@ -194,10 +194,7 @@ export function _deserializeCourseMeta(course: string): ICourseWithMeta {
 		// by 1. This performs a "migration" to convert a v0 export to v1.
 		// This was the v0 schema:
 		// {version}|{year}|{credits}|{cut1}|{cut2}|{cut3}|{cut4}|{cut1Name}|{cut2Name}|{cut3Name}|{cut4Name}|{name}
-		cutoffs.push(`${remaining[3]},${totalCutoffs}`);
-		cutoffs.push(`${remaining[4]},${remaining[0]}`);
-		cutoffs.push(`${remaining[5]},${remaining[1]}`);
-		cutoffs.push(`${remaining[6]},${remaining[2]}`);
+		cutoffs.push(`${remaining[3]},${totalCutoffs}`, `${remaining[4]},${remaining[0]}`, `${remaining[5]},${remaining[1]}`, `${remaining[6]},${remaining[2]}`);
 		name = remaining.slice(7).join('|');
 		totalCutoffs = '4';
 	} else if (version === '1') {

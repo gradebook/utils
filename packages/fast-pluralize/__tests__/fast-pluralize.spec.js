@@ -17,8 +17,8 @@ describe('Unit > Singularize', function () {
 			['Bonuses', 'Bonus']
 		];
 
-		plurals.forEach(([plural, singular]) => {
+		for (const [plural, singular] of plurals) {
 			expect(singularize(plural), plural).to.equal(singular);
-		});
+		}
 	});
 });

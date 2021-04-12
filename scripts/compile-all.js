@@ -21,9 +21,9 @@ function determineCompileTargets(packageJSON) {
 
 	const projects = ['tsconfig.json'];
 
-	packageJSON.targets.forEach(target => {
+	for (const target of packageJSON.targets) {
 		projects.push(`tsconfig.${target}.json`);
-	});
+	}
 
 	return projects;
 }
