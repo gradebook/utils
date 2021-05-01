@@ -30,24 +30,47 @@ const isValidCategory = (category: ICategory): boolean =>
 
 export const EXPORT_VERSION = 1;
 
-export function isomorphicAtoB(input: string): string {
+/**
+ * Environment independent encoder. Note that in browser environments only support the latin-1 charset
+ * so we force unicode support by converting multi-byte unicode into single-byte binary
+ * https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/btoa#unicode_strings
+ */
+export function isomorphicAtoB(thingToDecode: string): string {
 	// @ts-expect-error
 	if (typeof atob === 'function') {
 		// @ts-expect-error
-		return atob(input);
+		const rawDecoded: string = atob(thingToDecode);
+		const bytes = new Uint8Array(rawDecoded.length);
+		for (let i = 0; i < bytes.length; ++i) {
+			bytes[i] = rawDecoded.charCodeAt(i);
+		}
+
+		return String.fromCharCode(...new Uint16Array(bytes.buffer));
 	}
 
-	return Buffer.from(input, 'base64').toString('utf8');
+	return Buffer.from(thingToDecode, 'base64').toString('utf8');
 }
 
-export function isomorphicBtoA(input: string): string {
+/**
+ * Environment independent decoder. Note that in browser environments only support the latin-1 charset
+ * so we force unicode support by converting multi-byte unicode into single-byte binary
+ * https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/btoa#unicode_strings’
+ */
+export function isomorphicBtoA(thingToEncode: string): string {
 	// @ts-expect-error
 	if (typeof btoa === 'function') {
+		const bytes = new Uint16Array(thingToEncode.length);
+		for (let i = 0; i < bytes.length; ++i) {
+			bytes[i] = thingToEncode.charCodeAt(i);
+		}
+
+		const safeUnencoded = String.fromCharCode(...new Uint8Array(bytes.buffer));
+
 		// @ts-expect-error
-		return btoa(input);
+		return btoa(safeUnencoded);
 	}
 
-	return Buffer.from(input).toString('base64');
+	return Buffer.from(thingToEncode).toString('base64');
 }
 
 export function _validateCategory(category: ICategory): boolean {
