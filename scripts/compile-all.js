@@ -2,7 +2,7 @@
 const path = require('path');
 const {readdir} = require('fs').promises;
 const execa = require('execa');
-const chalk = require('chalk').default;
+const chalk = require('chalk');
 
 const tsc = path.resolve(__dirname, '../node_modules/.bin/tsc');
 
