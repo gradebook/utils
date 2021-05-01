@@ -1,6 +1,6 @@
 {
   "name": "@gradebook/course-serializer",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Utilities to make a course shareable via URLs",
   "keywords": [],
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
