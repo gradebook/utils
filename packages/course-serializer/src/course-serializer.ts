@@ -40,12 +40,21 @@ export function isomorphicAtoB(thingToDecode: string): string {
 	if (typeof atob === 'function') {
 		// @ts-expect-error
 		const rawDecoded: string = atob(thingToDecode);
+
 		const bytes = new Uint8Array(rawDecoded.length);
 		for (let i = 0; i < bytes.length; ++i) {
 			bytes[i] = rawDecoded.charCodeAt(i);
 		}
 
-		return String.fromCharCode(...new Uint16Array(bytes.buffer));
+		const extendedDecoded = String.fromCharCode(...new Uint16Array(bytes.buffer));
+
+		// Check that splitting the bits was actually successful - it fails when the encoded string was created
+		// assuming the string is latin-1 only (older versions). With newer versions there are no issues
+		if (extendedDecoded.startsWith('"')) {
+			return extendedDecoded;
+		}
+
+		return rawDecoded;
 	}
 
 	return Buffer.from(thingToDecode, 'base64').toString('utf8');
