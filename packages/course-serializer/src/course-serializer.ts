@@ -50,7 +50,7 @@ export function isomorphicAtoB(thingToDecode: string): string {
 
 		// Check that splitting the bits was actually successful - it fails when the encoded string was created
 		// assuming the string is latin-1 only (older versions). With newer versions there are no issues
-		if (extendedDecoded.startsWith('"')) {
+		if (extendedDecoded.startsWith('{')) {
 			return extendedDecoded;
 		}
 
