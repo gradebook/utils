@@ -29,6 +29,6 @@
     "tsc": "tsc"
   },
   "devDependencies": {
-    "@types/express": "4.17.11"
+    "@types/express": "4.17.12"
   }
 }
