@@ -22,7 +22,7 @@
     "@types/mocha": "8.2.2",
     "@types/node": "14.14.37",
     "chai": "4.3.4",
-    "eslint-plugin-mocha": "8.1.0",
+    "eslint-plugin-mocha": "8.2.0",
     "execa": "5.0.1",
     "fs-extra": "9.1.0",
     "lerna": "4.0.0",
