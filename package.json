@@ -47,6 +47,8 @@
       "@typescript-eslint/no-confusing-void-expression": "off",
       "no-unused-expressions": "error",
       "camelcase": "error",
+      "unicorn/prefer-node-protocol": "off",
+      "unicorn/prefer-module": "off",
       "func-names": [
         "error",
         "as-needed"

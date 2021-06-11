@@ -22,7 +22,7 @@ export function unitsToMs(timeString: string): number {
 
 		if (unit === 'h') {
 			// 1 hour in milliseconds
-			return 3600_000 * duration;
+			return 3_600_000 * duration;
 		}
 
 		if (unit === 'm') {

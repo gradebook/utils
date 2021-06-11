@@ -1,6 +1,6 @@
 // @ts-check
 const {expect} = require('chai');
-const {singularize} = require('../lib/commonjs/fast-pluralize');
+const {singularize} = require('../lib/commonjs/fast-pluralize.js');
 
 describe('Unit > Singularize', function () {
 	it('Singular-plural pairs', function () {

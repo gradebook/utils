@@ -1,7 +1,7 @@
 // @NOTE: we're not using concurrently because it can't handle readline (I think), so we lose support
 // for build progress
 
-import execa = require('execa');
+import * as execa from 'execa';
 
 let cleanupScheduled = false;
 const instances: Together[] = [];

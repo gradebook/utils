@@ -2,7 +2,7 @@
 const {expect} = require('chai');
 const nock = require('nock');
 
-const {exporter} = require('../lib/api');
+const {exporter} = require('../lib/api.js');
 
 describe('Unit > Exporter', function () {
 	it('getExport wraps request to server endpoint', async function () {

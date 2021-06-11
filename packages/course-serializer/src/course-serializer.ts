@@ -6,13 +6,13 @@ const CUTOFFS = new Set(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+'
 
 const validCourseName = (name: string): boolean => COURSE_NAME.test(name);
 const validCategoryName = (name: string): boolean => name.length > 0 && name.length <= 50;
-const validWeight = (weight: number): boolean => weight >= 0 && weight < 1000000;
+const validWeight = (weight: number): boolean => weight >= 0 && weight < 1_000_000;
 const validCredits = (credits: number): boolean => credits >= 0 && credits <= 5;
 const validNumberCategories = (categories: ICategory[]): boolean => categories.length >= 2;
 const validTotalGrades = (totalGrades: number): boolean => totalGrades > 0 && totalGrades <= 40;
 const validDroppedGrades = (totalDropped: number, totalGrades: number): boolean =>
 	totalDropped >= 0 && totalGrades > totalDropped;
-const validCut = (cut: number): boolean => cut >= 10 && cut <= 10000;
+const validCut = (cut: number): boolean => cut >= 10 && cut <= 10_000;
 const validCutName = (cutName: string): boolean => CUTOFFS.has(cutName);
 const validCutoffs = (cutoffs: ICutoffs): boolean => {
 	for (const [cutName, cutValue] of Object.entries(cutoffs)) {
@@ -39,7 +39,7 @@ export function isomorphicAtoB(thingToDecode: string): string {
 	// @ts-expect-error
 	if (typeof atob === 'function') {
 		// @ts-expect-error
-		const rawDecoded: string = atob(thingToDecode);
+		const rawDecoded = (atob as (s: string) => string)(thingToDecode);
 
 		const bytes = new Uint8Array(rawDecoded.length);
 		for (let i = 0; i < bytes.length; ++i) {
@@ -76,7 +76,7 @@ export function isomorphicBtoA(thingToEncode: string): string {
 		const safeUnencoded = String.fromCharCode(...new Uint8Array(bytes.buffer));
 
 		// @ts-expect-error
-		return btoa(safeUnencoded);
+		return (btoa as (s: string) => string)(safeUnencoded);
 	}
 
 	return Buffer.from(thingToEncode).toString('base64');
@@ -251,6 +251,8 @@ export function _deserializeCourseMeta(course: string): ICourseWithMeta {
 	};
 }
 
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 export function _stripCategory(category: ICategory | IUnsafeCategory): ICategory {
 	return {
 		name: category.name,
@@ -263,13 +265,14 @@ export function _stripCategory(category: ICategory | IUnsafeCategory): ICategory
 		isReallyCategory: (category.grades?.length !== 1)
 	};
 }
+/* eslint-enable @typescript-eslint/no-unsafe-member-access */
+/* eslint-enable @typescript-eslint/no-unsafe-assignment */
 
 export function strip(course: ICourse | IUnsafeCourse): ICourse {
 	return {
 		name: course.name,
 		credits: course.credits,
 		cutoffs: course.cutoffs,
-		// @ts-expect-error
 		categories: course.categories.map(category => _stripCategory(category))
 	};
 }
@@ -284,7 +287,7 @@ export function serialize(validatedCourse: ICourse): string {
 }
 
 export function deserialize(hash: string): ICourse {
-	const payload: _ISerializedPayload = JSON.parse(isomorphicAtoB(hash));
+	const payload = JSON.parse(isomorphicAtoB(hash)) as _ISerializedPayload;
 
 	return {
 		..._deserializeCourseMeta(payload.m),

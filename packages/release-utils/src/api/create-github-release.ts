@@ -65,6 +65,7 @@ export default async function createGitHubReleaseFromExistingTag({
 		return body.id;
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	for (const asset of assets) {
 		// @TODO
 	}

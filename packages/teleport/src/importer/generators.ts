@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import ObjectId from 'bson-objectid';
-import {ValidationError} from './errors';
 import {Course, Category, Grade, Query} from '../shared/interfaces';
+import {ValidationError} from './errors';
 
 export function generateCourseQuery(
 	_ref: string,

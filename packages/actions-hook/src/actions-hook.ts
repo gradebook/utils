@@ -53,9 +53,9 @@ export async function sendPayload({
 			}
 
 			// @ts-expect-error
-			const received: string | boolean = config[filter];
+			const received = config[filter] as string | boolean;
 			// @ts-expect-error
-			const expected: string | boolean = onlyIf[filter];
+			const expected = onlyIf[filter] as string | boolean;
 
 			if (expected !== received) {
 				log(

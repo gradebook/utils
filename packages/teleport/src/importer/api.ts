@@ -1,9 +1,9 @@
 import ObjectId from 'bson-objectid';
 import AJV, {Format} from 'ajv';
 import {Knex} from 'knex';
+import {Export, Query, Cutoffs} from '../shared/interfaces';
 import {ValidationError} from './errors';
 import {SCHEMAS} from './schema';
-import {Export, Query, Cutoffs} from '../shared/interfaces';
 import {generateCourseQuery} from './generators';
 
 // Pulled from https://github.com/ajv-validator/ajv-formats/blob/ce49433448384b4c0b2407adafc345e43b85f8ea/src/formats.ts#L51
@@ -49,20 +49,19 @@ function _throwAJVValidationError(message_ = ''): never {
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function coerceJSON<T extends object>(payload: Buffer | string | object, name = 'input'): T {
-	let coerced;
-
+	const unsafeCastedPayload = payload as T;
 	if (typeof payload === 'string' || payload instanceof Buffer) {
 		try {
-			coerced = JSON.parse(payload.toString());
+			return JSON.parse(payload.toString()) as T ?? unsafeCastedPayload;
 		} catch (error) {
 			throw new ValidationError({
 				message: `Unable to parse ${name}`,
-				originalError: error
+				originalError: error as Error
 			});
 		}
 	}
 
-	return coerced || payload;
+	return unsafeCastedPayload;
 }
 
 // @TODO: validate remaining fields!

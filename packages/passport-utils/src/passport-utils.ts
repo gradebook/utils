@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
+import {IncomingMessage} from 'http';
 import {dayjs as date} from '@gradebook/time';
 import ObjectId from 'bson-objectid';
-import {IncomingMessage} from 'http';
 
 import {
 	PassportOauth20Profile as Profile,
@@ -55,7 +55,7 @@ export function createProfileHandler(getUser: (gid: string, table: string) => Pr
 				return;
 			}
 		} catch (error) {
-			callback(error);
+			callback(error as string | Error);
 			return;
 		}
 
@@ -131,7 +131,7 @@ export function createUserDeserializer(
 			callback(null, user);
 			return;
 		} catch (error) {
-			callback(error);
+			callback(error as Error);
 		}
 	};
 }
