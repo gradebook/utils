@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [12.x]
+        node: [14.x]
     name: Node ${{ matrix.node }}
     steps:
       - uses: actions/checkout@v2
