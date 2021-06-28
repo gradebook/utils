@@ -26,7 +26,8 @@
     "test": "mocha __tests__ --recursive --colors",
     "test:coverage": "nyc --reporter=html --reporter=text mocha __tests__ --recursive --colors",
     "prepublish": "tsc",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\""
   },
   "devDependencies": {
     "@types/express": "4.17.12"
