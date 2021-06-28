@@ -1,15 +1,10 @@
 /* eslint-disable unicorn/no-process-exit */
+import {getShaFromEnvironment} from '../api/get-sha-from-env.js';
 import {configureForRelease} from '../api/configure-for-release.js';
 import {publishPackage} from '../api/publish-package.js';
 
-const sha = process.env.GITHUB_SHA;
-
-if (!sha) {
-	console.error('Missing env variable: GITHUB_SHA');
-	process.exit(1);
-}
-
 async function wrap() {
+	const sha = getShaFromEnvironment();
 	try {
 		const packageJson = await configureForRelease(sha);
 		await publishPackage(sha, packageJson);
