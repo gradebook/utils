@@ -21,7 +21,14 @@ export async function importJson<JsonResponseType extends Record<string, any>>(
 }
 
 export async function configureForRelease(shaOrTagName: string, $ = zx$): Promise<PackageJson> {
-	const changedFiles = (await $`git log ${shaOrTagName} --name-only --pretty="" -1 --`).stdout.trim().split('\n');
+	let changedFiles: string[];
+
+	try {
+		changedFiles = (await $`git log ${shaOrTagName} --name-only --pretty="" -1 --`).stdout.trim().split('\n');
+	} catch {
+		/* eslint-disable-next-line unicorn/no-process-exit */
+		process.exit(1);
+	}
 
 	let packageFile: string = null;
 
