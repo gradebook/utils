@@ -9,6 +9,9 @@
   "license": "MIT",
   "main": "lib/api/release-utils.js",
   "type": "module",
+  "bin": {
+    "release-utils": "lib/recipe.js"
+  },
   "directories": {
     "lib": "lib",
     "test": "__tests__"
