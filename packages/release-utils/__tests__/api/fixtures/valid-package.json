@@ -1,0 +1,6 @@
+{
+  "version": "0.3.3",
+  "scripts": {
+    "prepublish": "echo this is the prepublish script"
+  }
+}
