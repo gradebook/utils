@@ -18,9 +18,6 @@ async function wrap() {
 	const sha = getShaFromEnvironment();
 	const packageJson = await configureForRelease(sha) as PackageJson;
 
-	await $`yarn install --frozen-lockfile`;
-	await $`yarn lint`;
-
 	if (!packageJson.scripts?.[SPECIAL_SCRIPT] && !packageJson.scripts?.[FALLBACK_SCRIPT]) {
 		console.error('Package does not contain a test script');
 		console.error(`Ensure .scripts.${SPECIAL_SCRIPT} or .scripts.${FALLBACK_SCRIPT} exists`);
@@ -28,10 +25,11 @@ async function wrap() {
 		process.exit(1);
 	}
 
-	const script = SPECIAL_SCRIPT in packageJson.scripts ?
+	const testScript = SPECIAL_SCRIPT in packageJson.scripts ?
 		packageJson.scripts[SPECIAL_SCRIPT] : packageJson.scripts[FALLBACK_SCRIPT];
 
-	await $`yarn ${script}`;
+	await $`yarn lint`;
+	await $`yarn ${testScript}`;
 
 	await publishPackage(sha, packageJson);
 }
