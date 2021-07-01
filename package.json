@@ -77,5 +77,8 @@
         }
       }
     ]
+  },
+  "dependencies": {
+    "@gradebook/release-utils": "^0.1.0"
   }
 }
