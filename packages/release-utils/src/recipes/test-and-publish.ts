@@ -33,4 +33,9 @@ async function wrap() {
 	await publishPackage(sha, packageJson);
 }
 
-void wrap();
+void wrap().catch(error => {
+	console.error('Failed to test and publish:');
+	console.error(error);
+	// eslint-disable-next-line unicorn/no-process-exit
+	process.exit(1);
+});
