@@ -7,10 +7,12 @@ jobs:
   automate:
     runs-on: ubuntu-latest
     env:
-      YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_RELEASE_TOKEN }}
+      YARN_AUTH_TOKEN: ${{ secrets.NPM_RELEASE_TOKEN }}
       FORCE_COLOR: 1
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 5
       - uses: actions/setup-node@v2
         with:
           node-version: 'lts/*'
