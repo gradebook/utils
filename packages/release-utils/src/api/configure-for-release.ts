@@ -30,7 +30,7 @@ export async function configureForRelease(shaOrTagName: string, $ = zx$): Promis
 		process.exit(1);
 	}
 
-	let packageFile: string = null;
+	let packageFile: string | null = null;
 
 	for (const file of changedFiles) {
 		if (file.endsWith('package.json')) {

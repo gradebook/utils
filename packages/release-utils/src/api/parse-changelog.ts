@@ -3,7 +3,7 @@ interface ReleaseNotesEntry {
 	notes: string;
 }
 
-const extractContents = (changelogSnippet: string): ReleaseNotesEntry => {
+const extractContents = (changelogSnippet: string): ReleaseNotesEntry | null => {
 	const firstNewlineIndex = changelogSnippet.indexOf('\n');
 	const notes = changelogSnippet.slice(firstNewlineIndex);
 	let version = changelogSnippet.slice(changelogSnippet.indexOf('#') + 1, firstNewlineIndex).trim();

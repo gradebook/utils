@@ -5,6 +5,9 @@
     "__tests__/"
   ],
   "compilerOptions": {
+    "importHelpers": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
     "outDir": "lib",
     "module": "ESNext"
   }

@@ -13,7 +13,7 @@ export async function publishPackage(shaOrTagName: string, packageJson: PackageJ
 	// CASE: for whatever reason the package version is empty
 	// CASE: tagname and version number don't match
 	//       note that tagged versions are not supported at this time
-	if (!version || !tagName.endsWith(version)) {
+	if (!version || !tagName?.endsWith(version)) {
 		throw new PublishPackageError(
 			`Tag name ${tagName} does not match with version in package.json (${version})`
 		);
