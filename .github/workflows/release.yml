@@ -5,7 +5,7 @@ on:
       - '*'
 jobs:
   automate:
-    runs-on: linux
+    runs-on: ubuntu-latest
     env:
       YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_RELEASE_TOKEN }}
       FORCE_COLOR: 1
