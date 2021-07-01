@@ -25,8 +25,7 @@ async function wrap() {
 		process.exit(1);
 	}
 
-	const testScript = SPECIAL_SCRIPT in packageJson.scripts ?
-		packageJson.scripts[SPECIAL_SCRIPT] : packageJson.scripts[FALLBACK_SCRIPT];
+	const testScript = SPECIAL_SCRIPT in packageJson.scripts ? SPECIAL_SCRIPT : FALLBACK_SCRIPT;
 
 	await $`yarn lint`;
 	await $`yarn ${testScript}`;
