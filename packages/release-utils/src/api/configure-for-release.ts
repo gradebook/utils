@@ -24,7 +24,7 @@ export async function configureForRelease(shaOrTagName: string, $ = zx$): Promis
 	let changedFiles: string[];
 
 	try {
-		changedFiles = (await $`git log ${shaOrTagName} --name-only --pretty="" -1 --`).stdout.trim().split('\n');
+		changedFiles = (await $`git log ${shaOrTagName} --name-only --pretty= -1 --`).stdout.trim().split('\n');
 	} catch {
 		/* eslint-disable-next-line unicorn/no-process-exit */
 		process.exit(1);
