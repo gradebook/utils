@@ -1,0 +1,19 @@
+name: Release
+on:
+  push:
+    tags:
+      - '*'
+jobs:
+  automate:
+    runs-on: linux
+    env:
+      YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_RELEASE_TOKEN }}
+      FORCE_COLOR: 1
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 'lts/*'
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn release-utils test-and-publish
