@@ -1,5 +1,19 @@
 # `actions-hook`
 
+# DEPRECATED
+
+**This package is deprecated in favor of @gradebook/release-utils**
+
+The updated path is:
+```js
+// yarn add --dev @gradebook/release-utils
+const actionsHook = require('@gradebook/release-utils/api/actions-hook.js');
+```
+
+Also refer to [@gradebook/release-utils](https://github.com/gradebook/utils/tree/master/packages/release-utils) ([npm](https://npmjs.com/package/@gradebook/release-utils))
+
+## Archived Documentation
+
 > Ping a webhook when Github Actions successfully runs
 
 ## Usage
