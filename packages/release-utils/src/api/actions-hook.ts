@@ -2,7 +2,8 @@ import {resolve} from 'path';
 import {fileURLToPath} from 'url';
 import {readFileSync} from 'fs';
 import {createHmac} from 'crypto';
-import got from 'got';
+import {fetch as fetch_} from 'zx';
+import type Fetch from 'node-fetch';
 
 const packageJsonFilePath = resolve(fileURLToPath(import.meta.url), '../../../package.json');
 const {name, version} = JSON.parse(readFileSync(packageJsonFilePath, 'utf-8')) as Record<string, string>;
@@ -24,6 +25,7 @@ export interface PayloadOptions {
 	branch?: string;
 	event?: string;
 	repository?: string;
+	fetch?: typeof Fetch;
 }
 
 export function parseBranchName(ref: string): string {
@@ -35,6 +37,7 @@ export async function sendPayload({
 	payload,
 	secret = process.env.WEBHOOK_SECRET,
 	log = console.log,
+	fetch = fetch_,
 	onlyIf = false,
 	branch = parseBranchName(process.env.GITHUB_REF ?? ''),
 	event = process.env.GITHUB_EVENT_NAME,
@@ -80,7 +83,8 @@ export async function sendPayload({
 
 	log(`Sending payload ${payload} to webhook\n\n`);
 
-	await got.post(url, {
+	await fetch(url, {
+		method: 'post',
 		headers: {
 			'Content-Type': 'application/json',
 			'User-Agent': userAgent,

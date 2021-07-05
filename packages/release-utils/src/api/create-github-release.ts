@@ -1,4 +1,4 @@
-import got from 'got';
+import {fetch} from 'zx';
 
 interface GitHubPutReleaseBody {
 	tag_name: string; // eslint-disable-line camelcase
@@ -37,29 +37,29 @@ export default async function createGitHubReleaseFromExistingTag({
 	prerelease = false
 }: CreateGitHubReleaseOptions, assets: string[] = []): Promise<unknown> {
 	const url = `https://api.github.com/repos/${owner}/${repo}/releases`;
-	const json: GitHubPutReleaseBody = {
+	const requestBody: GitHubPutReleaseBody = {
 		tag_name: referenceTag, // eslint-disable-line camelcase
 		draft,
 		prerelease
 	};
 
 	if (name !== undefined) {
-		json.name = name;
+		requestBody.name = name;
 	}
 
 	if (releaseBody !== undefined) {
-		json.body = releaseBody;
+		requestBody.body = releaseBody;
 	}
 
-	const {body} = await got<GithubPutReleaseResponse>({
-		url,
+	const body = await fetch(url, {
 		method: 'post',
-		json,
+		body: JSON.stringify(requestBody),
 		headers: {
+			'content-type': 'application/json',
 			accept: 'application/vnd.github.v3+json',
 			authorization: `token ${token}`
 		}
-	});
+	}).then(async (response): Promise<GithubPutReleaseResponse> => response.json());
 
 	if (assets.length === 0) {
 		return body.id;

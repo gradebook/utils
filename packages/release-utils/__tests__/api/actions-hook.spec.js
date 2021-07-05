@@ -1,7 +1,6 @@
 // @ts-check
 import {expect} from 'chai';
 import sinon from 'sinon';
-import got from 'got';
 
 import {sendPayload, parseBranchName, userAgent} from '../../lib/api/actions-hook.js';
 
@@ -14,11 +13,15 @@ const TESTING_PAYLOAD_HASH = 'sha256=79ee8ebb044e31f5ec95e87202d1c61cad14703847a
 
 describe('Unit > API > Actions Hook', function () {
 	/** @type sinon.SinonStub */
-	let gotStub;
+	let fetchStub;
+
+	/** @type {import('../../lib/api/actions-hook').PayloadOptions['fetch']} */
+	let typedFetch;
 
 	beforeEach(function () {
-		// @ts-ignore
-		gotStub = sinon.stub(got, 'post');
+		fetchStub = sinon.stub();
+		// @ts-expect-error
+		typedFetch = fetchStub;
 	});
 
 	afterEach(function () {
@@ -26,15 +29,15 @@ describe('Unit > API > Actions Hook', function () {
 	});
 
 	it('properly stringifies payload', async function () {
-		await sendPayload({url: 'test.local', payload: '{}', log: noop, secret: 'secret'});
-		expect(gotStub.calledOnce).to.be.true;
-		expect(gotStub.args[0][1].body).to.equal('{}');
-		gotStub.reset();
+		await sendPayload({url: 'test.local', payload: '{}', log: noop, secret: 'secret', fetch: typedFetch});
+		expect(fetchStub.calledOnce).to.be.true;
+		expect(fetchStub.args[0][1].body).to.equal('{}');
+		fetchStub.reset();
 
-		await sendPayload({url: 'test.local', payload: {testing: 'yes'}, log: noop, secret: 'secret'});
-		expect(gotStub.calledOnce).to.be.true;
-		expect(gotStub.args[0][1].body).to.equal('{"testing":"yes"}');
-		gotStub.reset();
+		await sendPayload({url: 'test.local', payload: {testing: 'yes'}, log: noop, secret: 'secret', fetch: typedFetch});
+		expect(fetchStub.calledOnce).to.be.true;
+		expect(fetchStub.args[0][1].body).to.equal('{"testing":"yes"}');
+		fetchStub.reset();
 
 		const finalPayload = {
 			toString() {
@@ -42,15 +45,15 @@ describe('Unit > API > Actions Hook', function () {
 			}
 		};
 
-		await sendPayload({url: 'test.local', payload: finalPayload, log: noop, secret: 'secret'});
-		expect(gotStub.calledOnce).to.be.true;
-		expect(gotStub.args[0][1].body).to.equal('{"this is a test": true}');
+		await sendPayload({url: 'test.local', payload: finalPayload, log: noop, secret: 'secret', fetch: typedFetch});
+		expect(fetchStub.calledOnce).to.be.true;
+		expect(fetchStub.args[0][1].body).to.equal('{"this is a test": true}');
 	});
 
 	it('includes correct hmac and other headers in request', async function () {
-		await sendPayload({url: 'test.local', payload: 'testing', log: noop, secret: 'secret'});
-		expect(gotStub.calledOnce).to.be.true;
-		expect(gotStub.args[0][1].headers).to.deep.equal({
+		await sendPayload({url: 'test.local', payload: 'testing', log: noop, secret: 'secret', fetch: typedFetch});
+		expect(fetchStub.calledOnce).to.be.true;
+		expect(fetchStub.args[0][1].headers).to.deep.equal({
 			'Content-Type': 'application/json',
 			'User-Agent': userAgent,
 			'X-Actions-Secret': TESTING_PAYLOAD_HASH
@@ -59,7 +62,7 @@ describe('Unit > API > Actions Hook', function () {
 
 	it('supports env vars as a fallback', async function () {
 		try {
-			await sendPayload({payload: 'testing'});
+			await sendPayload({payload: 'testing', fetch: typedFetch});
 			expect(false, 'error should have been thrown').to.be.true;
 		} catch (error) {
 			expect(error).to.be.instanceOf(TypeError);
@@ -70,31 +73,31 @@ describe('Unit > API > Actions Hook', function () {
 			process.env.WEBHOOK_URL = 'webhook.local';
 			process.env.WEBHOOK_SECRET = 'webhook';
 
-			await sendPayload({url: 'test.local', payload: 'testing', secret: 'secret', log: noop});
+			await sendPayload({url: 'test.local', payload: 'testing', secret: 'secret', log: noop, fetch: typedFetch});
 
-			expect(gotStub.calledOnce).to.be.true;
-			expect(gotStub.args[0][0]).to.equal('test.local');
-			expect(gotStub.args[0][1].headers).to.have.property('X-Actions-Secret', TESTING_PAYLOAD_HASH);
-			gotStub.reset();
+			expect(fetchStub.calledOnce).to.be.true;
+			expect(fetchStub.args[0][0]).to.equal('test.local');
+			expect(fetchStub.args[0][1].headers).to.have.property('X-Actions-Secret', TESTING_PAYLOAD_HASH);
+			fetchStub.reset();
 
 			const WEBHOOK_PAYLOAD_HASH = 'sha256=19b7b51b2916ee642e90e5215e9c0505389bbf21c6f68eaa8f501cb510fa587c';
 
-			await sendPayload({payload: 'testing', log: noop});
-			expect(gotStub.calledOnce).to.be.true;
-			expect(gotStub.args[0][0]).to.equal('webhook.local');
-			expect(gotStub.args[0][1].headers).to.have.property('X-Actions-Secret', WEBHOOK_PAYLOAD_HASH);
+			await sendPayload({payload: 'testing', log: noop, fetch: typedFetch});
+			expect(fetchStub.calledOnce).to.be.true;
+			expect(fetchStub.args[0][0]).to.equal('webhook.local');
+			expect(fetchStub.args[0][1].headers).to.have.property('X-Actions-Secret', WEBHOOK_PAYLOAD_HASH);
 		} finally {
 			delete process.env.WEBHOOK_URL;
 			delete process.env.WEBHOOK_SECRET;
 		}
 	});
 
-	it('throws got errors', async function () {
+	it('throws fetch errors', async function () {
 		const _error = new Error('this is an error');
-		gotStub.throws(_error);
+		fetchStub.throws(_error);
 
 		try {
-			await sendPayload({url: 'test.local', secret: 'secret', payload: 'test', log: noop});
+			await sendPayload({url: 'test.local', secret: 'secret', payload: 'test', log: noop, fetch: typedFetch});
 			expect(false, 'error should have been thrown').to.be.true;
 		} catch (error) {
 			expect(error).to.equal(_error);
@@ -130,10 +133,11 @@ describe('Unit > API > Actions Hook', function () {
 				secret: 'secret',
 				payload: 'testing',
 				onlyIf: {
-					// @ts-ignore
+					// @ts-expect-error
 					badKey: false
 				},
-				log
+				log,
+				fetch: typedFetch
 			});
 
 			expect(log.calledTwice).to.be.true;
@@ -148,7 +152,8 @@ describe('Unit > API > Actions Hook', function () {
 				onlyIf: {
 					repository: 'username/repo'
 				},
-				log: noop
+				log: noop,
+				fetch: typedFetch
 			});
 
 			await sendPayload({
@@ -158,7 +163,8 @@ describe('Unit > API > Actions Hook', function () {
 				onlyIf: {
 					branch: 'master'
 				},
-				log: noop
+				log: noop,
+				fetch: typedFetch
 			});
 
 			await sendPayload({
@@ -168,10 +174,11 @@ describe('Unit > API > Actions Hook', function () {
 				onlyIf: {
 					isPush: false
 				},
-				log: noop
+				log: noop,
+				fetch: typedFetch
 			});
 
-			expect(gotStub.called).to.be.false;
+			expect(fetchStub.called).to.be.false;
 		});
 
 		it('passes correctly', async function () {
@@ -184,10 +191,11 @@ describe('Unit > API > Actions Hook', function () {
 					isPush: true,
 					branch: 'develop'
 				},
-				log: noop
+				log: noop,
+				fetch: typedFetch
 			});
 
-			expect(gotStub.calledOnce).to.be.true;
+			expect(fetchStub.calledOnce).to.be.true;
 		});
 
 		it('can run in weird environments', async function () {
@@ -200,10 +208,11 @@ describe('Unit > API > Actions Hook', function () {
 				onlyIf: {
 					isPush: true
 				},
-				log: noop
+				log: noop,
+				fetch: typedFetch
 			});
 
-			expect(gotStub.calledOnce).to.be.true;
+			expect(fetchStub.calledOnce).to.be.true;
 		});
 	});
 
