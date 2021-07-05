@@ -1,3 +1,7 @@
+# 0.2.3
+
+ - rename env vars because the 'with' syntax doesn't work
+
 # 0.2.2
 
  - update docs url
