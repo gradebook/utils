@@ -36,9 +36,7 @@ export const EXPORT_VERSION = 1;
  * https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/btoa#unicode_strings
  */
 export function isomorphicAtoB(thingToDecode: string): string {
-	// @ts-expect-error
 	if (typeof atob === 'function') {
-		// @ts-expect-error
 		const rawDecoded = (atob as (s: string) => string)(thingToDecode);
 
 		const bytes = new Uint8Array(rawDecoded.length);
@@ -66,7 +64,6 @@ export function isomorphicAtoB(thingToDecode: string): string {
  * https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/btoa#unicode_strings’
  */
 export function isomorphicBtoA(thingToEncode: string): string {
-	// @ts-expect-error
 	if (typeof btoa === 'function') {
 		const bytes = new Uint16Array(thingToEncode.length);
 		for (let i = 0; i < bytes.length; ++i) {
@@ -75,7 +72,6 @@ export function isomorphicBtoA(thingToEncode: string): string {
 
 		const safeUnencoded = String.fromCharCode(...new Uint8Array(bytes.buffer));
 
-		// @ts-expect-error
 		return (btoa as (s: string) => string)(safeUnencoded);
 	}
 
