@@ -1,3 +1,7 @@
+# 0.2.4
+
+ - fix api exports
+
 # 0.2.3
 
  - rename env vars because the 'with' syntax doesn't work
