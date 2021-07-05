@@ -1,3 +1,7 @@
+# 0.2.2
+
+ - update docs url
+
 # 0.2.1
 
  - Downgrade zx due to node compat issues
