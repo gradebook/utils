@@ -1,3 +1,7 @@
+# 0.2.0
+
+ - Absorb @gradebook/release utils and add hook recipe based on it
+
 # 0.1.2
 
  - fix whitespace
