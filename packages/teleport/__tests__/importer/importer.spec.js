@@ -13,7 +13,7 @@ describe('Unit > Importer', function () {
 
 		try {
 			expect(
-				importer.generateAPICalls(require('./example-export.json'), {gid: '1243'})
+				importer.generateAPICalls(require('./example-export.json'), {gid: '1243'}),
 			).to.deep.equal(require('./example-api-calls.json'));
 		} finally {
 			stub.restore();

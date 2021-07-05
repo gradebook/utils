@@ -15,13 +15,13 @@ export async function publishPackage(shaOrTagName: string, packageJson: PackageJ
 	//       note that tagged versions are not supported at this time
 	if (!version || !tagName?.endsWith(version)) {
 		throw new PublishPackageError(
-			`Tag name ${tagName} does not match with version in package.json (${version})`
+			`Tag name ${tagName} does not match with version in package.json (${version})`,
 		);
 	}
 
 	if (!packageJson.scripts?.prepublish) {
 		throw new PublishPackageError(
-			'Package is missing a prepublish script. Prepublish scripts are mandatory for hands-free release'
+			'Package is missing a prepublish script. Prepublish scripts are mandatory for hands-free release',
 		);
 	}
 

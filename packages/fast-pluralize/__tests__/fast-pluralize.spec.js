@@ -14,7 +14,7 @@ describe('Unit > Singularize', function () {
 			['Cases', 'Case'],
 			['Analysis', 'Analysis'],
 			['Activities', 'Activity'],
-			['Bonuses', 'Bonus']
+			['Bonuses', 'Bonus'],
 		];
 
 		for (const [plural, singular] of plurals) {

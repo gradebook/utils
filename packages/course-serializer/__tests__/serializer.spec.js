@@ -34,7 +34,7 @@ describe('Unit > Serializer', function () {
 			weight: null,
 			numGrades: 10,
 			droppedGrades: 5,
-			isReallyCategory: true
+			isReallyCategory: true,
 		}), 'no name or weight').to.equal(null);
 
 		expect(serializer._serializeCategory({
@@ -42,7 +42,7 @@ describe('Unit > Serializer', function () {
 			weight: null,
 			numGrades: 10,
 			droppedGrades: 5,
-			isReallyCategory: true
+			isReallyCategory: true,
 		}), 'name but no weight').to.equal(null);
 
 		expect(serializer._serializeCategory({
@@ -50,7 +50,7 @@ describe('Unit > Serializer', function () {
 			weight: 25,
 			numGrades: 10,
 			droppedGrades: 5,
-			isReallyCategory: true
+			isReallyCategory: true,
 		}), 'weight but no name').to.equal(null);
 
 		expect(serializer._serializeCategory({
@@ -58,7 +58,7 @@ describe('Unit > Serializer', function () {
 			weight: 25,
 			numGrades: 10,
 			droppedGrades: 5,
-			isReallyCategory: true
+			isReallyCategory: true,
 		}), 'name and weight').to.equal('1|5|10|25|Homework');
 	});
 
@@ -69,25 +69,25 @@ describe('Unit > Serializer', function () {
 					{name: 'Homework', droppedGrades: 4, isReallyCategory: true, weight: 15, numGrades: 10},
 					{name: 'Quizzes', droppedGrades: 1, isReallyCategory: true, weight: 25, numGrades: 5},
 					{name: 'Labs', droppedGrades: 0, isReallyCategory: true, weight: 15, numGrades: 8},
-					{name: 'Final', droppedGrades: 0, isReallyCategory: false, weight: 45, numGrades: 1}
+					{name: 'Final', droppedGrades: 0, isReallyCategory: false, weight: 45, numGrades: 1},
 				],
 				credits: 4,
 				name: 'LEARN 115',
-				cutoffs: {A: 90, B: 80}
-			}, '2020F')
+				cutoffs: {A: 90, B: 80},
+			}, '2020F'),
 		).to.deep.equal({
 			course: {
 				name: 'LEARN 115',
 				semester: '2020F',
 				credits: 4,
-				cutoffs: '{"A":90,"B":80}'
+				cutoffs: '{"A":90,"B":80}',
 			},
 			categories: [
 				{name: 'Homework', dropped: 4, weight: 15, position: 100, numGrades: 10},
 				{name: 'Quizzes', dropped: 1, weight: 25, position: 200, numGrades: 5},
 				{name: 'Labs', dropped: 0, weight: 15, position: 300, numGrades: 8},
-				{name: 'Final', dropped: 0, weight: 45, position: 400, numGrades: 1}
-			]
+				{name: 'Final', dropped: 0, weight: 45, position: 400, numGrades: 1},
+			],
 		});
 	});
 

@@ -11,10 +11,10 @@ interface ExportOptions {
 
 // @todo: Add client authentication
 export async function getExport(
-	{school, userId, hostname = 'gradebook.app', secure = false}: ExportOptions
+	{school, userId, hostname = 'gradebook.app', secure = false}: ExportOptions,
 ): Promise<Export> {
 	const user: Export = await got.get(
-		new URL(`/api/v0/internal/user-dump?user=${userId}&school=${school}`, `http${secure ? 's' : ''}://${hostname}`)
+		new URL(`/api/v0/internal/user-dump?user=${userId}&school=${school}`, `http${secure ? 's' : ''}://${hostname}`),
 	).json();
 
 	return user;

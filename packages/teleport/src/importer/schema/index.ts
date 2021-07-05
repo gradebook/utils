@@ -10,7 +10,7 @@ export const SCHEMAS = [
 	category,
 	course,
 	v0,
-	cutoffs
+	cutoffs,
 ];
 
 export default SCHEMAS;

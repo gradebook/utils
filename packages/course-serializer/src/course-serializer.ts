@@ -25,8 +25,8 @@ const validCutoffs = (cutoffs: ICutoffs): boolean => {
 };
 
 const isValidCategory = (category: ICategory): boolean =>
-	(category.name && category.name !== 'null') &&
-	(Boolean(category.weight) || category.weight === 0);
+	(category.name && category.name !== 'null')
+	&& (Boolean(category.weight) || category.weight === 0);
 
 export const EXPORT_VERSION = 1;
 
@@ -85,20 +85,20 @@ export function _validateCategory(category: ICategory): boolean {
 	}
 
 	return (
-		validTotalGrades(category.numGrades) &&
-		validDroppedGrades(category.droppedGrades, category.numGrades) &&
-		validWeight(category.weight) &&
-		validCategoryName(category.name)
+		validTotalGrades(category.numGrades)
+		&& validDroppedGrades(category.droppedGrades, category.numGrades)
+		&& validWeight(category.weight)
+		&& validCategoryName(category.name)
 	);
 }
 
 export function validate(course: ICourse): boolean {
 	return (
-		validCourseName(course.name) &&
-		validCutoffs(course.cutoffs) &&
-		validCredits(course.credits) &&
-		validNumberCategories(course.categories) &&
-		course.categories.map(category => _validateCategory(category)).filter(t => !t).length > 0
+		validCourseName(course.name)
+		&& validCutoffs(course.cutoffs)
+		&& validCredits(course.credits)
+		&& validNumberCategories(course.categories)
+		&& course.categories.map(category => _validateCategory(category)).some(t => !t)
 	);
 }
 
@@ -193,7 +193,7 @@ export function _deserializeCategory(payload: string): ICategory {
 		droppedGrades: Number(d),
 		numGrades: Number(t),
 		weight: Number(w),
-		name: n.join('|')
+		name: n.join('|'),
 	};
 
 	if (!isValidCategory(category)) {
@@ -243,7 +243,7 @@ export function _deserializeCourseMeta(course: string): ICourseWithMeta {
 			const [name, value] = currentCutoff.split(',');
 			allCutoffs[name] = Number(value);
 			return allCutoffs;
-		}, {})
+		}, {}),
 	};
 }
 
@@ -258,7 +258,7 @@ export function _stripCategory(category: ICategory | IUnsafeCategory): ICategory
 		droppedGrades: category.dropped ?? category.droppedGrades ?? 0,
 		weight: category.weight,
 		// @ts-expect-error
-		isReallyCategory: (category.grades?.length !== 1)
+		isReallyCategory: (category.grades?.length !== 1),
 	};
 }
 /* eslint-enable @typescript-eslint/no-unsafe-member-access */
@@ -269,14 +269,14 @@ export function strip(course: ICourse | IUnsafeCourse): ICourse {
 		name: course.name,
 		credits: course.credits,
 		cutoffs: course.cutoffs,
-		categories: course.categories.map(category => _stripCategory(category))
+		categories: course.categories.map(category => _stripCategory(category)),
 	};
 }
 
 export function serialize(validatedCourse: ICourse): string {
 	const compressedPayload: _ISerializedPayload = {
 		m: _serializeCourseMeta(validatedCourse),
-		z: validatedCourse.categories.map(category => _serializeCategory(category)).filter(Boolean)
+		z: validatedCourse.categories.map(category => _serializeCategory(category)).filter(Boolean),
 	};
 
 	return isomorphicBtoA(JSON.stringify(compressedPayload));
@@ -287,7 +287,7 @@ export function deserialize(hash: string): ICourse {
 
 	return {
 		..._deserializeCourseMeta(payload.m),
-		categories: payload.z.map(category => _deserializeCategory(category))
+		categories: payload.z.map(category => _deserializeCategory(category)),
 	};
 }
 
@@ -301,7 +301,7 @@ export function prepareCourseForAPI(course: ICourse, semester: string): IApiCour
 			weight: category.weight,
 			position: currentPosition,
 			dropped: category.droppedGrades,
-			numGrades: category.numGrades
+			numGrades: category.numGrades,
 		};
 	});
 
@@ -310,9 +310,9 @@ export function prepareCourseForAPI(course: ICourse, semester: string): IApiCour
 			semester,
 			name: course.name,
 			credits: course.credits,
-			cutoffs: JSON.stringify(course.cutoffs)
+			cutoffs: JSON.stringify(course.cutoffs),
 		},
-		categories
+		categories,
 	};
 }
 

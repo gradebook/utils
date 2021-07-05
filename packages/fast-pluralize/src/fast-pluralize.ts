@@ -3,11 +3,11 @@ const endings = [
 	['sis', 'sis'],
 	['zzes', 'z'],
 	['ies', 'y'],
-	['s', '']
+	['s', ''],
 ];
 
 const OVERRIDES: Record<string, string> = {
-	bonuses: 'bonus'
+	bonuses: 'bonus',
 };
 
 export function singularize(phrase: string): string {

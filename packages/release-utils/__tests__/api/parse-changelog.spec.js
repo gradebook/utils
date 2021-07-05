@@ -19,7 +19,7 @@ describe('Unit > API > Parse Changelog', function () {
 
 		expect(getLastRelease(contents)).to.deep.equal({
 			version: 'v0.9.1',
-			notes: ' - Fix a bug\n - Fix another bug'
+			notes: ' - Fix a bug\n - Fix another bug',
 		});
 	});
 
@@ -28,7 +28,7 @@ describe('Unit > API > Parse Changelog', function () {
 
 		expect(getLastRelease(contents)).to.deep.equal({
 			version: 'v0.1.1',
-			notes: ' - Fix a bug\n - Fix the other bug'
+			notes: ' - Fix a bug\n - Fix the other bug',
 		});
 	});
 
@@ -37,7 +37,7 @@ describe('Unit > API > Parse Changelog', function () {
 
 		expect(getLastRelease(contents)).to.deep.equal({
 			version: 'v4.0.1',
-			notes: ' - Fix a bug\n - Fix that other bug'
+			notes: ' - Fix a bug\n - Fix that other bug',
 		});
 	});
 

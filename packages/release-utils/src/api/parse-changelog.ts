@@ -18,7 +18,7 @@ const extractContents = (changelogSnippet: string): ReleaseNotesEntry | null => 
 
 	return {
 		version: version.trim(),
-		notes: notes.replace(/^\n+/, '').trimEnd()
+		notes: notes.replace(/^\n+/, '').trimEnd(),
 	};
 };
 

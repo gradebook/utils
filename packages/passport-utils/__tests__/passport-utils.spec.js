@@ -14,16 +14,13 @@ const makeFakeProfile = () => ({
 	displayName: 'Aggie',
 	name: {
 		givenName: 'Texas A&M',
-		familyName: 'University'
-	}
+		familyName: 'University',
+	},
 });
 
 /** @returns {_module.BasicRequest} */
-const makeFakeMessage = (session = {}) => {
-	// @ts-ignore
-	return Object.assign(new IncomingMessage(null), session);
-};
-
+// @ts-expect-error
+const makeFakeMessage = (session = {}) => Object.assign(new IncomingMessage(null), session);
 describe('Unit > Passport Utils', function () {
 	describe('createProfileHandler', function () {
 		let userFunction;
@@ -209,7 +206,7 @@ describe('Unit > Passport Utils', function () {
 
 			const user = await deserialize(
 				makeFakeMessage({session: {school: 'school'}, _table: 'school'}),
-				'__school__:1234'
+				'__school__:1234',
 			);
 
 			expect(user).to.equal(expectedUser);
@@ -222,7 +219,7 @@ describe('Unit > Passport Utils', function () {
 
 		/** @type {object} */
 		const profile = {
-			name: 'user'
+			name: 'user',
 		};
 
 		try {
@@ -243,7 +240,7 @@ describe('Unit > Passport Utils', function () {
 
 		expect(
 			await serialize(makeFakeMessage({_table: 'school'}), profile),
-			'server with host matching'
+			'server with host matching',
 		).to.equal(`school:${profile.id}`);
 
 		delete profile.id;
@@ -254,7 +251,7 @@ describe('Unit > Passport Utils', function () {
 
 		expect(
 			await serialize(makeFakeMessage(), profile),
-			'auth'
+			'auth',
 		).to.equal('school:id');
 	});
 });

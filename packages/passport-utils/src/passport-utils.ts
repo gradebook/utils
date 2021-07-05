@@ -5,7 +5,7 @@ import ObjectId from 'bson-objectid';
 
 import {
 	PassportOauth20Profile as Profile,
-	PassportOauth20VerifyCallback as VerifyCallback
+	PassportOauth20VerifyCallback as VerifyCallback,
 } from './_passport-types';
 
 export type NewUserSessionProfile = {
@@ -43,7 +43,7 @@ export function createProfileHandler(getUser: (gid: string, table: string) => Pr
 		_: string,
 		__: string,
 		profile: Profile,
-		callback: VerifyCallback
+		callback: VerifyCallback,
 	): Promise<void> {
 		let user: object | NewUserSessionProfile;
 
@@ -73,8 +73,8 @@ export function createProfileHandler(getUser: (gid: string, table: string) => Pr
 			// https://github.com/tgriesser/knex/issues/2649
 			settings: JSON.stringify({
 				tour: false,
-				previous_notification: date().format('YYYY-MM-DDTHH:mm:ss.000-06:00') // eslint-disable-line camelcase
-			})
+				previous_notification: date().format('YYYY-MM-DDTHH:mm:ss.000-06:00'), // eslint-disable-line camelcase
+			}),
 		};
 
 		request.session.userProfile = user as NewUserSessionProfile;
@@ -86,14 +86,14 @@ export function createProfileHandler(getUser: (gid: string, table: string) => Pr
 
 export function createUserDeserializer(
 	getUser: (id: string, school: string) => Promise<UserProfile>,
-	domain: string | false = false
+	domain: string | false = false,
 ): (request: BasicRequest, profile: string, callback: BasicCallback<UserProfile | object>) => Promise<void> {
 	domain = typeof domain === 'string' ? domain.replace(/^\./, '') : domain;
 
 	return async function deserializeUser(
 		request: BasicRequest,
 		profile: string,
-		callback: BasicCallback<UserProfile | object>
+		callback: BasicCallback<UserProfile | object>,
 	): Promise<void> {
 		// CASE: user has not approved their account
 		if (request.session.userProfile) {
@@ -139,7 +139,7 @@ export function createUserDeserializer(
 export function serializeUser(
 	request: BasicRequest,
 	profile: UserProfile,
-	callback: BasicCallback
+	callback: BasicCallback,
 ): void {
 	// CASE: full user object
 	if ('id' in profile) {
@@ -168,7 +168,7 @@ export function serializeUser(
 }
 
 export function _parseNameFromGoogle(
-	{displayName, name: {givenName, familyName}}: Profile
+	{displayName, name: {givenName, familyName}}: Profile,
 ): {firstName: string; lastName: string} {
 	let firstName = givenName;
 	let lastName = familyName;

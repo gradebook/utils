@@ -7,9 +7,9 @@ import {SCHEMAS} from './schema';
 import {generateCourseQuery} from './generators';
 
 // Pulled from https://github.com/ajv-validator/ajv-formats/blob/ce49433448384b4c0b2407adafc345e43b85f8ea/src/formats.ts#L51
-const EMAIL: Format =
+const EMAIL: Format
 	/* eslint-disable-next-line unicorn/better-regex */
-	/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
+	= /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
 
 const VALID_SETTINGS = new Set([
 	'previous_notification',
@@ -17,7 +17,7 @@ const VALID_SETTINGS = new Set([
 	'redirectFromHome',
 	'overallCredits',
 	'overallGpa',
-	'gpaSemester'
+	'gpaSemester',
 ]);
 
 export const validator = new AJV();
@@ -56,7 +56,7 @@ export function coerceJSON<T extends object>(payload: Buffer | string | object, 
 		} catch (error) {
 			throw new ValidationError({
 				message: `Unable to parse ${name}`,
-				originalError: error as Error
+				originalError: error as Error,
 			});
 		}
 	}
@@ -117,7 +117,7 @@ export function generateAPICalls(data: Buffer | string | object, options: Import
 		maxCategoriesPerCourse = 25,
 		maxGradesPerCategory = 40,
 		preserveDates = true,
-		gid
+		gid,
 	} = options;
 
 	validateUser(uExport.user, preserveDates);

@@ -34,13 +34,13 @@ export default async function createGitHubReleaseFromExistingTag({
 	draft = true,
 	name,
 	body: releaseBody,
-	prerelease = false
+	prerelease = false,
 }: CreateGitHubReleaseOptions, assets: string[] = []): Promise<unknown> {
 	const url = `https://api.github.com/repos/${owner}/${repo}/releases`;
 	const requestBody: GitHubPutReleaseBody = {
 		tag_name: referenceTag, // eslint-disable-line camelcase
 		draft,
-		prerelease
+		prerelease,
 	};
 
 	if (name !== undefined) {
@@ -57,8 +57,8 @@ export default async function createGitHubReleaseFromExistingTag({
 		headers: {
 			'content-type': 'application/json',
 			accept: 'application/vnd.github.v3+json',
-			authorization: `token ${token}`
-		}
+			authorization: `token ${token}`,
+		},
 	}).then(async (response): Promise<GithubPutReleaseResponse> => response.json());
 
 	if (assets.length === 0) {

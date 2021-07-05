@@ -13,7 +13,7 @@ const tsc = path.resolve(__dirname, '../node_modules/.bin/tsc');
 function determineCompileTargets(packageJSON) {
 	if (!Reflect.has(packageJSON, 'targets') || !Array.isArray(packageJSON.targets)) {
 		console.error(
-			chalk.red('Compilation failed! package.json does not contain an array of targets to compile to')
+			chalk.red('Compilation failed! package.json does not contain an array of targets to compile to'),
 		);
 
 		process.exit(1);
@@ -42,9 +42,9 @@ async function failIfLibContainsIllegalFiles() {
 		for (const file of fileContents) {
 			if (file.includes('.')) {
 				console.error(
-					chalk.red('The output folder (lib) contains an illegal file (') +
-					file + chalk.red(').'),
-					'Please remove the entire lib folder and run this command again'
+					chalk.red('The output folder (lib) contains an illegal file (')
+					+ file + chalk.red(').'),
+					'Please remove the entire lib folder and run this command again',
 				);
 
 				process.exit(1);

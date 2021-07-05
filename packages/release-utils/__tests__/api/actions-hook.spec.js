@@ -42,7 +42,7 @@ describe('Unit > API > Actions Hook', function () {
 		const finalPayload = {
 			toString() {
 				return '{"this is a test": true}';
-			}
+			},
 		};
 
 		await sendPayload({url: 'test.local', payload: finalPayload, log: noop, secret: 'secret', fetch: typedFetch});
@@ -56,7 +56,7 @@ describe('Unit > API > Actions Hook', function () {
 		expect(fetchStub.args[0][1].headers).to.deep.equal({
 			'Content-Type': 'application/json',
 			'User-Agent': userAgent,
-			'X-Actions-Secret': TESTING_PAYLOAD_HASH
+			'X-Actions-Secret': TESTING_PAYLOAD_HASH,
 		});
 	});
 
@@ -134,10 +134,10 @@ describe('Unit > API > Actions Hook', function () {
 				payload: 'testing',
 				onlyIf: {
 					// @ts-expect-error
-					badKey: false
+					badKey: false,
 				},
 				log,
-				fetch: typedFetch
+				fetch: typedFetch,
 			});
 
 			expect(log.calledTwice).to.be.true;
@@ -150,10 +150,10 @@ describe('Unit > API > Actions Hook', function () {
 				secret: 'secret',
 				payload: 'testing',
 				onlyIf: {
-					repository: 'username/repo'
+					repository: 'username/repo',
 				},
 				log: noop,
-				fetch: typedFetch
+				fetch: typedFetch,
 			});
 
 			await sendPayload({
@@ -161,10 +161,10 @@ describe('Unit > API > Actions Hook', function () {
 				secret: 'secret',
 				payload: 'testing',
 				onlyIf: {
-					branch: 'master'
+					branch: 'master',
 				},
 				log: noop,
-				fetch: typedFetch
+				fetch: typedFetch,
 			});
 
 			await sendPayload({
@@ -172,10 +172,10 @@ describe('Unit > API > Actions Hook', function () {
 				secret: 'secret',
 				payload: 'testing',
 				onlyIf: {
-					isPush: false
+					isPush: false,
 				},
 				log: noop,
-				fetch: typedFetch
+				fetch: typedFetch,
 			});
 
 			expect(fetchStub.called).to.be.false;
@@ -189,10 +189,10 @@ describe('Unit > API > Actions Hook', function () {
 				onlyIf: {
 					repository: 'username/repository',
 					isPush: true,
-					branch: 'develop'
+					branch: 'develop',
 				},
 				log: noop,
-				fetch: typedFetch
+				fetch: typedFetch,
 			});
 
 			expect(fetchStub.calledOnce).to.be.true;
@@ -206,10 +206,10 @@ describe('Unit > API > Actions Hook', function () {
 				secret: 'secret',
 				payload: 'testing',
 				onlyIf: {
-					isPush: true
+					isPush: true,
 				},
 				log: noop,
-				fetch: typedFetch
+				fetch: typedFetch,
 			});
 
 			expect(fetchStub.calledOnce).to.be.true;

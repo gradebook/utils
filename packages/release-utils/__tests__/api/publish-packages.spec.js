@@ -24,8 +24,8 @@ describe('Unit > API > Package Publisher', function () {
 		const packageJson = {
 			version: '0.3.3',
 			scripts: {
-				prepublish: 'true'
-			}
+				prepublish: 'true',
+			},
 		};
 
 		await publishPackage('thisisahash', packageJson, zx$);
@@ -40,8 +40,8 @@ describe('Unit > API > Package Publisher', function () {
 		const packageJson = {
 			version: '0.3.3',
 			scripts: {
-				prepublish: 'true'
-			}
+				prepublish: 'true',
+			},
 		};
 
 		try {
@@ -60,8 +60,8 @@ describe('Unit > API > Package Publisher', function () {
 		const packageJson = {
 			version: '0.3.3',
 			scripts: {
-				prepublish: 'true'
-			}
+				prepublish: 'true',
+			},
 		};
 
 		try {
@@ -81,8 +81,8 @@ describe('Unit > API > Package Publisher', function () {
 			version: '0.3.3',
 			scripts: {
 				// @ts-expect-error
-				test: 'true'
-			}
+				test: 'true',
+			},
 		};
 
 		try {

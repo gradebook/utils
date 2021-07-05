@@ -66,7 +66,7 @@ async function wrap() {
 		codebase: env.GITHUB_REPOSITORY,
 		commit: env.GITHUB_SHA,
 		branch: branchName,
-		name: env.TEST_NAME
+		name: env.TEST_NAME,
 	});
 
 	console.log('[hook] Sending payload', payload, 'to webhook');
@@ -75,7 +75,7 @@ async function wrap() {
 
 	await sendPayload({
 		payload,
-		onlyIf: buildConfigObject(env)
+		onlyIf: buildConfigObject(env),
 	});
 }
 

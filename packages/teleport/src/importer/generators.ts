@@ -7,7 +7,7 @@ export function generateCourseQuery(
 	_ref: string,
 	user_id: string,
 	course: Course,
-	maxGradesPerCategory: number
+	maxGradesPerCategory: number,
 ): Query[] {
 	const id = new ObjectId().toHexString();
 	const courseRow = {...course, id, user_id};
@@ -28,7 +28,7 @@ export function generateCourseQuery(
 		}
 
 		queries.push(
-			...generateCategoryQuery(user_id, id, category)
+			...generateCategoryQuery(user_id, id, category),
 		);
 	}
 

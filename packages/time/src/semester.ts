@@ -12,7 +12,7 @@ type CurrentSemesterState = {
 
 export const data: CurrentSemesterState = {
 	activeSemester: null,
-	allowedSemesters: []
+	allowedSemesters: [],
 };
 
 type SemesterAllowedFunction = (currentMonth: number, currentDay: number, currentYear: number) => string;
@@ -117,7 +117,7 @@ export function computeSemesterData() {
 		isWinterAllowed(currentMonth, currentDay, currentYear),
 		isSpringAllowed(currentMonth, currentDay, currentYear),
 		isSummerAllowed(currentMonth, currentDay, currentYear),
-		isFallAllowed(currentMonth, currentDay, currentYear)
+		isFallAllowed(currentMonth, currentDay, currentYear),
 	].filter(Boolean);
 }
 

@@ -41,7 +41,7 @@ export async function sendPayload({
 	onlyIf = false,
 	branch = parseBranchName(process.env.GITHUB_REF ?? ''),
 	event = process.env.GITHUB_EVENT_NAME,
-	repository = process.env.GITHUB_REPOSITORY
+	repository = process.env.GITHUB_REPOSITORY,
 }: PayloadOptions): Promise<void> {
 	if (typeof payload !== 'string') {
 		// eslint-disable-next-line @typescript-eslint/no-base-to-string
@@ -56,7 +56,7 @@ export async function sendPayload({
 		const config: ConditionalHook = {
 			branch,
 			isPush: event === 'push',
-			repository
+			repository,
 		};
 
 		const filters = Object.keys(onlyIf) as Array<keyof ConditionalHook>;
@@ -72,7 +72,7 @@ export async function sendPayload({
 
 			if (expected !== received) {
 				log(
-					`[actions-hook] not sending webhook because ${filter} differs - expected "${expected}" but got "${received}"`
+					`[actions-hook] not sending webhook because ${filter} differs - expected "${expected}" but got "${received}"`,
 				);
 				return;
 			}
@@ -88,9 +88,9 @@ export async function sendPayload({
 		headers: {
 			'Content-Type': 'application/json',
 			'User-Agent': userAgent,
-			'X-Actions-Secret': `sha256=${hmac}`
+			'X-Actions-Secret': `sha256=${hmac}`,
 		},
-		body: payload
+		body: payload,
 	});
 }
 

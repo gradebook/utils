@@ -19,10 +19,10 @@ const allowTrustedIPs = (config: TrustedRequestConfig): RequestHandler => {
 			return;
 		}
 
-		if (!trustProxy &&
+		if (!trustProxy
 			// Production - NGINX sits in front and adds `x-real-ip` header, nginx requests should not be trusted
 			// We don't want to trust the x-forwarded-for header
-			('x-real-ip' in request.headers || 'x-forwarded-for' in request.headers)
+			&& ('x-real-ip' in request.headers || 'x-forwarded-for' in request.headers)
 		) {
 			next(new TrustedRequestError('You are not authorized to access this resource'));
 			return;

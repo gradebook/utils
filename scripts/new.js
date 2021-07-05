@@ -7,15 +7,15 @@ const PACKAGE_ORDER = [
 	// eslint-disable-next-line array-element-newline
 	'name', 'version', 'private', 'description', 'keywords', 'author', 'homepage', 'bugs', 'license',
 	// eslint-disable-next-line array-element-newline
-	'main', 'directories', 'files', 'repository', 'scripts', 'dependencies', 'devDependencies', 'xo'
+	'main', 'directories', 'files', 'repository', 'scripts', 'dependencies', 'devDependencies', 'xo',
 ];
 
 const TYPESCRIPT_CONFIG_FILE = {
 	extends: '../../tsconfig.json',
 	include: ['src/', '__tests__/'],
 	compilerOptions: {
-		outDir: 'lib'
-	}
+		outDir: 'lib',
+	},
 };
 
 /**
@@ -67,7 +67,7 @@ async function exec(unscopedPackage) {
 			'test:coverage': 'nyc --reporter=html --reporter=text mocha __tests__ --recursive --colors',
 			prepublish: 'tsc',
 			tsc: 'tsc',
-			lint: 'xo'
+			lint: 'xo',
 		};
 		packageContents.files = ['lib', 'src'];
 	}

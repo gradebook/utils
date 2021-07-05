@@ -14,7 +14,7 @@ export class ConfigureForReleaseError extends Error {
 }
 
 export async function importJson<JsonResponseType extends Record<string, any>>(
-	path: string
+	path: string,
 ): Promise<JsonResponseType> {
 	const fileContents = await readFile(path, 'utf-8');
 	return JSON.parse(fileContents) as JsonResponseType;

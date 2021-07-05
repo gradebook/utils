@@ -45,7 +45,7 @@ describe('together', function () {
 		const instance = new Together([
 			['build', '/path/to/build'],
 			['test', '/path/to/test'],
-			['update-check', '/path/to/upgrade']
+			['update-check', '/path/to/upgrade'],
 		]);
 
 		expect(logStub.calledThrice).to.be.true;
@@ -57,7 +57,7 @@ describe('together', function () {
 	it('supports passing arguments to execa', function () {
 		// eslint-disable-next-line no-unused-vars
 		const instance = new Together([
-			['build', '/path/to/build', {env: {NODE_ENV: 'production'}}]
+			['build', '/path/to/build', {env: {NODE_ENV: 'production'}}],
 		]);
 
 		expect(logStub.calledOnce).to.be.true;
