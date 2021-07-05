@@ -1,10 +1,9 @@
 // @ts-check
-const {expect} = require('chai');
-const sinon = require('sinon');
-const got = require('got');
+import {expect} from 'chai';
+import sinon from 'sinon';
+import got from 'got';
 
-const _module = require('..');
-const sendPayload = _module.default;
+import {sendPayload, parseBranchName, userAgent} from '../../lib/api/actions-hook.js';
 
 /**
  * @returns {void}
@@ -13,7 +12,7 @@ const noop = () => null;
 
 const TESTING_PAYLOAD_HASH = 'sha256=79ee8ebb044e31f5ec95e87202d1c61cad14703847a5edafe82f36018760f915';
 
-describe('actions-hook', function () {
+describe('Unit > API > Actions Hook', function () {
 	/** @type sinon.SinonStub */
 	let gotStub;
 
@@ -53,7 +52,7 @@ describe('actions-hook', function () {
 		expect(gotStub.calledOnce).to.be.true;
 		expect(gotStub.args[0][1].headers).to.deep.equal({
 			'Content-Type': 'application/json',
-			'User-Agent': _module.userAgent,
+			'User-Agent': userAgent,
 			'X-Actions-Secret': TESTING_PAYLOAD_HASH
 		});
 	});
@@ -206,5 +205,10 @@ describe('actions-hook', function () {
 
 			expect(gotStub.calledOnce).to.be.true;
 		});
+	});
+
+	it('Correctly parses branch', function () {
+		expect(parseBranchName('refs/heads/feature/do-something-awesome')).to.equal('feature/do-something-awesome');
+		expect(parseBranchName('refs/tags/@gradebook/package@v0.0.0')).to.equal('@gradebook/package@v0.0.0');
 	});
 });

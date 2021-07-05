@@ -1,10 +1,11 @@
-/* eslint-disable @typescript-eslint/ban-types */
+import {resolve} from 'path';
+import {fileURLToPath} from 'url';
+import {readFileSync} from 'fs';
 import {createHmac} from 'crypto';
 import got from 'got';
 
-// @NOTE: we ignore this next line because we want to use the package.json that's shipped rather than a copy that might have missing or outdated data.
-// @ts-expect-error
-import {name, version} from '../package.json';
+const packageJsonFilePath = resolve(fileURLToPath(import.meta.url), '../../../package.json');
+const {name, version} = JSON.parse(readFileSync(packageJsonFilePath, 'utf-8')) as Record<string, string>;
 
 export const userAgent = `${name}@${version} (Actions)`;
 
@@ -15,11 +16,18 @@ export interface ConditionalHook {
 }
 
 export interface PayloadOptions {
+	payload: object | string; // eslint-disable-line @typescript-eslint/ban-types
 	url?: string;
-	payload: object | string;
 	secret?: string;
 	log?: (message: string) => void;
 	onlyIf?: false | ConditionalHook;
+	branch?: string;
+	event?: string;
+	repository?: string;
+}
+
+export function parseBranchName(ref: string): string {
+	return ref.replace(/refs\/(heads|tags)\//, '');
 }
 
 export async function sendPayload({
@@ -27,7 +35,10 @@ export async function sendPayload({
 	payload,
 	secret = process.env.WEBHOOK_SECRET,
 	log = console.log,
-	onlyIf = false
+	onlyIf = false,
+	branch = parseBranchName(process.env.GITHUB_REF ?? ''),
+	event = process.env.GITHUB_EVENT_NAME,
+	repository = process.env.GITHUB_REPOSITORY
 }: PayloadOptions): Promise<void> {
 	if (typeof payload !== 'string') {
 		// eslint-disable-next-line @typescript-eslint/no-base-to-string
@@ -40,22 +51,21 @@ export async function sendPayload({
 
 	if (typeof onlyIf === 'object') {
 		const config: ConditionalHook = {
-			branch: (process.env.GITHUB_REF || '').split('/').pop(),
-			isPush: process.env.GITHUB_EVENT_NAME === 'push',
-			repository: process.env.GITHUB_REPOSITORY
+			branch,
+			isPush: event === 'push',
+			repository
 		};
 
-		// eslint-disable-next-line guard-for-in
-		for (const filter in onlyIf) {
+		const filters = Object.keys(onlyIf) as Array<keyof ConditionalHook>;
+
+		for (const filter of filters) {
 			if (!Object.hasOwnProperty.call(config, filter)) {
 				log(`[actions-hook](warning) unknown filter "${filter}"`);
 				continue;
 			}
 
-			// @ts-expect-error
-			const received = config[filter] as string | boolean;
-			// @ts-expect-error
-			const expected = onlyIf[filter] as string | boolean;
+			const received = config[filter]!;
+			const expected = onlyIf[filter]!;
 
 			if (expected !== received) {
 				log(
