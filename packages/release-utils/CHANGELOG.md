@@ -1,4 +1,5 @@
 # 0.2.1
+
  - Downgrade zx due to node compat issues
 
 # 0.2.0
