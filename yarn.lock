@@ -232,6 +232,14 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@gradebook/release-utils@^0.1.0":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@gradebook/release-utils/-/release-utils-0.1.2.tgz#025717d96704bfdcd00a1dc8e8773cd277e25b38"
+  integrity sha512-eO9t64B3Yco5I+HFRRCu4bT7fAm1BOqYaib+r/nV4bBaDxXE0HIOvgxVb72PL3PT6shVsWrCXG1mkV2hZh5Xcw==
+  dependencies:
+    got "^11.8.2"
+    zx "^1.14.2"
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz#fd3db1d59ecf7cf121e80650bb86712f9b55eced"
@@ -1227,15 +1235,6 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-"@types/got@9.6.11":
-  version "9.6.11"
-  resolved "https://registry.yarnpkg.com/@types/got/-/got-9.6.11.tgz#482b402cc5ee459481aeeadb08142ebb1a9afb26"
-  integrity sha512-dr3IiDNg5TDesGyuwTrN77E1Cd7DCdmCFtEfSGqr83jMMtcwhf/SGPbN2goY4JUWQfvxwY56+e5tjfi+oXeSdA==
-  dependencies:
-    "@types/node" "*"
-    "@types/tough-cookie" "*"
-    form-data "^2.5.0"
-
 "@types/http-cache-semantics@*":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@types/http-cache-semantics/-/http-cache-semantics-4.0.0.tgz#9140779736aa2655635ee756e2467d787cfe8a2a"
@@ -1325,11 +1324,6 @@
   dependencies:
     "@types/mime" "^1"
     "@types/node" "*"
-
-"@types/tough-cookie@*":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-4.0.0.tgz#fef1904e4668b6e5ecee60c52cc6a078ffa6697d"
-  integrity sha512-I99sngh224D0M7XgW1s120zxCt3VYQ3IQsuw3P3jbq5GG4yc79+ZjyKznyOGIQrflfylLgcfekeZW/vk0yng6A==
 
 "@typescript-eslint/eslint-plugin@^4.22.0":
   version "4.28.1"
@@ -3423,15 +3417,6 @@ forever-agent@~0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/forever-agent/-/forever-agent-0.6.1.tgz#fbc71f0c41adeb37f96c577ad1ed42d8fdacca91"
   integrity sha1-+8cfDEGt6zf5bFd60e1C2P2sypE=
-
-form-data@^2.5.0:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/form-data/-/form-data-2.5.1.tgz#f2cbec57b5e59e23716e128fe44d4e5dd23895f4"
-  integrity sha512-m21N3WOmEEURgk6B9GLOE4RuWOFf28Lhh9qGYeNlGq4VDXUlJy2th2slBNU8Gp8EzloYZOibZJ7t5ecIrFSjVA==
-  dependencies:
-    asynckit "^0.4.0"
-    combined-stream "^1.0.6"
-    mime-types "^2.1.12"
 
 form-data@^3.0.0:
   version "3.0.1"
