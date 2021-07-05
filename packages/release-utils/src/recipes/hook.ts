@@ -6,9 +6,9 @@ type Env = {
 	[key in typeof REQUIRED_KEYS[number]]: string;
 } & {
 	GITHUB_ACTOR?: string;
-	INPUT_BRANCH?: string;
-	INPUT_REQUIRE_PUSH?: string;
-	INPUT_REPOSITORY?: string;
+	REQUIRE_BRANCH?: string;
+	CONDITION_REQUIRE_PUSH?: string;
+	REQUIRE_REPOSITORY?: string;
 };
 
 function isBot(author: string | null, branchName: string) {
@@ -20,16 +20,16 @@ function isBot(author: string | null, branchName: string) {
 function buildConfigObject(env: Env): ConditionalHook | false {
 	const config: ConditionalHook = {};
 
-	if ('INPUT_BRANCH' in env) {
-		config.branch = env.INPUT_BRANCH;
+	if ('REQUIRE_BRANCH' in env) {
+		config.branch = env.REQUIRE_BRANCH;
 	}
 
-	if ('INPUT_REQUIRE_PUSH' in env) {
-		config.isPush = env.INPUT_REQUIRE_PUSH!.toLowerCase() === 'true';
+	if ('CONDITION_REQUIRE_PUSH' in env) {
+		config.isPush = env.CONDITION_REQUIRE_PUSH!.toLowerCase() === 'true';
 	}
 
-	if ('INPUT_REPOSITORY' in env) {
-		config.repository = env.INPUT_REPOSITORY;
+	if ('REQUIRE_REPOSITORY' in env) {
+		config.repository = env.REQUIRE_REPOSITORY;
 	}
 
 	if (Object.keys(config).length === 0) {
