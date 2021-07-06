@@ -35,6 +35,8 @@
   },
   "xo": false,
   "dependencies": {
+    "@types/urijs": "^1.19.16",
+    "urijs": "^1.19.6",
     "zx": "<= 1.14.2"
   }
 }
