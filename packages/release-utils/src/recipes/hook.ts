@@ -1,4 +1,5 @@
 import {ConditionalHook, parseBranchName, sendPayload} from '../api/actions-hook.js';
+import {requireEnvVariables} from '../util/require-env-variables.js';
 
 const REQUIRED_KEYS = ['GITHUB_REF', 'GITHUB_REPOSITORY', 'GITHUB_SHA', 'TEST_NAME'] as const;
 
@@ -41,13 +42,7 @@ function buildConfigObject(env: Env): ConditionalHook | false {
 }
 
 async function wrap() {
-	for (const key of REQUIRED_KEYS) {
-		if (!(key in process.env)) {
-			console.error(`[hook] Missing key: ${key}. Unable to send webhook`);
-			// eslint-disable-next-line unicorn/no-process-exit
-			process.exit(1);
-		}
-	}
+	requireEnvVariables(REQUIRED_KEYS);
 
 	// @ts-expect-error the required keys have already been validated
 	const env: Env = process.env;
