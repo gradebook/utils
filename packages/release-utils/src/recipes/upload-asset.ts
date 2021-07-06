@@ -1,7 +1,8 @@
 import {Asset, uploadGitHubReleaseAssets} from '../api/upload-github-release-asset.js';
 import {requireEnvVariables} from '../util/require-env-variables.js';
+import {parseBranchName} from '../api/actions-hook.js';
 
-const REQUIRED_KEYS = ['GITHUB_REPOSITORY', 'RELEASE_TAG_NAME', 'GITHUB_TOKEN', 'FILE_LIST'] as const;
+const REQUIRED_KEYS = ['GITHUB_REPOSITORY', 'GITHUB_REF', 'GITHUB_TOKEN', 'FILE_LIST'] as const;
 
 type Env = {
 	[key in typeof REQUIRED_KEYS[number]]: string;
@@ -27,12 +28,13 @@ async function wrap() {
 
 	// @ts-expect-error
 	const env: Env = process.env;
-	const assets = getAssets(env.FILE_LIST);
+	const tagName = parseBranchName(env.GITHUB_REF);
+	const assets = getAssets(env.FILE_LIST.replace(/:tag:/g, tagName));
 
 	const results = await uploadGitHubReleaseAssets({
 		token: env.GITHUB_TOKEN,
 		ownerAndRepository: env.GITHUB_REPOSITORY,
-		tagName: env.RELEASE_TAG_NAME,
+		tagName,
 	}, assets);
 
 	const failed = results.filter(result => !result);
