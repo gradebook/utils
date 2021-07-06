@@ -1,3 +1,7 @@
+# 0.3.0
+
+ - :sparkles: add upload-asset hook + api
+
 # 0.2.4
 
  - fix api exports
