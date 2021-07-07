@@ -1,3 +1,7 @@
+# 0.3.1
+
+ - add support for :tag: variable in upload-asset recipe
+
 # 0.3.0
 
  - :sparkles: add upload-asset hook + api
