@@ -19,7 +19,7 @@
     "new": "node scripts/new.js"
   },
   "devDependencies": {
-    "@types/mocha": "8.2.2",
+    "@types/mocha": "8.2.3",
     "@types/node": "16.0.0",
     "chai": "4.3.4",
     "eslint-plugin-mocha": "9.0.0",
