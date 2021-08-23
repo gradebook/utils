@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "year": 2021,
+  "credits": 4,
+  "cutoffs": {
+    "A": 495,
+    "B": 440,
+    "C": 385,
+    "D": 330
+  },
+  "name": "ECEN 404",
+  "categories": [
+    {
+      "isReallyCategory": true,
+      "droppedGrades": 0,
+      "numGrades": 4,
+      "weight": 200,
+      "name": "Bi-Weekly Updates"
+    },
+    {
+      "isReallyCategory": false,
+      "droppedGrades": 0,
+      "numGrades": 1,
+      "weight": 20,
+      "name": "Ethics Quizzes"
+    },
+    {
+      "isReallyCategory": false,
+      "droppedGrades": 0,
+      "numGrades": 1,
+      "weight": 80,
+      "name": "Poster, Presentation, Video"
+    },
+    {
+      "isReallyCategory": false,
+      "droppedGrades": 0,
+      "numGrades": 1,
+      "weight": 250,
+      "name": "Final Report"
+    }
+  ]
+}
