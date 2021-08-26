@@ -36,9 +36,11 @@ export const EXPORT_VERSION = 1;
  * https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/btoa#unicode_strings
  */
 export function isomorphicAtoB(thingToDecode: string): string {
-	if (typeof atob === 'function') {
-		const rawDecoded = (atob as (s: string) => string)(thingToDecode);
+	const rawDecoded: string = typeof atob === 'function'
+		? (atob as (s: string) => string)(thingToDecode)
+		: Buffer.from(thingToDecode, 'base64').toString('binary');
 
+	try {
 		const bytes = new Uint8Array(rawDecoded.length);
 		for (let i = 0; i < bytes.length; ++i) {
 			bytes[i] = rawDecoded.charCodeAt(i);
@@ -53,9 +55,9 @@ export function isomorphicAtoB(thingToDecode: string): string {
 		}
 
 		return rawDecoded;
+	} catch {
+		return rawDecoded;
 	}
-
-	return Buffer.from(thingToDecode, 'base64').toString('utf8');
 }
 
 /**
@@ -64,18 +66,16 @@ export function isomorphicAtoB(thingToDecode: string): string {
  * https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/btoa#unicode_strings’
  */
 export function isomorphicBtoA(thingToEncode: string): string {
-	if (typeof btoa === 'function') {
-		const bytes = new Uint16Array(thingToEncode.length);
-		for (let i = 0; i < bytes.length; ++i) {
-			bytes[i] = thingToEncode.charCodeAt(i);
-		}
-
-		const safeUnencoded = String.fromCharCode(...new Uint8Array(bytes.buffer));
-
-		return (btoa as (s: string) => string)(safeUnencoded);
+	const bytes = new Uint16Array(thingToEncode.length);
+	for (let i = 0; i < bytes.length; ++i) {
+		bytes[i] = thingToEncode.charCodeAt(i);
 	}
 
-	return Buffer.from(thingToEncode).toString('base64');
+	const safeUnencoded = String.fromCharCode(...new Uint8Array(bytes.buffer));
+
+	return typeof btoa === 'function'
+		? (btoa as (s: string) => string)(safeUnencoded)
+		: Buffer.from(thingToEncode).toString('base64');
 }
 
 export function _validateCategory(category: ICategory): boolean {
