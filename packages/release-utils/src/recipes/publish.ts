@@ -11,8 +11,7 @@ async function wrap() {
 		console.log('Recipe "publish" completed successfully');
 	} catch (error) {
 		console.error('Recipe "publish" failed');
-		/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */
-		if (error.constructor?.name !== 'ProcessOutput') {
+		if (typeof error === 'object' && error?.constructor?.name !== 'ProcessOutput') {
 			console.error(error);
 		}
 
