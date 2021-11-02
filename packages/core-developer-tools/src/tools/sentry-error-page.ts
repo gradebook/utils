@@ -1,4 +1,4 @@
-/* global document,typeSafeWindow */
+/* global document,window */
 // Based on https://github.com/getsentry/sentry/blob/master/src/sentry/templates/sentry/error-page-embed.html,
 // https://github.com/getsentry/sentry/blob/master/src/sentry/templates/sentry/error-page-embed.js, and
 // https://github.com/getsentry/sentry/blob/master/src/sentry/web/frontend/error_page_embed.py
