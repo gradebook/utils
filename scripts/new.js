@@ -67,7 +67,7 @@ async function exec(unscopedPackage) {
 			'test:coverage': 'nyc --reporter=html --reporter=text mocha __tests__ --recursive --colors',
 			prepublish: 'tsc',
 			tsc: 'tsc',
-			lint: 'xo',
+			lint: 'yarn --cwd ../../ xo "`pwd`/**/*"',
 		};
 		packageContents.files = ['lib', 'src'];
 	}
