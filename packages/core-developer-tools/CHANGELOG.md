@@ -1,3 +1,7 @@
+# 0.1.3
+
+ - disallow loading core-developer-tools in prod
+
 # 0.1.2
 
  - fix release: part 2
