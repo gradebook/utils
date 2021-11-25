@@ -1,8 +1,8 @@
 import {Category as ICategory, ApiCategory as IApiCategory} from './interfaces/category';
 import {Course as ICourse, Cutoffs as ICutoffs, ApiCourse as IApiCourse} from './interfaces/course';
 
-const COURSE_NAME = /^[a-z]{3,4}-\d{3,4}$/i;
-const CUTOFFS = new Set(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-']);
+export const COURSE_NAME = /^[a-z]{3,4}-\d{3,4}$/i;
+export const CUTOFFS = new Set(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-']);
 
 const validCourseName = (name: string): boolean => COURSE_NAME.test(name);
 const validCategoryName = (name: string): boolean => name.length > 0 && name.length <= 50;
