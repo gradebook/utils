@@ -18,9 +18,10 @@ jobs:
         with:
           node-version: 'lts/*'
           cache: yarn
+        env:
+          FORCE_COLOR: 0
       - run: |
           yarn install --frozen-lockfile
-          mkdir -p $(yarn cache dir)
       - name: Build latest version of release-utils
         run: yarn --cwd packages/release-utils prepublish
       - run: node packages/release-utils/lib/recipe.js test-and-publish

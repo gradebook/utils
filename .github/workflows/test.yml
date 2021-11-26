@@ -14,6 +14,8 @@ jobs:
         with:
           node-version: lts/*
           cache: yarn
+        env:
+          FORCE_COLOR: 0
       - run: yarn install --frozen-lockfile
       - name: Unit Tests
         run: yarn lerna run test
@@ -26,7 +28,9 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: lts/*
-          # cache: yarn
+          cache: yarn
+        env:
+          FORCE_COLOR: 0
       - run: yarn install --frozen-lockfile
       - name: Lint
         run: yarn lint
