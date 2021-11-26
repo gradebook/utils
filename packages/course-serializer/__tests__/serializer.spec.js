@@ -20,6 +20,21 @@ describe('Unit > Serializer', function () {
 		expect(serializer.strip(exampleCourse)).to.deep.equal(safeCourse);
 	});
 
+	it('separateMetadata', function () {
+		const json = serializer.isomorphicAtoB(SERIALIZED_COURSE);
+		expect(serializer.separateMetadata(json)).to.deep.equal({
+			metadata: '1|2021',
+			course: '{"m":"0|4|A,90|B,80|C,70|D,60|Example Course","z":["1|0|20|0|Attendance","1|0|13|1|Online Quizzes","1|0|4|5|Cultural Discourse Journal","0|0|1|20|Exam 1","0|0|1|20|Exam 2","0|0|1|5|Initial Essay","0|0|1|15|Final Essay","1|0|2|10|Short Paper","0|0|1|5|Participation","0|0|1|5|Presentation","0|0|1|15|Online Quizzes after dropped"]}',
+		});
+	});
+
+	it('joinMetadata', function () {
+		expect(serializer.joinMetadata(
+			'1|2021',
+			'{"m":"0|4|A,90|B,80|C,70|D,60|Example Course","z":["1|0|20|0|Attendance","1|0|13|1|Online Quizzes","1|0|4|5|Cultural Discourse Journal","0|0|1|20|Exam 1","0|0|1|20|Exam 2","0|0|1|5|Initial Essay","0|0|1|15|Final Essay","1|0|2|10|Short Paper","0|0|1|5|Participation","0|0|1|5|Presentation","0|0|1|15|Online Quizzes after dropped"]}',
+		)).to.equal(serializer.isomorphicAtoB(SERIALIZED_COURSE));
+	});
+
 	it('hash deserialization produces a safe course', function () {
 		expect(serializer.deserialize(SERIALIZED_COURSE)).to.deep.equal(getSafeCourse());
 	});

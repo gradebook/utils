@@ -3,6 +3,7 @@ import {Course as ICourse, Cutoffs as ICutoffs, ApiCourse as IApiCourse} from '.
 
 export const COURSE_NAME = /^[a-z]{3,4}-\d{3,4}$/i;
 export const CUTOFFS = new Set(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-']);
+export const SEMESTER = /^\d{4}[sufw]$/i;
 
 const validCourseName = (name: string): boolean => COURSE_NAME.test(name);
 const validCategoryName = (name: string): boolean => name.length > 0 && name.length <= 50;
@@ -283,8 +284,36 @@ export function serialize(validatedCourse: ICourse): string {
 	return isomorphicBtoA(JSON.stringify(compressedPayload));
 }
 
-export function deserialize(hash: string): ICourse {
-	const payload = JSON.parse(isomorphicAtoB(hash)) as _ISerializedPayload;
+export function separateMetadata(course: string): {metadata: string; course: string} {
+	const parsed = JSON.parse(course) as _ISerializedPayload;
+	const fullMeta = parsed.m;
+	const version = fullMeta.slice(0, fullMeta.indexOf('|'));
+	if (version === '0' || version === '1') {
+		const secondPipe = fullMeta.indexOf('|', fullMeta.indexOf('|') + 1);
+		const metadata = fullMeta.slice(0, secondPipe);
+		parsed.m = fullMeta.slice(secondPipe + 1);
+		return {
+			course: JSON.stringify(parsed),
+			metadata,
+		};
+	}
+
+	throw new Error('Unknown version');
+}
+
+export function joinMetadata(metadata: string, course: string): string {
+	const parsed = JSON.parse(course) as _ISerializedPayload;
+	const version = metadata.slice(0, metadata.indexOf('|'));
+	if (version === '0' || version === '1') {
+		parsed.m = `${metadata}|${parsed.m}`;
+		return JSON.stringify(parsed);
+	}
+
+	throw new Error('Unknown version');
+}
+
+export function deserialize(hash: string, preprocessor = isomorphicAtoB): ICourse {
+	const payload = JSON.parse(preprocessor(hash)) as _ISerializedPayload;
 
 	return {
 		..._deserializeCourseMeta(payload.m),
