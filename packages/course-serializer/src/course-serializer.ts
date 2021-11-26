@@ -100,7 +100,7 @@ export function validate(course: ICourse): boolean {
 		&& validCutoffs(course.cutoffs)
 		&& validCredits(course.credits)
 		&& validNumberCategories(course.categories)
-		&& course.categories.map(category => _validateCategory(category)).some(t => !t)
+		&& course.categories.every(category => _validateCategory(category))
 	);
 }
 
