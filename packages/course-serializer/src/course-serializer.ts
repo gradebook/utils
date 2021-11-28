@@ -82,7 +82,13 @@ export function isomorphicBtoA(thingToEncode: string): string {
 
 export function _validateCategory(category: ICategory): boolean {
 	// CASE: only real categories can have dropped grades or more than 1 grade
-	if (!category.isReallyCategory && (category.droppedGrades !== 0 || category.numGrades !== 1)) {
+	if (
+		!category.isReallyCategory
+		&& (
+			(category.droppedGrades !== 0 && category.droppedGrades !== null)
+			|| category.numGrades !== 1
+		)
+	) {
 		return false;
 	}
 
@@ -192,7 +198,7 @@ export function _deserializeCategory(payload: string): ICategory {
 
 	const category = {
 		isReallyCategory: Number(r) === 1,
-		droppedGrades: Number(d),
+		droppedGrades: d === 'null' ? 0 : Number(d),
 		numGrades: Number(t),
 		weight: Number(w),
 		name: n.join('|'),

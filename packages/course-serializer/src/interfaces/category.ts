@@ -3,7 +3,7 @@ export interface Category {
 	weight: number;
 	isReallyCategory: boolean;
 	numGrades: number;
-	droppedGrades: number;
+	droppedGrades: number | null;
 }
 
 export interface ApiCategory {
