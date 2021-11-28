@@ -7,8 +7,8 @@
   "homepage": "https://github.com/gradebook/utils#readme",
   "bugs": "https://github.com/gradebook/utils/issues",
   "license": "MIT",
-  "main": "lib/commonjs/course-serializer.js",
-  "module": "lib/module/course-serializer.js",
+  "type": "module",
+  "main": "lib/course-serializer.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -26,7 +26,7 @@
     "pretest": "tsc",
     "test": "mocha __tests__ --recursive --colors",
     "test:coverage": "nyc --reporter=html --reporter=text mocha __tests__ --recursive --colors",
-    "prepublish": "node ../../scripts/compile-all.js",
+    "prepublish": "tsc",
     "tsc": "tsc",
     "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\""
   },
