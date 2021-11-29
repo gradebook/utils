@@ -75,11 +75,9 @@ export function createProfileHandler(getUser: (gid: string, table: string) => Pr
 				tour: false,
 				// There are some weird dependency edge cases in CI
 				/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-				/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 				/* eslint-disable @typescript-eslint/no-unsafe-call */
 				previous_notification: date().format('YYYY-MM-DDTHH:mm:ss.000-06:00'), // eslint-disable-line camelcase
 				/* eslint-enable @typescript-eslint/no-unsafe-assignment */
-				/* eslint-enable @typescript-eslint/no-unsafe-member-access */
 				/* eslint-enable @typescript-eslint/no-unsafe-call */
 			}),
 		};
