@@ -1,9 +1,13 @@
 // @ts-check
-const {expect} = require('chai');
-const serializer = require('../lib/commonjs/course-serializer.js');
+import {readFileSync} from 'fs';
+import {expect} from 'chai';
+import * as serializer from '../lib/course-serializer.js';
 
-const getSafeCourse = () => JSON.parse(JSON.stringify(require('../fixtures/example-serialized-course.json')));
-const getExampleCourse = () => JSON.parse(JSON.stringify(require('../fixtures/example-course.json')));
+const exampleSerializedCourse = readFileSync(new URL('../fixtures/example-serialized-course.json', import.meta.url), 'utf8');
+const exampleCourse = readFileSync(new URL('../fixtures/example-course.json', import.meta.url), 'utf8');
+
+const getSafeCourse = () => JSON.parse(exampleSerializedCourse);
+const getExampleCourse = () => JSON.parse(exampleCourse);
 
 // The only thing that should change is the letter after `eyJtIjoiMXwyMDI` since it's year-dependent
 
