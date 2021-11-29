@@ -1,6 +1,6 @@
 // This file specifically tests deserialization across older versions
 
-import {readFileSync} from 'fs';
+import {readFile} from 'fs/promises';
 import {expect} from 'chai';
 import * as serializer from '../lib/course-serializer.js';
 
@@ -8,16 +8,13 @@ const SERIALIZED_V0_COURSE = 'eyJtIjoiMHwyMDIwfDB8OTB8ODB8NzB8NjB8QXxCfEN8RHxFeG
 
 const SERIALIZED_IN_BROWSER_V1_COURSE = 'ewAiAG0AIgA6ACIAMQB8ADIAMAAyADEAfAA0AHwANAB8AEEALAA0ADkANQB8AEIALAA0ADQAMAB8AEMALAAzADgANQB8AEQALAAzADMAMAB8AEUAQwBFAE4AIAA0ADAANAAiACwAIgB6ACIAOgBbACIAMQB8ADAAfAA0AHwAMgAwADAAfABCAGkALQBXAGUAZQBrAGwAeQAgAFUAcABkAGEAdABlAHMAIgAsACIAMAB8ADAAfAAxAHwAMgAwAHwARQB0AGgAaQBjAHMAIABRAHUAaQB6AHoAZQBzACIALAAiADAAfAAwAHwAMQB8ADgAMAB8AFAAbwBzAHQAZQByACwAIABQAHIAZQBzAGUAbgB0AGEAdABpAG8AbgAsACAAVgBpAGQAZQBvACIALAAiADAAfAAwAHwAMQB8ADIANQAwAHwARgBpAG4AYQBsACAAUgBlAHAAbwByAHQAIgBdAH0A';
 
-/* @todo - do this when our XO version supports top level await const [
+const [
 	EXAMPLE_V0_COURSE,
 	EXAMPLE_V1_COURSE,
 ] = await Promise.all([
 	readFile(new URL('../fixtures/v0-example-serialized-course.json', import.meta.url), 'utf-8'),
 	readFile(new URL('../fixtures/v1-browser-example-serialized-course.json', import.meta.url), 'utf-8'),
-]); */
-
-const EXAMPLE_V0_COURSE = readFileSync(new URL('../fixtures/v0-example-serialized-course.json', import.meta.url), 'utf-8');
-const EXAMPLE_V1_COURSE = readFileSync(new URL('../fixtures/v1-browser-example-serialized-course.json', import.meta.url), 'utf-8');
+]);
 
 describe('Regression > Course Serializer', function () {
 	it('v0', function () {

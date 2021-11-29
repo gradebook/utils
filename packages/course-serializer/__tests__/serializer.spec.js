@@ -1,10 +1,15 @@
 // @ts-check
-import {readFileSync} from 'fs';
+import {readFile} from 'fs/promises';
 import {expect} from 'chai';
 import * as serializer from '../lib/course-serializer.js';
 
-const exampleSerializedCourse = readFileSync(new URL('../fixtures/example-serialized-course.json', import.meta.url), 'utf8');
-const exampleCourse = readFileSync(new URL('../fixtures/example-course.json', import.meta.url), 'utf8');
+const [
+	exampleSerializedCourse,
+	exampleCourse,
+] = await Promise.all([
+	readFile(new URL('../fixtures/example-serialized-course.json', import.meta.url), 'utf8'),
+	readFile(new URL('../fixtures/example-course.json', import.meta.url), 'utf8'),
+]);
 
 const getSafeCourse = () => JSON.parse(exampleSerializedCourse);
 const getExampleCourse = () => JSON.parse(exampleCourse);
