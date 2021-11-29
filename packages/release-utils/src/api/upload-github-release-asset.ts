@@ -14,7 +14,7 @@ export function __testDependencyInjector(fetchOverride?: typeof fetch_) {
 export type Asset = string | [path: string, name: string];
 
 export interface GitHubReleaseTagResponse {
-	upload_url: string; // eslint-disable-line camelcase
+	upload_url: string;
 }
 
 export interface GitHubReleaseUploadParameters {
@@ -24,7 +24,7 @@ export interface GitHubReleaseUploadParameters {
 }
 
 export async function makeGitHubRequest<ResponseType>(url: string, options: RequestInit, authToken: string) {
-	// @ts-expect-error
+	// @ts-expect-error types vs interfaces
 	const headers: Record<string, string> = options.headers ?? {};
 	headers['content-type'] = 'application/json';
 	headers.accept = 'application/vnd.github.v3+json';

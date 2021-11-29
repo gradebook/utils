@@ -7,7 +7,8 @@ export class PublishPackageError extends Error {
 
 export async function publishPackage(shaOrTagName: string, packageJson: PackageJson, $ = zx$) {
 	// This will resolve a tag name OR a sha to a tag name
-	const tagName = (await $`git tag --points-at ${shaOrTagName}`).stdout.trim().split('\n').shift();
+	const tagNameRaw = await $`git tag --points-at ${shaOrTagName}`;
+	const tagName = tagNameRaw.stdout.trim().split('\n').shift();
 	const {version} = packageJson;
 
 	// CASE: for whatever reason the package version is empty

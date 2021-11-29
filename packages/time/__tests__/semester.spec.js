@@ -1,6 +1,7 @@
 // @ts-check
 const rewire = require('rewire');
 const {expect} = require('chai');
+
 const semester = rewire('../lib/semester');
 
 const isSpringAllowed = semester.__get__('isSpringAllowed');

@@ -1,4 +1,4 @@
-export * as importer from './importer/api';
-export * as mutex from './mutex';
-export * as exporter from './exporter';
-export * as interfaces from './shared/interfaces';
+export * as importer from './importer/api.js';
+export * as mutex from './mutex.js';
+export * as exporter from './exporter.js';
+export * as interfaces from './shared/interfaces.js';

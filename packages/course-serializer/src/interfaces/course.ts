@@ -1,4 +1,4 @@
-import {Category, ApiCategory} from './category';
+import {Category, ApiCategory} from './category.js';
 
 export interface Course {
 	name: string;

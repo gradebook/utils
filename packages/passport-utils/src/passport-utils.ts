@@ -6,7 +6,7 @@ import ObjectId from 'bson-objectid';
 import {
 	PassportOauth20Profile as Profile,
 	PassportOauth20VerifyCallback as VerifyCallback,
-} from './_passport-types';
+} from './_passport-types.js';
 
 export type NewUserSessionProfile = {
 	id: string;
@@ -23,7 +23,7 @@ export type UserProfile = {
 	isNew: boolean;
 } | {
 	school: string;
-	school_id: string; // eslint-disable-line camelcase
+	school_id: string;
 };
 
 export interface BasicRequest extends IncomingMessage {
@@ -169,7 +169,7 @@ export function serializeUser(
 	}
 
 	const error = new Error('Serializer: Unknown profile');
-	// @ts-expect-error
+	// @ts-expect-error error context is used by Ignition
 	error.context = profile;
 	callback(error);
 }

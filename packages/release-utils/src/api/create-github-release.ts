@@ -1,8 +1,8 @@
 import {fetch} from 'zx';
 
 interface GitHubPutReleaseBody {
-	tag_name: string; // eslint-disable-line camelcase
-	target_commitish?: string; // eslint-disable-line camelcase
+	tag_name: string;
+	target_commitish?: string;
 	name?: string;
 	body?: string;
 	draft?: boolean;

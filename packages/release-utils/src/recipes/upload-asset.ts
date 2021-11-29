@@ -26,7 +26,7 @@ function getAssets(maybeJson: string): Asset[] {
 async function wrap() {
 	requireEnvVariables(REQUIRED_KEYS);
 
-	// @ts-expect-error
+	// @ts-expect-error requireEnvVariables ensures this won't be an issue.
 	const env: Env = process.env;
 	const tagName = parseBranchName(env.GITHUB_REF);
 	const assets = getAssets(env.FILE_LIST.replace(/:tag:/g, tagName));

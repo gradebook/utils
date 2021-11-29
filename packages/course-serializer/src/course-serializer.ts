@@ -1,5 +1,5 @@
-import {Category as ICategory, ApiCategory as IApiCategory} from './interfaces/category';
-import {Course as ICourse, Cutoffs as ICutoffs, ApiCourse as IApiCourse} from './interfaces/course';
+import {Category as ICategory, ApiCategory as IApiCategory} from './interfaces/category.js';
+import {Course as ICourse, Cutoffs as ICutoffs, ApiCourse as IApiCourse} from './interfaces/course.js';
 
 export const COURSE_NAME = /^[a-z]{3,4}[- ]\d{3,4}$/i;
 export const CUTOFFS = new Set(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-']);
@@ -30,6 +30,9 @@ const isValidCategory = (category: ICategory): boolean =>
 	&& (Boolean(category.weight) || category.weight === 0);
 
 export const EXPORT_VERSION = 1;
+
+// @todo determine if using code point will cause an issue with imports
+/* eslint-disable unicorn/prefer-code-point */
 
 /**
  * Environment independent encoder. Note that in browser environments only support the latin-1 charset
@@ -117,8 +120,8 @@ export interface _ISerializedPayload {
 
 export interface IUnsafeCategory {
 	id?: string;
-	user_id?: string; // eslint-disable-line camelcase
-	course_id?: string; // eslint-disable-line camelcase
+	user_id?: string;
+	course_id?: string;
 	name: string;
 	weight: number;
 	dropped: number;
@@ -244,32 +247,26 @@ export function _deserializeCourseMeta(course: string): ICourseWithMeta {
 		credits: Number(credits),
 		name,
 		categories: null,
-		// Vikas wrote this code so blame him for using reduce :) He says it's the easiest
-		// way to transform an array to an object inline
-		// eslint-disable-next-line unicorn/no-array-reduce
-		cutoffs: cutoffs.reduce<Record<string, number>>((allCutoffs, currentCutoff) => {
-			const [name, value] = currentCutoff.split(',');
-			allCutoffs[name] = Number(value);
-			return allCutoffs;
-		}, {}),
+		cutoffs: Object.fromEntries<number>(cutoffs.map(cutoff => {
+			const [key, value] = cutoff.split(',');
+			return [key, Number(value)];
+		})),
 	};
 }
 
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 export function _stripCategory(category: ICategory | IUnsafeCategory): ICategory {
 	return {
 		name: category.name,
-		// @ts-expect-error
+		// @ts-expect-error doesn't handle optional chaining properly
 		numGrades: category.grades?.length ?? 0,
-		// @ts-expect-error
+		// @ts-expect-error doesn't handle optional chaining properly
 		droppedGrades: category.dropped ?? category.droppedGrades ?? 0,
 		weight: category.weight,
-		// @ts-expect-error
+		// @ts-expect-error doesn't handle optional chaining properly
 		isReallyCategory: (category.grades?.length !== 1),
 	};
 }
-/* eslint-enable @typescript-eslint/no-unsafe-member-access */
 /* eslint-enable @typescript-eslint/no-unsafe-assignment */
 
 export function strip(course: ICourse | IUnsafeCourse): ICourse {
@@ -352,4 +349,6 @@ export function prepareCourseForAPI(course: ICourse, semester: string): IApiCour
 	};
 }
 
-export {ICategory, ICourse};
+export {Category as ICategory} from './interfaces/category.js';
+export {Course as ICourse} from './interfaces/course.js';
+/* eslint-enable unicorn/prefer-code-point */

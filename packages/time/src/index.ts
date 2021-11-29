@@ -1,9 +1,10 @@
-import dayjs_ from 'dayjs';
+import dayjs from 'dayjs';
 import cpf from 'dayjs/plugin/customParseFormat';
 
-dayjs_.extend(cpf);
+dayjs.extend(cpf);
 
-export const dayjs = dayjs_;
-export * as semester from './semester';
-export * as tzOffset from './tz-offset';
-export {default as unitsToMs} from './units-to-ms';
+export * as semester from './semester.js';
+export * as tzOffset from './tz-offset.js';
+export {default as unitsToMs} from './units-to-ms.js';
+
+export {default as dayjs} from 'dayjs';

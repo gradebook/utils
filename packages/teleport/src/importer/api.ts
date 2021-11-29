@@ -1,10 +1,10 @@
 import ObjectId from 'bson-objectid';
 import AJV, {Format} from 'ajv';
 import {Knex} from 'knex';
-import {Export, Query, Cutoffs} from '../shared/interfaces';
-import {ValidationError} from './errors';
-import {SCHEMAS} from './schema';
-import {generateCourseQuery} from './generators';
+import {Export, Query, Cutoffs} from '../shared/interfaces.js';
+import {ValidationError} from './errors.js';
+import {SCHEMAS} from './schema/index.js';
+import {generateCourseQuery} from './generators.js';
 
 // Pulled from https://github.com/ajv-validator/ajv-formats/blob/ce49433448384b4c0b2407adafc345e43b85f8ea/src/formats.ts#L51
 const EMAIL: Format
@@ -29,7 +29,7 @@ export interface ImportOptions {
 	maxCategoriesPerCourse?: number;
 	maxGradesPerCategory?: number;
 	preserveDates?: boolean;
-	user_id?: string; // eslint-disable-line camelcase
+	user_id?: string;
 	gid: string;
 }
 

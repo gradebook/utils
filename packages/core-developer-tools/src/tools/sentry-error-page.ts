@@ -171,10 +171,10 @@ const template = `
 
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-// @ts-expect-error
+
+// @ts-expect-error types are wacky in this file
 const typeSafeWindow = window;
-// @ts-expect-error
+// @ts-expect-error types are wacky in this file
 const typeSafeDocument = document;
 
 class SentryErrorEmbed {
@@ -211,6 +211,6 @@ if (options.attachOnLoad !== false) {
 	embed.attach(options.parent || typeSafeDocument.body);
 	typeSafeWindow.sentryEmbedCallback?.(embed);
 }
+
 /* eslint-enable @typescript-eslint/no-unsafe-call */
-/* eslint-enable @typescript-eslint/no-unsafe-member-access */
 /* eslint-enable @typescript-eslint/no-unsafe-assignment */

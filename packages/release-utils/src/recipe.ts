@@ -7,7 +7,6 @@ if (!recipe) {
 }
 
 import(`./recipes/${recipe.toLowerCase()}.js`).catch(error => {
-	/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */
 	if (error.code === 'ERR_MODULE_NOT_FOUND') {
 		console.error(`Recipe "${recipe.toLowerCase()}" does not exist`);
 	} else {
