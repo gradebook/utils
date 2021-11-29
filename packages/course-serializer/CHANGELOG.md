@@ -1,3 +1,7 @@
+# 0.3.1
+
+ - Fix test/lint issue
+
 # 0.3.0
 
  - Expose validation internals. This will allow course serializer to be the source of truth for most course validation
