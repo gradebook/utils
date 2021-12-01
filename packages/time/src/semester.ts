@@ -61,16 +61,16 @@ const isWinterAllowed: SemesterAllowedFunction = (currentMonth, currentDay, curr
  *
  * Semester Timelines:
  *
- * January 15 - May 25 = Spring;
+ * January 10 - May 25 = Spring;
  * May 26 - August 10 = Summer;
  * August 11 - December 20 = Fall;
- * December 21 - January 14 = Winter;
+ * December 21 - January 09 = Winter;
  */
 function _getActiveSemester(currentMonth: number, currentDay: number, currentYear: number): string {
 	// CASE: January to May
 	if (currentMonth >= JANUARY && currentMonth <= MAY) {
 		// CASE: Before January 15 -> Winter of LAST year
-		if (currentMonth === JANUARY && currentDay < 15) {
+		if (currentMonth === JANUARY && currentDay < 10) {
 			return `${currentYear - 1}W`;
 		}
 
