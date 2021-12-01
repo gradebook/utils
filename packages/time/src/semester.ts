@@ -2,6 +2,7 @@
 
 const JANUARY = 1;
 const MAY = 5;
+const JUNE = 6;
 const AUGUST = 8;
 const DECEMBER = 12;
 
@@ -17,19 +18,20 @@ export const data: CurrentSemesterState = {
 
 type SemesterAllowedFunction = (currentMonth: number, currentDay: number, currentYear: number) => string;
 
-// Spring is active from January 5 to May 25
+// Spring is active from December 15 of the previous year to June 15
 const isSpringAllowed: SemesterAllowedFunction = (currentMonth, currentDay, currentYear) => {
-	const isAllowedJanuaryDay = currentMonth === JANUARY && currentDay >= 5;
-	const isAllowedMayDay = currentMonth === MAY && currentDay <= 25;
-	const isAllowed = isAllowedJanuaryDay || isAllowedMayDay || (currentMonth > JANUARY && currentMonth < MAY);
+	const isAllowedDecemberDay = currentMonth === DECEMBER && currentDay >= 15;
+	const isAllowedJuneDay = currentMonth === JUNE && currentDay <= 15;
+	const isAllowed = isAllowedDecemberDay || isAllowedJuneDay || currentMonth < JUNE;
+	const year = currentMonth === DECEMBER ? currentYear + 1 : currentYear;
 
-	return isAllowed ? `${currentYear}S` : null;
+	return isAllowed ? `${year}S` : null;
 };
 
-// Summer is active from May 10 to August 25
+// Summer is active from May 1 to August 31
 const isSummerAllowed: SemesterAllowedFunction = (currentMonth, currentDay, currentYear) => {
-	const isAllowedMayDay = currentMonth === 5 && currentDay >= 10;
-	const isAllowedAugustDay = currentMonth === 8 && currentDay <= 25;
+	const isAllowedMayDay = currentMonth === MAY && currentDay >= 1;
+	const isAllowedAugustDay = currentMonth === AUGUST && currentDay <= 31;
 	const isAllowed = isAllowedMayDay || isAllowedAugustDay || (currentMonth > MAY && currentMonth < AUGUST);
 
 	return isAllowed ? `${currentYear}U` : null;
@@ -44,10 +46,10 @@ const isFallAllowed: SemesterAllowedFunction = (currentMonth, currentDay, curren
 	return isAllowed ? `${currentYear}F` : null;
 };
 
-// Winter is active from December 7 to January 25
+// Winter is active from December 1 to January 31 of the following year
 const isWinterAllowed: SemesterAllowedFunction = (currentMonth, currentDay, currentYear) => {
-	const isAllowedDecemberDay = currentMonth === DECEMBER && currentDay >= 7;
-	const isAllowedJanuaryDay = currentMonth === JANUARY && currentDay <= 25;
+	const isAllowedDecemberDay = currentMonth === DECEMBER && currentDay >= 1;
+	const isAllowedJanuaryDay = currentMonth === JANUARY && currentDay <= 31;
 	const isAllowed = isAllowedDecemberDay || isAllowedJanuaryDay;
 	const year = currentMonth === JANUARY ? currentYear - 1 : currentYear;
 
