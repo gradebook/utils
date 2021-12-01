@@ -99,12 +99,12 @@ function _getActiveSemester(currentMonth: number, currentDay: number, currentYea
 		return `${currentYear}F`;
 	}
 
-	// CASE: After December 21 -> Winter
-	if (currentDay > 21) {
+	// CASE: After December 20 -> Winter
+	if (currentDay > 20) {
 		return `${currentYear}W`;
 	}
 
-	// CASE: In December but before December 21 -> Fall
+	// CASE: In December but on or before December 20 -> Fall
 	return `${currentYear}F`;
 }
 
