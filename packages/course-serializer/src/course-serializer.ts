@@ -1,20 +1,17 @@
 import {Category as ICategory, ApiCategory as IApiCategory} from './interfaces/category.js';
 import {Course as ICourse, Cutoffs as ICutoffs, ApiCourse as IApiCourse} from './interfaces/course.js';
+import * as c from './constants.js';
 
-export const COURSE_NAME = /^[a-z]{3,4}[- ]\d{3,4}$/i;
-export const CUTOFFS = new Set(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-']);
-export const SEMESTER = /^\d{4}[sufw]$/i;
-
-const validCourseName = (name: string): boolean => COURSE_NAME.test(name);
-const validCategoryName = (name: string): boolean => name.length > 0 && name.length <= 50;
-const validWeight = (weight: number): boolean => weight >= 0 && weight < 1_000_000;
-const validCredits = (credits: number): boolean => credits >= 0 && credits <= 5;
+const validCourseName = (name: string): boolean => c.COURSE_NAME.test(name);
+const validCategoryName = (name: string): boolean => name.length > 0 && name.length <= c.MAX_CATEGORY_NAME_LENGTH;
+const validWeight = (weight: number): boolean => weight >= 0 && weight <= c.MAX_WEIGHT;
+const validCredits = (credits: number): boolean => credits >= 0 && credits <= c.MAX_CREDITS;
 const validNumberCategories = (categories: ICategory[]): boolean => categories.length >= 2;
-const validTotalGrades = (totalGrades: number): boolean => totalGrades > 0 && totalGrades <= 40;
+const validTotalGrades = (totalGrades: number): boolean => totalGrades > 0 && totalGrades <= c.MAX_GRADES_PER_CATEGORY;
 const validDroppedGrades = (totalDropped: number, totalGrades: number): boolean =>
 	totalDropped >= 0 && totalGrades > totalDropped;
-const validCut = (cut: number): boolean => cut >= 10 && cut <= 10_000;
-const validCutName = (cutName: string): boolean => CUTOFFS.has(cutName);
+const validCut = (cut: number): boolean => cut >= c.MIN_CUTOFF && cut <= c.MAX_CUTOFF;
+const validCutName = (cutName: string): boolean => c.CUTOFFS.has(cutName);
 const validCutoffs = (cutoffs: ICutoffs): boolean => {
 	for (const [cutName, cutValue] of Object.entries(cutoffs)) {
 		if (!validCutName(cutName) || !validCut(cutValue)) {
@@ -351,4 +348,5 @@ export function prepareCourseForAPI(course: ICourse, semester: string): IApiCour
 
 export {Category as ICategory} from './interfaces/category.js';
 export {Course as ICourse} from './interfaces/course.js';
+export * as constants from './constants.js';
 /* eslint-enable unicorn/prefer-code-point */
