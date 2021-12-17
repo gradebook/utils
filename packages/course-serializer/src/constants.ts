@@ -1,6 +1,6 @@
 export const MAX_CATEGORY_NAME_LENGTH = 50;
 export const MAX_WEIGHT = 999_999;
-export const MAX_CREDITS = 5;
+export const MAX_CREDITS = 9;
 export const MAX_GRADES_PER_CATEGORY = 40;
 export const MIN_CUTOFF = 10;
 export const MAX_CUTOFF = 10_000;
