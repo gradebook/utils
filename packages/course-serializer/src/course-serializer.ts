@@ -72,8 +72,7 @@ export function isomorphicBtoA(thingToEncode: string): string {
 		bytes[i] = thingToEncode.charCodeAt(i);
 	}
 
-	const safeUnencoded = String.fromCharCode(...new Uint8Array(bytes.buffer))
-		.replace(/\u0000/g, ''); // eslint-disable-line no-control-regex
+	const safeUnencoded = String.fromCharCode(...new Uint8Array(bytes.buffer));
 
 	return typeof btoa === 'function'
 		? (btoa as (s: string) => string)(safeUnencoded)
