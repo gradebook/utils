@@ -2,7 +2,7 @@ import {URL} from 'url';
 import * as path from 'path';
 import * as jose from 'jose';
 import type {Request, Response, NextFunction} from 'express';
-import {readJwt} from './jwt-parser.js';
+import {IS_403, readJwt} from './jwt-parser.js';
 import {useNonce, extractHeader} from './nonce.js';
 
 export type ServiceAuthOptions = {
@@ -59,15 +59,11 @@ export function useServiceAuth(options: ServiceAuthOptions) {
 			return;
 		}
 
-		const token = await readJwt(keyStore, authorization[1]);
+		const token = await readJwt(keyStore, authorization[1], [serviceName]);
 
 		if (typeof token === 'string') {
-			response.status(401).json({error: token});
-			return;
-		}
-
-		if (!token.permissions.includes(serviceName)) {
-			response.status(403).json({error: 'Access denied'});
+			const statusCode = token === IS_403 ? 403 : 401;
+			response.status(statusCode).json({error: token});
 			return;
 		}
 

@@ -51,16 +51,15 @@ module.exports = class KeyManager {
 		this.invalidPrivateKey = await jose.importJWK(keys[1].private, KEY_ALGORITHM);
 		this.validKid = keys[0].kid;
 		this.invalidKid = keys[1].kid;
-		const permissions = JSON.stringify(['mailer']);
 		this.invalidJWE = await createJWE({}, {kid: this.invalidKid, key: this.invalidPrivateKey});
 		this.validJWEButEmptyPayload = await createJWE({}, {kid: this.validKid, key: this.validPrivateKey});
 		this.validJWEButInvalidPerms = await createJWE(
-			{id: 'testing', permissions: '{'}, {kid: this.validKid, key: this.validPrivateKey},
+			{id: 'testing', aud: '{'}, {kid: this.validKid, key: this.validPrivateKey},
 		);
 		this.validJWEButInvalidPerms2 = await createJWE({
-			id: 'testing', permissions: '[123]',
+			id: 'testing', aud: '[123]',
 		}, {kid: this.validKid, key: this.validPrivateKey});
-		this.validJWE = await createJWE({id: 'testing', permissions}, {kid: this.validKid, key: this.validPrivateKey});
+		this.validJWE = await createJWE({id: 'testing', aud: ['mailer']}, {kid: this.validKid, key: this.validPrivateKey});
 		this.reset();
 	}
 
