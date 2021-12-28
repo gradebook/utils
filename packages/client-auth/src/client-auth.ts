@@ -97,6 +97,7 @@ export class AuthManager {
 
 		try {
 			request = await this.fetch(resolvePaths(this.gatewayRoot, '/api/v0/token').href, {
+				method: 'post',
 				headers: {
 					'content-type': 'application/json',
 				},
