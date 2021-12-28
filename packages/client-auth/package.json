@@ -1,0 +1,36 @@
+{
+  "name": "@gradebook/client-auth",
+  "version": "0.0.1",
+  "description": "Authorization management for service:service authentication using a centralized gateway",
+  "keywords": [],
+  "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
+  "homepage": "https://github.com/gradebook/utils#readme",
+  "bugs": "https://github.com/gradebook/utils/issues",
+  "license": "MIT",
+  "main": "lib/client-auth.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gradebook/utils.git",
+    "directory": "packages/client-auth"
+  },
+  "scripts": {
+    "pretest": "tsc",
+    "test": "mocha __tests__ --recursive --colors",
+    "test:coverage": "nyc --reporter=html --reporter=text mocha __tests__ --recursive --colors",
+    "prepublish": "tsc",
+    "tsc": "tsc",
+    "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\""
+  },
+  "xo": false,
+  "dependencies": {
+    "node-fetch": "^2.0.0"
+  }
+}

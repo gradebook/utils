@@ -22,7 +22,7 @@ Service A is allowed to access Service B (at the macro level).
 `./.well-known/jwks.json` in [rfc7517](https://datatracker.ietf.org/doc/html/rfc7517) format)
 1. If needed, Service B confirms Service A has the required granular permissions
 
-@gradebook/service-auth handles step 5, and @gradebook/client-auth (not yet released) will handle step 2
+@gradebook/service-auth handles step 5, and @gradebook/client-auth handles step 2
 
 ## Usage
 
