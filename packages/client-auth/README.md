@@ -29,9 +29,9 @@ const manager = new AuthManager(
 // Endpoints: POST `${gatewayRoot}/api/v0/token`
 //            GET `${gatewayRoot}/api/v0/resolve/:service_name
 const [{ip, port, hostname}, fetchOptions] = await manager.getRequestInfo('group_0_service_a');
-const url = new URL(`${ip}:${port}`);
-url.pathname = '/api/v0/do-something';
-fetchOptions.headers.host = hostname;
+// We can use `${ip}:${port}` because includeHostInHeader defaults to true - meaning a `host` header is sent along with
+// the auth token.
+const url = new URL(`${ip}:${port}/api/v0/do-something`/*, {includeHostInHeader: true} */});
 
 const response = await fetch(url.href, fetchOptions).catch(error => {
 	// Example: service_a moves to another server. This removes the resolution from the cache

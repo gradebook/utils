@@ -91,6 +91,8 @@ describe('Unit > Client Auth', function () {
 			}
 		};
 
+		let includeHostInHeader = false;
+
 		const assertResponse = (request, resolutionNumber, hostname, tokenNumber) => request.then(response => {
 			expect(response[0]).to.deep.contain({
 				__index: resolutionNumber,
@@ -98,12 +100,14 @@ describe('Unit > Client Auth', function () {
 			});
 
 			expect(response[1].headers.authorization).to.contain(` s${tokenNumber}.`);
+			expect(Boolean(response[1].headers.host)).to.equal(includeHostInHeader);
 		});
 
 		// The bucket resolution for a shared service chooses the last bucket match because internally it's a basic for loop
 		// The purpose of this test is to make sure that we reuse tokens/resolutions as much as possible.
-		await assertResponse(service.getRequestInfo('shared'), 0, 'shared.local', 1);
-		await assertResponse(service.getRequestInfo('shared'), 0, 'shared.local', 1);
+		await assertResponse(service.getRequestInfo('shared', {includeHostInHeader}), 0, 'shared.local', 1);
+		includeHostInHeader = true;
+		await assertResponse(service.getRequestInfo('shared', {includeHostInHeader}), 0, 'shared.local', 1);
 		await assertResponse(service.getRequestInfo('group_2_0'), 1, 'group_2_0.local', 1);
 		expect(fetch.history).to.have.length(3);
 

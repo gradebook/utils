@@ -10,6 +10,10 @@ interface Resolution {
 	hostname: string;
 }
 
+interface GetRequestOptions {
+	includeHostInHeader?: boolean;
+}
+
 type CachedToken = [number, string];
 
 export function getSafeExpiryFromJwt(jwt: string): number | null {
@@ -71,15 +75,22 @@ export class AuthManager {
 		}
 	}
 
-	async getRequestInfo(serviceName: string): Promise<[Resolution, RequestInit] | null> {
+	async getRequestInfo(
+		serviceName: string,
+		{includeHostInHeader = true}: GetRequestOptions = {},
+	): Promise<[Resolution, RequestInit] | null> {
 		const resolution = this.#resolver.get(serviceName) ?? await this.#fetchServiceInfo(serviceName);
-		const token = await this.#getFetchOptionsWithAuthorization(serviceName);
+		const fetchOptions = await this.#getFetchOptionsWithAuthorization(serviceName);
 
 		if (!resolution) {
 			return null;
 		}
 
-		return [resolution, token];
+		if (includeHostInHeader) {
+			(fetchOptions.headers as Record<string, string>).host = resolution.hostname;
+		}
+
+		return [resolution, fetchOptions];
 	}
 
 	serviceFailedConnecting(serviceName: string) {
