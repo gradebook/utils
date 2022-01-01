@@ -47,7 +47,7 @@ export function useServiceAuth(options: ServiceAuthOptions) {
 	const {serviceName} = options;
 
 	return async (request: RequestWithGatewayToken, response: Response, next: NextFunction) => {
-		const nonce = nonceService?.assert(request, response);
+		const nonce = nonceService?.assert(request, response, next);
 		const authorization = extractHeader(request, 'authorization')?.split(/\s+/);
 
 		if (
