@@ -1,6 +1,6 @@
 {
   "name": "@gradebook/service-auth",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Service Authentication made simple",
   "keywords": [],
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
