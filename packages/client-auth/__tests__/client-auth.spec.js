@@ -48,8 +48,7 @@ describe('Unit > Client Auth', function () {
 	beforeEach(function () {
 		fetch.reset();
 		service = new AuthManager(
-			'https://gateway.local',
-			'client_id:client_secret',
+			'https://client_id:client_secret@gateway.local',
 			[
 				['group_0_0', 'group_0_1', 'shared'],
 				['group_1_0', 'group_1_1', 'group_1_2'],
@@ -58,6 +57,21 @@ describe('Unit > Client Auth', function () {
 			// @ts-expect-error
 			fetch.proxy,
 		);
+	});
+
+	it('requires auth in accessUrl', function () {
+		const assertFailure = test => {
+			try {
+				const shouldFail = new AuthManager(test, [[]]);
+				expect(shouldFail, 'Should have failed').to.not.be.ok;
+			} catch (error) {
+				expect(error.message).to.contain('authorization');
+			}
+		};
+
+		assertFailure('https://gateway.local');
+		assertFailure('https://abc@gateway.local');
+		assertFailure('https://:abc@gateway.local');
 	});
 
 	it('getRequestInfo - caching and response', async function () {

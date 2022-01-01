@@ -10,8 +10,7 @@ See [@gradebook/service-auth](https://github.com/gradebook/utils/tree/master/pac
 const {AuthManager} = require('@gradebook/client-auth');
 
 const manager = new AuthManager(
-	'https://auth.internal/', // Gateway root
-	'client_id:client_secret', // Credentials for Gateway
+	'https://client_id:client_secret@auth.internal/', // Gateway with credentials
 	// "buckets" of services that can be used together. This is done to reduce the number of tokens
 	// requested from Gateway. e.g. when I talk to Service B, I usually also talk to Service A.
 	// This can be as complicated or as simple as you want, but it should include every service

@@ -44,13 +44,26 @@ export class AuthManager {
 	#resolver = new Map<string, Resolution>();
 	#serviceLocation = new Map<string, number>();
 	#tokens = new Map<string, CachedToken>();
+	readonly #gatewayRoot: string;
+	readonly #credentials: string;
 
 	constructor(
-		private readonly gatewayRoot: string,
-		private readonly credentials: string,
+		accessUrl: string,
 		private readonly serviceMap: string[][],
 		private readonly fetch = fetchCore,
 	) {
+		const parsedUrl = new URL(accessUrl);
+
+		if (!parsedUrl.username || !parsedUrl.password) {
+			throw new Error('Missing authorization');
+		}
+
+		this.#credentials = `${parsedUrl.username}:${parsedUrl.password}`;
+		parsedUrl.password = '';
+		parsedUrl.username = '';
+
+		this.#gatewayRoot = parsedUrl.href;
+
 		for (const [bucketIndex, bucket] of serviceMap.entries()) {
 			for (const serviceName of bucket) {
 				this.#serviceLocation.set(serviceName, bucketIndex);
@@ -96,13 +109,13 @@ export class AuthManager {
 		let request: Response;
 
 		try {
-			request = await this.fetch(resolvePaths(this.gatewayRoot, '/api/v0/token').href, {
+			request = await this.fetch(resolvePaths(this.#gatewayRoot, '/api/v0/token').href, {
 				method: 'post',
 				headers: {
 					'content-type': 'application/json',
 				},
 				body: JSON.stringify({
-					identifier: this.credentials,
+					identifier: this.#credentials,
 					permissions,
 				}),
 			});
@@ -137,7 +150,7 @@ export class AuthManager {
 	}
 
 	async #fetchServiceInfo(serviceName: string): Promise<Readonly<Resolution> | null> {
-		const url = resolvePaths(this.gatewayRoot, `/api/v0/resolve/${serviceName}`);
+		const url = resolvePaths(this.#gatewayRoot, `/api/v0/resolve/${serviceName}`);
 		const options = await this.#getFetchOptionsWithAuthorization(serviceName);
 		const response = await this.fetch(url.href, options);
 
