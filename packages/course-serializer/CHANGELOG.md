@@ -1,3 +1,8 @@
+# 0.3.2
+
+ - :sparkles: expose course constants in course serializer
+ - :sparkles: increase max credits from 5 to 9
+
 # 0.3.1
 
  - Fix test/lint issue
