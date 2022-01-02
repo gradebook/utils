@@ -5,7 +5,10 @@ export class PublishPackageError extends Error {
 	isReleaseUtilsError = true;
 }
 
-export async function publishPackage(shaOrTagName: string, packageJson: PackageJson, $ = zx$) {
+/**
+ * @returns the associated Git tag name for the release
+ */
+export async function publishPackage(shaOrTagName: string, packageJson: PackageJson, $ = zx$): Promise<string> {
 	// This will resolve a tag name OR a sha to a tag name
 	const tagNameRaw = await $`git tag --points-at ${shaOrTagName}`;
 	const tagName = tagNameRaw.stdout.trim().split('\n').shift();
@@ -27,4 +30,5 @@ export async function publishPackage(shaOrTagName: string, packageJson: PackageJ
 	}
 
 	await $`yarn publish --non-interactive --new-version ${version} --access public`;
+	return tagName;
 }

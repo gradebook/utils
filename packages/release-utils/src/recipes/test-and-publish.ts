@@ -1,6 +1,7 @@
 import {$} from 'zx';
 import {configureForRelease, PackageJson as MinimalPackageJson} from '../api/configure-for-release.js';
 import * as envCore from '../api/get-var-from-env.js';
+import {publishPossibleGitHubRelease} from '../api/publish-github-release.js';
 import {publishPackage} from '../api/publish-package.js';
 
 const SPECIAL_SCRIPT = 'autorelease:test';
@@ -16,6 +17,9 @@ interface PackageJson extends MinimalPackageJson {
 
 async function wrap() {
 	const sha = envCore.getKeyFromEnvironment(envCore.shaInGitHubActions);
+	const repository = envCore.getKeyFromEnvironment(envCore.repositoryInGitHubActions);
+	const token = envCore.getKeyFromEnvironment(envCore.tokenInGitHubActions);
+
 	const packageJson = await configureForRelease(sha) as PackageJson;
 
 	if (!packageJson.scripts?.[SPECIAL_SCRIPT] && !packageJson.scripts?.[FALLBACK_SCRIPT]) {
@@ -30,7 +34,8 @@ async function wrap() {
 	await $`yarn lint`;
 	await $`yarn ${testScript}`;
 
-	await publishPackage(sha, packageJson);
+	const tagName = await publishPackage(sha, packageJson);
+	await publishPossibleGitHubRelease({tagName, repository, token});
 }
 
 void wrap().catch(error => {
