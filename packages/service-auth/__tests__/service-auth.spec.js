@@ -2,6 +2,7 @@
 const {IncomingMessage} = require('http');
 const {expect} = require('chai');
 const sinon = require('sinon');
+const {__forTestOnlyHistory} = require('../lib/nonce.js');
 const {useServiceAuth, resolvePaths} = require('../lib/service-auth.js');
 const FakeResponse = require('./utils/fake-response.js');
 const KeyManager = require('./utils/key-manager.js');
@@ -23,6 +24,10 @@ describe('Unit > Service Auth', function () {
 	});
 
 	beforeEach(function () {
+		for (const [index] of __forTestOnlyHistory.entries()) {
+			__forTestOnlyHistory[index] = undefined;
+		}
+
 		keyStore.reset();
 		// @ts-expect-error stubs
 		request = new IncomingMessage(null);
@@ -46,9 +51,11 @@ describe('Unit > Service Auth', function () {
 	it('Header is not provided / is invalid', async function () {
 		const doesNotThrow = sinon.stub().throws();
 		authenticate(request, fakeResponse, doesNotThrow);
+		let nonceIndex = 0;
 
 		const assertInvalid = async () => {
 			fakeResponse.__reset();
+			request.headers['x-gateway-nonce'] = `000${nonceIndex++}`;
 			await authenticate(request, fakeResponse, doesNotThrow);
 			expect(fakeResponse).to.deep.contain({
 				used: true,
@@ -72,6 +79,7 @@ describe('Unit > Service Auth', function () {
 		const doesNotThrow = sinon.stub().throws();
 
 		request.headers.authorization = 'Bearer this.is.not.a.jwt';
+		request.headers['x-gateway-nonce'] = '0000';
 		await authenticate(request, fakeResponse, doesNotThrow);
 
 		expect(fakeResponse).to.deep.contain({
@@ -90,6 +98,7 @@ describe('Unit > Service Auth', function () {
 		});
 
 		request.headers.authorization = `Bearer ${keyStore.validJWE}`;
+		request.headers['x-gateway-nonce'] = '0000';
 		await authenticate(request, fakeResponse, doesNotThrow);
 
 		expect(fakeResponse).to.deep.contain({

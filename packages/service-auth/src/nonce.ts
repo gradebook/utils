@@ -1,4 +1,4 @@
-import type {NextFunction, Request, Response} from 'express';
+import type {Request, Response} from 'express';
 
 export function extractHeader(request: Request, key: string) {
 	const value = request.headers[key];
@@ -9,21 +9,33 @@ export function extractHeader(request: Request, key: string) {
 const history = Array.from({length: 128});
 let currentIndex = 0;
 
+export const __forTestOnlyHistory = history;
+
+export function useNoopNonce() {
+	return {
+		assert() {
+			return '';
+		},
+
+		track() {
+			// Noop
+		},
+	};
+}
+
 export function useNonce() {
 	return {
-		assert(request: Request, response: Response, next: NextFunction) {
+		assert(request: Request, response: Response) {
 			const nonce = extractHeader(request, 'x-gateway-nonce');
 
 			if (!nonce) {
 				response.status(400).json({error: 'nonce is required'});
-				next(new Error('Missing nonce'));
-				return;
+				return false;
 			}
 
 			if (history.includes(nonce)) {
 				response.status(400).json({error: 'reused nonce'});
-				next(new Error('Reused nonce'));
-				return;
+				return false;
 			}
 
 			return nonce;

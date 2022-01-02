@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as jose from 'jose';
 import type {Request, Response, NextFunction} from 'express';
 import {IS_403, readJwt} from './jwt-parser.js';
-import {useNonce, extractHeader} from './nonce.js';
+import {useNonce, useNoopNonce, extractHeader} from './nonce.js';
 
 export type ServiceAuthOptions = {
 	serviceName: string;
@@ -38,16 +38,18 @@ export function useServiceAuth(options: ServiceAuthOptions) {
 	const keyStore = options.store ?? jose
 		.createRemoteJWKSet(resolvePaths(options.gatewayRoot!, '.well-known/jwks.json'));
 
-	let nonceService: ReturnType<typeof useNonce> | undefined;
-
-	if (typeof options.requireNonce === 'undefined' || options.requireNonce) {
-		nonceService = useNonce();
-	}
+	const nonceService = (typeof options.requireNonce === 'undefined' || options.requireNonce)
+		? useNonce() : useNoopNonce();
 
 	const {serviceName} = options;
 
 	return async (request: RequestWithGatewayToken, response: Response, next: NextFunction) => {
-		const nonce = nonceService?.assert(request, response, next);
+		const nonce = nonceService.assert(request, response);
+
+		if (nonce === false) {
+			return;
+		}
+
 		const authorization = extractHeader(request, 'authorization')?.split(/\s+/);
 
 		if (
@@ -67,7 +69,7 @@ export function useServiceAuth(options: ServiceAuthOptions) {
 			return;
 		}
 
-		nonceService?.track(nonce!);
+		nonceService.track(nonce);
 
 		request.gateway = {
 			integration: token.integration,
