@@ -6,9 +6,10 @@ export function extractHeader(request: Request, key: string) {
 	return Array.isArray(value) ? value[0] : value;
 }
 
-export function useNonce(size = 128) {
-	const history: string[] = Array.from({length: size});
-	let currentIndex = 0;
+const history = Array.from({length: 128});
+let currentIndex = 0;
+
+export function useNonce() {
 	return {
 		assert(request: Request, response: Response, next: NextFunction) {
 			const nonce = extractHeader(request, 'x-gateway-nonce');
