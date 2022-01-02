@@ -1,6 +1,6 @@
 import {$} from 'zx';
 import {configureForRelease, PackageJson as MinimalPackageJson} from '../api/configure-for-release.js';
-import {getShaFromEnvironment} from '../api/get-sha-from-env.js';
+import * as envCore from '../api/get-var-from-env.js';
 import {publishPackage} from '../api/publish-package.js';
 
 const SPECIAL_SCRIPT = 'autorelease:test';
@@ -15,7 +15,7 @@ interface PackageJson extends MinimalPackageJson {
 }
 
 async function wrap() {
-	const sha = getShaFromEnvironment();
+	const sha = envCore.getKeyFromEnvironment(envCore.shaInGitHubActions);
 	const packageJson = await configureForRelease(sha) as PackageJson;
 
 	if (!packageJson.scripts?.[SPECIAL_SCRIPT] && !packageJson.scripts?.[FALLBACK_SCRIPT]) {

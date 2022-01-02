@@ -1,10 +1,10 @@
 /* eslint-disable unicorn/no-process-exit */
-import {getShaFromEnvironment} from '../api/get-sha-from-env.js';
+import * as envCore from '../api/get-var-from-env.js';
 import {configureForRelease} from '../api/configure-for-release.js';
 import {publishPackage} from '../api/publish-package.js';
 
 async function wrap() {
-	const sha = getShaFromEnvironment();
+	const sha = envCore.getKeyFromEnvironment(envCore.shaInGitHubActions);
 	try {
 		const packageJson = await configureForRelease(sha);
 		await publishPackage(sha, packageJson);
