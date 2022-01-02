@@ -4,6 +4,9 @@ on:
     tags:
     - '**'
 
+permissions:
+  contents: write # Required to support publishing a reelase
+
 jobs:
   automate:
     runs-on: ubuntu-latest
