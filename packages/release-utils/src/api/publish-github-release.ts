@@ -44,10 +44,9 @@ export async function publishPossibleGitHubRelease({
 	if (release.draft) {
 		console.log('Publishing GitHub release for "%s".', tagName);
 		headers['content-type'] = 'application/json';
-		headers.method = 'PATCH';
 		const body = JSON.stringify({draft: false});
 
-		const finalize = await fetch(release.url, {headers, body});
+		const finalize = await fetch(release.url, {method: 'PATCH', headers, body});
 		const {draft} = await finalize.json() as PartialGitHubRelease;
 		return !draft;
 	}
