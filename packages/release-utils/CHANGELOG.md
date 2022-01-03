@@ -1,3 +1,7 @@
+# 0.4.1
+
+ - :bug: fix typo in authorization header
+
 # 0.4.0
 
  - :sparkles: publish draft release after npm publish succeeds
