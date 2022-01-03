@@ -1,3 +1,7 @@
+# 0.4.3
+
+ - use releases list rather than searching for a specific release
+
 # 0.4.2
 
  - fix typo
