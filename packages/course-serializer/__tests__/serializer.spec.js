@@ -16,9 +16,9 @@ const getExampleCourse = () => JSON.parse(exampleCourse);
 
 // The only thing that should change is the letter after `eyJtIjoiMXwyMDI` since it's year-dependent
 
-const SERIALIZED_COURSE_16 = 'ewAiAG0AIgA6ACIAMQB8ADIAMAAyADEAfAAwAHwANAB8AEEALAA5ADAAfABCACwAOAAwAHwAQwAsADcAMAB8AEQALAA2ADAAfABFAHgAYQBtAHAAbABlACAAQwBvAHUAcgBzAGUAIgAsACIAegAiADoAWwAiADEAfAAwAHwAMgAwAHwAMAB8AEEAdAB0AGUAbgBkAGEAbgBjAGUAIgAsACIAMQB8ADAAfAAxADMAfAAxAHwATwBuAGwAaQBuAGUAIABRAHUAaQB6AHoAZQBzACIALAAiADEAfAAwAHwANAB8ADUAfABDAHUAbAB0AHUAcgBhAGwAIABEAGkAcwBjAG8AdQByAHMAZQAgAEoAbwB1AHIAbgBhAGwAIgAsACIAMAB8ADAAfAAxAHwAMgAwAHwARQB4AGEAbQAgADEAIgAsACIAMAB8ADAAfAAxAHwAMgAwAHwARQB4AGEAbQAgADIAIgAsACIAMAB8ADAAfAAxAHwANQB8AEkAbgBpAHQAaQBhAGwAIABFAHMAcwBhAHkAIgAsACIAMAB8ADAAfAAxAHwAMQA1AHwARgBpAG4AYQBsACAARQBzAHMAYQB5ACIALAAiADEAfAAwAHwAMgB8ADEAMAB8AFMAaABvAHIAdAAgAFAAYQBwAGUAcgAiACwAIgAwAHwAMAB8ADEAfAA1AHwAUABhAHIAdABpAGMAaQBwAGEAdABpAG8AbgAiACwAIgAwAHwAMAB8ADEAfAA1AHwAUAByAGUAcwBlAG4AdABhAHQAaQBvAG4AIgAsACIAMAB8ADAAfAAxAHwAMQA1AHwATwBuAGwAaQBuAGUAIABRAHUAaQB6AHoAZQBzACAAYQBmAHQAZQByACAAZAByAG8AcABwAGUAZAAiAF0AfQA=';
+const SERIALIZED_COURSE_16 = 'ewAiAG0AIgA6ACIAMQB8ADIAMAAyADIAfAAwAHwANAB8AEEALAA5ADAAfABCACwAOAAwAHwAQwAsADcAMAB8AEQALAA2ADAAfABFAHgAYQBtAHAAbABlACAAQwBvAHUAcgBzAGUAIgAsACIAegAiADoAWwAiADEAfAAwAHwAMgAwAHwAMAB8AEEAdAB0AGUAbgBkAGEAbgBjAGUAIgAsACIAMQB8ADAAfAAxADMAfAAxAHwATwBuAGwAaQBuAGUAIABRAHUAaQB6AHoAZQBzACIALAAiADEAfAAwAHwANAB8ADUAfABDAHUAbAB0AHUAcgBhAGwAIABEAGkAcwBjAG8AdQByAHMAZQAgAEoAbwB1AHIAbgBhAGwAIgAsACIAMAB8ADAAfAAxAHwAMgAwAHwARQB4AGEAbQAgADEAIgAsACIAMAB8ADAAfAAxAHwAMgAwAHwARQB4AGEAbQAgADIAIgAsACIAMAB8ADAAfAAxAHwANQB8AEkAbgBpAHQAaQBhAGwAIABFAHMAcwBhAHkAIgAsACIAMAB8ADAAfAAxAHwAMQA1AHwARgBpAG4AYQBsACAARQBzAHMAYQB5ACIALAAiADEAfAAwAHwAMgB8ADEAMAB8AFMAaABvAHIAdAAgAFAAYQBwAGUAcgAiACwAIgAwAHwAMAB8ADEAfAA1AHwAUABhAHIAdABpAGMAaQBwAGEAdABpAG8AbgAiACwAIgAwAHwAMAB8ADEAfAA1AHwAUAByAGUAcwBlAG4AdABhAHQAaQBvAG4AIgAsACIAMAB8ADAAfAAxAHwAMQA1AHwATwBuAGwAaQBuAGUAIABRAHUAaQB6AHoAZQBzACAAYQBmAHQAZQByACAAZAByAG8AcABwAGUAZAAiAF0AfQA=';
 
-const SERIALIZED_COURSE_8 = 'eyJtIjoiMXwyMDIxfDB8NHxBLDkwfEIsODB8Qyw3MHxELDYwfEV4YW1wbGUgQ291cnNlIiwieiI6WyIxfDB8MjB8MHxBdHRlbmRhbmNlIiwiMXwwfDEzfDF8T25saW5lIFF1aXp6ZXMiLCIxfDB8NHw1fEN1bHR1cmFsIERpc2NvdXJzZSBKb3VybmFsIiwiMHwwfDF8MjB8RXhhbSAxIiwiMHwwfDF8MjB8RXhhbSAyIiwiMHwwfDF8NXxJbml0aWFsIEVzc2F5IiwiMHwwfDF8MTV8RmluYWwgRXNzYXkiLCIxfDB8MnwxMHxTaG9ydCBQYXBlciIsIjB8MHwxfDV8UGFydGljaXBhdGlvbiIsIjB8MHwxfDV8UHJlc2VudGF0aW9uIiwiMHwwfDF8MTV8T25saW5lIFF1aXp6ZXMgYWZ0ZXIgZHJvcHBlZCJdfQ==';
+const SERIALIZED_COURSE_8 = 'eyJtIjoiMXwyMDIyfDB8NHxBLDkwfEIsODB8Qyw3MHxELDYwfEV4YW1wbGUgQ291cnNlIiwieiI6WyIxfDB8MjB8MHxBdHRlbmRhbmNlIiwiMXwwfDEzfDF8T25saW5lIFF1aXp6ZXMiLCIxfDB8NHw1fEN1bHR1cmFsIERpc2NvdXJzZSBKb3VybmFsIiwiMHwwfDF8MjB8RXhhbSAxIiwiMHwwfDF8MjB8RXhhbSAyIiwiMHwwfDF8NXxJbml0aWFsIEVzc2F5IiwiMHwwfDF8MTV8RmluYWwgRXNzYXkiLCIxfDB8MnwxMHxTaG9ydCBQYXBlciIsIjB8MHwxfDV8UGFydGljaXBhdGlvbiIsIjB8MHwxfDV8UHJlc2VudGF0aW9uIiwiMHwwfDF8MTV8T25saW5lIFF1aXp6ZXMgYWZ0ZXIgZHJvcHBlZCJdfQ==';
 
 describe('Unit > Serializer', function () {
 	it('strip properly removes PII from a category', function () {
@@ -34,7 +34,7 @@ describe('Unit > Serializer', function () {
 	it('separateMetadata - 16-bit', function () {
 		const json = serializer.isomorphicAtoB(SERIALIZED_COURSE_16);
 		expect(serializer.separateMetadata(json)).to.deep.equal({
-			metadata: '1|2021',
+			metadata: '1|2022',
 			course: '{"m":"0|4|A,90|B,80|C,70|D,60|Example Course","z":["1|0|20|0|Attendance","1|0|13|1|Online Quizzes","1|0|4|5|Cultural Discourse Journal","0|0|1|20|Exam 1","0|0|1|20|Exam 2","0|0|1|5|Initial Essay","0|0|1|15|Final Essay","1|0|2|10|Short Paper","0|0|1|5|Participation","0|0|1|5|Presentation","0|0|1|15|Online Quizzes after dropped"]}',
 		});
 	});
@@ -42,14 +42,14 @@ describe('Unit > Serializer', function () {
 	it('separateMetadata - 8-bit', function () {
 		const json = serializer.isomorphicAtoB(SERIALIZED_COURSE_8);
 		expect(serializer.separateMetadata(json)).to.deep.equal({
-			metadata: '1|2021',
+			metadata: '1|2022',
 			course: '{"m":"0|4|A,90|B,80|C,70|D,60|Example Course","z":["1|0|20|0|Attendance","1|0|13|1|Online Quizzes","1|0|4|5|Cultural Discourse Journal","0|0|1|20|Exam 1","0|0|1|20|Exam 2","0|0|1|5|Initial Essay","0|0|1|15|Final Essay","1|0|2|10|Short Paper","0|0|1|5|Participation","0|0|1|5|Presentation","0|0|1|15|Online Quizzes after dropped"]}',
 		});
 	});
 
 	it('joinMetadata', function () {
 		expect(serializer.joinMetadata(
-			'1|2021',
+			'1|2022',
 			'{"m":"0|4|A,90|B,80|C,70|D,60|Example Course","z":["1|0|20|0|Attendance","1|0|13|1|Online Quizzes","1|0|4|5|Cultural Discourse Journal","0|0|1|20|Exam 1","0|0|1|20|Exam 2","0|0|1|5|Initial Essay","0|0|1|15|Final Essay","1|0|2|10|Short Paper","0|0|1|5|Participation","0|0|1|5|Presentation","0|0|1|15|Online Quizzes after dropped"]}',
 		)).to.equal(serializer.isomorphicAtoB(SERIALIZED_COURSE_16));
 	});
