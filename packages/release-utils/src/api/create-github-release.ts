@@ -57,7 +57,7 @@ export default async function createGitHubReleaseFromExistingTag({
 		headers: {
 			'content-type': 'application/json',
 			accept: 'application/vnd.github.v3+json',
-			authorization: `token ${token}`,
+			authorization: `Bearer ${token}`,
 		},
 	}).then(async (response): Promise<GithubPutReleaseResponse> => response.json());
 

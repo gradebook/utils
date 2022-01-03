@@ -22,7 +22,7 @@ export async function publishPossibleGitHubRelease({
 	const headers = {
 		'content-type': 'application/json',
 		accept: 'application/vnd.github.v3+json',
-		authorization: `token ${token}`,
+		authorization: `Bearer ${token}`,
 	};
 
 	const rawResponse = await fetch(releaseInformationUrl, {headers});

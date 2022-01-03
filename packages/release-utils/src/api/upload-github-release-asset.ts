@@ -28,7 +28,7 @@ export async function makeGitHubRequest<ResponseType>(url: string, options: Requ
 	const headers: Record<string, string> = options.headers ?? {};
 	headers['content-type'] = 'application/json';
 	headers.accept = 'application/vnd.github.v3+json';
-	headers.authorization = `token ${authToken}`;
+	headers.authorization = `Bearer ${authToken}`;
 
 	options.headers = headers;
 
