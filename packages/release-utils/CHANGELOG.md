@@ -1,3 +1,9 @@
+# 0.4.0
+
+ - :sparkles: publish draft release after npm publish succeeds
+ - :sparkles: add support for generic webhooks
+ - :recycle:  refactor get-sha-from-env to get-{var}-from-env
+
 # 0.3.1
 
  - add support for :tag: variable in upload-asset recipe
