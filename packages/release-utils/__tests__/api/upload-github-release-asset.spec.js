@@ -28,7 +28,7 @@ describe('Unit > API > Package Publisher', function () {
 		const mainHeaders = {
 			'content-type': 'application/json',
 			accept: 'application/vnd.github.v3+json',
-			authorization: 'token AUTH_TOKEN',
+			authorization: 'Bearer AUTH_TOKEN',
 		};
 
 		const exampleHeader = {'x-test-header': 'true'};
