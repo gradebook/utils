@@ -28,3 +28,5 @@ jobs:
       - name: Build latest version of release-utils
         run: yarn --cwd packages/release-utils prepublish
       - run: node packages/release-utils/lib/recipe.js test-and-publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
