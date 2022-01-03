@@ -1,3 +1,7 @@
+# 0.3.3
+
+ - No user-facing changes relative to v0.3.2
+
 # 0.3.2
 
  - :sparkles: expose course constants in course serializer
