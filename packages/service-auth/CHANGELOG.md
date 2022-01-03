@@ -1,3 +1,8 @@
+# 0.2.0
+
+ - use global nonce store rather than per-instance
+ - implement better fix when nonce fails
+
 # 0.1.1
 
  - :bug: fix cannot send headers error for valid clients
