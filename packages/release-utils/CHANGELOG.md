@@ -1,3 +1,7 @@
+# 0.4.2
+
+ - fix typo
+
 # 0.4.1
 
  - :bug: fix typo in authorization header
