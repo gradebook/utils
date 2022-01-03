@@ -1,3 +1,7 @@
+# 0.4.5
+
+ - fix request method when publishing a release
+
 # 0.4.4
 
  - fix release iteration url

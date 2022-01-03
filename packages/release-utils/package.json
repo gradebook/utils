@@ -1,6 +1,6 @@
 {
   "name": "@gradebook/release-utils",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "Utilities to make CI-based releases painless",
   "keywords": [],
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
