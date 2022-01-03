@@ -18,14 +18,13 @@ export async function publishPossibleGitHubRelease({
 	repository,
 }: PublishGitHubReleaseOptions): Promise<boolean> {
 	const baseUrl = `https://api.github.com/repos/${repository}/releases`;
-	const releaseInformationUrl = `${baseUrl}/tags/${encodeURIComponent(tagName)}`;
 
 	const headers: Record<string, string> = {
 		accept: 'application/vnd.github.v3+json',
 		authorization: `Bearer ${token}`,
 	};
 
-	const response = await fetch(releaseInformationUrl, {headers})
+	const response = await fetch(baseUrl, {headers})
 		.then(async (response): Promise<PartialGitHubRelease[]> => response.json());
 
 	let release: PartialGitHubRelease | undefined;
