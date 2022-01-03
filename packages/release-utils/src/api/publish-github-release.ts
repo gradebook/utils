@@ -7,7 +7,8 @@ export interface PublishGitHubReleaseOptions {
 }
 
 interface PartialGitHubRelease {
-	id: number;
+	url: string;
+	tag_name: string;
 	draft: boolean;
 }
 
@@ -19,32 +20,38 @@ export async function publishPossibleGitHubRelease({
 	const baseUrl = `https://api.github.com/repos/${repository}/releases`;
 	const releaseInformationUrl = `${baseUrl}/tags/${encodeURIComponent(tagName)}`;
 
-	const headers = {
-		'content-type': 'application/json',
+	const headers: Record<string, string> = {
 		accept: 'application/vnd.github.v3+json',
 		authorization: `Bearer ${token}`,
 	};
 
-	const rawResponse = await fetch(releaseInformationUrl, {headers});
+	const response = await fetch(releaseInformationUrl, {headers})
+		.then(async (response): Promise<PartialGitHubRelease[]> => response.json());
 
-	if (rawResponse.status === 404) {
+	let release: PartialGitHubRelease | undefined;
+
+	for (const releaseCandidate of response) {
+		if (releaseCandidate.tag_name === tagName) {
+			release = releaseCandidate;
+			break;
+		}
+	}
+
+	if (!release) {
+		console.log('Unable to find GitHub Release to publish for tag "%s".', tagName);
 		return false;
 	}
 
-	if (!rawResponse.ok) {
-		throw new Error('Unexpected response');
-	}
-
-	let {id, draft} = await rawResponse.json() as PartialGitHubRelease;
-
-	if (draft) {
-		const updateUrl = `${baseUrl}/${id}`;
+	if (release.draft) {
+		console.log('Publishing GitHub release for "%s".', tagName);
+		headers['content-type'] = 'application/json';
 		const body = JSON.stringify({draft: false});
 
-		const finalize = await fetch(updateUrl, {headers, body});
-		({draft} = await finalize.json() as PartialGitHubRelease);
+		const finalize = await fetch(release.url, {headers, body});
+		const {draft} = await finalize.json() as PartialGitHubRelease;
 		return !draft;
 	}
 
+	console.log('Not publishing GitHub release for "%s" because it\'s already published.', tagName);
 	return false;
 }
