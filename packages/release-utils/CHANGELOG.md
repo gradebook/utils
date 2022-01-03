@@ -1,3 +1,7 @@
+# 0.4.4
+
+ - fix release iteration url
+
 # 0.4.3
 
  - use releases list rather than searching for a specific release
