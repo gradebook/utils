@@ -1,3 +1,7 @@
+# 0.4.6
+
+ - actually fix request method
+
 # 0.4.5
 
  - fix request method when publishing a release
