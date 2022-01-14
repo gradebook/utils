@@ -12,6 +12,10 @@ async function wrap() {
 	try {
 		await configureForRelease(sha);
 		const tagName = await resolveTagName(sha);
+		if (!tagName) {
+			throw new Error('Unable to find tag name');
+		}
+
 		await publishPossibleGitHubRelease({tagName, repository, token});
 		console.log('Recipe "publish-github-release" completed successfully');
 	} catch (error) {
