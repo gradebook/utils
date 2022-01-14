@@ -18,7 +18,7 @@ describe('Unit > API > Package Publisher', function () {
 	beforeEach(function () {
 		fetchStub = sinon.stub();
 		json = sinon.stub();
-		fetchStub.resolves({json});
+		fetchStub.resolves({json, ok: true});
 
 		// @ts-expect-error
 		__testDependencyInjector(fetchStub);
@@ -26,7 +26,6 @@ describe('Unit > API > Package Publisher', function () {
 
 	it('makeGitHubRequest', async function () {
 		const mainHeaders = {
-			'content-type': 'application/json',
 			accept: 'application/vnd.github.v3+json',
 			authorization: 'Bearer AUTH_TOKEN',
 		};
