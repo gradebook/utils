@@ -1,3 +1,7 @@
+# 0.5.1
+
+ - fix build failure
+
 # 0.5.0
 
  - :sparkles: add publish-github-release recipe
