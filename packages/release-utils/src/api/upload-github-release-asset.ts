@@ -31,7 +31,18 @@ export async function makeGitHubRequest<ResponseType>(url: string, options: Requ
 
 	options.headers = headers;
 
-	return fetch(url, options).then(async (response): Promise<ResponseType> => response.json());
+	return fetch(url, options).then(async (response): Promise<ResponseType> => {
+		if (!response.ok) {
+			try {
+				const failure = await response.text();
+				console.error(failure);
+			} catch {}
+
+			throw new Error(`Fetch failed with status code ${response.status}`);
+		}
+
+		return response.json();
+	});
 }
 
 export async function uploadGitHubReleaseAsset(url: string, asset: Asset, authToken: string): Promise<boolean> {
