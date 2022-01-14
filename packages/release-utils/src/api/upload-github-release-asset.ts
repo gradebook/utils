@@ -26,7 +26,6 @@ export interface GitHubReleaseUploadParameters {
 export async function makeGitHubRequest<ResponseType>(url: string, options: RequestInit, authToken: string) {
 	// @ts-expect-error types vs interfaces
 	const headers: Record<string, string> = options.headers ?? {};
-	headers['content-type'] = 'application/json';
 	headers.accept = 'application/vnd.github.v3+json';
 	headers.authorization = `Bearer ${authToken}`;
 
