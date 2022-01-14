@@ -1,3 +1,9 @@
+# 0.5.0
+
+ - :sparkles: add publish-github-release recipe
+ - :bug: upload-github-release-asest: fix 404 when making GET request
+ - upload-github-release-asset: fail when fetch response is not ok
+
 # 0.4.6
 
  - actually fix request method
