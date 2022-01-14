@@ -1,3 +1,7 @@
+# 0.5.2
+
+ - fix tests
+
 # 0.5.1
 
  - fix build failure
