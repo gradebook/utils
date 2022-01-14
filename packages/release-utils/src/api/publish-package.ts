@@ -5,13 +5,16 @@ export class PublishPackageError extends Error {
 	isReleaseUtilsError = true;
 }
 
+export async function resolveTagName(shaOrTagName: string, $ = zx$): Promise<string | undefined> {
+	const tagNameRaw = await $`git tag --points-at ${shaOrTagName}`;
+	return tagNameRaw.stdout.trim().split('\n').shift();
+}
+
 /**
  * @returns the associated Git tag name for the release
  */
 export async function publishPackage(shaOrTagName: string, packageJson: PackageJson, $ = zx$): Promise<string> {
-	// This will resolve a tag name OR a sha to a tag name
-	const tagNameRaw = await $`git tag --points-at ${shaOrTagName}`;
-	const tagName = tagNameRaw.stdout.trim().split('\n').shift();
+	const tagName = await resolveTagName(shaOrTagName, $);
 	const {version} = packageJson;
 
 	// CASE: for whatever reason the package version is empty
