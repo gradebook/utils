@@ -1,48 +1,15 @@
 import {readFile} from 'fs/promises';
 import path from 'path';
-import {fetch as fetch_} from 'zx';
-import type {RequestInit} from 'node-fetch';
 import 'urijs/src/URITemplate.js'; // eslint-disable-line import/no-unassigned-import
 import URI from 'urijs';
-
-let fetch = fetch_;
-
-export function __testDependencyInjector(fetchOverride?: typeof fetch_) {
-	fetch = fetchOverride ?? fetch_;
-}
+import {findReleaseByTagName, FindReleaseByTagNameOptions, makeGitHubRequest} from './github.js';
 
 export type Asset = string | [path: string, name: string];
-
-export interface GitHubReleaseTagResponse {
-	upload_url: string;
-}
 
 export interface GitHubReleaseUploadParameters {
 	token: string;
 	ownerAndRepository: string;
 	tagName: string;
-}
-
-export async function makeGitHubRequest<ResponseType>(url: string, options: RequestInit, authToken: string) {
-	// @ts-expect-error types vs interfaces
-	const headers: Record<string, string> = options.headers ?? {};
-	headers.accept = 'application/vnd.github.v3+json';
-	headers.authorization = `Bearer ${authToken}`;
-
-	options.headers = headers;
-
-	return fetch(url, options).then(async (response): Promise<ResponseType> => {
-		if (!response.ok) {
-			try {
-				const failure = await response.text();
-				console.error(failure);
-			} catch {}
-
-			throw new Error(`Fetch failed with status code ${response.status}`);
-		}
-
-		return response.json();
-	});
 }
 
 export async function uploadGitHubReleaseAsset(url: string, asset: Asset, authToken: string): Promise<boolean> {
@@ -60,7 +27,7 @@ export async function uploadGitHubReleaseAsset(url: string, asset: Asset, authTo
 		const buffer = await readFile(assetPath);
 		// `expand` is available because we `import 'urijs/src/URITemplate';`
 		const fullUrl = URI.expand!(url, {name: assetName}).toString();
-		await makeGitHubRequest(fullUrl, {method: 'POST', body: buffer}, authToken);
+		await makeGitHubRequest(fullUrl, authToken, {method: 'POST', body: buffer});
 		return true;
 	} catch (error: unknown) {
 		console.error(`Failed uploading asset: "${assetName}" (${assetPath}):`);
@@ -72,18 +39,22 @@ export async function uploadGitHubReleaseAsset(url: string, asset: Asset, authTo
 /**
  * @returns the number of assets that failed to upload
  */
-export async function uploadGitHubReleaseAssets({
-	token,
-	tagName,
-	ownerAndRepository,
-}: GitHubReleaseUploadParameters, assets: Asset[] | string): Promise<boolean[]> {
-	const baseUrl = `https://api.github.com/repos/${ownerAndRepository}/releases`;
-	// eslint-disable-next-line camelcase
-	const {upload_url} = await makeGitHubRequest<GitHubReleaseTagResponse>(`${baseUrl}/tags/${tagName}`, {}, token);
+export async function uploadGitHubReleaseAssets(
+	options: FindReleaseByTagNameOptions,
+	assets: Asset[] | string,
+): Promise<boolean[]> {
+	const response = await findReleaseByTagName(options);
 
 	if (typeof assets === 'string') {
 		assets = [assets];
 	}
 
-	return Promise.all(assets.map(async asset => uploadGitHubReleaseAsset(upload_url, asset, token)));
+	if (!response) {
+		console.error('Unable to find release');
+		return assets.map(() => false);
+	}
+
+	const {upload_url: url} = response;
+
+	return Promise.all(assets.map(async asset => uploadGitHubReleaseAsset(url, asset, options.token)));
 }

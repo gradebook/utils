@@ -2,9 +2,8 @@
 import {fileURLToPath} from 'url';
 import {expect} from 'chai';
 import sinon from 'sinon';
-import {
-	__testDependencyInjector,	uploadGitHubReleaseAssets, makeGitHubRequest,
-} from '../../lib/api/upload-github-release-asset.js';
+import {__testDependencyInjector, makeGitHubRequest} from '../../lib/api/github.js';
+import {uploadGitHubReleaseAssets} from '../../lib/api/upload-github-release-asset.js';
 
 // @ts-expect-error
 const ASSET_PATH = fileURLToPath(new URL('./fixtures/changelog-fake.md', import.meta.url));
@@ -32,8 +31,8 @@ describe('Unit > API > Package Publisher', function () {
 
 		const exampleHeader = {'x-test-header': 'true'};
 
-		await makeGitHubRequest('u1', {}, 'AUTH_TOKEN');
-		await makeGitHubRequest('u2', {headers: exampleHeader}, 'AUTH_TOKEN');
+		await makeGitHubRequest('u1', 'AUTH_TOKEN', {});
+		await makeGitHubRequest('u2', 'AUTH_TOKEN', {headers: exampleHeader});
 
 		expect(fetchStub.args).to.deep.equal([
 			['u1', {headers: mainHeaders}],
