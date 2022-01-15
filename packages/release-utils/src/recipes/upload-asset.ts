@@ -54,6 +54,8 @@ async function wrap() {
 			console.log(`  ${assetName}`);
 		}
 	}
+
+	process.exit(numberOfFailures); // eslint-disable-line unicorn/no-process-exit
 }
 
 void wrap();
