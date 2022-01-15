@@ -43,9 +43,9 @@ describe('Unit > API > Package Publisher', function () {
 
 	describe('uploadGitHubReleaseAsset', function () {
 		it('Correctly coerces string asset to string[]', async function () {
-			json.resolves({upload_url: 'a_string'}); // eslint-disable-line camelcase
+			json.resolves([{upload_url: 'a_string', tag_name: 'test-tag'}]); // eslint-disable-line camelcase
 			await uploadGitHubReleaseAssets({
-				ownerAndRepository: 'gradebook/test-repo',
+				repository: 'gradebook/test-repo',
 				tagName: 'test-tag',
 				token: 'AUTH_TOKEN',
 			}, ASSET_PATH);

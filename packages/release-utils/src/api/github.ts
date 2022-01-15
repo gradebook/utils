@@ -17,6 +17,7 @@ export interface PartialGitHubRelease {
 	url: string;
 	tag_name: string;
 	draft: boolean;
+	upload_url: string;
 }
 
 export async function makeGitHubRequest<ResponseType>(url: string, authToken: string, options: RequestInit = {}) {

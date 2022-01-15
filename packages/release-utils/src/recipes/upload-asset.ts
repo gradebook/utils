@@ -33,7 +33,7 @@ async function wrap() {
 
 	const results = await uploadGitHubReleaseAssets({
 		token: env.GITHUB_TOKEN,
-		ownerAndRepository: env.GITHUB_REPOSITORY,
+		repository: env.GITHUB_REPOSITORY,
 		tagName,
 	}, assets);
 
