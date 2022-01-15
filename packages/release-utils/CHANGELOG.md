@@ -1,3 +1,7 @@
+# 0.6.2
+
+ - Fix asset-upload issues with content type
+
 # 0.6.1
 
  - fix tests
