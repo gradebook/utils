@@ -38,7 +38,7 @@ export async function uploadGitHubReleaseAsset(url: string, asset: Asset, authTo
 		const fullUrl = URI.expand!(url, {name: assetName}).toString();
 		await makeGitHubRequest(fullUrl, authToken, {method: 'POST', body: buffer, headers: {
 			'content-type': type,
-			'content-length': buffer.byteLength,
+			'content-length': String(buffer.byteLength),
 		}});
 		return true;
 	} catch (error: unknown) {
