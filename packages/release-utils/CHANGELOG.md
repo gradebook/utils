@@ -1,3 +1,8 @@
+# 0.6.4
+
+ - add fallback mime type
+ - upload-asset: set exit code as number of failures
+
 # 0.6.3
 
  - possibly fix tests
