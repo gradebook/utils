@@ -1,3 +1,7 @@
+# 0.6.1
+
+ - fix tests
+
 # 0.6.0
 
  - extract github logic (breaking api change)
