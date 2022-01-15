@@ -7,6 +7,8 @@ import {findReleaseByTagName, FindReleaseByTagNameOptions, makeGitHubRequest} fr
 
 export type Asset = string | [path: string, name: string];
 
+export const DEFAULT_MIME_TYPE = 'application/octet-stream';
+
 export interface GitHubReleaseUploadParameters {
 	token: string;
 	ownerAndRepository: string;
@@ -31,13 +33,13 @@ export async function uploadGitHubReleaseAsset(url: string, asset: Asset, authTo
 		const type = mime.getType(assetPath) as string; // eslint-disable-line @typescript-eslint/no-unsafe-call
 
 		if (!type) {
-			throw new Error('Unable to determine mime type');
+			console.log('Warning: using default mime type for', assetPath);
 		}
 
 		// `expand` is available because we `import 'urijs/src/URITemplate';`
 		const fullUrl = URI.expand!(url, {name: assetName}).toString();
 		await makeGitHubRequest(fullUrl, authToken, {method: 'POST', body: buffer, headers: {
-			'content-type': type,
+			'content-type': type ?? DEFAULT_MIME_TYPE,
 			'content-length': String(buffer.byteLength),
 		}});
 		return true;
