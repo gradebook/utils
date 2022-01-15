@@ -2,6 +2,7 @@ import {readFile} from 'fs/promises';
 import path from 'path';
 import 'urijs/src/URITemplate.js'; // eslint-disable-line import/no-unassigned-import
 import URI from 'urijs';
+import mime from 'mime/lite.js';
 import {findReleaseByTagName, FindReleaseByTagNameOptions, makeGitHubRequest} from './github.js';
 
 export type Asset = string | [path: string, name: string];
@@ -25,9 +26,20 @@ export async function uploadGitHubReleaseAsset(url: string, asset: Asset, authTo
 
 	try {
 		const buffer = await readFile(assetPath);
+
+		// @ts-expect-error mime types are off
+		const type = mime.getType(assetPath) as string; // eslint-disable-line @typescript-eslint/no-unsafe-call
+
+		if (!type) {
+			throw new Error('Unable to determine mime type');
+		}
+
 		// `expand` is available because we `import 'urijs/src/URITemplate';`
 		const fullUrl = URI.expand!(url, {name: assetName}).toString();
-		await makeGitHubRequest(fullUrl, authToken, {method: 'POST', body: buffer});
+		await makeGitHubRequest(fullUrl, authToken, {method: 'POST', body: buffer, headers: {
+			'content-type': type,
+			'content-length': buffer.byteLength,
+		}});
 		return true;
 	} catch (error: unknown) {
 		console.error(`Failed uploading asset: "${assetName}" (${assetPath}):`);

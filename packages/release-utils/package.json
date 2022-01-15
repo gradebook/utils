@@ -36,6 +36,7 @@
   "xo": false,
   "dependencies": {
     "@types/urijs": "^1.19.17",
+    "mime": "^3.0.0",
     "urijs": "^1.19.6",
     "zx": "^4.2.0"
   }
