@@ -1,3 +1,8 @@
+# 0.6.0
+
+ - extract github logic (breaking api change)
+ - fix upload-asset failure
+
 # 0.5.2
 
  - fix tests
