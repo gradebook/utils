@@ -75,7 +75,7 @@ async function sendCiTrackingPayload({branchName}: {branchName: string}) {
 }
 
 async function sendGenericPayload() {
-	requireEnvVariables(SPECIFIC_REQUIRED_KEYS);
+	requireEnvVariables(GENERIC_REQUIRED_KEYS);
 
 	// @ts-expect-error the required keys have already been validated
 	const env: GenericEnv = process.env;
