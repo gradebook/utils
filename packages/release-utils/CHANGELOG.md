@@ -1,3 +1,7 @@
+# 0.6.5
+
+ - :bug: [hook] fix failure in sending generic hook
+
 # 0.6.4
 
  - add fallback mime type
