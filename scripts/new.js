@@ -64,7 +64,7 @@ async function exec(unscopedPackage) {
 		packageContents.scripts = {
 			pretest: 'tsc',
 			test: 'mocha __tests__ --recursive --colors',
-			'test:coverage': 'nyc --reporter=html --reporter=text mocha __tests__ --recursive --colors',
+			'test:coverage': 'c8 --reporter=html --reporter=text mocha __tests__ --recursive --colors',
 			prepublish: 'tsc',
 			tsc: 'tsc',
 			lint: 'yarn --cwd ../../ xo "`pwd`/**/*"',

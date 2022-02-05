@@ -4,4 +4,3 @@ lerna-debug.log
 
 packages/*/lib
 packages/*/coverage
-packages/*/.nyc_output
