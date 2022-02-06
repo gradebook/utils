@@ -17,6 +17,8 @@ The code for each package is written in the `src` folder, and compiled to the `l
 
 ## Compiling for multiple Module Types (targets)
 
+_Note this is changing - see [#93](https://github.com/gradebook/utils/issues/93), or reach out if you'd like to contribute!_
+
 As we are unable to exclusively use ES Modules until at least Node 14.x (becomes LTS), some packages will require compilation to multiple module types.
 
 The standard module type is CommonJS. The `tsconfig.json` file in each package should compile to that.
