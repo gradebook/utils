@@ -82,7 +82,7 @@ async function sendGenericPayload() {
 
 	const payload = JSON.parse(env.WEBHOOK_DATA) as Record<string, any>;
 
-	await sendPayload({payload});
+	await sendPayload({payload, method: process.env.HOOK_METHOD ?? 'post'});
 }
 
 async function wrap() {

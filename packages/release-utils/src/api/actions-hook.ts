@@ -18,6 +18,7 @@ export interface ConditionalHook {
 
 export interface PayloadOptions {
 	payload: object | string; // eslint-disable-line @typescript-eslint/ban-types
+	method?: string;
 	url?: string;
 	secret?: string;
 	log?: (message: string) => void;
@@ -34,6 +35,7 @@ export function parseBranchName(ref: string): string {
 
 export async function sendPayload({
 	url = process.env.WEBHOOK_URL,
+	method = 'post',
 	payload,
 	secret = process.env.WEBHOOK_SECRET,
 	log = console.log,
@@ -84,13 +86,13 @@ export async function sendPayload({
 	log(`Sending payload ${payload} to webhook\n\n`);
 
 	await fetch(url, {
-		method: 'post',
+		method,
 		headers: {
 			'Content-Type': 'application/json',
 			'User-Agent': userAgent,
 			'X-Actions-Secret': `sha256=${hmac}`,
 		},
-		body: payload,
+		body: method === 'get' ? undefined : payload,
 	});
 }
 
