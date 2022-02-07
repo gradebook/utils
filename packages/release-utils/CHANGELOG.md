@@ -1,3 +1,7 @@
+# 0.7.0
+
+ - :sparkles: add support for specifying generic hook method
+
 # 0.6.5
 
  - :bug: [hook] fix failure in sending generic hook
