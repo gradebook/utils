@@ -19,7 +19,11 @@ describe('Unit > API > Actions Hook', function () {
 	let typedFetch;
 
 	beforeEach(function () {
-		fetchStub = sinon.stub();
+		fetchStub = sinon.stub().callsFake(async () => ({
+			text() {
+				return 'data';
+			},
+		}));
 		// @ts-expect-error
 		typedFetch = fetchStub;
 	});
@@ -32,12 +36,10 @@ describe('Unit > API > Actions Hook', function () {
 		await sendPayload({url: 'test.local', payload: '{}', log: noop, secret: 'secret', fetch: typedFetch});
 		expect(fetchStub.calledOnce).to.be.true;
 		expect(fetchStub.args[0][1].body).to.equal('{}');
-		fetchStub.reset();
 
 		await sendPayload({url: 'test.local', payload: {testing: 'yes'}, log: noop, secret: 'secret', fetch: typedFetch});
-		expect(fetchStub.calledOnce).to.be.true;
-		expect(fetchStub.args[0][1].body).to.equal('{"testing":"yes"}');
-		fetchStub.reset();
+		expect(fetchStub.calledTwice).to.be.true;
+		expect(fetchStub.args[1][1].body).to.equal('{"testing":"yes"}');
 
 		const finalPayload = {
 			toString() {
@@ -46,8 +48,8 @@ describe('Unit > API > Actions Hook', function () {
 		};
 
 		await sendPayload({url: 'test.local', payload: finalPayload, log: noop, secret: 'secret', fetch: typedFetch});
-		expect(fetchStub.calledOnce).to.be.true;
-		expect(fetchStub.args[0][1].body).to.equal('{"this is a test": true}');
+		expect(fetchStub.calledThrice).to.be.true;
+		expect(fetchStub.args[2][1].body).to.equal('{"this is a test": true}');
 	});
 
 	it('includes correct hmac and other headers in request', async function () {
@@ -78,14 +80,13 @@ describe('Unit > API > Actions Hook', function () {
 			expect(fetchStub.calledOnce).to.be.true;
 			expect(fetchStub.args[0][0]).to.equal('test.local');
 			expect(fetchStub.args[0][1].headers).to.have.property('X-Actions-Secret', TESTING_PAYLOAD_HASH);
-			fetchStub.reset();
 
 			const WEBHOOK_PAYLOAD_HASH = 'sha256=19b7b51b2916ee642e90e5215e9c0505389bbf21c6f68eaa8f501cb510fa587c';
 
 			await sendPayload({payload: 'testing', log: noop, fetch: typedFetch});
-			expect(fetchStub.calledOnce).to.be.true;
-			expect(fetchStub.args[0][0]).to.equal('webhook.local');
-			expect(fetchStub.args[0][1].headers).to.have.property('X-Actions-Secret', WEBHOOK_PAYLOAD_HASH);
+			expect(fetchStub.calledTwice).to.be.true;
+			expect(fetchStub.args[1][0]).to.equal('webhook.local');
+			expect(fetchStub.args[1][1].headers).to.have.property('X-Actions-Secret', WEBHOOK_PAYLOAD_HASH);
 		} finally {
 			delete process.env.WEBHOOK_URL;
 			delete process.env.WEBHOOK_SECRET;
@@ -140,7 +141,7 @@ describe('Unit > API > Actions Hook', function () {
 				fetch: typedFetch,
 			});
 
-			expect(log.calledTwice).to.be.true;
+			expect(log.callCount).to.equal(4);
 			expect(log.args[0][0]).to.contain('unknown filter "badKey"');
 		});
 

@@ -68,10 +68,12 @@ async function sendCiTrackingPayload({branchName}: {branchName: string}) {
 	console.log();
 	console.log();
 
-	await sendPayload({
+	const success = await sendPayload({
 		payload,
 		onlyIf: buildConfigObject(env),
 	});
+
+	process.exit(Number(!success)); // eslint-disable-line unicorn/no-process-exit
 }
 
 async function sendGenericPayload() {
@@ -82,7 +84,8 @@ async function sendGenericPayload() {
 
 	const payload = JSON.parse(env.WEBHOOK_DATA) as Record<string, any>;
 
-	await sendPayload({payload, method: process.env.HOOK_METHOD ?? 'post'});
+	const success = await sendPayload({payload, method: process.env.HOOK_METHOD ?? 'post'});
+	process.exit(Number(!success)); // eslint-disable-line unicorn/no-process-exit
 }
 
 async function wrap() {

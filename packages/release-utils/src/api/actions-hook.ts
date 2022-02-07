@@ -44,7 +44,7 @@ export async function sendPayload({
 	branch = parseBranchName(process.env.GITHUB_REF ?? ''),
 	event = process.env.GITHUB_EVENT_NAME,
 	repository = process.env.GITHUB_REPOSITORY,
-}: PayloadOptions): Promise<void> {
+}: PayloadOptions): Promise<boolean> {
 	if (typeof payload !== 'string') {
 		// eslint-disable-next-line @typescript-eslint/no-base-to-string
 		payload = Object.prototype.hasOwnProperty.call(payload, 'toString') ? payload.toString() : JSON.stringify(payload);
@@ -76,7 +76,7 @@ export async function sendPayload({
 				log(
 					`[actions-hook] not sending webhook because ${filter} differs - expected "${expected}" but got "${received}"`,
 				);
-				return;
+				return true;
 			}
 		}
 	}
@@ -85,7 +85,7 @@ export async function sendPayload({
 
 	log(`Sending payload ${payload} to webhook\n\n`);
 
-	await fetch(url, {
+	const response = await fetch(url, {
 		method,
 		headers: {
 			'Content-Type': 'application/json',
@@ -94,6 +94,13 @@ export async function sendPayload({
 		},
 		body: method.toLowerCase() === 'get' ? undefined : payload,
 	});
+
+	const responsePayload = await response.text();
+
+	log(`Response status: ${response.status}`);
+	log(`Response Payload:\n ${responsePayload}`);
+
+	return response.ok;
 }
 
 export default sendPayload;
