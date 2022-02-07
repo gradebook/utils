@@ -92,7 +92,7 @@ export async function sendPayload({
 			'User-Agent': userAgent,
 			'X-Actions-Secret': `sha256=${hmac}`,
 		},
-		body: method === 'get' ? undefined : payload,
+		body: method.toLowerCase() === 'get' ? undefined : payload,
 	});
 }
 
