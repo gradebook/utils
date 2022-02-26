@@ -1,6 +1,6 @@
 import path from 'path';
 import {readFile} from 'fs/promises';
-import {URL} from 'url';
+import {fileURLToPath, URL} from 'url';
 import type {Application, NextFunction, Request, Response} from 'express';
 import {appPath} from '../_app-path.js';
 
@@ -9,6 +9,7 @@ const ENVELOPE_PATH = '/api/\\d+/envelope/';
 const STORE_PATH = '/api/\\d+/store';
 
 let errorPageMarkup: Buffer;
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const errorPageSource = path.resolve(__dirname, './sentry-error-page.js');
 
 function hideKeys(keys: string[]) {
