@@ -1,8 +1,9 @@
 import path from 'path';
 import {readFile} from 'fs/promises';
-import {fileURLToPath, URL} from 'url';
+import {fileURLToPath} from 'url';
 import type {Application, NextFunction, Request, Response} from 'express';
 import {appPath} from '../_app-path.js';
+import * as query from '../query.js';
 
 const ERROR_PAGE_PATH = '/api/embed/error-page/';
 const ENVELOPE_PATH = '/api/\\d+/envelope/';
@@ -14,13 +15,12 @@ const errorPageSource = path.resolve(__dirname, './sentry-error-page.js');
 
 function hideKeys(keys: string[]) {
 	return (request: Request, response: Response, next: NextFunction) => {
-		const url = new URL(request.originalUrl, request.headers.referer);
+		const url = query.getRequestUrl(request);
 		for (const key of keys) {
 			url.searchParams.delete(key);
 		}
 
-		const query = url.searchParams.toString();
-		request.originalUrl = url.pathname + (query ? `?${query}` : '');
+		request.originalUrl = url.pathname + query.getQuery(url.searchParams);
 		next();
 	};
 }
