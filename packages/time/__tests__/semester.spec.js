@@ -8,7 +8,7 @@ const {
 	isSummerAllowed,
 	isFallAllowed,
 	isWinterAllowed,
-	_getActiveSemester: getActiveSemester,
+	_getPrimarySemester,
 } = __testHelper();
 
 describe('Unit > Semester', function () {
@@ -46,20 +46,20 @@ describe('Unit > Semester', function () {
 		expect(isWinterAllowed(2, 1, 2021)).to.equal(null);
 	});
 
-	it('_getActiveSemester', function () {
-		expect(getActiveSemester(1, 1, 2020)).to.equal('2019W');
-		expect(getActiveSemester(1, 9, 2020)).to.equal('2019W');
-		expect(getActiveSemester(1, 10, 2020)).to.equal('2020S');
-		expect(getActiveSemester(1, 15, 2020)).to.equal('2020S');
-		expect(getActiveSemester(3, 15, 2020)).to.equal('2020S');
-		expect(getActiveSemester(5, 25, 2020)).to.equal('2020S');
-		expect(getActiveSemester(5, 26, 2020)).to.equal('2020U');
-		expect(getActiveSemester(7, 19, 2020)).to.equal('2020U');
-		expect(getActiveSemester(8, 10, 2020)).to.equal('2020U');
-		expect(getActiveSemester(8, 11, 2020)).to.equal('2020F');
-		expect(getActiveSemester(11, 11, 2020)).to.equal('2020F');
-		expect(getActiveSemester(12, 20, 2020)).to.equal('2020F');
-		expect(getActiveSemester(12, 21, 2020)).to.equal('2020W');
-		expect(getActiveSemester(12, 31, 2020)).to.equal('2020W');
+	it('_getPrimarySemester', function () {
+		expect(_getPrimarySemester(0, 1, 2020)).to.equal('2019W');
+		expect(_getPrimarySemester(0, 9, 2020)).to.equal('2019W');
+		expect(_getPrimarySemester(0, 10, 2020)).to.equal('2020S');
+		expect(_getPrimarySemester(0, 15, 2020)).to.equal('2020S');
+		expect(_getPrimarySemester(2, 15, 2020)).to.equal('2020S');
+		expect(_getPrimarySemester(4, 27, 2020)).to.equal('2020S');
+		expect(_getPrimarySemester(4, 28, 2020)).to.equal('2020U');
+		expect(_getPrimarySemester(6, 19, 2020)).to.equal('2020U');
+		expect(_getPrimarySemester(7, 16, 2020)).to.equal('2020U');
+		expect(_getPrimarySemester(7, 17, 2020)).to.equal('2020F');
+		expect(_getPrimarySemester(10, 11, 2020)).to.equal('2020F');
+		expect(_getPrimarySemester(11, 20, 2020)).to.equal('2020F');
+		expect(_getPrimarySemester(11, 21, 2020)).to.equal('2020W');
+		expect(_getPrimarySemester(11, 31, 2020)).to.equal('2020W');
 	});
 });
