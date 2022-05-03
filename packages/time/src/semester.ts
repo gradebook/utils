@@ -126,3 +126,13 @@ export function computeSemesterData() {
 computeSemesterData();
 
 export default data;
+
+export function __testHelper() {
+	return {
+		isSpringAllowed,
+		isSummerAllowed,
+		isFallAllowed,
+		isWinterAllowed,
+		_getActiveSemester,
+	};
+}

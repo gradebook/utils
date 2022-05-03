@@ -1,14 +1,15 @@
 // @ts-check
-const rewire = require('rewire');
-const {expect} = require('chai');
+import {expect} from 'chai';
 
-const semester = rewire('../lib/semester');
+import {__testHelper} from '../lib/semester.js';
 
-const isSpringAllowed = semester.__get__('isSpringAllowed');
-const isSummerAllowed = semester.__get__('isSummerAllowed');
-const isFallAllowed = semester.__get__('isFallAllowed');
-const isWinterAllowed = semester.__get__('isWinterAllowed');
-const getActiveSemester = semester.__get__('_getActiveSemester');
+const {
+	isSpringAllowed,
+	isSummerAllowed,
+	isFallAllowed,
+	isWinterAllowed,
+	_getActiveSemester: getActiveSemester,
+} = __testHelper();
 
 describe('Unit > Semester', function () {
 	it('isSpringAllowed', function () {

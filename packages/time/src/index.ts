@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import cpf from 'dayjs/plugin/customParseFormat';
+import cpf from 'dayjs/plugin/customParseFormat.js';
 
 dayjs.extend(cpf);
 
