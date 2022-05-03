@@ -1,7 +1,7 @@
 // @ts-check
 
-const {expect} = require('chai');
-const {unitsToMs} = require('../lib/units-to-ms.js');
+import {expect} from 'chai';
+import {unitsToMs} from '../lib/units-to-ms.js';
 
 const assert = (timeString, expectation) => expect(unitsToMs(timeString)).to.equal(expectation);
 
