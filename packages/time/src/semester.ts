@@ -7,12 +7,12 @@ const AUGUST = 8;
 const DECEMBER = 12;
 
 type CurrentSemesterState = {
-	activeSemester: string;
+	primarySemester: string;
 	allowedSemesters: string[];
 };
 
 export const data: CurrentSemesterState = {
-	activeSemester: null,
+	primarySemester: null,
 	allowedSemesters: [],
 };
 
@@ -57,25 +57,28 @@ const isWinterAllowed: SemesterAllowedFunction = (currentMonth, currentDay, curr
 };
 
 /**
- * Compute the active semester
+ * Compute the primary semester
  *
- * Semester Timelines:
+ * Primary semester timeline:
  *
- * January 10 - May 25 = Spring;
- * May 26 - August 10 = Summer;
- * August 11 - December 20 = Fall;
+ * January 10 - May 27 = Spring;
+ *
+ * May 28 - August 17 = Summer;
+ *
+ * August 17 - December 20 = Fall;
+ *
  * December 21 - January 09 = Winter;
  */
-function _getActiveSemester(currentMonth: number, currentDay: number, currentYear: number): string {
+function _getPrimarySemester(currentMonth: number, currentDay: number, currentYear: number): string {
 	// CASE: January to May
-	if (currentMonth >= JANUARY && currentMonth <= MAY) {
-		// CASE: Before January 15 -> Winter of LAST year
+	if (currentMonth <= MAY) {
+		// CASE: Before January 10 -> Winter of LAST year
 		if (currentMonth === JANUARY && currentDay < 10) {
 			return `${currentYear - 1}W`;
 		}
 
-		// CASE: After May 25 -> Summer
-		if (currentMonth === MAY && currentDay > 25) {
+		// CASE: After May 27 -> Summer
+		if (currentMonth === MAY && currentDay > 27) {
 			return `${currentYear}U`;
 		}
 
@@ -85,12 +88,12 @@ function _getActiveSemester(currentMonth: number, currentDay: number, currentYea
 
 	// CASE: Up to August
 	if (currentMonth <= AUGUST) {
-		// CASE: AFTER August 10 -> Fall
-		if (currentMonth === AUGUST && currentDay > 10) {
+		// CASE: AFTER August 16 -> Fall
+		if (currentMonth === AUGUST && currentDay > 16) {
 			return `${currentYear}F`;
 		}
 
-		// CASE: BEFORE (or on) August 10 -> Summer
+		// CASE: BEFORE (or on) August 16 -> Summer
 		return `${currentYear}U`;
 	}
 
@@ -114,13 +117,7 @@ export function computeSemesterData() {
 	const currentMonth = currentDate.getMonth() + 1;
 	const currentDay = currentDate.getDate();
 
-	data.activeSemester = _getActiveSemester(currentMonth, currentDay, currentYear);
-	data.allowedSemesters = [
-		isWinterAllowed(currentMonth, currentDay, currentYear),
-		isSpringAllowed(currentMonth, currentDay, currentYear),
-		isSummerAllowed(currentMonth, currentDay, currentYear),
-		isFallAllowed(currentMonth, currentDay, currentYear),
-	].filter(Boolean);
+	data.primarySemester = _getPrimarySemester(currentMonth, currentDay, currentYear);
 }
 
 computeSemesterData();
@@ -133,6 +130,6 @@ export function __testHelper() {
 		isSummerAllowed,
 		isFallAllowed,
 		isWinterAllowed,
-		_getActiveSemester,
+		_getPrimarySemester,
 	};
 }
