@@ -1,60 +1,81 @@
 // @ts-check
 
-const JANUARY = 1;
-const MAY = 5;
-const JUNE = 6;
-const AUGUST = 8;
-const DECEMBER = 12;
+import {dayjs} from './index.js';
+
+/** The number of days earlier than client to enable a semester as active in server. */
+const SERVER_EARLY_ACTIVE_DAYS = 1;
+/** The number of days later than client to keep a semester enabled as active in server. */
+const SERVER_LATE_ACTIVE_DAYS = 7;
+
+// Months are 0-indexed in Date objects
+const JANUARY = 0;
+const MARCH = 2;
+const MAY = 4;
+const JUNE = 5;
+const AUGUST = 7;
+const NOVEMBER = 10;
+const DECEMBER = 11;
 
 type CurrentSemesterState = {
 	primarySemester: string;
-	allowedSemesters: string[];
+	activeSemesters: string[];
+	serverAllowedSemesters: string[];
 };
 
 export const data: CurrentSemesterState = {
 	primarySemester: null,
-	allowedSemesters: [],
+	activeSemesters: [],
+	serverAllowedSemesters: [],
 };
 
-type SemesterAllowedFunction = (currentMonth: number, currentDay: number, currentYear: number) => string;
+/**
+ * Compute active semesters
+ *
+ * Active semester timeline:
+ *
+ * November 1 (prior) - June 10 = Spring;
+ *
+ * March 25 - August 31 = Summer;
+ *
+ * March 25 - December 31 = Fall;
+ *
+ * November 1 - January 20 (future) = Winter;
+ */
+type SemesterActiveFunction = (year: number) => {start: Date; end: Date};
 
-// Spring is active from December 15 of the previous year to June 15
-const isSpringAllowed: SemesterAllowedFunction = (currentMonth, currentDay, currentYear) => {
-	const isAllowedDecemberDay = currentMonth === DECEMBER && currentDay >= 15;
-	const isAllowedJuneDay = currentMonth === JUNE && currentDay <= 15;
-	const isAllowed = isAllowedDecemberDay || isAllowedJuneDay || currentMonth < JUNE;
-	const year = currentMonth === DECEMBER ? currentYear + 1 : currentYear;
-
-	return isAllowed ? `${year}S` : null;
+const getSpringActiveRange: SemesterActiveFunction = (year: number) => {
+	const start = new Date(year - 1, NOVEMBER, 1);
+	const end = new Date(year, JUNE, 10);
+	return {start, end};
 };
 
-// Summer is active from May 1 to August 31
-const isSummerAllowed: SemesterAllowedFunction = (currentMonth, currentDay, currentYear) => {
-	const isAllowedMayDay = currentMonth === MAY && currentDay >= 1;
-	const isAllowedAugustDay = currentMonth === AUGUST && currentDay <= 31;
-	const isAllowed = isAllowedMayDay || isAllowedAugustDay || (currentMonth > MAY && currentMonth < AUGUST);
-
-	return isAllowed ? `${currentYear}U` : null;
+const getSummerActiveRange: SemesterActiveFunction = (year: number) => {
+	const start = new Date(year, MARCH, 25);
+	const end = new Date(year, AUGUST, 31);
+	return {start, end};
 };
 
-// Fall is active from August 1 to December 28
-const isFallAllowed: SemesterAllowedFunction = (currentMonth, currentDay, currentYear) => {
-	const isAllowedAugustDay = currentMonth === AUGUST && currentDay >= 1;
-	const isAllowedDecemberDay = currentMonth === DECEMBER && currentDay <= 28;
-	const isAllowed = isAllowedAugustDay || isAllowedDecemberDay || (currentMonth > AUGUST && currentMonth < DECEMBER);
+function getFallActiveRange(year: number) {
+	const start = new Date(year, MARCH, 25);
+	const end = new Date(year, DECEMBER, 31);
+	return {start, end};
+}
 
-	return isAllowed ? `${currentYear}F` : null;
-};
+function getWinterActiveRange(year: number) {
+	const start = new Date(year, NOVEMBER, 1);
+	const end = new Date(year + 1, JANUARY, 20);
+	return {start, end};
+}
 
-// Winter is active from December 1 to January 31 of the following year
-const isWinterAllowed: SemesterAllowedFunction = (currentMonth, currentDay, currentYear) => {
-	const isAllowedDecemberDay = currentMonth === DECEMBER && currentDay >= 1;
-	const isAllowedJanuaryDay = currentMonth === JANUARY && currentDay <= 31;
-	const isAllowed = isAllowedDecemberDay || isAllowedJanuaryDay;
-	const year = currentMonth === JANUARY ? currentYear - 1 : currentYear;
+function isDateInActiveRange(start: Date, end: Date, candidate: Date) {
+	return candidate >= start && candidate <= end;
+}
 
-	return isAllowed ? `${year}W` : null;
-};
+function isDateInServerWidenedRange(originalStart: Date, originalEnd: Date, candidate: Date) {
+	const start = dayjs(originalStart).subtract(SERVER_EARLY_ACTIVE_DAYS, 'day').toDate();
+	const end = dayjs(originalEnd).add(SERVER_LATE_ACTIVE_DAYS, 'days').toDate();
+	return candidate >= start && candidate <= end;
+}
 
 /**
  * Compute the primary semester
@@ -111,13 +132,43 @@ function _getPrimarySemester(currentMonth: number, currentDay: number, currentYe
 	return `${currentYear}F`;
 }
 
+function _computeActiveSemesters(currentYear: number, currentDate: Date) {
+	const {start: priorWinterStart, end: priorWinterEnd} = getWinterActiveRange(currentYear - 1);
+	const {start: springStart, end: springEnd} = getSpringActiveRange(currentYear);
+	const {start: summerStart, end: summerEnd} = getSummerActiveRange(currentYear);
+	const {start: fallStart, end: fallEnd} = getFallActiveRange(currentYear);
+	const {start: winterStart, end: winterEnd} = getWinterActiveRange(currentYear);
+	const {start: futureSpringStart, end: futureSpringEnd} = getSpringActiveRange(currentYear + 1);
+
+	// The previous year's winter may still be active or the next semester's spring since they overlap.
+	data.activeSemesters = [
+		isDateInActiveRange(priorWinterStart, priorWinterEnd, currentDate) ? `${currentYear - 1}W` : null,
+		isDateInActiveRange(springStart, springEnd, currentDate) ? `${currentYear}S` : null,
+		isDateInActiveRange(summerStart, summerEnd, currentDate) ? `${currentYear}U` : null,
+		isDateInActiveRange(fallStart, fallEnd, currentDate) ? `${currentYear}F` : null,
+		isDateInActiveRange(winterStart, winterEnd, currentDate) ? `${currentYear}W` : null,
+		isDateInActiveRange(futureSpringStart, futureSpringEnd, currentDate) ? `${currentYear + 1}S` : null,
+	].filter(Boolean);
+
+	// The previous year's winter may still be allowed or the next semester's spring since they overlap.
+	data.serverAllowedSemesters = [
+		isDateInServerWidenedRange(priorWinterStart, priorWinterEnd, currentDate) ? `${currentYear - 1}W` : null,
+		isDateInServerWidenedRange(springStart, springEnd, currentDate) ? `${currentYear}S` : null,
+		isDateInServerWidenedRange(summerStart, summerEnd, currentDate) ? `${currentYear}U` : null,
+		isDateInServerWidenedRange(fallStart, fallEnd, currentDate) ? `${currentYear}F` : null,
+		isDateInServerWidenedRange(winterStart, winterEnd, currentDate) ? `${currentYear}W` : null,
+		isDateInServerWidenedRange(futureSpringStart, futureSpringEnd, currentDate) ? `${currentYear + 1}S` : null,
+	].filter(Boolean);
+}
+
 export function computeSemesterData() {
 	const currentDate = new Date();
 	const currentYear = currentDate.getFullYear();
-	const currentMonth = currentDate.getMonth() + 1;
+	const currentMonth = currentDate.getMonth();
 	const currentDay = currentDate.getDate();
 
 	data.primarySemester = _getPrimarySemester(currentMonth, currentDay, currentYear);
+	_computeActiveSemesters(currentYear, currentDate);
 }
 
 computeSemesterData();
@@ -126,10 +177,11 @@ export default data;
 
 export function __testHelper() {
 	return {
-		isSpringAllowed,
-		isSummerAllowed,
-		isFallAllowed,
-		isWinterAllowed,
+		getSpringActiveRange,
+		getSummerActiveRange,
+		getFallActiveRange,
+		getWinterActiveRange,
+		isDateInActiveRange,
 		_getPrimarySemester,
 	};
 }

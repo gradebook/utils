@@ -4,46 +4,56 @@ import {expect} from 'chai';
 import {__testHelper} from '../lib/semester.js';
 
 const {
-	isSpringAllowed,
-	isSummerAllowed,
-	isFallAllowed,
-	isWinterAllowed,
+	getFallActiveRange,
+	getSpringActiveRange,
+	getSummerActiveRange,
+	getWinterActiveRange,
 	_getPrimarySemester,
+	isDateInActiveRange,
 } = __testHelper();
 
+const verifyDate = (candidate, year, month, day) => {
+	expect(candidate.getFullYear(), 'year').to.equal(year);
+	expect(candidate.getMonth(), 'month').to.equal(month);
+	expect(candidate.getDate(), 'day').to.equal(day);
+};
+
 describe('Unit > Semester', function () {
-	it('isSpringAllowed', function () {
-		expect(isSpringAllowed(12, 14, 2019)).to.equal(null);
-		expect(isSpringAllowed(12, 15, 2019)).to.equal('2020S');
-		expect(isSpringAllowed(1, 5, 2020)).to.equal('2020S');
-		expect(isSpringAllowed(3, 15, 2020)).to.equal('2020S');
-		expect(isSpringAllowed(6, 15, 2020)).to.equal('2020S');
-		expect(isSpringAllowed(6, 16, 2020)).to.equal(null);
+	it('getSpringActiveRange', function () {
+		verifyDate(getSpringActiveRange(2018).start, 2017, 10, 1);
+		verifyDate(getSpringActiveRange(2018).end, 2018, 5, 10);
 	});
 
-	it('isSummerAllowed', function () {
-		expect(isSummerAllowed(4, 30, 2020)).to.equal(null);
-		expect(isSummerAllowed(5, 1, 2020)).to.equal('2020U');
-		expect(isSummerAllowed(7, 15, 2020)).to.equal('2020U');
-		expect(isSummerAllowed(8, 31, 2020)).to.equal('2020U');
-		expect(isSummerAllowed(9, 1, 2020)).to.equal(null);
+	it('getSummerActiveRange', function () {
+		verifyDate(getSummerActiveRange(2018).start, 2018, 2, 25);
+		verifyDate(getSummerActiveRange(2018).end, 2018, 7, 31);
 	});
 
-	it('isFallAllowed', function () {
-		expect(isFallAllowed(7, 31, 2020)).to.equal(null);
-		expect(isFallAllowed(8, 1, 2020)).to.equal('2020F');
-		expect(isFallAllowed(10, 15, 2020)).to.equal('2020F');
-		expect(isFallAllowed(12, 28, 2020)).to.equal('2020F');
-		expect(isFallAllowed(12, 29, 2020)).to.equal(null);
+	it('getFallActiveRange', function () {
+		verifyDate(getFallActiveRange(2018).start, 2018, 2, 25);
+		verifyDate(getFallActiveRange(2018).end, 2018, 11, 31);
 	});
 
-	it('isWinterAllowed', function () {
-		expect(isWinterAllowed(11, 30, 2020)).to.equal(null);
-		expect(isWinterAllowed(12, 1, 2020)).to.equal('2020W');
-		expect(isWinterAllowed(12, 25, 2020)).to.equal('2020W');
-		expect(isWinterAllowed(1, 15, 2021)).to.equal('2020W');
-		expect(isWinterAllowed(1, 31, 2021)).to.equal('2020W');
-		expect(isWinterAllowed(2, 1, 2021)).to.equal(null);
+	it('getWinterActiveRange', function () {
+		verifyDate(getWinterActiveRange(2018).start, 2018, 10, 1);
+		verifyDate(getWinterActiveRange(2018).end, 2019, 0, 20);
+	});
+
+	it('isDateInActiveRange', function () {
+		const dec1 = new Date(2017, 11, 1);
+		const dec20 = new Date(2017, 11, 20);
+		const dec31 = new Date(2017, 11, 31);
+		const jan1 = new Date(2018, 0, 1);
+		const feb1 = new Date(2018, 1, 1);
+
+		expect(isDateInActiveRange(dec1, dec31, dec20)).to.be.true;
+		expect(isDateInActiveRange(dec20, dec31, dec1)).to.be.false;
+		expect(isDateInActiveRange(dec1, dec31, dec1)).to.be.true;
+		expect(isDateInActiveRange(dec1, dec31, dec31)).to.be.true;
+		expect(isDateInActiveRange(dec20, jan1, dec31)).to.be.true;
+		expect(isDateInActiveRange(dec20, dec31, jan1)).to.be.false;
+		expect(isDateInActiveRange(dec20, jan1, feb1)).to.be.false;
+		expect(isDateInActiveRange(jan1, feb1, dec31)).to.be.false;
 	});
 
 	it('_getPrimarySemester', function () {
