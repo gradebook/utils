@@ -32,6 +32,6 @@
   "xo": false,
   "dependencies": {
     "@types/nconf": "^0.10.1",
-    "nconf": "^0.11.3"
+    "nconf": "^0.12.0"
   }
 }
