@@ -1679,10 +1679,10 @@ astral-regex@^1.0.0:
   resolved "https://registry.yarnpkg.com/astral-regex/-/astral-regex-1.0.0.tgz#6c8c3fb827dd43ee3918f27b82782ab7658a6fd9"
   integrity sha512-+Ryf6g3BKoRc7jfp7ad8tM4TtMiaWvbF/1/sQcZPkkS7ag3D5nMBCe2UfOTONtAkaG0tO0ij3C5Lwmf1EiyjHg==
 
-async@^1.4.0:
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
-  integrity sha1-7GphrlZIDAw8skHJVhjiCJL5Zyo=
+async@^3.0.0:
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/async/-/async-3.2.4.tgz#2d22e00f8cddeb5fde5dd33522b56d1cf569a81c"
+  integrity sha512-iAB+JbDEGXhyIUavoDl9WP/Jj106Kz9DEn1DPgYw5ruDn0e3Wgi3sKFm55sASdGBNOQB8F59d9qQ7deqrHA8wQ==
 
 asynckit@^0.4.0:
   version "0.4.0"
@@ -4912,12 +4912,12 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
 
-nconf@^0.11.3:
-  version "0.11.4"
-  resolved "https://registry.yarnpkg.com/nconf/-/nconf-0.11.4.tgz#7f925d27569738a2a10c3ba4b56310c8821b308b"
-  integrity sha512-YaDR846q11JnG1vTrhJ0QIlhiGY6+W1bgWtReG9SS3vkTl3AoNwFvUItdhG6/ZjGCfWpUVuRTNEBTDAQ3nWhGw==
+nconf@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/nconf/-/nconf-0.12.0.tgz#9cf70757aae4d440d43ed53c42f87da18471b8bf"
+  integrity sha512-T3fZPw3c7Dfrz8JBQEbEcZJ2s8f7cUMpKuyBtsGQe0b71pcXx6gNh4oti2xh5dxB+gO9ufNfISBlGvvWtfyMcA==
   dependencies:
-    async "^1.4.0"
+    async "^3.0.0"
     ini "^2.0.0"
     secure-keys "^1.0.0"
     yargs "^16.1.1"
