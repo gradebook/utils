@@ -5,16 +5,18 @@ import * as query from '../query.js';
 
 const route = '/authentication/begin';
 
-async function getEmails() {
+async function getEmails(db: string | null) {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-	const response = await serverDependencies.knex.getKnex().from('users').select('email').orderBy('updated_at', 'desc') as Array<{email: string}>;
+	const response = await serverDependencies.knex.getKnex({db, table: 'users'})
+		.select('email')
+		.orderBy('updated_at', 'desc') as Array<{email: string}>;
 
 	return response.map(({email}) => email);
 }
 
-async function getId(email: string/* , table: string | null */): Promise<string | undefined> {
+async function getId(email: string, db: string | null): Promise<string | undefined> {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-	const response = await serverDependencies.knex.getKnex()
+	const response = await serverDependencies.knex.getKnex({db})
 		.select('id')
 		.from('users')
 		.where('email', email)
@@ -118,13 +120,15 @@ const render = (emails: string[], routeQuery: string) => `
 </html>
 `;
 
+const getDatabase = (request: Request): string | null => (request as Record<string, any>)._table as string | null;
+
 async function interceptAuth(request: Request, response: Response, next: NextFunction) {
 	if (request.query.straightToGoogle) {
 		next();
 		return;
 	}
 
-	const emails = await getEmails();
+	const emails = await getEmails(getDatabase(request));
 	const queryParameters = query.getRequestUrl(request).searchParams;
 	queryParameters.set('straightToGoogle', 'true');
 
@@ -132,8 +136,8 @@ async function interceptAuth(request: Request, response: Response, next: NextFun
 }
 
 async function useEmail(request: Request, response: Response) {
-	const table: string | null = null;
-	const id = await getId(request.body.email/* , table */);
+	const host = getDatabase(request);
+	const id = await getId(request.body.email, host);
 	if (!id) {
 		response.status(500).json({
 			error: `Email ${request.body.email} not found`,
@@ -157,7 +161,7 @@ async function useEmail(request: Request, response: Response) {
 	}
 
 	session.passport = {
-		user: `${table}:${id}`,
+		user: `${host}:${id}`,
 	};
 
 	session.save(error => {
@@ -175,15 +179,17 @@ async function useEmail(request: Request, response: Response) {
 }
 
 export async function register(app: Application) {
-	const withUser = await serverDependencies.import<{default: RequestHandler}>(
+	const {withUser} = await serverDependencies.import<{withUser: RequestHandler}>(
 		'./lib/controllers/authentication/with-user.js',
 	);
 
-	// @todo: hostmatching
-	app.get(route, interceptAuth);
+	const {hostMatching} = serverDependencies.middleware;
+
+	app.get(route, hostMatching, interceptAuth);
 	app.post(
 		appPath('/auth/session'),
-		withUser.default,
+		hostMatching,
+		withUser,
 		serverDependencies.express.urlencoded({extended: false}),
 		useEmail,
 	);
