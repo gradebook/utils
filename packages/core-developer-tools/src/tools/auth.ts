@@ -164,18 +164,7 @@ async function useEmail(request: Request, response: Response) {
 		user: `${host}:${id}`,
 	};
 
-	session.save(error => {
-		if (error) {
-			response.status(500).json({
-				error: 'Unable to save session',
-				saveError: error,
-			});
-
-			return;
-		}
-
-		response.redirect('/assets/logged-in.html');
-	});
+	response.redirect('/assets/logged-in.html');
 }
 
 export async function register(app: Application) {
