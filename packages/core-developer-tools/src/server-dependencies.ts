@@ -1,10 +1,17 @@
 import path from 'path';
 import type ExpressDependency from 'express';
 
+interface Log {
+	info: typeof console['info'];
+	warn: typeof console['warn'];
+	error: typeof console['error'];
+}
+
 export class ServerDependencies {
 	public knex: any;
 	public express: typeof ExpressDependency;
 	public middleware: Record<string, ExpressDependency.Handler>;
+	public logging: Log;
 
 	private serverRoot: string;
 
@@ -13,8 +20,8 @@ export class ServerDependencies {
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		this.knex = await this.import<any>('./lib/database/knex.js');
 		this.express = await this.import<typeof ExpressDependency>('node_modules/express/index.js');
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-		this.middleware = await this.import<any>('./lib/controllers/middleware.js');
+		this.middleware = await this.import<typeof this['middleware']>('./lib/controllers/middleware.js');
+		this.logging = await this.import<{logging: Log}>('./lib/logging.js').then(({logging}) => logging);
 	}
 
 	async import<T>(serverRelativePath: string): Promise<T> {
