@@ -1,3 +1,9 @@
+# 0.2.0
+
+ - :sparkles: add `auth` middleware for local authentication
+ - :sparkles: add `protocol matching` middleware to warn when the `secure` config doesn't match the request protocol
+ - :recycle: switch to ESM
+
 # 0.1.3
 
  - disallow loading core-developer-tools in prod
