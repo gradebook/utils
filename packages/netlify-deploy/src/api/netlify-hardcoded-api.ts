@@ -25,7 +25,7 @@ const stringifyBody = (body: LocalInit['body']) => {
 };
 
 async function makeRequest(path: string, options: LocalInit = {}) {
-	const url = new URL(`/api/v1/${path}`, 'https://api.netlify.com');
+	const url = new URL(`/api/v1/${path.replace(/^\//, '')}`, 'https://api.netlify.com');
 	const body = options.body;
 	delete options.body;
 	const init: RequestInit = {
