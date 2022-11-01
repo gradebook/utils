@@ -70,7 +70,7 @@ const retryUpload = async <T>(uploadFn: (count: number) => Promise<T>, maxRetry:
 	new Promise<T>((resolve, reject) => {
 		let lastError: unknown;
 
-		const fibonacciBackoff = backoff.fibonacci({ // eslint-disable-line @typescript-eslint/no-unsafe-call
+		const fibonacciBackoff = backoff.fibonacci({
 			randomisationFactor: UPLOAD_RANDOM_FACTOR,
 			initialDelay: UPLOAD_INITIAL_DELAY,
 			maxDelay: UPLOAD_MAX_DELAY,
