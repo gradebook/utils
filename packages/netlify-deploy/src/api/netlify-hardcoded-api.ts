@@ -1,6 +1,6 @@
 import {ReadStream} from 'fs';
 import {URL} from 'url';
-import {fetch} from 'zx'; // eslint-disable-line import/no-extraneous-dependencies
+import {$, fetch} from 'zx'; // eslint-disable-line import/no-extraneous-dependencies
 
 import {NetlifySite, NetlifySiteDeploy, NetlifyCreateSiteDeployPayload, NetlifyUpdateSiteDeployPayload, NetlifyUploadFile} from './open-api.js';
 
@@ -42,7 +42,20 @@ async function makeRequest(path: string, options: LocalInit = {}) {
 		init.body = stringifyBody(body);
 	}
 
-	return fetch(url.href, init).then(r => r.json()); // eslint-disable-line @typescript-eslint/promise-function-async
+	const originalVerbose = $.verbose;
+	$.verbose = false;
+	const toReturn = fetch(url.href, init);
+	$.verbose = originalVerbose;
+
+	return toReturn.then(async response => {
+		try {
+			const text = await response.text();
+			return JSON.parse(text) as unknown;
+		} catch (error) {
+			console.error({url: response.url, status: response.status});
+			throw error;
+		}
+	});
 }
 
 export function setAuthToken(token: string) {

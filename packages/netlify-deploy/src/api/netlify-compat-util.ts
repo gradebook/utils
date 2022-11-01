@@ -8,8 +8,8 @@ const BANG = '›';
  * Logs a json message
  * @param {string|object} message
  */
-export const logJson = (message: unknown = '') => {
-	process.stdout.write(JSON.stringify(message, null, 2));
+export const logJson = (message: unknown = '', pretty = false) => {
+	console.log(JSON.stringify(message, null, pretty ? 2 : 0));
 };
 
 export const log = (message = '', ...args) => {

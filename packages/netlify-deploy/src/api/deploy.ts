@@ -78,7 +78,7 @@ const prepareProductionDeploy = async ({siteData}) => {
 		exit(0);
 	}
 
-	log('Deploying to main site URL...');
+	logJson({message: 'Deploying to main site URL...'});
 };
 
 const hasErrorMessage = (actual, expected) => {
@@ -215,7 +215,7 @@ const printResults = ({deployToProduction, results}: {deployToProduction: boolea
 		jsonData.url = results.siteUrl;
 	}
 
-	logJson(jsonData);
+	logJson(jsonData, true);
 	exit(0);
 };
 
@@ -269,7 +269,7 @@ export const deploy = async (options: NetlifyDeployOptions) => {
 
 	const results = await runDeploy({
 		deployFolder,
-		deployTimeout: (options.timeout || DEFAULT_DEPLOY_TIMEOUT_SEC) * SEC_TO_MILLISEC,
+		deployTimeout: (options.timeout ?? DEFAULT_DEPLOY_TIMEOUT_SEC) * SEC_TO_MILLISEC,
 		deployToProduction,
 		silent: options.silent ?? false,
 		siteData,

@@ -34,6 +34,7 @@ export const uploadFiles = async (deployId: string, uploadList: PartialFileObjec
 		let response: NetlifyUploadFile;
 		switch (assetType) {
 			case 'file': {
+				statusCb({msg: `Uploading ${filepath}`, phase: 'start'});
 				response = await retryUpload(
 					async () => api.uploadDeployFile({
 						body: fs.createReadStream(filepath),
@@ -42,6 +43,7 @@ export const uploadFiles = async (deployId: string, uploadList: PartialFileObjec
 					}),
 					maxRetry,
 				);
+				statusCb({msg: `Uploading ${filepath}`, phase: 'stop'});
 				break;
 			}
 
@@ -58,7 +60,7 @@ export const uploadFiles = async (deployId: string, uploadList: PartialFileObjec
 
 	const results = await pMap(uploadList, uploadFile, {concurrency: concurrentUpload});
 	statusCb({
-		msg: `Finished uploading ${uploadList.length} assets`,
+		msg: `Finished uploading ${uploadList.length} files`,
 		phase: 'stop',
 	});
 	return results;
