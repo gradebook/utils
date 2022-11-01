@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig-esm.json",
+  "include": [
+    "./global.d.ts",
+    "src/",
+    "__tests__/"
+  ],
+  "compilerOptions": {
+    "outDir": "lib",
+    "strict": true,
+    "noImplicitAny": false
+  }
+}

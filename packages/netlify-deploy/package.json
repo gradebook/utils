@@ -1,0 +1,52 @@
+{
+  "name": "@gradebook/netlify-deploy",
+  "version": "0.0.1",
+  "keywords": [],
+  "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
+  "homepage": "https://github.com/gradebook/utils#readme",
+  "bugs": "https://github.com/gradebook/utils/issues",
+  "license": "MIT",
+  "main": "lib/netlify-deploy.js",
+  "type": "module",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gradebook/utils.git",
+    "directory": "packages/netlify-deploy"
+  },
+  "scripts": {
+    "prepublish": "tsc",
+    "tsc": "tsc",
+    "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\""
+  },
+  "xo": false,
+  "dependencies": {
+    "backoff": "^2.5.0",
+    "clean-deep": "^3.4.0",
+    "dot-prop": "^7.2.0",
+    "flush-write-stream": "^2.0.0",
+    "folder-walker": "^3.2.0",
+    "hasha": "^5.2.2",
+    "lodash.isobject": "^3.0.2",
+    "p-map": "^5.5.0",
+    "p-wait-for": "^5.0.0",
+    "parallel-transform": "^1.2.0",
+    "pump": "^3.0.0",
+    "tempy": "^3.0.0",
+    "through2-filter": "^3.0.0",
+    "through2-map": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/backoff": "^2.5.2",
+    "@types/flush-write-stream": "^1.0.0",
+    "@types/folder-walker": "^3.2.0",
+    "@types/parallel-transform": "^1.1.1",
+    "@types/through2-map": "^3.0.1"
+  }
+}
