@@ -23,7 +23,8 @@
   "scripts": {
     "prepublish": "tsc",
     "tsc": "tsc",
-    "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\""
+    "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\"",
+    "autorelease:test": "echo Tests are skipped because this package is a stripped version of netlify/cli deploy"
   },
   "xo": false,
   "dependencies": {
