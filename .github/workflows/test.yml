@@ -6,33 +6,19 @@ on:
       - master
 
 jobs:
-  test:
+  quality:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3
-        with:
-          node-version: lts/*
-          cache: yarn
-        env:
-          FORCE_COLOR: 0
+      - uses: gradebook/minimum-viable-repository/actions/setup@master
       - run: yarn install --frozen-lockfile
       - name: Unit Tests
         run: yarn lerna run test
         env:
           TEST_NAME: unit
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3
-        with:
-          node-version: lts/*
-          cache: yarn
-        env:
-          FORCE_COLOR: 0
-      - run: yarn install --frozen-lockfile
+          FORCE_COLOR: 1
+      # NOTE: Run lint after tests because tests will run `tsc` and generate types for x-dependencies
       - name: Lint
         run: yarn lint
         env:
           TEST_NAME: lint
+          FORCE_COLOR: 1
