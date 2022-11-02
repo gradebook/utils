@@ -1,7 +1,9 @@
 import {promisify} from 'util';
 import walker from 'folder-walker';
 import pumpCallback from 'pump';
-import {fileFilterCtor, fileNormalizerCtor, hasherCtor, manifestCollectorCtor, PartialFileObject} from './hasher-segments.js';
+import {
+	fileFilterCtor, fileNormalizerCtor, hasherCtor, manifestCollectorCtor, type PartialFileObject,
+} from './hasher-segments.js';
 
 const pump = promisify(pumpCallback);
 

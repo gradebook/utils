@@ -1,24 +1,24 @@
 
-export type MinimalCourse = {
+export interface MinimalCourse {
 	semester: string;
 	name: string;
 	cutoffs: string;
 	credit_hours: string;
-};
+}
 
-export type MinimalCategory = {
+export interface MinimalCategory {
 	name: string;
 	weight: number;
 	position: number;
 	dropped_grades: number;
-};
+}
 
-export type MinimalGrade = {
+export interface MinimalGrade {
 	name: string;
 	grade: number;
-};
+}
 
-export type Cutoffs = {
+export interface Cutoffs {
 	'A+'?: number;
 	A?: number;
 	'A-'?: number;
@@ -31,7 +31,7 @@ export type Cutoffs = {
 	'D+'?: number;
 	D?: number;
 	'D-'?: number;
-};
+}
 
 export interface CourseRow extends MinimalCourse {
 	id: string;

@@ -21,11 +21,11 @@ export interface NetlifyUploadFile {
 	size: number;
 }
 
-export type NetlifyCreateSiteDeployPayload = {
+export type NetlifyCreateSiteDeployPayload = { // eslint-disable-line @typescript-eslint/consistent-type-definitions
 	draft: boolean;
 };
 
-export type NetlifyUpdateSiteDeployPayload = {
+export type NetlifyUpdateSiteDeployPayload = { // eslint-disable-line @typescript-eslint/consistent-type-definitions
 	async: boolean;
 	draft: boolean;
 };

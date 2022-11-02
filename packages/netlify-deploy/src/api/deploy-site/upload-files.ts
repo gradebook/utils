@@ -4,8 +4,8 @@ import fs from 'fs';
 import backoff from 'backoff';
 import pMap from 'p-map';
 import {api} from '../netlify-hardcoded-api.js';
-import {NetlifyUploadFile} from '../open-api.js';
-import {PartialFileObject} from './hasher-segments.js';
+import type {NetlifyUploadFile} from '../open-api.js';
+import type {PartialFileObject} from './hasher-segments.js';
 
 type FakeFibonacci = EventEmitter & {
 	failAfter: (duration: number) => void;

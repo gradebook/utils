@@ -15,7 +15,7 @@ function defaultTo<T>(key: string, fallback: T) {
 	}
 
 	if (typeof fallback === 'boolean') {
-		return process.env[key]!.toLowerCase() === 'true';
+		return env[key]!.toLowerCase() === 'true';
 	}
 }
 

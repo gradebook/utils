@@ -1,4 +1,5 @@
 // @ts-check
+const {Buffer} = require('buffer');
 const {expect} = require('chai');
 const {AuthManager} = require('../lib/client-auth.js');
 
@@ -21,11 +22,14 @@ class FakeFetch {
 			throw new Error('Unable to resolve');
 		};
 
+		/** @type {[url: string, options: unknown][]} */
 		this.history = [];
 	}
 
 	proxy = (url, options) => {
+		// @ts-expect-error
 		this.history.push([url, options]);
+		// @ts-expect-error
 		const response = this.handler(url, options);
 
 		return {
@@ -115,6 +119,7 @@ describe('Unit > Client Auth', function () {
 		await assertResponse(service.getRequestInfo('shared'), 0, 'shared.local', 2);
 		await assertResponse(service.getRequestInfo('group_2_0'), 1, 'group_2_0.local', 1);
 
+		// @ts-expect-error
 		expect(fetch.history.map(([url]) => url)).to.deep.equal([
 			'https://gateway.local/api/v0/token',
 			'https://gateway.local/api/v0/resolve/shared',
@@ -154,6 +159,7 @@ describe('Unit > Client Auth', function () {
 
 	it('handles resolution errors', async function () {
 		const token = `t.${protectedHeader}`;
+		/** @type {Record<string, string> | null} */
 		let response = {error: 'testing'};
 		fetch.handler = url => {
 			if (url.includes('token')) {
@@ -183,6 +189,7 @@ describe('Unit > Client Auth', function () {
 			};
 		};
 
+		// @ts-expect-error
 		const [firstResolution] = await service.getRequestInfo('shared');
 		expect(firstResolution).to.deep.contain({__index: 0});
 		const [secondResolution] = await service.getRequestInfo('shared');

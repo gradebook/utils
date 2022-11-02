@@ -1,5 +1,5 @@
-import {Category as ICategory, ApiCategory as IApiCategory} from './interfaces/category.js';
-import {Course as ICourse, Cutoffs as ICutoffs, ApiCourse as IApiCourse} from './interfaces/course.js';
+import type {Category as ICategory, ApiCategory as IApiCategory} from './interfaces/category.js';
+import type {Course as ICourse, Cutoffs as ICutoffs, ApiCourse as IApiCourse} from './interfaces/course.js';
 import * as c from './constants.js';
 
 const validCourseName = (name: string): boolean => c.COURSE_NAME.test(name);
@@ -39,7 +39,7 @@ export const EXPORT_VERSION = 1;
 export function isomorphicAtoB(thingToDecode: string): string {
 	const rawDecoded: string = typeof atob === 'function'
 		? (atob as (s: string) => string)(thingToDecode)
-		: Buffer.from(thingToDecode, 'base64').toString('binary');
+		: Buffer.from(thingToDecode, 'base64').toString('binary'); // eslint-disable-line n/prefer-global/buffer
 
 	try {
 		const bytes = new Uint8Array(rawDecoded.length);
@@ -76,7 +76,7 @@ export function isomorphicBtoA(thingToEncode: string): string {
 
 	return typeof btoa === 'function'
 		? (btoa as (s: string) => string)(safeUnencoded)
-		: Buffer.from(thingToEncode).toString('base64');
+		: Buffer.from(thingToEncode).toString('base64'); // eslint-disable-line n/prefer-global/buffer
 }
 
 export function _validateCategory(category: ICategory): boolean {
@@ -345,7 +345,7 @@ export function prepareCourseForAPI(course: ICourse, semester: string): IApiCour
 	};
 }
 
-export {Category as ICategory} from './interfaces/category.js';
-export {Course as ICourse} from './interfaces/course.js';
+export type {Category as ICategory} from './interfaces/category.js';
+export type {Course as ICourse} from './interfaces/course.js';
 export * as constants from './constants.js';
 /* eslint-enable unicorn/prefer-code-point */

@@ -1,3 +1,4 @@
+import process from 'process';
 import {readFile} from 'fs/promises';
 import path from 'path';
 import {$ as zx$} from 'zx';
@@ -16,7 +17,7 @@ export class ConfigureForReleaseError extends Error {
 export async function importJson<JsonResponseType extends Record<string, any>>(
 	path: string,
 ): Promise<JsonResponseType> {
-	const fileContents = await readFile(path, 'utf-8');
+	const fileContents = await readFile(path, 'utf8');
 	return JSON.parse(fileContents) as JsonResponseType;
 }
 

@@ -1,5 +1,7 @@
+import {exit} from 'process';
 import {$} from 'zx';
-import {configureForRelease, PackageJson as MinimalPackageJson} from '../api/configure-for-release.js';
+import type {PackageJson as MinimalPackageJson} from '../api/configure-for-release.js';
+import {configureForRelease} from '../api/configure-for-release.js';
 import * as envCore from '../api/get-var-from-env.js';
 import {publishPossibleGitHubRelease} from '../api/publish-github-release.js';
 import {publishPackage} from '../api/publish-package.js';
@@ -25,8 +27,7 @@ async function wrap() {
 	if (!packageJson.scripts?.[SPECIAL_SCRIPT] && !packageJson.scripts?.[FALLBACK_SCRIPT]) {
 		console.error('Package does not contain a test script');
 		console.error(`Ensure .scripts.${SPECIAL_SCRIPT} or .scripts.${FALLBACK_SCRIPT} exists`);
-		// eslint-disable-next-line unicorn/no-process-exit
-		process.exit(1);
+		exit(1);
 	}
 
 	const testScript = SPECIAL_SCRIPT in packageJson.scripts ? SPECIAL_SCRIPT : FALLBACK_SCRIPT;
@@ -41,6 +42,5 @@ async function wrap() {
 void wrap().catch(error => {
 	console.error('Failed to test and publish:');
 	console.error(error);
-	// eslint-disable-next-line unicorn/no-process-exit
-	process.exit(1);
+	exit(1);
 });

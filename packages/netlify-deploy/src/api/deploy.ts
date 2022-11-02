@@ -1,6 +1,6 @@
 // @ts-check
 // Based on 36957fcba3f6355985446c67d673ef96edd448f1 of netlify/cli
-import {Stats} from 'fs';
+import type {Stats} from 'fs';
 import {stat} from 'fs/promises';
 import {basename} from 'path';
 import {exit} from 'process';

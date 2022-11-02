@@ -1,4 +1,6 @@
-import {findReleaseByTagName, FindReleaseByTagNameOptions, makeGitHubRequest, PartialGitHubRelease} from './github.js';
+import {
+	findReleaseByTagName, type FindReleaseByTagNameOptions, makeGitHubRequest, type PartialGitHubRelease,
+} from './github.js';
 
 export interface PublishGitHubReleaseOptions {
 	token: string;

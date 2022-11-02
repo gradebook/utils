@@ -10,7 +10,7 @@ const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function readChangelog(name) {
 	const absolutePath = path.resolve(dirname, `./fixtures/changelog-${name}.md`);
-	return readFile(absolutePath, 'utf-8');
+	return readFile(absolutePath, 'utf8');
 }
 
 describe('Unit > API > Parse Changelog', function () {

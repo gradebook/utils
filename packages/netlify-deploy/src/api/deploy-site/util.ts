@@ -2,9 +2,9 @@ import {sep} from 'path';
 
 import pWaitFor from 'p-wait-for';
 
-import {NetlifySiteDeploy} from '../open-api.js';
+import type {NetlifySiteDeploy} from '../open-api.js';
 import {api} from '../netlify-hardcoded-api.js';
-import {PartialFileObject} from './hasher-segments.js';
+import type {PartialFileObject} from './hasher-segments.js';
 
 const DEPLOY_POLL = 1e3;
 
@@ -47,7 +47,7 @@ export const waitForDiff = async (deployId: string, siteId: string, timeout: num
 				return true;
 			}
 
-			case 'preparing':
+			case 'preparing': // eslint-disable-line unicorn/no-useless-switch-case
 			default: {
 				return false;
 			}
@@ -86,10 +86,10 @@ export const waitForDeploy = async (deployId: string, siteId: string, timeout: n
 				return true;
 			}
 
-			case 'preparing':
-			case 'prepared':
-			case 'uploaded':
-			case 'uploading':
+			case 'preparing': // eslint-disable-line unicorn/no-useless-switch-case
+			case 'prepared': // eslint-disable-line unicorn/no-useless-switch-case
+			case 'uploaded': // eslint-disable-line unicorn/no-useless-switch-case
+			case 'uploading': // eslint-disable-line unicorn/no-useless-switch-case
 			default: {
 				return false;
 			}

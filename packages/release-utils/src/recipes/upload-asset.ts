@@ -1,4 +1,6 @@
-import {Asset, uploadGitHubReleaseAssets} from '../api/upload-github-release-asset.js';
+import process from 'process';
+import type {Asset} from '../api/upload-github-release-asset.js';
+import {uploadGitHubReleaseAssets} from '../api/upload-github-release-asset.js';
 import {requireEnvVariables} from '../util/require-env-variables.js';
 import {parseBranchName} from '../api/actions-hook.js';
 

@@ -1,4 +1,5 @@
 // @ts-check
+const process = require('process');
 const path = require('path');
 const {readdir} = require('fs').promises;
 const execa = require('execa');

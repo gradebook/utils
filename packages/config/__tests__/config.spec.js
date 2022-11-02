@@ -1,4 +1,5 @@
 // @ts-check
+import process from 'process';
 import {expect} from 'chai';
 import {getConfig, coerceKeyToBoolean} from '../lib/config.js';
 import {VirtualFileSystem} from './vfs.js';

@@ -1,4 +1,4 @@
-import {Category, ApiCategory} from './category.js';
+import type {Category, ApiCategory} from './category.js';
 
 export interface Course {
 	name: string;
@@ -17,7 +17,7 @@ export interface ApiCourse {
 	categories: ApiCategory[];
 }
 
-export type Cutoffs = {
+export interface Cutoffs {
 	'A+'?: number;
 	A?: number;
 	'A-'?: number;
@@ -30,4 +30,4 @@ export type Cutoffs = {
 	'D+'?: number;
 	D?: number;
 	'D-'?: number;
-};
+}

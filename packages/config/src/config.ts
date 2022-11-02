@@ -1,3 +1,4 @@
+import process from 'process';
 import fs from 'fs/promises';
 import path from 'path';
 import nconf from 'nconf';
@@ -18,7 +19,7 @@ export async function _init(forcedEnv?: string) {
 	const fileRoot: string = process.env.GB_CONFIG_ROOT ?? await import('./root.js')
 		.then(async mod => mod.findRoot(env));
 
-	const defaults = await fs.readFile(path.resolve(fileRoot, 'config.example.json'), 'utf-8')
+	const defaults = await fs.readFile(path.resolve(fileRoot, 'config.example.json'), 'utf8')
 		.then(file => JSON.parse(file) as Record<string, unknown>)
 		.catch(error => {
 			const originalErrorMessage = isNormalError(error) ? error.message : '';
