@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import {IncomingMessage} from 'http';
+import type {IncomingMessage} from 'http';
 import {dayjs as date} from '@gradebook/time';
 import ObjectId from 'bson-objectid';
 
-import {
+import type {
 	PassportOauth20Profile as Profile,
 	PassportOauth20VerifyCallback as VerifyCallback,
 } from './_passport-types.js';
 
-export type NewUserSessionProfile = {
+export interface NewUserSessionProfile {
 	id: string;
 	gid: string;
 	firstName: string;
@@ -16,7 +16,7 @@ export type NewUserSessionProfile = {
 	email: string;
 	isNew: true;
 	settings: string;
-};
+}
 
 export type UserProfile = {
 	id: string;

@@ -1,4 +1,4 @@
-import {Request, Response, NextFunction, RequestHandler} from 'express';
+import type {Request, Response, NextFunction, RequestHandler} from 'express';
 
 export class TrustedRequestError extends Error {
 	public readonly errorType = 'PermissionError'; // eslint-disable-line @typescript-eslint/class-literal-property-style

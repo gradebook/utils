@@ -1,4 +1,4 @@
-/* eslint-disable unicorn/no-process-exit */
+import {exit} from 'process';
 import * as envCore from '../api/get-var-from-env.js';
 import {configureForRelease} from '../api/configure-for-release.js';
 import {publishPossibleGitHubRelease} from '../api/publish-github-release.js';
@@ -24,7 +24,7 @@ async function wrap() {
 			console.error(error);
 		}
 
-		process.exit(1);
+		exit(1);
 	}
 }
 

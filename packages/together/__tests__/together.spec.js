@@ -1,4 +1,5 @@
 // @ts-check
+const process = require('process');
 const {expect} = require('chai');
 const execa = require('execa');
 const sinon = require('sinon');

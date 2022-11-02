@@ -1,4 +1,5 @@
 // @ts-check
+const process = require('process');
 const path = require('path');
 const fs = require('fs-extra');
 const execa = require('execa');

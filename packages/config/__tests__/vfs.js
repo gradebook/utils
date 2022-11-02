@@ -1,4 +1,5 @@
 // @ts-check
+import process from 'process';
 import fs from 'fs/promises';
 import syncFs from 'fs';
 import sinon from 'sinon';

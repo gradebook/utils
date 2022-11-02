@@ -1,4 +1,4 @@
-import {jwtVerify, JWTVerifyGetKey} from 'jose';
+import {jwtVerify, type JWTVerifyGetKey} from 'jose';
 
 export interface GatewayToken {
 	integration: string;

@@ -1,11 +1,12 @@
 // @ts-check
+import process from 'process';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
 import {sendPayload, parseBranchName, userAgent} from '../../lib/api/actions-hook.js';
 
 /**
- * @returns {void}
+ * @returns {null}
  */
 const noop = () => null;
 

@@ -19,18 +19,18 @@
     "new": "node scripts/new.js"
   },
   "devDependencies": {
-    "@types/mocha": "9.1.1",
+    "@types/mocha": "10.0.0",
     "@types/node": "16.11.6",
     "c8": "7.12.0",
     "chai": "4.3.6",
-    "eslint-plugin-mocha": "9.0.0",
-    "execa": "5.1.1",
+    "eslint-plugin-mocha": "10.1.0",
+    "execa": "6.1.0",
     "fs-extra": "10.1.0",
-    "lerna": "4.0.0",
-    "mocha": "9.2.2",
-    "sinon": "11.1.2",
+    "lerna": "6.0.1",
+    "mocha": "10.1.0",
+    "sinon": "14.0.1",
     "typescript": "4.8.4",
-    "xo": "0.47.0"
+    "xo": "0.52.4"
   },
   "xo": {
     "ignores": [
@@ -60,6 +60,25 @@
       "func-name-matching": "off"
     },
     "overrides": [
+      {
+        "files": "**/*.ts",
+        "rules": {
+          "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
+          "@typescript-eslint/ban-types": [
+            "error",
+            {
+              "extendDefaults": true,
+              "types": {
+                "[]": "Don't use the empty array type `[]`. It only allows empty arrays. Use `SomeType[]` instead.",
+                "object": {
+                  "message": "The `object` type is hard to use. Use `Record<string, unknown>` instead. See: https: //github.com/typescript-eslint/typescript-eslint/pull/848",
+                  "fixWith": "Record<string, unknown>"
+                }
+              }
+            }
+          ]
+        }
+      },
       {
         "files": "packages/**/__tests__/**/*.js",
         "envs": [

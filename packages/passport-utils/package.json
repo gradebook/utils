@@ -33,6 +33,6 @@
   "devDependencies": {},
   "dependencies": {
     "@gradebook/time": "^0.0.4",
-    "bson-objectid": "^2.0.1"
+    "bson-objectid": "^2.0.3"
   }
 }

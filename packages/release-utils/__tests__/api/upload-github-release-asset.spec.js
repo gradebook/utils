@@ -5,8 +5,7 @@ import sinon from 'sinon';
 import {__testDependencyInjector, makeGitHubRequest} from '../../lib/api/github.js';
 import {uploadGitHubReleaseAssets} from '../../lib/api/upload-github-release-asset.js';
 
-// @ts-expect-error
-const ASSET_PATH = fileURLToPath(new URL('./fixtures/changelog-fake.md', import.meta.url));
+const ASSET_PATH = fileURLToPath(new URL('fixtures/changelog-fake.md', import.meta.url));
 
 describe('Unit > API > Package Publisher', function () {
 	/** @type {import('sinon').SinonStub} */

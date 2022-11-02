@@ -4,7 +4,7 @@
 *  are used in this package from @types/passport-google-oauth20
 */
 
-export type PassportOauth20Profile = {
+export interface PassportOauth20Profile {
 	provider: string;
 	id: string;
 	displayName: string;
@@ -25,6 +25,6 @@ export type PassportOauth20Profile = {
 
 	_raw: string;
 	_json: any;
-};
+}
 
 export type PassportOauth20VerifyCallback = (error?: string | Error, user?: any, info?: any) => void;

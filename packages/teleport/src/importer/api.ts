@@ -1,7 +1,9 @@
+import {Buffer} from 'buffer';
 import ObjectId from 'bson-objectid';
-import AJV, {Format} from 'ajv';
-import {Knex} from 'knex';
-import {Export, Query, Cutoffs} from '../shared/interfaces.js';
+import type {Format} from 'ajv';
+import AJV from 'ajv';
+import type {Knex} from 'knex';
+import type {Export, Query, Cutoffs} from '../shared/interfaces.js';
 import {ValidationError} from './errors.js';
 import {SCHEMAS} from './schema/index.js';
 import {generateCourseQuery} from './generators.js';
@@ -173,7 +175,7 @@ export async function runQueries(knex: Knex, queries: Query[], preserveUser = fa
 		}
 
 		await txn.commit();
-	} catch (error) {
+	} catch (error: unknown) {
 		await txn.rollback();
 		throw error;
 	}

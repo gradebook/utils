@@ -16,11 +16,11 @@ const AUGUST = 7;
 const NOVEMBER = 10;
 const DECEMBER = 11;
 
-type CurrentSemesterState = {
+interface CurrentSemesterState {
 	primarySemester: string;
 	activeSemesters: string[];
 	serverAllowedSemesters: string[];
-};
+}
 
 export const data: CurrentSemesterState = {
 	primarySemester: null,

@@ -1,4 +1,5 @@
-import {ConditionalHook, parseBranchName, sendPayload} from '../api/actions-hook.js';
+import process from 'process';
+import {type ConditionalHook, parseBranchName, sendPayload} from '../api/actions-hook.js';
 import {requireEnvVariables} from '../util/require-env-variables.js';
 
 const GLOBAL_REQUIRED_KEYS = ['GITHUB_REF', 'GITHUB_REPOSITORY', 'GITHUB_SHA'] as const;

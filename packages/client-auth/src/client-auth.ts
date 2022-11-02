@@ -1,7 +1,8 @@
+import {Buffer} from 'buffer';
 import * as path from 'path';
 import {URL} from 'url';
 import {setTimeout} from 'timers/promises';
-import fetchCore, {RequestInit} from 'node-fetch';
+import fetchCore, {type RequestInit} from 'node-fetch';
 import type {Response} from 'node-fetch';
 
 interface Resolution {

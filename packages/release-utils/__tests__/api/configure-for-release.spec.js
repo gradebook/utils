@@ -1,5 +1,6 @@
 // @ts-check
 import path from 'path';
+import process from 'process';
 import {fileURLToPath} from 'url';
 import {expect} from 'chai';
 import sinon from 'sinon';

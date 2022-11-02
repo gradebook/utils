@@ -3,7 +3,8 @@ import path from 'path';
 import 'urijs/src/URITemplate.js'; // eslint-disable-line import/no-unassigned-import
 import URI from 'urijs';
 import mime from 'mime/lite.js';
-import {findReleaseByTagName, FindReleaseByTagNameOptions, makeGitHubRequest} from './github.js';
+import type {FindReleaseByTagNameOptions} from './github.js';
+import {findReleaseByTagName, makeGitHubRequest} from './github.js';
 
 export type Asset = string | [path: string, name: string];
 

@@ -12,8 +12,8 @@ const [
 	EXAMPLE_V0_COURSE,
 	EXAMPLE_V1_COURSE,
 ] = await Promise.all([
-	readFile(new URL('../fixtures/v0-example-serialized-course.json', import.meta.url), 'utf-8'),
-	readFile(new URL('../fixtures/v1-browser-example-serialized-course.json', import.meta.url), 'utf-8'),
+	readFile(new URL('../fixtures/v0-example-serialized-course.json', import.meta.url), 'utf8'),
+	readFile(new URL('../fixtures/v1-browser-example-serialized-course.json', import.meta.url), 'utf8'),
 ]);
 
 describe('Regression > Course Serializer', function () {

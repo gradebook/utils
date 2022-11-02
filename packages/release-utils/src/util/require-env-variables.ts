@@ -1,11 +1,10 @@
-export function requireEnvVariables(requiredVariables: Readonly<string[]>) {
-	const {env} = process;
+import {env, exit} from 'process';
 
+export function requireEnvVariables(requiredVariables: Readonly<string[]>) {
 	for (const key of requiredVariables) {
 		if (!(key in env)) {
 			console.error(`Missing environment variable: ${key}. Recipe failed`);
-			// eslint-disable-next-line unicorn/no-process-exit
-			process.exit(1);
+			exit(1);
 		}
 	}
 }

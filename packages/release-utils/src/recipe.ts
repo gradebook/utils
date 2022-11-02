@@ -1,9 +1,11 @@
 #! /usr/bin/env node
-const recipe = process.argv[2];
+import {argv, exit} from 'process';
+
+const recipe = argv[2];
 
 if (!recipe) {
 	console.error('Usage: release-recipe <recipe>');
-	process.exit(1);
+	exit(1);
 }
 
 import(`./recipes/${recipe.toLowerCase()}.js`).catch(error => {
@@ -13,5 +15,5 @@ import(`./recipes/${recipe.toLowerCase()}.js`).catch(error => {
 		console.error(`Failed running recipe "${recipe.toLowerCase()}"`);
 	}
 
-	process.exit(1);
+	exit(1);
 });

@@ -1,6 +1,6 @@
 import {URL} from 'url';
 import got from 'got';
-import {Export} from './shared/interfaces.js';
+import type {Export} from './shared/interfaces.js';
 
 interface ExportOptions {
 	school: string;
