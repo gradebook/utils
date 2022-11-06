@@ -8,6 +8,7 @@ on:
 jobs:
   quality:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: gradebook/actions/actions/setup@master
       - run: yarn install --frozen-lockfile

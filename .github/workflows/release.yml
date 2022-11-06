@@ -5,11 +5,12 @@ on:
     - '**'
 
 permissions:
-  contents: write # Required to support publishing a reelase
+  contents: write # Required to support publishing a release
 
 jobs:
   automate:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     env:
       YARN_AUTH_TOKEN: ${{ secrets.NPM_RELEASE_TOKEN }}
       FORCE_COLOR: 1

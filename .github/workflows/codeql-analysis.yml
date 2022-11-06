@@ -2,10 +2,11 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [master, ]
+    branches:
+    - master
   pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [master]
+    branches:
+    - master
   schedule:
     - cron: '0 0 * * 0'
 
@@ -13,9 +14,9 @@ permissions:
   security-events: write
 
 jobs:
-  analyse:
-    name: Analyse
+  analyze:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     steps:
     - name: Checkout repository
