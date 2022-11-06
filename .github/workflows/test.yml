@@ -9,7 +9,7 @@ jobs:
   quality:
     runs-on: ubuntu-latest
     steps:
-      - uses: gradebook/minimum-viable-repository/actions/setup@master
+      - uses: gradebook/actions/actions/setup@master
       - run: yarn install --frozen-lockfile
       - name: Unit Tests
         run: yarn lerna run test
