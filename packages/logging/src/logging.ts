@@ -2,11 +2,12 @@ import {pid} from 'process';
 import {hostname} from 'os';
 import {pino, stdTimeFunctions} from 'pino';
 import {transports} from './transport.js';
-import {type LoggingOptions} from './types.js';
+import {type RawLoggingOptions, createSafeOptions} from './config.js';
 
 const redact = ['*.cookie', '*["set-cookie"]', '*.authorization'];
 
-const ignitionLegacyOptions: LoggingOptions = {};
+const rawIgnitionLegacyOptions: RawLoggingOptions = {};
+const ignitionLegacyOptions = createSafeOptions(rawIgnitionLegacyOptions);
 
 export const logger = pino({
 	redact,
@@ -14,9 +15,9 @@ export const logger = pino({
 	base: {
 		pid,
 		hostname,
-		name: ignitionLegacyOptions.name ?? 'Log',
-		env: ignitionLegacyOptions.env ?? 'development',
-		domain: ignitionLegacyOptions.domain ?? 'localhost',
+		name: ignitionLegacyOptions.name,
+		env: ignitionLegacyOptions.env,
+		domain: ignitionLegacyOptions.domain,
 	},
 // @TODO: This is the correct invocation - figure out why we need to cast as `any`
 }, transports.stdout as any);
