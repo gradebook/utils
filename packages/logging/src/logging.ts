@@ -2,16 +2,11 @@ import {pid} from 'process';
 import {hostname} from 'os';
 import {pino, stdTimeFunctions} from 'pino';
 import {transports} from './transport.js';
+import {type LoggingOptions} from './types.js';
 
 const redact = ['*.cookie', '*["set-cookie"]', '*.authorization'];
 
-const ignitionLegacyOptions: Record<string, string | string[]> = {
-	name: '',
-	env: '',
-	domain: '',
-	transports: [],
-	level: '',
-};
+const ignitionLegacyOptions: LoggingOptions = {};
 
 export const logger = pino({
 	redact,
