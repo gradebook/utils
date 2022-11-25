@@ -6,6 +6,7 @@
   "homepage": "https://github.com/gradebook/utils/tree/master/packages/logging#readme",
   "bugs": "https://github.com/gradebook/utils/issues",
   "license": "MIT",
+  "type": "module",
   "main": "lib/logging.js",
   "directories": {
     "lib": "lib",
@@ -28,5 +29,10 @@
     "tsc": "tsc",
     "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\""
   },
-  "xo": false
+  "xo": false,
+  "dependencies": {
+    "pino": "^8.7.0",
+    "pino-http": "^8.2.1",
+    "pino-pretty": "^9.1.1"
+  }
 }
