@@ -4,7 +4,6 @@ import {type PrettyOptions} from 'pino-pretty';
 import {type LoggingOptions} from './config.js';
 import {type FileRotationOptions} from './transport/pino-file-rotate.js';
 
-const NOOP_TRANSPORT = Symbol('Noop transport');
 
 const getFileName = (options: LoggingOptions, rawLevel: string) => {
 	const level = rawLevel === 'error' ? '.error' : '';
@@ -18,10 +17,6 @@ type ThreadStream = any; // ThreadStream is untyped
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 export const transportBuilders: Record<string | symbol, (options: LoggingOptions) => ThreadStream> = {
-	[NOOP_TRANSPORT]: () => transport({
-		target: 'pino/file',
-		options: {destination: '/dev/null'},
-	}),
 	stdout: () => transport<PrettyOptions>({
 		target: './transport/pino-pretty.js',
 		options: {
@@ -55,9 +50,7 @@ export const transportBuilders: Record<string | symbol, (options: LoggingOptions
 export async function getPinoTransport(options: LoggingOptions): Promise<ThreadStream> {
 	const {transports} = options;
 	if (transports.length === 0) {
-		// ThreadStream is untyped
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-return
-		return transportBuilders[NOOP_TRANSPORT](options);
+		return null;
 	}
 
 	if (transports.length === 1) {

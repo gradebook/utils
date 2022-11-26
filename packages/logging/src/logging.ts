@@ -11,6 +11,7 @@ const ignitionLegacyOptions = createSafeOptions(rawIgnitionLegacyOptions);
 
 export const logger = pino({
 	redact,
+	level: ignitionLegacyOptions.transports.length === 0 ? 'silent' : ignitionLegacyOptions.level,
 	timestamp: stdTimeFunctions.isoTime,
 	base: {
 		pid,
