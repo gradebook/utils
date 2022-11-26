@@ -4,7 +4,6 @@ import {type PrettyOptions} from 'pino-pretty';
 import {type LoggingOptions} from './config.js';
 import {type FileRotationOptions} from './transport/pino-file-rotate.js';
 
-
 const getFileName = (options: LoggingOptions, rawLevel: string) => {
 	const level = rawLevel === 'error' ? '.error' : '';
 	// Based on ghost-ignition's file name generator
@@ -15,9 +14,19 @@ const getFileName = (options: LoggingOptions, rawLevel: string) => {
 
 type ThreadStream = any; // ThreadStream is untyped
 /* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-export const transportBuilders: Record<string | symbol, (options: LoggingOptions) => ThreadStream> = {
-	stdout: () => transport<PrettyOptions>({
+
+type ThreadStreamFromOptions = (options: LoggingOptions) => ThreadStream;
+
+const annotateWithLevel = (builder: ThreadStreamFromOptions) => async (options: LoggingOptions) => {
+	const transport = await builder(options);
+	transport.level = options.level;
+	return transport;
+};
+
+export const transportBuilders: Record<string | symbol, ThreadStreamFromOptions> = {
+	stdout: annotateWithLevel(() => transport<PrettyOptions>({
 		target: './transport/pino-pretty.js',
 		options: {
 			// We use SYS here because it's expected that servers are in UTC time, but developer's machines
@@ -25,9 +34,9 @@ export const transportBuilders: Record<string | symbol, (options: LoggingOptions
 			translateTime: 'SYS:yyyy-mm-dd HH:MM:ss',
 			ignore: 'env,domain,pid',
 		},
-	}) as ThreadStream,
-	stdoutRaw: () => transport({target: 'pino/file'}) as ThreadStream,
-	async file(options: LoggingOptions) {
+	}) as ThreadStream),
+	stdoutRaw: annotateWithLevel(() => transport({target: 'pino/file'}) as ThreadStream),
+	file: annotateWithLevel(async (options: LoggingOptions) => {
 		if (!await stat(options.path).catch(_ => null)) {
 			await mkdir(options.path);
 		}
@@ -42,9 +51,10 @@ export const transportBuilders: Record<string | symbol, (options: LoggingOptions
 				},
 			})),
 		}) as ThreadStream;
-	},
+	}),
 };
 /* eslint-enable @typescript-eslint/no-unsafe-return */
+/* eslint-enable @typescript-eslint/no-unsafe-assignment */
 /* eslint-enable @typescript-eslint/no-unnecessary-type-assertion */
 
 export async function getPinoTransport(options: LoggingOptions): Promise<ThreadStream> {

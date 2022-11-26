@@ -24,3 +24,4 @@ export const logger = pino({
 
 logger.info('Hello, world!');
 logger.error('Hello, world!');
+logger.trace('Hello, world!');
