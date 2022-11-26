@@ -38,7 +38,7 @@ export function createSafeOptions(options: RawLoggingOptions): LoggingOptions {
 		env: options.env ?? 'development',
 		domain: options.domain ?? 'localhost',
 		level: options.level ?? 'info',
-		path: options.path ?? cwd(),
+		path: (options.path ?? cwd() + '/logs').replace(/\/$/, '') + '/',
 		rotation: options.rotation === false ? null : (
 			(options.rotation === true || !options.rotation) ? {
 				...DEFAULT_ROTATION_OPTIONS,

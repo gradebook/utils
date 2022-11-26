@@ -18,9 +18,15 @@ describe('Unit > Config Parser', function () {
 			env: 'development',
 			level: 'info',
 			name: 'Log',
-			path: cwd(),
+			path: cwd() + '/logs/',
 			rotation: DEFAULT_ROTATION,
 			transports: ['stdout'],
+		});
+	});
+
+	it('path coercion', function () {
+		expect(createSafeOptions({path: '/tmp/logs'})).to.deep.contain({
+			path: '/tmp/logs/',
 		});
 	});
 
