@@ -1,11 +1,10 @@
 import {mkdir, stat} from 'fs/promises';
-import path from 'path';
-import {type LoggerOptions, transport} from 'pino';
+import {multistream, transport} from 'pino';
 import {type PrettyOptions} from 'pino-pretty';
 import {type LoggingOptions} from './config.js';
 import {type FileRotationOptions} from './transport/pino-file-rotate.js';
 
-type Transport = LoggerOptions['transport'];
+const NOOP_TRANSPORT = Symbol('Noop transport');
 
 const getFileName = (options: LoggingOptions, rawLevel: string) => {
 	const level = rawLevel === 'error' ? '.error' : '';
@@ -15,7 +14,14 @@ const getFileName = (options: LoggingOptions, rawLevel: string) => {
 	return `${path}${sanitizedDomain}_${env}${level}.log`;
 };
 
-export const transports: Record<string, (options: LoggingOptions) => Transport | Promise<Transport>> = {
+type ThreadStream = any; // ThreadStream is untyped
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
+export const transportBuilders: Record<string | symbol, (options: LoggingOptions) => ThreadStream> = {
+	[NOOP_TRANSPORT]: () => transport({
+		target: 'pino/file',
+		options: {destination: '/dev/null'},
+	}),
 	stdout: () => transport<PrettyOptions>({
 		target: './transport/pino-pretty.js',
 		options: {
@@ -24,8 +30,8 @@ export const transports: Record<string, (options: LoggingOptions) => Transport |
 			translateTime: 'SYS:yyyy-mm-dd HH:MM:ss',
 			ignore: 'env,domain,pid',
 		},
-	}) as Transport,
-	stdoutRaw: () => transport({target: 'pino/file'}) as Transport,
+	}) as ThreadStream,
+	stdoutRaw: () => transport({target: 'pino/file'}) as ThreadStream,
 	async file(options: LoggingOptions) {
 		if (!await stat(options.path).catch(_ => null)) {
 			await mkdir(options.path);
@@ -40,6 +46,50 @@ export const transports: Record<string, (options: LoggingOptions) => Transport |
 					rotation: options.rotation,
 				},
 			})),
-		}) as Transport;
+		}) as ThreadStream;
 	},
 };
+/* eslint-enable @typescript-eslint/no-unsafe-return */
+/* eslint-enable @typescript-eslint/no-unnecessary-type-assertion */
+
+export async function getPinoTransport(options: LoggingOptions): Promise<ThreadStream> {
+	const {transports} = options;
+	if (transports.length === 0) {
+		// ThreadStream is untyped
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+		return transportBuilders[NOOP_TRANSPORT](options);
+	}
+
+	if (transports.length === 1) {
+		const [transport] = transports;
+		if (!(transport in transportBuilders)) {
+			const knownTransports = Object.keys(transportBuilders).join(', ');
+			throw new Error(`Unknown transport "${transport}". Known transports: ${knownTransports}`);
+		}
+
+		return transportBuilders[transport](options) as Promise<ThreadStream>;
+	}
+
+	// We could do this in the Promise.all block, but this gives us cleaner errors
+	const failures = [];
+	for (const [index, transport] of transports.entries()) {
+		if (!(transport in transportBuilders)) {
+			failures.push([index, transport]);
+		}
+	}
+
+	if (failures.length > 0) {
+		const knownTransports = Object.keys(transportBuilders).join(', ');
+		const firstLine = 'One or more transports are invalid. Known transports: ' + knownTransports + '\n';
+		const remainingLines = failures.map(failure => `  - transports[${failure[0]}] "${failure[1]}"\n`).join('');
+		throw new Error(firstLine + remainingLines);
+	}
+
+	return multistream(
+		await Promise.all(
+			// ThreadStream is untyped
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+			transports.map(transport => transportBuilders[transport](options)),
+		),
+	);
+}

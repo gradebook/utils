@@ -16,7 +16,7 @@ export interface RawLoggingOptions {
 	name?: string;
 	env?: string;
 	domain?: string;
-	transports?: Array<'stdout' | 'stdoutRaw' | 'file'>;
+	transports?: string[];
 	path?: string;
 	level?: string;
 	rotation?: boolean | Partial<RotationObject>;
