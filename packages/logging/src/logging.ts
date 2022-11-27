@@ -6,22 +6,20 @@ import {type RawLoggingOptions, createSafeOptions} from './config.js';
 
 const redact = ['*.cookie', '*["set-cookie"]', '*.authorization'];
 
-const rawIgnitionLegacyOptions: RawLoggingOptions = {};
-const ignitionLegacyOptions = createSafeOptions(rawIgnitionLegacyOptions);
+export async function createLogger(rawIgnitionOptions: RawLoggingOptions) {
+	const options = createSafeOptions(rawIgnitionOptions);
+	return pino({
+		redact,
+		level: options.transports.length === 0 ? 'silent' : options.level,
+		timestamp: stdTimeFunctions.isoTime,
+		base: {
+			pid,
+			hostname,
+			name: options.name,
+			env: options.env,
+			domain: options.domain,
+		},
+	}, await getPinoTransport(options));
+}
 
-export const logger = pino({
-	redact,
-	level: ignitionLegacyOptions.transports.length === 0 ? 'silent' : ignitionLegacyOptions.level,
-	timestamp: stdTimeFunctions.isoTime,
-	base: {
-		pid,
-		hostname,
-		name: ignitionLegacyOptions.name,
-		env: ignitionLegacyOptions.env,
-		domain: ignitionLegacyOptions.domain,
-	},
-}, await getPinoTransport(ignitionLegacyOptions));
-
-logger.info('Hello, world!');
-logger.error('Hello, world!');
-logger.trace('Hello, world!');
+export {createSafeOptions as createConfig} from './config.js';
