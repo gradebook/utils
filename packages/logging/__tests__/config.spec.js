@@ -11,6 +11,11 @@ const DEFAULT_ROTATION = {
 	rotateExisting: true,
 };
 
+const DEFAULT_HEALTHCHECK = {
+	path: '/api/v0/health',
+	intervalInMinutes: 10,
+};
+
 describe('Unit > Config Parser', function () {
 	it('sane defaults', function () {
 		expect(createSafeOptions({})).to.deep.equal({
@@ -20,6 +25,7 @@ describe('Unit > Config Parser', function () {
 			name: 'Log',
 			path: cwd() + '/logs/',
 			rotation: DEFAULT_ROTATION,
+			healthcheck: DEFAULT_HEALTHCHECK,
 			transports: ['stdout'],
 		});
 	});
@@ -52,5 +58,16 @@ describe('Unit > Config Parser', function () {
 
 			expect(error.message).to.contain('`period` must be provided');
 		}
+	});
+
+	it('healthcheck coercion', function () {
+		expect(createSafeOptions({healthcheck: false})).to.deep.contain({healthcheck: null});
+		expect(createSafeOptions({healthcheck: true})).to.deep.contain({healthcheck: DEFAULT_HEALTHCHECK});
+		expect(createSafeOptions({healthcheck: {intervalInMinutes: 60}})).to.deep.contain({
+			healthcheck: {
+				...DEFAULT_HEALTHCHECK,
+				intervalInMinutes: 60,
+			},
+		});
 	});
 });

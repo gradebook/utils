@@ -12,6 +12,11 @@ interface RotationObject {
 	threshold: string;
 }
 
+interface HealthCheckConfig {
+	intervalInMinutes: number;
+	path: string;
+}
+
 export interface RawLoggingOptions {
 	name?: string;
 	env?: string;
@@ -20,9 +25,10 @@ export interface RawLoggingOptions {
 	path?: string;
 	level?: string;
 	rotation?: boolean | Partial<RotationObject>;
+	healthcheck?: boolean | Partial<HealthCheckConfig>;
 }
 
-export type LoggingOptions = RequireDeep<Omit<RawLoggingOptions, 'rotation'>> & {rotation: RotationObject | null};
+export type LoggingOptions = RequireDeep<Omit<RawLoggingOptions, 'rotation' | 'healthcheck'>> & {rotation: RotationObject | null; healthcheck: HealthCheckConfig | null};
 
 const DEFAULT_ROTATION_OPTIONS = {
 	count: 10,
@@ -30,6 +36,11 @@ const DEFAULT_ROTATION_OPTIONS = {
 	rotateExisting: true,
 	period: '',
 	threshold: '',
+};
+
+const DEFAULT_HEALTHCHECK_OPTIONS = {
+	path: '/api/v0/health',
+	intervalInMinutes: 10,
 };
 
 export function createSafeOptions(options: RawLoggingOptions): LoggingOptions {
@@ -44,6 +55,11 @@ export function createSafeOptions(options: RawLoggingOptions): LoggingOptions {
 				...DEFAULT_ROTATION_OPTIONS,
 				period: '1w',
 			} : Object.assign({} as RotationObject, DEFAULT_ROTATION_OPTIONS, options.rotation)
+		),
+		healthcheck: options.healthcheck === false ? null : (
+			(options.healthcheck === true || !options.healthcheck)
+				? {...DEFAULT_HEALTHCHECK_OPTIONS}
+				: Object.assign({} as HealthCheckConfig, DEFAULT_HEALTHCHECK_OPTIONS, options.healthcheck)
 		),
 		transports: options.transports ?? ['stdout'],
 	};

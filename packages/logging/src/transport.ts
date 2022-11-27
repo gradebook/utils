@@ -32,7 +32,7 @@ export const transportBuilders: Record<string | symbol, ThreadStreamFromOptions>
 			// We use SYS here because it's expected that servers are in UTC time, but developer's machines
 			// will be in their own time zone
 			translateTime: 'SYS:yyyy-mm-dd HH:MM:ss',
-			ignore: 'env,domain,pid',
+			ignore: 'env,domain,pid,name,req,res,responseTime',
 		},
 	}) as ThreadStream),
 	stdoutRaw: annotateWithLevel(() => transport({target: 'pino/file'}) as ThreadStream),
