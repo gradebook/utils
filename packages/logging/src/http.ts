@@ -3,8 +3,8 @@ import {type IncomingMessage} from 'http';
 import {randomUUID} from 'crypto';
 import {type Logger} from 'pino';
 import {pinoHttp, type Options as HttpLoggerOptions} from 'pino-http';
-import {type LoggingOptions} from '../config.js';
-import {createThrottler, type Throttler} from '../util/throttle.js';
+import {type LoggingOptions} from './config.js';
+import {createThrottler, type Throttler} from './util/throttle.js';
 
 export interface HttpLoggingOptions {
 	healthCheck?: boolean | {
