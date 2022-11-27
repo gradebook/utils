@@ -14,16 +14,17 @@ export interface HttpLoggingOptions {
 }
 
 export const createIgnore = (allow: Throttler, path: string) => (request: IncomingMessage) => {
-	const unparsedUrl = (request as unknown as {originalUrl: string}).originalUrl ?? request.url;
-	const url = new URL(unparsedUrl, 'https://smol.url');
-	if (url.pathname === path) {
-		return allow();
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+	const pathname = (request as any).path ?? new URL((request as any).originalUrl ?? request.url, 'https://smol.url').pathname;
+
+	if (pathname === path) {
+		return !allow();
 	}
 
-	return true;
+	return false;
 };
 
-export const useHttpLogging = (logger: Logger, {healthcheck}: LoggingOptions) => {
+export const useHttpLogging = (logger: Logger, {healthcheck}: LoggingOptions, __testPinoHttp = pinoHttp) => {
 	const options: HttpLoggerOptions = {
 		logger,
 		genReqId: () => randomUUID(),
@@ -36,5 +37,5 @@ export const useHttpLogging = (logger: Logger, {healthcheck}: LoggingOptions) =>
 		};
 	}
 
-	return pinoHttp(options);
+	return __testPinoHttp(options);
 };
