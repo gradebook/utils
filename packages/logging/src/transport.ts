@@ -1,4 +1,5 @@
 import {mkdir, stat} from 'fs/promises';
+import {once} from 'events';
 import {multistream, transport} from 'pino';
 import {type PrettyOptions} from 'pino-pretty';
 import {type LoggingOptions} from './config.js';
@@ -88,11 +89,14 @@ export async function getPinoTransport(options: LoggingOptions): Promise<ThreadS
 		throw new Error(firstLine + remainingLines);
 	}
 
-	return multistream(
-		await Promise.all(
-			// ThreadStream is untyped
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-return
-			transports.map(transport => transportBuilders[transport](options)),
-		),
+	const transportStreams = await Promise.all(
+		// ThreadStream is untyped
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+		transports.map(transport => transportBuilders[transport](options)),
 	);
+
+	// eslint-disable-next-line @typescript-eslint/promise-function-async
+	await Promise.all(transportStreams.map(stream => once(stream, 'ready')));
+
+	return multistream(transportStreams);
 }
