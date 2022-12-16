@@ -26,7 +26,7 @@ export function createSuccessMessage(
 ) {
 	const method = request.method!.toUpperCase();
 	const url = (request as unknown as {originalUrl: string}).originalUrl ?? request.url;
-	let status: string | number = response.statusCode;
+	let status: string | number = response.statusCode ?? (response as any).status;
 
 	if (useColors) {
 		status = colorizeStatus(status);

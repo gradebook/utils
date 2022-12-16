@@ -5,6 +5,7 @@ import {type Logger} from 'pino';
 import {pinoHttp, type Options as HttpLoggerOptions} from 'pino-http';
 import {type LoggingOptions} from './config.js';
 import {createThrottler, type Throttler} from './util/throttle.js';
+import {requestSerializer, responseSerializer} from './util/serializers.js';
 
 export interface HttpLoggingOptions {
 	healthCheck?: boolean | {
@@ -29,6 +30,11 @@ export const useHttpLogging = (logger: Logger, {healthcheck}: LoggingOptions, __
 		logger,
 		genReqId: () => randomUUID(),
 		customSuccessMessage: () => '',
+		wrapSerializers: false,
+		serializers: {
+			req: requestSerializer,
+			res: responseSerializer,
+		},
 	};
 
 	if (healthcheck) {
