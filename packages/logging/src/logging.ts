@@ -15,7 +15,7 @@ export async function createLogger(rawIgnitionOptions: RawLoggingOptions) {
 		timestamp: stdTimeFunctions.isoTime,
 		base: {
 			pid,
-			hostname,
+			hostname: hostname(),
 			name: options.name,
 			env: options.env,
 			domain: options.domain,
