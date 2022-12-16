@@ -1,6 +1,8 @@
 # `@gradebook/logging`
 
-> TODO: description
+> Pino-based logger partially compatible with Ghost Ignition
+
+For a comparison to Ghost Ignition, check out [./comparison.md](./comparison.md)
 
 ## Usage
 

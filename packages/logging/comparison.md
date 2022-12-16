@@ -1,0 +1,22 @@
+# Ghost Ignition Comparison
+
+- Levels are aligned
+- Ignition uses Bunyan as the backend, while `@gradebook/logging` uses Pino
+- Logging `mode` is removed (short/long)
+- No filtering support via cli
+  - This initially came from Bunyan. According to Pino, you should use grep/jq if you want.
+- The `logBody` option is not supported
+- Transports:
+  - Only support for stdout (pretty and raw), and file. No other transports are supported
+  - Ignition supports gelf, http, loggly, parent (for workers), stderr, and elastic (in addition to file/stdout which `@gradebook/logging` supports)
+- New properties in logged object: domain and env
+- Serialization ({{before}} / {{after}})
+  - req.id is managed by the library (us) rather than by the app (you)
+  - req.meta is removed
+    - req.meta.requestId / req.requestId - note: deprecated in favor of req.id (managed by us)
+    - req.meta.userId / req.userId
+  - req.query - no query --> empty object / empty query is null
+  - res.responseTime / responseTime (part of root object, instead of nested under `res`)
+  - res._headers / res.headers
+  - res.statusCode / res.status
+  - v / (not provided)
