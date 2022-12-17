@@ -1,9 +1,23 @@
 import type {OutgoingMessage} from 'http';
 
+// eslint-disable-next-line import/no-extraneous-dependencies
+import {configure as makeStringify} from 'safe-stable-stringify';
+
 const REQUEST_PROPERTIES = new Set(['id', 'url', 'method', 'originalUrl', 'params', 'extra', 'requestId', 'userId']);
 const SENSITIVE_REQUEST_PROPERTIES = new Set(['headers', 'query']);
 
+const ERROR_STRING_PROPERTIES = new Set(['id', 'name', 'code', 'statusCode', 'level', 'message', 'stack', 'hideStack']);
+const ERROR_JSON_PROPERTIES = new Set(['context', 'help', 'errorDetails']);
+
 const SENSITIVE_KEY_REGEX = /pin|password|pass|key|authorization|bearer|cookie/gi;
+
+// Pino doesn't export a global version of this
+const safeStringify = makeStringify({
+	maximumDepth: 5,
+	maximumBreadth: 100,
+});
+
+export const domainSymbol = Symbol('logger domain');
 
 function isObjectLike(thing: unknown): thing is Record<any, any> {
 	return Boolean(thing) && typeof thing === 'object';
@@ -70,4 +84,48 @@ export function responseSerializer(response: unknown) {
 		headers: isObjectLike(headers) ? removeSensitiveData(headers) : null,
 		status: response.statusCode as unknown,
 	};
+}
+
+export function errorSerializer(this: unknown, error: unknown): unknown {
+	if (!isObjectLike(error)) {
+		return error;
+	}
+
+	if (Array.isArray(error)) {
+		return error.map(single => errorSerializer(single));
+	}
+
+	const response: Record<any, any> = {};
+
+	if (isObjectLike(this) && domainSymbol in this) {
+		response.domain = (this as Record<typeof domainSymbol, string>)[domainSymbol] as unknown;
+	}
+
+	for (const key of ERROR_STRING_PROPERTIES) {
+		if (key in error) {
+			response[key] = error[key] as unknown;
+		}
+	}
+
+	for (const jsonKey of ERROR_JSON_PROPERTIES) {
+		if (jsonKey in error) {
+			response[jsonKey] = safeStringify(error[jsonKey]);
+		}
+	}
+
+	if ('errorType' in error) {
+		error.name = error.errorType as unknown;
+	}
+
+	if ('cause' in error) {
+		if (typeof error.cause === 'function') {
+			try {
+				response.cause = (error as {cause: () => unknown}).cause();
+			} catch {}
+		} else {
+			response.cause = error.cause as unknown;
+		}
+	}
+
+	return response;
 }

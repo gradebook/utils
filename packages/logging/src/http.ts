@@ -5,7 +5,7 @@ import {type Logger} from 'pino';
 import {pinoHttp, type Options as HttpLoggerOptions} from 'pino-http';
 import {type LoggingOptions} from './config.js';
 import {createThrottler, type Throttler} from './util/throttle.js';
-import {requestSerializer, responseSerializer} from './util/serializers.js';
+import {domainSymbol, errorSerializer, requestSerializer, responseSerializer} from './util/serializers.js';
 
 export interface HttpLoggingOptions {
 	healthCheck?: boolean | {
@@ -25,13 +25,16 @@ export const createIgnore = (allow: Throttler, path: string) => (request: Incomi
 	return false;
 };
 
-export const useHttpLogging = (logger: Logger, {healthcheck}: LoggingOptions, __testPinoHttp = pinoHttp) => {
+export const useHttpLogging = (logger: Logger, {domain, healthcheck}: LoggingOptions, __testPinoHttp = pinoHttp) => {
 	const options: HttpLoggerOptions = {
 		logger,
 		genReqId: () => randomUUID(),
 		customSuccessMessage: () => '',
 		wrapSerializers: false,
 		serializers: {
+			[domainSymbol]: domain,
+			err: errorSerializer,
+			error: errorSerializer,
 			req: requestSerializer,
 			res: responseSerializer,
 		},

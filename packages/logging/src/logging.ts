@@ -3,9 +3,9 @@ import {hostname} from 'os';
 import {pino, stdTimeFunctions} from 'pino';
 import {getPinoTransport} from './transport.js';
 import {type RawLoggingOptions, createSafeOptions} from './config.js';
-import {requestSerializer, responseSerializer} from './util/serializers.js';
 
 const redact = ['*.cookie', '*["set-cookie"]', '*.authorization'];
+import {domainSymbol, errorSerializer, requestSerializer, responseSerializer} from './util/serializers.js';
 
 export async function createLogger(rawIgnitionOptions: RawLoggingOptions) {
 	const options = createSafeOptions(rawIgnitionOptions);
@@ -21,6 +21,9 @@ export async function createLogger(rawIgnitionOptions: RawLoggingOptions) {
 			domain: options.domain,
 		},
 		serializers: {
+			[domainSymbol]: options.domain,
+			err: errorSerializer,
+			error: errorSerializer,
 			req: requestSerializer,
 			res: responseSerializer,
 		},
