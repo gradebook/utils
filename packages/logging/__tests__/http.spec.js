@@ -2,7 +2,7 @@
 import {IncomingMessage} from 'http';
 import {expect} from 'chai';
 import sinon from 'sinon';
-import {createIgnore, useHttpLogging} from '../lib/http/http.js';
+import {createIgnore, useHttpLogging} from '../lib/http.js';
 
 const createIncomingMessage = overrides => {
 	// @ts-expect-error
@@ -53,11 +53,11 @@ describe('Unit > HTTP', function () {
 		useHttpLogging(logger, partialOptions({healthcheck: null}), pinoHttp);
 		useHttpLogging(logger, partialOptions({healthcheck: {path: '', intervalInMinutes: 5}}), pinoHttp);
 		expect(Object.keys(pinoHttp.args[0][0])).to.deep.equal([
-			'logger', 'genReqId', 'customSuccessMessage',
+			'logger', 'genReqId', 'customSuccessMessage', 'wrapSerializers', 'serializers',
 		]);
 
 		expect(Object.keys(pinoHttp.args[1][0])).to.deep.equal([
-			'logger', 'genReqId', 'customSuccessMessage', 'autoLogging',
+			'logger', 'genReqId', 'customSuccessMessage', 'wrapSerializers', 'serializers', 'autoLogging',
 		]);
 
 		expect(pinoHttp.args[1][0].genReqId()).to.be.a('string');
