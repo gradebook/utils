@@ -24,13 +24,14 @@ const NO_COLOR_FUNCTIONS = {
 	gray: noop,
 } as const;
 
-export function prettyError(error: Record<string, string>, useColors = false) {
+export function prettyError($error: Error | Record<string, string>, useColors = false) {
 	const {cyan, white, yellow, whiteBright, gray} = useColors ? COLOR_FUNCTIONS : NO_COLOR_FUNCTIONS;
 	const levelColor = cyan;
 	let response = '';
+	const error = $error as Record<string, string>;
 
 	if (error.errorType) {
-		response += levelColor(`Type: ${error.errorType}`);
+		response += levelColor(`Type: ${error.errorType}`) + '\n';
 	}
 
 	response += levelColor(error.message) + '\n\n';
@@ -52,8 +53,7 @@ export function prettyError(error: Record<string, string>, useColors = false) {
 	}
 
 	if (error.code) {
-		response += whiteBright('Error Code:') + '\n';
-		response += '    ' + gray(error.code) + '\n\n';
+		response += whiteBright('Error Code: ') + gray(error.code) + '\n';
 	}
 
 	if (error.errorDetails) {
