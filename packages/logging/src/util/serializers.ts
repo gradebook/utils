@@ -9,7 +9,7 @@ const SENSITIVE_REQUEST_PROPERTIES = new Set(['headers', 'query']);
 const ERROR_STRING_PROPERTIES = new Set(['id', 'name', 'code', 'statusCode', 'level', 'message', 'stack', 'hideStack']);
 const ERROR_JSON_PROPERTIES = new Set(['context', 'help', 'errorDetails']);
 
-const SENSITIVE_KEY_REGEX = /pin|password|pass|key|authorization|bearer|cookie/gi;
+const SENSITIVE_KEY_REGEX = /pin|password|pass|key|authorization|bearer|cookie/i;
 
 // Pino doesn't export a global version of this
 const safeStringify = makeStringify({
@@ -27,13 +27,15 @@ function removeSensitiveData(object: Record<any, unknown>) {
 	const response: Record<any, unknown> = {};
 
 	for (const [key, value] of Object.entries(object)) {
-		if (typeof value === 'object' && value) {
-			response[key] = removeSensitiveData(value as any);
+		if (typeof key === 'string' && SENSITIVE_KEY_REGEX.test(key)) {
+			response[key] = '**REDACTED**';
 			continue;
 		}
 
-		if (typeof key === 'string' && SENSITIVE_KEY_REGEX.test(key)) {
-			response[key] = '**REDACTED**';
+		if (typeof value === 'object' && value) {
+			response[key] = Array.isArray(value)
+				? value.map(item => isObjectLike(item) ? removeSensitiveData(item) : item as unknown)
+				: removeSensitiveData(value as any);
 			continue;
 		}
 
@@ -86,13 +88,17 @@ export function responseSerializer(response: unknown) {
 	};
 }
 
-export function errorSerializer(this: unknown, error: unknown): unknown {
+export function errorSerializer(this: unknown, error: unknown, depth = 16): unknown {
+	if (depth === 0) {
+		return '[serialization recursion depth limit reached]';
+	}
+
 	if (!isObjectLike(error)) {
 		return error;
 	}
 
 	if (Array.isArray(error)) {
-		return error.map(single => errorSerializer(single));
+		return error.map(single => errorSerializer(single, depth - 1));
 	}
 
 	const response: Record<any, any> = {};
@@ -114,7 +120,7 @@ export function errorSerializer(this: unknown, error: unknown): unknown {
 	}
 
 	if ('errorType' in error) {
-		error.name = error.errorType as unknown;
+		response.name = error.errorType as unknown;
 	}
 
 	if ('cause' in error) {
@@ -123,7 +129,7 @@ export function errorSerializer(this: unknown, error: unknown): unknown {
 				response.cause = (error as {cause: () => unknown}).cause();
 			} catch {}
 		} else {
-			response.cause = error.cause as unknown;
+			response.cause = errorSerializer(error.cause as unknown, depth - 1);
 		}
 	}
 
