@@ -28,7 +28,7 @@
   "scripts": {
     "pretest": "tsc",
     "test": "mocha __tests__ --recursive --colors",
-    "test:coverage": "c8 --reporter=html --reporter=text mocha __tests__ --recursive --colors",
+    "test:coverage": "c8 --all --src src --reporter=html --reporter=text mocha __tests__ --recursive --colors",
     "prepublish": "node ../../scripts/compile-all.js",
     "tsc": "tsc",
     "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\""

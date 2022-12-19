@@ -23,7 +23,6 @@
   },
   "scripts": {
     "pretest": "tsc",
-    "test:coverage": "c8 --reporter=html --reporter=text mocha __tests__ --recursive --colors",
     "prepublish": "tsc",
     "tsc": "tsc",
     "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\"",
