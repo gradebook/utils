@@ -1,6 +1,21 @@
 import {$ as zx$} from 'zx';
 import type {PackageJson} from './configure-for-release.js';
 
+// Pulled from https://semver.org/ - if we run into issues, we can use the
+// npm semver package
+/* eslint-disable-next-line unicorn/better-regex */
+const SEMVER_REGEX = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/;
+
+export function getReleaseTag(candidate: string) {
+	const parts = SEMVER_REGEX.exec(candidate);
+	// 4 is the index with the pre-release tag
+	if (!parts || !parts[4]) {
+		return '';
+	}
+
+	return `--tag ${parts[4].split('.').shift()}`;
+}
+
 export class PublishPackageError extends Error {
 	isReleaseUtilsError = true;
 }
@@ -32,6 +47,6 @@ export async function publishPackage(shaOrTagName: string, packageJson: PackageJ
 		);
 	}
 
-	await $`yarn publish --non-interactive --new-version ${version} --access public`;
+	await $`yarn publish --non-interactive --new-version ${version} ${getReleaseTag(version)} --access public`;
 	return tagName;
 }

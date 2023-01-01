@@ -1,7 +1,7 @@
 // @ts-check
 import {expect} from 'chai';
 import sinon from 'sinon';
-import {publishPackage} from '../../lib/api/publish-package.js';
+import {publishPackage, getReleaseTag} from '../../lib/api/publish-package.js';
 import {convertSinonStubToZX} from '../utils/cast-sinon-to-zx.js';
 import {createZxStub} from '../utils/zx-stub.js';
 
@@ -92,5 +92,18 @@ describe('Unit > API > Package Publisher', function () {
 			expect(error.isReleaseUtilsError).to.be.true;
 			expect(error.message).to.include('missing a prepublish script');
 		}
+	});
+
+	it('getReleaseTag', function () {
+		expect(getReleaseTag('not a tag')).to.equal('');
+		expect(getReleaseTag('1.2.3')).to.equal('');
+		expect(getReleaseTag('1.2.3.')).to.equal('');
+		expect(getReleaseTag('1.2.3+abcdef')).to.equal('');
+		expect(getReleaseTag('1.2.3-beta')).to.equal('--tag beta');
+		expect(getReleaseTag('1.2.3-beta.0')).to.equal('--tag beta');
+		expect(getReleaseTag('1.2.3-beta.0')).to.equal('--tag beta');
+		expect(getReleaseTag('1.0.0-beta+exp.sha.5114f85')).to.equal('--tag beta');
+		expect(getReleaseTag('1.0.0-x.7.z.92')).to.equal('--tag x');
+		expect(getReleaseTag('1.0.0-x-y-z.--')).to.equal('--tag x-y-z');
 	});
 });
