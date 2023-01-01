@@ -1,3 +1,7 @@
+# 0.7.1-beta.2
+
+ - fix shell escaping causing release tag to be ignored
+
 # 0.7.1-beta.1
 
  - No user-facing changes relative to 0.7.0-beta.0
