@@ -1,6 +1,7 @@
 // @ts-check
 import {readFile} from 'fs/promises';
 import {expect} from 'chai';
+import sinon from 'sinon';
 import * as serializer from '../lib/course-serializer.js';
 
 const [
@@ -21,6 +22,17 @@ const SERIALIZED_COURSE_16 = 'ewAiAG0AIgA6ACIAMQB8ADIAMAAyADIAfAAwAHwANAB8AEEALA
 const SERIALIZED_COURSE_8 = 'eyJtIjoiMXwyMDIyfDB8NHxBLDkwfEIsODB8Qyw3MHxELDYwfEV4YW1wbGUgQ291cnNlIiwieiI6WyIxfDB8MjB8MHxBdHRlbmRhbmNlIiwiMXwwfDEzfDF8T25saW5lIFF1aXp6ZXMiLCIxfDB8NHw1fEN1bHR1cmFsIERpc2NvdXJzZSBKb3VybmFsIiwiMHwwfDF8MjB8RXhhbSAxIiwiMHwwfDF8MjB8RXhhbSAyIiwiMHwwfDF8NXxJbml0aWFsIEVzc2F5IiwiMHwwfDF8MTV8RmluYWwgRXNzYXkiLCIxfDB8MnwxMHxTaG9ydCBQYXBlciIsIjB8MHwxfDV8UGFydGljaXBhdGlvbiIsIjB8MHwxfDV8UHJlc2VudGF0aW9uIiwiMHwwfDF8MTV8T25saW5lIFF1aXp6ZXMgYWZ0ZXIgZHJvcHBlZCJdfQ==';
 
 describe('Unit > Serializer', function () {
+	/** @type {ReturnType<import('sinon')['useFakeTimers']>} */
+	let _clock;
+
+	before(function () {
+		_clock = sinon.useFakeTimers(new Date('2022-12-12'));
+	});
+
+	after(function () {
+		_clock.restore();
+	});
+
 	it('strip properly removes PII from a category', function () {
 		const exampleCourse = getExampleCourse();
 		const safeCourse = getSafeCourse();
