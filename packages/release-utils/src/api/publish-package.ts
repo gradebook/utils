@@ -10,10 +10,10 @@ export function getReleaseTag(candidate: string) {
 	const parts = SEMVER_REGEX.exec(candidate);
 	// 4 is the index with the pre-release tag
 	if (!parts || !parts[4]) {
-		return '';
+		return 'latest';
 	}
 
-	return `--tag ${parts[4].split('.').shift()}`;
+	return parts[4].split('.').shift();
 }
 
 export class PublishPackageError extends Error {
@@ -47,6 +47,6 @@ export async function publishPackage(shaOrTagName: string, packageJson: PackageJ
 		);
 	}
 
-	await $`yarn publish --non-interactive --new-version ${version} ${getReleaseTag(version)} --access public`;
+	await $`yarn publish --non-interactive --new-version ${version} --tag ${getReleaseTag(version)} --access public`;
 	return tagName;
 }

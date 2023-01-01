@@ -95,15 +95,15 @@ describe('Unit > API > Package Publisher', function () {
 	});
 
 	it('getReleaseTag', function () {
-		expect(getReleaseTag('not a tag')).to.equal('');
-		expect(getReleaseTag('1.2.3')).to.equal('');
-		expect(getReleaseTag('1.2.3.')).to.equal('');
-		expect(getReleaseTag('1.2.3+abcdef')).to.equal('');
-		expect(getReleaseTag('1.2.3-beta')).to.equal('--tag beta');
-		expect(getReleaseTag('1.2.3-beta.0')).to.equal('--tag beta');
-		expect(getReleaseTag('1.2.3-beta.0')).to.equal('--tag beta');
-		expect(getReleaseTag('1.0.0-beta+exp.sha.5114f85')).to.equal('--tag beta');
-		expect(getReleaseTag('1.0.0-x.7.z.92')).to.equal('--tag x');
-		expect(getReleaseTag('1.0.0-x-y-z.--')).to.equal('--tag x-y-z');
+		expect(getReleaseTag('not a tag')).to.equal('latest');
+		expect(getReleaseTag('1.2.3')).to.equal('latest');
+		expect(getReleaseTag('1.2.3.')).to.equal('latest');
+		expect(getReleaseTag('1.2.3+abcdef')).to.equal('latest');
+		expect(getReleaseTag('1.2.3-beta')).to.equal('beta');
+		expect(getReleaseTag('1.2.3-beta.0')).to.equal('beta');
+		expect(getReleaseTag('1.2.3-beta.0')).to.equal('beta');
+		expect(getReleaseTag('1.0.0-beta+exp.sha.5114f85')).to.equal('beta');
+		expect(getReleaseTag('1.0.0-x.7.z.92')).to.equal('x');
+		expect(getReleaseTag('1.0.0-x-y-z.--')).to.equal('x-y-z');
 	});
 });
