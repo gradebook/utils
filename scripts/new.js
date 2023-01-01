@@ -71,6 +71,9 @@ function updatePackageJson(packagePath, packageName, isExistingProject) {
 	delete newPackageContents.publishConfig;
 	delete newPackageContents.module;
 	delete newPackageContents.description;
+	const homePage = new URL(newPackageContents.homepage);
+	homePage.pathname = path.resolve(homePage.pathname, packageContents.repository.directory);
+	newPackageContents.homepage = homePage.href;
 
 	try {
 		fs.writeFileSync(packagePath, JSON.stringify(newPackageContents, null, 2));
