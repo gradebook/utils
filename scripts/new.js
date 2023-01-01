@@ -82,6 +82,35 @@ function updatePackageJson(packagePath, packageName, isExistingProject) {
 }
 
 /**
+ * @param {string} currentFileContents
+ * @param {string} sourceFile
+ */
+function createTestFile(currentFileContents, sourceFile) {
+	/** @type {string} */
+	// @ts-expect-error
+	const firstLine = currentFileContents.split('\n').shift();
+
+	const exportNameMatch = /export function ([a-z]+)\(/i.exec(firstLine);
+	let exportName = '__FIXME__';
+
+	if (exportNameMatch) {
+		exportName = exportNameMatch[1];
+	}
+
+	return `
+// @ts-check
+import {expect} from 'chai';
+import {${exportName}} from '${sourceFile}';
+
+describe('Unit > ${exportName}', function () {
+	it('Hello, world', function () {
+		expect(${exportName}()).to.equal('Hello from ${exportName}');
+	});
+});
+`.trimStart();
+}
+
+/**
  * @param {string} unscopedPackage
  */
 async function exec(unscopedPackage) {
@@ -145,18 +174,26 @@ async function exec(unscopedPackage) {
 			process.exit(1);
 		}
 
-		const transform = contents => contents.replace(/ {4}/g, '\t').replace(/^'use strict';\s+/, '');
-
 		try {
 			console.info('Transforming test and source files');
 			const srcPath = path.resolve(packageRoot, 'src', packageBaseName + '.ts');
 			let fileContents = fs.readFileSync(srcPath, 'utf8');
-			fs.writeFileSync(srcPath, transform(fileContents));
+			fileContents = fileContents
+				// Use tabs instead of spaces
+				.replace(/ {4}/g, '\t')
+				// Use named exports instead of default exports
+				.replace(' default ', ' ')
+				// Use single quotes instead of double quotes
+				.replace(/"/g, '\'');
+			fs.writeFileSync(srcPath, fileContents);
 
-			const testPath = path.resolve(packageRoot, '__tests__', packageBaseName + '.test.js');
-			fileContents = fs.readFileSync(srcPath, 'utf8');
-			fs.unlinkSync(testPath);
-			fs.writeFileSync(testPath.replace(/\.test\.js$/, '.spec.js'), transform(fileContents));
+			const currentTestPath = path.resolve(packageRoot, '__tests__', packageBaseName + '.test.js');
+			const newTestPath = currentTestPath.replace(/\.test\.js$/, '.spec.js');
+			fs.unlinkSync(currentTestPath);
+			const testImportPath = path.relative(newTestPath, srcPath)
+				.replace('.ts', '.js')
+				.replace('/src/', '/lib/');
+			fs.writeFileSync(newTestPath, createTestFile(fileContents, testImportPath));
 		} catch (error) {
 			console.error(`Failed transforming files: ${error.message}`);
 		}
