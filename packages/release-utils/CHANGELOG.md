@@ -1,3 +1,9 @@
+# 0.7.1-beta.0
+
+ - :sparkles: hook log response + fail if not ok
+ - add support for publishing pre-releases
+ - hook: fix empty body being sent with certain GET requests due to case sensitivity
+
 # 0.7.0
 
  - :sparkles: add support for specifying generic hook method
