@@ -8,11 +8,11 @@ const PACKAGE_ORDER = [
 	// eslint-disable-next-line array-element-newline
 	'name', 'version', 'private', 'description', 'keywords', 'author', 'homepage', 'bugs', 'license',
 	// eslint-disable-next-line array-element-newline
-	'main', 'directories', 'files', 'repository', 'scripts', 'dependencies', 'devDependencies', 'xo',
+	'type', 'main', 'directories', 'files', 'repository', 'scripts', 'dependencies', 'devDependencies', 'xo',
 ];
 
 const TYPESCRIPT_CONFIG_FILE = {
-	extends: '../../tsconfig.json',
+	extends: '../../tsconfig-esm.json',
 	include: ['src/', '__tests__/'],
 	compilerOptions: {
 		outDir: 'lib',
@@ -31,7 +31,7 @@ async function exec(unscopedPackage) {
 
 	try {
 		if (!isExistingProject) {
-			const lernaCommand = `lerna create ${packageName} --access public --license MIT -y`;
+			const lernaCommand = `lerna create ${packageName} --access public --license MIT -y --es-module`;
 			console.info(`Running \`${lernaCommand}\``);
 			await execa.command(lernaCommand);
 		}
@@ -54,6 +54,7 @@ async function exec(unscopedPackage) {
 		process.exit(1);
 	}
 
+	packageContents.type = 'module';
 	packageContents.xo = false;
 	if (packageContents.bugs.url) {
 		packageContents.bugs = packageContents.bugs.url.replace('git+', '');
@@ -86,6 +87,7 @@ async function exec(unscopedPackage) {
 	}
 
 	delete newPackageContents.publishConfig;
+	delete newPackageContents.module;
 
 	try {
 		fs.writeFileSync(packagePath, JSON.stringify(newPackageContents, null, 2));
@@ -108,7 +110,10 @@ async function exec(unscopedPackage) {
 	if (!isExistingProject) {
 		const packageSrc = path.resolve(packageRoot, 'src');
 		const packageLib = path.resolve(packageRoot, 'lib');
-		const packageBaseName = packageContents.main.replace('lib/', '').replace('.js', '');
+		const packageBaseName = packageContents.main
+			.replace('lib/', '')
+			.replace('dist/', '')
+			.replace('.js', '');
 
 		try {
 			if (fs.existsSync(packageLib)) {
