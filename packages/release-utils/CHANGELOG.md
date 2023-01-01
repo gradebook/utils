@@ -1,3 +1,7 @@
+# 0.7.1-beta.1
+
+ - No user-facing changes relative to 0.7.0-beta.0
+
 # 0.7.1-beta.0
 
  - :sparkles: hook log response + fail if not ok
