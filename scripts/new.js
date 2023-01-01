@@ -6,9 +6,9 @@ const execa = require('execa');
 
 const PACKAGE_ORDER = [
 	// eslint-disable-next-line array-element-newline
-	'name', 'version', 'private', 'description', 'keywords', 'author', 'homepage', 'bugs', 'license',
+	'name', 'version', 'private', 'keywords', 'author', 'homepage', 'bugs', 'license', 'type', 'main',
 	// eslint-disable-next-line array-element-newline
-	'type', 'main', 'directories', 'files', 'repository', 'scripts', 'dependencies', 'devDependencies', 'xo',
+	'directories', 'files', 'repository', 'scripts', 'dependencies', 'devDependencies', 'xo',
 ];
 
 const TYPESCRIPT_CONFIG_FILE = {
@@ -70,6 +70,7 @@ function updatePackageJson(packagePath, packageName, isExistingProject) {
 
 	delete newPackageContents.publishConfig;
 	delete newPackageContents.module;
+	delete newPackageContents.description;
 
 	try {
 		fs.writeFileSync(packagePath, JSON.stringify(newPackageContents, null, 2));
