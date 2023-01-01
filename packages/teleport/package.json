@@ -4,7 +4,7 @@
   "description": "Move data across @gradebook/server instances",
   "keywords": [],
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
-  "homepage": "https://github.com/gradebook/utils#readme",
+  "homepage": "https://github.com/gradebook/utils/tree/master/packages/teleport#readme",
   "bugs": "https://github.com/gradebook/utils/issues",
   "license": "MIT",
   "main": "lib/api.js",
@@ -29,7 +29,6 @@
     "tsc": "tsc",
     "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\""
   },
-  "xo": false,
   "dependencies": {
     "ajv": "^8.11.0",
     "bson-objectid": "^2.0.3",
@@ -38,5 +37,6 @@
   "devDependencies": {
     "knex": "2.3.0",
     "nock": "13.2.9"
-  }
+  },
+  "xo": false
 }

@@ -4,7 +4,7 @@
   "description": "Utilities to make a course shareable via URLs",
   "keywords": [],
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
-  "homepage": "https://github.com/gradebook/utils#readme",
+  "homepage": "https://github.com/gradebook/utils/tree/master/packages/course-serializer#readme",
   "bugs": "https://github.com/gradebook/utils/issues",
   "license": "MIT",
   "type": "module",
@@ -30,8 +30,8 @@
     "tsc": "tsc",
     "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\""
   },
+  "xo": false,
   "targets": [
     "module"
-  ],
-  "xo": false
+  ]
 }

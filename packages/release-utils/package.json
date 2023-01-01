@@ -4,11 +4,11 @@
   "description": "Utilities to make CI-based releases painless",
   "keywords": [],
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
-  "homepage": "https://github.com/gradebook/utils/tree/master/packages/release-utils",
+  "homepage": "https://github.com/gradebook/utils/tree/master/packages/release-utils#readme",
   "bugs": "https://github.com/gradebook/utils/issues",
   "license": "MIT",
-  "main": "lib/api/release-utils.js",
   "type": "module",
+  "main": "lib/api/release-utils.js",
   "bin": {
     "release-utils": "lib/recipe.js"
   },
@@ -33,11 +33,11 @@
     "tsc": "tsc",
     "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\""
   },
-  "xo": false,
   "dependencies": {
     "@types/urijs": "^1.19.17",
     "mime": "^3.0.0",
     "urijs": "^1.19.6",
     "zx": "^4.2.0"
-  }
+  },
+  "xo": false
 }

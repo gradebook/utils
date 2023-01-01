@@ -3,11 +3,11 @@
   "version": "0.1.1",
   "keywords": [],
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
-  "homepage": "https://github.com/gradebook/utils#readme",
+  "homepage": "https://github.com/gradebook/utils/tree/master/packages/netlify-deploy#readme",
   "bugs": "https://github.com/gradebook/utils/issues",
   "license": "MIT",
-  "main": "lib/netlify-deploy.js",
   "type": "module",
+  "main": "lib/netlify-deploy.js",
   "directories": {
     "lib": "lib"
   },
@@ -26,7 +26,6 @@
     "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\"",
     "autorelease:test": "echo Tests are skipped because this package is a stripped version of netlify/cli deploy"
   },
-  "xo": false,
   "dependencies": {
     "backoff": "^2.5.0",
     "clean-deep": "^3.4.0",
@@ -49,5 +48,6 @@
     "@types/folder-walker": "3.2.0",
     "@types/parallel-transform": "1.1.1",
     "@types/through2-map": "3.0.1"
-  }
+  },
+  "xo": false
 }

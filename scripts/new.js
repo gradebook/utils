@@ -3,12 +3,14 @@ const process = require('process');
 const path = require('path');
 const fs = require('fs-extra');
 const execa = require('execa');
+const workspacePackage = require('../package.json');
 
+// Optional keys: description, module, bin
 const PACKAGE_ORDER = [
 	// eslint-disable-next-line array-element-newline
-	'name', 'version', 'private', 'keywords', 'author', 'homepage', 'bugs', 'license', 'type', 'main',
+	'name', 'version', 'private', 'description', 'keywords', 'author', 'homepage', 'bugs', 'license', 'type', 'main',
 	// eslint-disable-next-line array-element-newline
-	'directories', 'files', 'repository', 'scripts', 'dependencies', 'devDependencies', 'xo',
+	'module', 'bin', 'directories', 'files', 'repository', 'scripts', 'dependencies', 'devDependencies', 'xo',
 ];
 
 const TYPESCRIPT_CONFIG_FILE = {
@@ -36,7 +38,6 @@ function updatePackageJson(packagePath, packageName, isExistingProject) {
 		process.exit(1);
 	}
 
-	packageContents.type = 'module';
 	packageContents.xo = false;
 	if (packageContents.bugs.url) {
 		packageContents.bugs = packageContents.bugs.url.replace('git+', '');
@@ -54,6 +55,8 @@ function updatePackageJson(packagePath, packageName, isExistingProject) {
 			lint: 'yarn --cwd ../../ xo "`pwd`/**/*"',
 		};
 		packageContents.files = ['lib', 'src'];
+		packageContents.type = 'module';
+		delete packageContents.module;
 	}
 
 	const newPackageContents = {};
@@ -69,11 +72,19 @@ function updatePackageJson(packagePath, packageName, isExistingProject) {
 	}
 
 	delete newPackageContents.publishConfig;
-	delete newPackageContents.module;
-	delete newPackageContents.description;
-	const homePage = new URL(newPackageContents.homepage);
-	homePage.pathname = path.resolve(homePage.pathname, packageContents.repository.directory);
-	newPackageContents.homepage = homePage.href;
+	if (newPackageContents.description?.includes('BOOM')) { // Lerna's default description contains BOOM
+		delete newPackageContents.description;
+	}
+
+	const fullHomePagePath = path.resolve(
+		'/',
+		// Should become gradebook/utils
+		// @ts-expect-error
+		workspacePackage.repository.split(':').pop(),
+		'tree/master',
+		packageContents.repository.directory,
+	);
+	newPackageContents.homepage = `https://github.com${fullHomePagePath}#readme`;
 
 	try {
 		fs.writeFileSync(packagePath, JSON.stringify(newPackageContents, null, 2));

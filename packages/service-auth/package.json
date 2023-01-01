@@ -4,7 +4,7 @@
   "description": "Service Authentication made simple",
   "keywords": [],
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
-  "homepage": "https://github.com/gradebook/utils#readme",
+  "homepage": "https://github.com/gradebook/utils/tree/master/packages/service-auth#readme",
   "bugs": "https://github.com/gradebook/utils/issues",
   "license": "MIT",
   "main": "lib/public-api.js",
@@ -29,9 +29,9 @@
     "tsc": "tsc",
     "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\""
   },
-  "xo": false,
   "dependencies": {
     "@types/express": "^4.17.13",
     "jose": "^4.3.7"
-  }
+  },
+  "xo": false
 }

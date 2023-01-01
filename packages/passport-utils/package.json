@@ -4,7 +4,7 @@
   "description": "Abstractions for auth integration with Google using passport",
   "keywords": [],
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
-  "homepage": "https://github.com/gradebook/utils#readme",
+  "homepage": "https://github.com/gradebook/utils/tree/master/packages/passport-utils#readme",
   "bugs": "https://github.com/gradebook/utils/issues",
   "license": "MIT",
   "main": "lib/passport-utils.js",
@@ -29,10 +29,10 @@
     "tsc": "tsc",
     "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\""
   },
-  "xo": false,
-  "devDependencies": {},
   "dependencies": {
     "@gradebook/time": "^0.0.4",
     "bson-objectid": "^2.0.3"
-  }
+  },
+  "devDependencies": {},
+  "xo": false
 }

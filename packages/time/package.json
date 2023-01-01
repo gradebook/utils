@@ -4,7 +4,7 @@
   "description": "Make time-based work fun again",
   "keywords": [],
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
-  "homepage": "https://github.com/gradebook/utils#readme",
+  "homepage": "https://github.com/gradebook/utils/tree/master/packages/time#readme",
   "bugs": "https://github.com/gradebook/utils/issues",
   "license": "MIT",
   "type": "module",
@@ -30,11 +30,11 @@
     "tsc": "tsc",
     "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\""
   },
-  "xo": false,
+  "dependencies": {
+    "dayjs": "^1.10.7"
+  },
   "devDependencies": {
     "rewire": "6.0.0"
   },
-  "dependencies": {
-    "dayjs": "^1.10.7"
-  }
+  "xo": false
 }

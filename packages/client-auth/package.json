@@ -4,7 +4,7 @@
   "description": "Authorization management for service:service authentication using a centralized gateway",
   "keywords": [],
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
-  "homepage": "https://github.com/gradebook/utils#readme",
+  "homepage": "https://github.com/gradebook/utils/tree/master/packages/client-auth#readme",
   "bugs": "https://github.com/gradebook/utils/issues",
   "license": "MIT",
   "main": "lib/client-auth.js",
@@ -29,8 +29,8 @@
     "tsc": "tsc",
     "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\""
   },
-  "xo": false,
   "dependencies": {
     "node-fetch": "^2.0.0"
-  }
+  },
+  "xo": false
 }

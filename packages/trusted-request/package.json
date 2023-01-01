@@ -4,7 +4,7 @@
   "description": "Express middleware to limit requests to trusted IPs",
   "keywords": [],
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
-  "homepage": "https://github.com/gradebook/utils#readme",
+  "homepage": "https://github.com/gradebook/utils/tree/master/packages/trusted-request#readme",
   "bugs": "https://github.com/gradebook/utils/issues",
   "license": "MIT",
   "main": "lib/trusted-request.js",
@@ -31,5 +31,6 @@
   },
   "devDependencies": {
     "@types/express": "4.17.15"
-  }
+  },
+  "xo": false
 }

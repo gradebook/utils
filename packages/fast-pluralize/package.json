@@ -7,7 +7,7 @@
     "plural"
   ],
   "author": "Ramsay Smith <ramsaysmith@outlook.com>",
-  "homepage": "https://github.com/gradebook/utils#readme",
+  "homepage": "https://github.com/gradebook/utils/tree/master/packages/fast-pluralize#readme",
   "bugs": "https://github.com/gradebook/utils/issues",
   "license": "MIT",
   "main": "lib/commonjs/fast-pluralize.js",
@@ -33,10 +33,11 @@
     "tsc": "tsc",
     "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\""
   },
-  "targets": [
-    "module"
-  ],
   "devDependencies": {
     "chai": "4.3.6"
-  }
+  },
+  "xo": false,
+  "targets": [
+    "module"
+  ]
 }

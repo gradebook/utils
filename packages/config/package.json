@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "keywords": [],
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
-  "homepage": "https://github.com/gradebook/utils#readme",
+  "homepage": "https://github.com/gradebook/utils/tree/master/packages/config#readme",
   "bugs": "https://github.com/gradebook/utils/issues",
   "license": "MIT",
   "type": "module",
@@ -29,9 +29,9 @@
     "tsc": "tsc",
     "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\""
   },
-  "xo": false,
   "dependencies": {
     "@types/nconf": "^0.10.1",
     "nconf": "^0.12.0"
-  }
+  },
+  "xo": false
 }
