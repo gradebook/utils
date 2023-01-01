@@ -20,31 +20,13 @@ const TYPESCRIPT_CONFIG_FILE = {
 };
 
 /**
- * @param {string} unscopedPackage
+ * @param {string} packagePath
+ * @param {string} packageName
+ * @param {boolean} isExistingProject
+ * @returns {object}
  */
-async function exec(unscopedPackage) {
-	const packageName = unscopedPackage.startsWith('@gradebook') ? unscopedPackage : `@gradebook/${unscopedPackage}`;
-	const justName = packageName.replace('@gradebook/', '');
-	const packageRoot = path.resolve(__dirname, '../packages/', packageName.replace('@gradebook/', ''));
-
-	const isExistingProject = fs.existsSync(packageRoot);
-
-	try {
-		if (!isExistingProject) {
-			const lernaCommand = `lerna create ${packageName} --access public --license MIT -y --es-module`;
-			console.info(`Running \`${lernaCommand}\``);
-			await execa.command(lernaCommand);
-		}
-	} catch (error) {
-		console.error('Failed running lerna!');
-		console.error(error.stdout || error.shortMessage || error.message);
-		process.exit(1);
-	}
-
+function updatePackageJson(packagePath, packageName, isExistingProject) {
 	console.info('Updating package.json properties');
-
-	const packagePath = path.resolve(packageRoot, 'package.json');
-
 	/** @type {object} */
 	let packageContents;
 	try {
@@ -60,7 +42,7 @@ async function exec(unscopedPackage) {
 		packageContents.bugs = packageContents.bugs.url.replace('git+', '');
 	}
 
-	packageContents.repository.directory = `packages/${justName}`;
+	packageContents.repository.directory = `packages/${packageName}`;
 	if (!isExistingProject) {
 		packageContents.version = '0.0.1';
 		packageContents.scripts = {
@@ -96,6 +78,33 @@ async function exec(unscopedPackage) {
 		process.exit(1);
 	}
 
+	return newPackageContents;
+}
+
+/**
+ * @param {string} unscopedPackage
+ */
+async function exec(unscopedPackage) {
+	const packageName = unscopedPackage.startsWith('@gradebook') ? unscopedPackage : `@gradebook/${unscopedPackage}`;
+	const justName = packageName.replace('@gradebook/', '');
+	const packageRoot = path.resolve(__dirname, '../packages/', packageName.replace('@gradebook/', ''));
+
+	const isExistingProject = fs.existsSync(packageRoot);
+
+	try {
+		if (!isExistingProject) {
+			const lernaCommand = `lerna create ${packageName} --access public --license MIT -y --es-module`;
+			console.info(`Running \`${lernaCommand}\``);
+			await execa.command(lernaCommand);
+		}
+	} catch (error) {
+		console.error('Failed running lerna!');
+		console.error(error.stdout || error.shortMessage || error.message);
+		process.exit(1);
+	}
+
+	const packageJson = updatePackageJson(path.resolve(packageRoot, 'package.json'), justName, isExistingProject);
+
 	try {
 		const tsConfigPath = path.resolve(packageRoot, 'tsconfig.json');
 		if (!fs.existsSync(tsConfigPath)) {
@@ -110,7 +119,7 @@ async function exec(unscopedPackage) {
 	if (!isExistingProject) {
 		const packageSrc = path.resolve(packageRoot, 'src');
 		const packageLib = path.resolve(packageRoot, 'lib');
-		const packageBaseName = packageContents.main
+		const packageBaseName = packageJson.main
 			.replace('lib/', '')
 			.replace('dist/', '')
 			.replace('.js', '');
