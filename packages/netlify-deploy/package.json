@@ -44,10 +44,10 @@
     "through2-map": "^3.0.0"
   },
   "devDependencies": {
-    "@types/backoff": "^2.5.2",
-    "@types/flush-write-stream": "^1.0.0",
-    "@types/folder-walker": "^3.2.0",
-    "@types/parallel-transform": "^1.1.1",
-    "@types/through2-map": "^3.0.1"
+    "@types/backoff": "2.5.2",
+    "@types/flush-write-stream": "1.0.0",
+    "@types/folder-walker": "3.2.0",
+    "@types/parallel-transform": "1.1.1",
+    "@types/through2-map": "3.0.1"
   }
 }
