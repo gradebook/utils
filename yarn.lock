@@ -1194,7 +1194,7 @@
   dependencies:
     long-timeout "^0.1.1"
 
-"@types/backoff@^2.5.2":
+"@types/backoff@2.5.2":
   version "2.5.2"
   resolved "https://registry.yarnpkg.com/@types/backoff/-/backoff-2.5.2.tgz#960214100f1329e2a6022eac9dd43af28618ea15"
   integrity sha512-oa1YvggujhVppgeIct3LBkbCVXKh97fvOFIR6VlFLxRCeswk/KBRQKg7zoX832vlCP5bGLOFqC9hY7vsDeL9AA==
@@ -1268,14 +1268,14 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
-"@types/flush-write-stream@^1.0.0":
+"@types/flush-write-stream@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/flush-write-stream/-/flush-write-stream-1.0.0.tgz#6bc902a50c86ae30938320d269d32843d9aa7d76"
   integrity sha512-vABEdzyrFxWkHeoLnaxc9NILYA7BWlY2BHQifHDVSRUZbWVuPSB22nzygWeWmjA9en2OzTx6waY7YPs+m9yzmg==
   dependencies:
     "@types/node" "*"
 
-"@types/folder-walker@^3.2.0":
+"@types/folder-walker@3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@types/folder-walker/-/folder-walker-3.2.0.tgz#fa987903a735aa3e3d4fad47ea9e3618400cf823"
   integrity sha512-Jq65ntnajpbZsnjOUMQ0M5B6IJfULKhvQitMvoSwdIc0CH6p6sWZatMfPNKEF026MB/S79ivK8ItqnjwAwM1Uw==
@@ -1359,7 +1359,7 @@
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.1.tgz#d3357479a0fdfdd5907fe67e17e0a85c906e1301"
   integrity sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==
 
-"@types/parallel-transform@^1.1.1":
+"@types/parallel-transform@1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@types/parallel-transform/-/parallel-transform-1.1.1.tgz#acc29f98ebf4e7514033b38ab80960ecc7d5ff8f"
   integrity sha512-ySAoqiEuHxq+Rf6ucWHTmOq7/2ZFnZ8lxlIxN1iN6Te4Pz3PKqjSuXnIq/sX3xQWoySHNJhyKtzKVurbAsAf4g==
@@ -1401,7 +1401,7 @@
     "@types/mime" "^1"
     "@types/node" "*"
 
-"@types/through2-map@^3.0.1":
+"@types/through2-map@3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@types/through2-map/-/through2-map-3.0.1.tgz#b7ad299f567d1a9fc7dcd2b37e110326179f6797"
   integrity sha512-IkNgvoosw97AiBs4NaLcFTV6KOIhWhC4MAGz3t3nVHr/y7duksrNH2h7csC0bBKbjZNL2Q73/EID0OHoggm5hQ==
