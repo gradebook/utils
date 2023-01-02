@@ -56,6 +56,8 @@ function updatePackageJson(packagePath, packageName, isExistingProject) {
 		};
 		packageContents.files = ['lib', 'src'];
 		packageContents.type = 'module';
+		packageContents.main = packageContents.main.replace('dist', 'lib');
+		packageContents.directories.lib = 'src';
 		delete packageContents.module;
 	}
 
