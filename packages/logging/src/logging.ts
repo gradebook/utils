@@ -1,6 +1,6 @@
 import {pid} from 'process';
 import {hostname} from 'os';
-import {pino, stdTimeFunctions} from 'pino';
+import {type LoggerOptions, pino, stdTimeFunctions} from 'pino';
 import {getPinoTransport} from './transport.js';
 import {type RawLoggingOptions, createSafeOptions} from './config.js';
 import {domainSymbol, errorSerializer, requestSerializer, responseSerializer} from './util/serializers.js';
@@ -24,7 +24,7 @@ export async function createLogger(rawIgnitionOptions: RawLoggingOptions) {
 			req: requestSerializer,
 			res: responseSerializer,
 		},
-	}, await getPinoTransport(options));
+	} as LoggerOptions, await getPinoTransport(options));
 }
 
 export {createSafeOptions as createConfig} from './config.js';
