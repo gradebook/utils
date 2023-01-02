@@ -25,7 +25,9 @@ export const createIgnore = (allow: Throttler, path: string) => (request: Incomi
 	return false;
 };
 
-export const useHttpLogging = (logger: Logger, {domain, healthcheck}: LoggingOptions, __testPinoHttp = pinoHttp) => {
+type HTTPLoggingOptions = Pick<LoggingOptions, 'domain' | 'healthcheck'>;
+
+export const useHttpLogging = (logger: Logger, {domain, healthcheck}: HTTPLoggingOptions, __testPinoHttp = pinoHttp) => {
 	const options: HttpLoggerOptions = {
 		logger,
 		genReqId: () => randomUUID(),
