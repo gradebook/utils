@@ -21,6 +21,7 @@
     "directory": "packages/app-core"
   },
   "scripts": {
+    "autorelease:hook.pre": "yarn --cwd ../config tsc && yarn --cwd ../logging tsc",
     "pretest": "tsc",
     "test": "echo no tests",
     "prepublish": "tsc",
