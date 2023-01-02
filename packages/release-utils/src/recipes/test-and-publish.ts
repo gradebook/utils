@@ -6,6 +6,7 @@ import * as envCore from '../api/get-var-from-env.js';
 import {publishPossibleGitHubRelease} from '../api/publish-github-release.js';
 import {publishPackage} from '../api/publish-package.js';
 
+const PRE_HOOK_SCRIPT = 'autorelease:hook.pre';
 const SPECIAL_SCRIPT = 'autorelease:test';
 const FALLBACK_SCRIPT = 'test';
 
@@ -31,6 +32,10 @@ async function wrap() {
 	}
 
 	const testScript = SPECIAL_SCRIPT in packageJson.scripts ? SPECIAL_SCRIPT : FALLBACK_SCRIPT;
+
+	if (PRE_HOOK_SCRIPT in packageJson.scripts) {
+		await $`yarn ${PRE_HOOK_SCRIPT}`;
+	}
 
 	await $`yarn lint`;
 	await $`yarn ${testScript}`;
