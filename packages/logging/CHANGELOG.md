@@ -1,3 +1,7 @@
+# 0.1.1
+
+ - prefer NODE_ENV before hardcoded env
+
 # 0.1.0
 
  - Initial stable release
