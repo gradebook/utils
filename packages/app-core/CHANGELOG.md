@@ -1,3 +1,7 @@
+# 0.1.0
+
+ - Initial stable release
+
 # 0.1.0-beta.1
 
  - fix release failure
