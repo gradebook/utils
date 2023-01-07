@@ -1,4 +1,4 @@
-import {cwd} from 'process';
+import {cwd, env} from 'process';
 
 type RequireDeep<X> = X extends null | undefined | string | number | boolean | symbol | bigint ? X : Required<{
 	[K in keyof X]-?: Required<X[K]>;
@@ -61,7 +61,7 @@ export interface RawLoggingOptions {
 	name?: string;
 	/**
 	 * @description Application environment
-	 * @default 'development'
+	 * @default NODE_ENV, then 'development'
 	 */
 	env?: string;
 	/**
@@ -132,7 +132,7 @@ const DEFAULT_HEALTHCHECK_OPTIONS = {
 export function createSafeOptions(options: RawLoggingOptions): LoggingOptions {
 	const response: LoggingOptions = {
 		name: options.name ?? 'Log',
-		env: options.env ?? 'development',
+		env: options.env ?? env.NODE_ENV ?? 'development',
 		domain: options.domain ?? 'localhost',
 		level: options.level ?? 'info',
 		path: (options.path ?? cwd() + '/logs').replace(/\/$/, '') + '/',
