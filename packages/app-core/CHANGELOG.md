@@ -1,3 +1,7 @@
+# 0.1.1
+
+ - upgrade @gradebook/logging
+
 # 0.1.0
 
  - Initial stable release
