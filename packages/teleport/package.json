@@ -35,7 +35,7 @@
     "got": "^11.8.2"
   },
   "devDependencies": {
-    "knex": "2.3.0",
+    "knex": "2.4.0",
     "nock": "13.2.9"
   },
   "xo": false
