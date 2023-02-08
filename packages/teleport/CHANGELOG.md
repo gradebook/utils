@@ -1,3 +1,11 @@
+# 0.0.4
+
+- Rename to `@gradebook/teleport`
+
+- Bootstrap exporter
+
+- Dependency updates
+
 # 0.0.3
 
 :bug: fix error when deleting categories and incorrectly removed grades
