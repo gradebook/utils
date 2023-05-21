@@ -11,7 +11,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: gradebook/actions/actions/setup@master
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --frozen-lockfile --prefer-offline
       - name: Unit Tests
         run: yarn lerna run test
         env:

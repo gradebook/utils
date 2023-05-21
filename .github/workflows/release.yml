@@ -25,7 +25,7 @@ jobs:
         env:
           FORCE_COLOR: 0
       - run: |
-          yarn install --frozen-lockfile
+          yarn install --frozen-lockfile --prefer-offline
       - name: Build latest version of release-utils
         run: yarn --cwd packages/release-utils prepublish
       - run: node packages/release-utils/lib/recipe.js test-and-publish
