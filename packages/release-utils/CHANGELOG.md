@@ -1,3 +1,8 @@
+# 0.7.1
+
+ - test-and-publish: add support for running a script before tests
+ - publish-package#resolveTagName: fall back to package json version when shaOrTagName doesn't point to a git tag
+
 # 0.7.1-beta.2
 
  - fix shell escaping causing release tag to be ignored
