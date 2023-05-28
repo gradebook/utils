@@ -10,8 +10,8 @@ async function wrap() {
 	const token = envCore.getKeyFromEnvironment(envCore.tokenInGitHubActions);
 
 	try {
-		await configureForRelease(sha);
-		const tagName = await resolveTagName(sha);
+		const packageJson = await configureForRelease(sha);
+		const tagName = await resolveTagName(sha, packageJson);
 		if (!tagName) {
 			throw new Error('Unable to find tag name');
 		}

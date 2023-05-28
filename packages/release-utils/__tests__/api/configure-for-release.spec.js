@@ -8,7 +8,6 @@ import {configureForRelease} from '../../lib/api/configure-for-release.js';
 import {createZxStub} from '../utils/zx-stub.js';
 import {convertSinonStubToZX} from '../utils/cast-sinon-to-zx.js';
 
-// @ts-expect-error
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const validPackage = path.resolve(__dirname, './fixtures/valid-package.json');
 const noPreconfigureForRelease = path.resolve(__dirname, './fixtures/no-prepublish-package.json');

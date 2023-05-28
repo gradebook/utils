@@ -1,7 +1,7 @@
 // @ts-check
 import {expect} from 'chai';
 import sinon from 'sinon';
-import {publishPackage, getReleaseTag} from '../../lib/api/publish-package.js';
+import {publishPackage, getReleaseTag, resolveTagName} from '../../lib/api/publish-package.js';
 import {convertSinonStubToZX} from '../utils/cast-sinon-to-zx.js';
 import {createZxStub} from '../utils/zx-stub.js';
 
@@ -105,5 +105,64 @@ describe('Unit > API > Package Publisher', function () {
 		expect(getReleaseTag('1.0.0-beta+exp.sha.5114f85')).to.equal('beta');
 		expect(getReleaseTag('1.0.0-x.7.z.92')).to.equal('x');
 		expect(getReleaseTag('1.0.0-x-y-z.--')).to.equal('x-y-z');
+	});
+
+	it('resolveTagName', async function () {
+		let shaResponse = '';
+		let allowOnlyVersion = true;
+		let allowNameAndVersion = false;
+		$.callsFake(createZxStub({
+			/** @param {string} command */
+			tag(command) {
+				if (command.includes(sha)) {
+					return shaResponse;
+				}
+
+				if (
+					allowNameAndVersion
+					&& command.includes('@')
+					&& command.includes(packageJson.version ?? 'never')
+				) {
+					return `${packageJson.name}@v${packageJson.version}`;
+				}
+
+				if (allowOnlyVersion && command.includes(packageJson.version ?? 'never')) {
+					return `v${packageJson.version}`;
+				}
+
+				return '';
+			},
+		}));
+
+		const sha = 'thisisahash';
+		/** @type {PackageJson} */
+		const packageJson = {
+			name: 'a-package',
+			version: '0.3.3',
+			scripts: {
+				// @ts-expect-error
+				test: 'true',
+			},
+		};
+
+		shaResponse = 'v1.2.3';
+		allowOnlyVersion = false;
+		allowNameAndVersion = false;
+		expect(await resolveTagName(sha, packageJson, zx$)).to.equal(shaResponse);
+
+		shaResponse = '';
+		allowOnlyVersion = true;
+		allowNameAndVersion = false;
+		expect(await resolveTagName(sha, packageJson, zx$)).to.equal(`v${packageJson.version}`);
+
+		shaResponse = '';
+		allowOnlyVersion = false;
+		allowNameAndVersion = true;
+		expect(await resolveTagName(sha, packageJson, zx$)).to.equal(`${packageJson.name}@v${packageJson.version}`);
+
+		shaResponse = '';
+		allowOnlyVersion = false;
+		allowNameAndVersion = false;
+		expect(await resolveTagName(sha, packageJson, zx$)).to.equal(undefined);
 	});
 });

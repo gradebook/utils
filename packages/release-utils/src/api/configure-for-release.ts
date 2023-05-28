@@ -4,6 +4,7 @@ import path from 'path';
 import {$ as zx$} from 'zx';
 
 export interface PackageJson {
+	name?: string;
 	version?: string;
 	scripts?: {
 		prepublish?: string;

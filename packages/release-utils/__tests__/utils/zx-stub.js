@@ -9,8 +9,9 @@ export function createZxStub({tag, fileList = ['packages/test/package.json']}) {
 		}
 
 		if (command.startsWith('git tag')) {
+			const stdout = typeof tag === 'function' ? tag(command) : tag;
 			return {
-				stdout: tag,
+				stdout,
 			};
 		}
 
