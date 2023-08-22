@@ -1,3 +1,7 @@
+# 0.2.1
+
+ - wrap dev sentry error page in iife
+
 # 0.2.0
 
  - :sparkles: add `auth` middleware for local authentication
