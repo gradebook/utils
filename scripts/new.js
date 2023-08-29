@@ -2,7 +2,6 @@
 const process = require('process');
 const path = require('path');
 const fs = require('fs-extra');
-const execa = require('execa');
 const workspacePackage = require('../package.json');
 
 // Optional keys: description, module, bin
@@ -141,7 +140,8 @@ async function exec(unscopedPackage) {
 		if (!isExistingProject) {
 			const lernaCommand = `lerna create ${packageName} --access public --license MIT -y --es-module`;
 			console.info(`Running \`${lernaCommand}\``);
-			await execa.command(lernaCommand);
+			// eslint-disable-next-line unicorn/no-await-expression-member
+			await (await import('execa')).execaCommand(lernaCommand);
 		}
 	} catch (error) {
 		console.error('Failed running lerna!');
