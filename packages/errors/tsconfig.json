@@ -5,6 +5,8 @@
     "__tests__/"
   ],
   "compilerOptions": {
-    "outDir": "lib"
+    "skipLibCheck": true,
+    "outDir": "lib",
+    "strict": true
   }
 }
