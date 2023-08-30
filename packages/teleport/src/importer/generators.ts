@@ -23,7 +23,7 @@ export function generateCourseQuery(
 		const category = course.categories[i];
 		const ref = `${_ref}.categories[${i}]`;
 
-		if (category.grades?.length > maxGradesPerCategory) {
+		if (!category.grades || category.grades.length > maxGradesPerCategory) {
 			throw new ValidationError({message: `Category ${ref} has too many grades`});
 		}
 

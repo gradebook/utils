@@ -23,7 +23,9 @@ interface CurrentSemesterState {
 }
 
 export const data: CurrentSemesterState = {
-	primarySemester: null,
+	// We compute semester data as part of the module initialization, so it's not possible for this to be null
+	// at run-time.
+	primarySemester: null!,
 	activeSemesters: [],
 	serverAllowedSemesters: [],
 };
@@ -148,7 +150,7 @@ function _computeActiveSemesters(currentYear: number, currentDate: Date) {
 		isDateInActiveRange(fallStart, fallEnd, currentDate) ? `${currentYear}F` : null,
 		isDateInActiveRange(winterStart, winterEnd, currentDate) ? `${currentYear}W` : null,
 		isDateInActiveRange(futureSpringStart, futureSpringEnd, currentDate) ? `${currentYear + 1}S` : null,
-	].filter(Boolean);
+	].filter(Boolean) as string[];
 
 	// The previous year's winter may still be allowed or the next semester's spring since they overlap.
 	data.serverAllowedSemesters = [
@@ -158,7 +160,7 @@ function _computeActiveSemesters(currentYear: number, currentDate: Date) {
 		isDateInServerWidenedRange(fallStart, fallEnd, currentDate) ? `${currentYear}F` : null,
 		isDateInServerWidenedRange(winterStart, winterEnd, currentDate) ? `${currentYear}W` : null,
 		isDateInServerWidenedRange(futureSpringStart, futureSpringEnd, currentDate) ? `${currentYear + 1}S` : null,
-	].filter(Boolean);
+	].filter(Boolean) as string[];
 }
 
 export function computeSemesterData() {

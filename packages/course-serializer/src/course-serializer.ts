@@ -22,9 +22,10 @@ const validCutoffs = (cutoffs: ICutoffs): boolean => {
 	return true;
 };
 
-const isValidCategory = (category: ICategory): boolean =>
+const isValidCategory = (category: ICategory): boolean => Boolean(
 	(category.name && category.name !== 'null')
-	&& (Boolean(category.weight) || category.weight === 0);
+	&& (Boolean(category.weight) || category.weight === 0),
+);
 
 export const EXPORT_VERSION = 1;
 
@@ -93,7 +94,8 @@ export function _validateCategory(category: ICategory): boolean {
 
 	return (
 		validTotalGrades(category.numGrades)
-		&& validDroppedGrades(category.droppedGrades, category.numGrades)
+		// @TODO: Confirm null assertion
+		&& validDroppedGrades(category.droppedGrades!, category.numGrades)
 		&& validWeight(category.weight)
 		&& validCategoryName(category.name)
 	);
@@ -152,7 +154,8 @@ export interface ICourseWithMeta extends ICourse {
  */
 export function _serializeCategory(category: ICategory): string {
 	if (!isValidCategory(category)) {
-		return null;
+		// @TODO: Confirm null assertion
+		return null!;
 	}
 
 	let built = '';
@@ -204,7 +207,8 @@ export function _deserializeCategory(payload: string): ICategory {
 	};
 
 	if (!isValidCategory(category)) {
-		return null;
+		// @TODO: Confirm null assertion
+		return null!;
 	}
 
 	return category;
@@ -242,7 +246,8 @@ export function _deserializeCourseMeta(course: string): ICourseWithMeta {
 		year: Number(year),
 		credits: Number(credits),
 		name,
-		categories: null,
+		// @TODO: Confirm null assertion
+		categories: null!,
 		cutoffs: Object.fromEntries<number>(cutoffs.map(cutoff => {
 			const [key, value] = cutoff.split(',');
 			return [key, Number(value)];
@@ -270,7 +275,8 @@ export function strip(course: ICourse | IUnsafeCourse): ICourse {
 		name: course.name,
 		credits: course.credits,
 		cutoffs: course.cutoffs,
-		categories: course.categories.map(category => _stripCategory(category)),
+		// @TODO: Confirm null assertion
+		categories: course.categories!.map(category => _stripCategory(category)),
 	};
 }
 
@@ -329,7 +335,8 @@ export function prepareCourseForAPI(course: ICourse, semester: string): IApiCour
 			name: category.name,
 			weight: category.weight,
 			position: currentPosition,
-			dropped: category.droppedGrades,
+			// @TODO: Confirm null assertion
+			dropped: category.droppedGrades!,
 			numGrades: category.numGrades,
 		};
 	});

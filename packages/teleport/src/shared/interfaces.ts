@@ -14,8 +14,8 @@ export interface MinimalCategory {
 }
 
 export interface MinimalGrade {
-	name: string;
-	grade: number;
+	name: string | null;
+	grade: number | null;
 }
 
 export interface Cutoffs {

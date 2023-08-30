@@ -1,11 +1,12 @@
 import process from 'node:process';
 import util from 'node:util';
+import {type Logger} from 'pino'; // eslint-disable-line import/no-extraneous-dependencies
 import {getConfig} from '@gradebook/config';
 import {createConfig, createLogger} from '@gradebook/logging';
 
 export const config = await getConfig();
 
-let loadedLogger;
+let loadedLogger!: Logger;
 
 try {
 	loadedLogger = await createLogger(config.get('logging'));

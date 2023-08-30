@@ -39,7 +39,7 @@ function _throwAJVValidationError(message_ = ''): never {
 	const paths = new Set<string>();
 	let message = message_ + ':';
 
-	for (const error of validator.errors) {
+	for (const error of validator.errors!) {
 		if (!paths.has(error.instancePath)) {
 			message += `\n\t${error.instancePath} ${error.message}`;
 			paths.add(error.instancePath);
@@ -111,7 +111,7 @@ export function runBasicValidations(payload_: Buffer | string | object): Export 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function generateAPICalls(data: Buffer | string | object, options: ImportOptions): Query[] {
 	const uExport = runBasicValidations(data);
-	const uid = options.user_id || new ObjectId().toHexString();
+	const uid = options.user_id ?? new ObjectId().toHexString();
 	const queries: Query[] = [];
 
 	const {
@@ -135,7 +135,7 @@ export function generateAPICalls(data: Buffer | string | object, options: Import
 		const course = uExport.courses[i];
 		const ref = `.[${i}]`;
 
-		let coursesInSemester = semesters.get(course.semester) || 0;
+		let coursesInSemester = semesters.get(course.semester) ?? 0;
 
 		if (++coursesInSemester > maxCoursesPerSemester) {
 			throw new ValidationError({message: `Semester ${course.semester} has too many courses`});
@@ -143,7 +143,7 @@ export function generateAPICalls(data: Buffer | string | object, options: Import
 
 		semesters.set(course.semester, coursesInSemester);
 
-		if (course.categories?.length > maxCategoriesPerCourse) {
+		if (course.categories && course.categories.length > maxCategoriesPerCourse) {
 			throw new ValidationError({message: `Course ${ref} has too many categories`});
 		}
 
