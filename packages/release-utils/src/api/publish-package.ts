@@ -14,7 +14,7 @@ async function getTagNameFromRef(ref: string, $ = zx$) {
 export function getReleaseTag(candidate: string) {
 	const parts = SEMVER_REGEX.exec(candidate);
 	// 4 is the index with the pre-release tag
-	if (!parts || !parts[4]) {
+	if (!parts?.[4]) {
 		return 'latest';
 	}
 

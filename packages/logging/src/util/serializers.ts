@@ -62,11 +62,7 @@ export function requestSerializer(request: unknown) {
 	for (const sensitiveProperty of SENSITIVE_REQUEST_PROPERTIES.values()) {
 		if (sensitiveProperty in typeSafeRequest) {
 			const value = typeSafeRequest[sensitiveProperty];
-			if (isObjectLike(value)) {
-				response[sensitiveProperty] = removeSensitiveData(value);
-			} else {
-				response[sensitiveProperty] = value;
-			}
+			response[sensitiveProperty] = isObjectLike(value) ? removeSensitiveData(value) : value;
 		}
 	}
 

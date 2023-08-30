@@ -1,6 +1,5 @@
 // @ts-check
 import {expect} from 'chai';
-
 import {__testHelper} from '../lib/semester.js';
 
 const {

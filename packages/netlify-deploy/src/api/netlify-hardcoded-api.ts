@@ -1,7 +1,6 @@
 import type {ReadStream} from 'fs';
 import {URL} from 'url';
 import {$, fetch} from 'zx'; // eslint-disable-line import/no-extraneous-dependencies
-
 import type {NetlifySite, NetlifySiteDeploy, NetlifyCreateSiteDeployPayload, NetlifyUpdateSiteDeployPayload, NetlifyUploadFile} from './open-api.js';
 
 let authToken: string;

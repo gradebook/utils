@@ -4,10 +4,8 @@ import type {Stats} from 'fs';
 import {stat} from 'fs/promises';
 import {basename} from 'path';
 import {exit} from 'process';
-
 import {getProperty as get} from 'dot-prop';
 import isObject from 'lodash.isobject';
-
 import {cancelDeploy, api} from './netlify-hardcoded-api.js';
 import {error, log, logJson, warn} from './netlify-compat-util.js';
 import {deploySite} from './deploy-site/index.js';

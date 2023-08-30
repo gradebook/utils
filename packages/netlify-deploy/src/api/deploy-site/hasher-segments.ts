@@ -3,7 +3,6 @@ import hasha from 'hasha';
 import transform from 'parallel-transform';
 import {objCtor as objectFilterCtor} from 'through2-filter';
 import {obj as map} from 'through2-map';
-
 import {normalizePath} from './util.js';
 
 export interface PartialFileObject {

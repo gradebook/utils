@@ -3,7 +3,6 @@ const {IncomingMessage} = require('http');
 const {promisify} = require('util');
 const {expect} = require('chai');
 const sinon = require('sinon');
-
 const _module = require('../lib/passport-utils.js');
 
 /** @returns {import ('../lib/_passport-types').PassportOauth20Profile} */

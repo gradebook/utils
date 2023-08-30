@@ -2,7 +2,6 @@
 const {expect} = require('chai');
 const sinon = require('sinon');
 const oid = require('bson-objectid').default;
-
 const {importer} = require('../../lib/api.js');
 
 describe('Unit > Importer', function () {

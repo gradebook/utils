@@ -197,11 +197,11 @@ async function exec(unscopedPackage) {
 			let fileContents = fs.readFileSync(srcPath, 'utf8');
 			fileContents = fileContents
 				// Use tabs instead of spaces
-				.replace(/ {4}/g, '\t')
+				.replaceAll(/ {4}/g, '\t')
 				// Use named exports instead of default exports
 				.replace(' default ', ' ')
 				// Use single quotes instead of double quotes
-				.replace(/"/g, '\'');
+				.replaceAll('"', '\'');
 			fs.writeFileSync(srcPath, fileContents);
 
 			const currentTestPath = path.resolve(packageRoot, '__tests__', packageBaseName + '.test.js');

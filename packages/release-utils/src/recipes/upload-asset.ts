@@ -31,7 +31,7 @@ async function wrap() {
 	// @ts-expect-error requireEnvVariables ensures this won't be an issue.
 	const env: Env = process.env;
 	const tagName = parseBranchName(env.GITHUB_REF);
-	const assets = getAssets(env.FILE_LIST.replace(/:tag:/g, tagName));
+	const assets = getAssets(env.FILE_LIST.replaceAll(':tag:', tagName));
 
 	const results = await uploadGitHubReleaseAssets({
 		token: env.GITHUB_TOKEN,

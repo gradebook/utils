@@ -2,7 +2,6 @@
 import process from 'process';
 import {expect} from 'chai';
 import sinon from 'sinon';
-
 import {sendPayload, parseBranchName, userAgent} from '../../lib/api/actions-hook.js';
 
 /**

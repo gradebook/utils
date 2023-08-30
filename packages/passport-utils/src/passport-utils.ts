@@ -2,7 +2,6 @@
 import type {IncomingMessage} from 'http';
 import {dayjs as date} from '@gradebook/time';
 import ObjectId from 'bson-objectid';
-
 import type {
 	PassportOauth20Profile as Profile,
 	PassportOauth20VerifyCallback as VerifyCallback,
@@ -132,7 +131,6 @@ export function createUserDeserializer(
 			}
 
 			callback(null!, user);
-			return;
 		} catch (error) {
 			callback(error as Error);
 		}

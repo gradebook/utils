@@ -1,7 +1,6 @@
 import {rm} from 'fs/promises';
 import cleanDeep from 'clean-deep';
 import {temporaryDirectory} from 'tempy';
-
 import {api} from '../netlify-hardcoded-api.js';
 import {hashFiles} from './hash-files.js';
 import {uploadFiles} from './upload-files.js';
@@ -145,5 +144,5 @@ const buildStatsString = (possibleParts: Array<string | undefined | false>) => {
 	const parts = possibleParts.filter(Boolean);
 	const message = parts.slice(0, -1).join(', ');
 
-	return parts.length > 1 ? `${message} and ${parts[parts.length - 1]}` : message;
+	return parts.length > 1 ? `${message} and ${parts.at(-1)}` : message;
 };
