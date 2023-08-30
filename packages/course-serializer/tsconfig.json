@@ -1,12 +1,10 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig-esm.json",
   "include": [
     "src/",
     "__tests__/"
   ],
   "compilerOptions": {
-    "outDir": "lib",
-    "target": "es2017",
-    "module": "ES2020"
+    "outDir": "lib"
   }
 }

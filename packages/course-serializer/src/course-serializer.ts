@@ -14,7 +14,7 @@ const validCut = (cut: number): boolean => cut >= c.MIN_CUTOFF && cut <= c.MAX_C
 const validCutName = (cutName: string): boolean => c.CUTOFFS.has(cutName);
 const validCutoffs = (cutoffs: ICutoffs): boolean => {
 	for (const [cutName, cutValue] of Object.entries(cutoffs)) {
-		if (!validCutName(cutName) || !validCut(cutValue)) {
+		if (!validCutName(cutName) || !validCut(cutValue as number)) {
 			return false;
 		}
 	}
