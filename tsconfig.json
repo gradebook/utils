@@ -9,11 +9,11 @@
     "noImplicitAny": true,
     "removeComments": true,
     "noLib": false,
-    "target": "es2020",
-    "module": "es2022",
+    "target": "es2021",
     "sourceMap": true,
     "lib": [
-      "es6"
+      "es6",
+      "es2021"
     ]
   },
   "exclude": [
