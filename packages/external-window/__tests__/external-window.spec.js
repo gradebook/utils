@@ -1,5 +1,3 @@
-module.exports = externalWindow;
-
-function externalWindow() {
+export function externalWindow() {
 	// TODO
 }
