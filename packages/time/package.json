@@ -34,7 +34,7 @@
     "dayjs": "^1.10.7"
   },
   "devDependencies": {
-    "rewire": "6.0.0"
+    "rewire": "7.0.0"
   },
   "xo": false
 }
