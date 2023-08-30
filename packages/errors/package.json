@@ -29,5 +29,8 @@
     "tsc": "tsc",
     "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\""
   },
-  "xo": false
+  "xo": false,
+  "devDependencies": {
+    "@types/node": "^20.5.7"
+  }
 }
