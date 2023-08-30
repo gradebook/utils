@@ -1,10 +1,10 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig-esm.json",
   "include": [
     "src/",
     "__tests__/"
   ],
   "compilerOptions": {
-    "outDir": "lib/commonjs"
+    "outDir": "lib"
   }
 }
