@@ -31,16 +31,21 @@ module.exports = class KeyManager {
 	 */
 	setKey(type) {
 		switch (type) {
-			case 'valid':
+			case 'valid': {
 				this.selectedKey = this.validPublicKey;
 				this.selectedKid = this.validKid;
 				break;
-			case 'invalid':
+			}
+
+			case 'invalid': {
 				this.selectedKey = this.invalidPublicKey;
 				this.selectedKid = this.invalidKid;
 				break;
-			default:
+			}
+
+			default: {
 				this.selectedKey = null;
+			}
 		}
 	}
 

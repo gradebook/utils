@@ -38,7 +38,7 @@ export function useServiceAuth(options: ServiceAuthOptions) {
 	const keyStore = options.store ?? jose
 		.createRemoteJWKSet(resolvePaths(options.gatewayRoot!, '.well-known/jwks.json'));
 
-	const nonceService = (typeof options.requireNonce === 'undefined' || options.requireNonce)
+	const nonceService = (options.requireNonce === undefined || options.requireNonce)
 		? useNonce() : useNoopNonce();
 
 	const {serviceName} = options;

@@ -1,7 +1,5 @@
 import {sep} from 'path';
-
 import pWaitFor from 'p-wait-for';
-
 import type {NetlifySiteDeploy} from '../open-api.js';
 import {api} from '../netlify-hardcoded-api.js';
 import type {PartialFileObject} from './hasher-segments.js';

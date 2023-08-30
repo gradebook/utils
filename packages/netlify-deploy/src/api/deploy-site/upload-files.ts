@@ -1,6 +1,5 @@
 import type {EventEmitter} from 'stream';
 import fs from 'fs';
-
 import backoff from 'backoff';
 import pMap from 'p-map';
 import {api} from '../netlify-hardcoded-api.js';

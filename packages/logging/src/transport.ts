@@ -1,3 +1,4 @@
+import {type Stream} from 'node:stream';
 import {mkdir, stat} from 'fs/promises';
 import {once} from 'events';
 import {multistream, transport} from 'pino';
@@ -9,7 +10,7 @@ const getFileName = (options: LoggingOptions, rawLevel: string) => {
 	const level = rawLevel === 'error' ? '.error' : '';
 	// Based on ghost-ignition's file name generator
 	const {path, domain = '', env} = options;
-	const sanitizedDomain = domain.replace(/\W/gi, '_');
+	const sanitizedDomain = domain.replaceAll(/\W/gi, '_');
 	return `${path}${sanitizedDomain}_${env}${level}.log`;
 };
 
@@ -96,7 +97,7 @@ export async function getPinoTransport(options: LoggingOptions): Promise<ThreadS
 	);
 
 	// eslint-disable-next-line @typescript-eslint/promise-function-async
-	await Promise.all(transportStreams.map(stream => once(stream, 'ready')));
+	await Promise.all(transportStreams.map(stream => once(stream as Stream, 'ready')));
 
 	return multistream(transportStreams);
 }
