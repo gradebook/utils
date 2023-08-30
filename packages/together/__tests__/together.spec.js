@@ -1,20 +1,27 @@
 // @ts-check
-const process = require('process');
-const {expect} = require('chai');
-const execa = require('execa');
-const sinon = require('sinon');
-const together = require('..');
+import process from 'node:process';
+import {expect} from 'chai';
+import sinon from 'sinon';
+import * as together from '../lib/together.js';
 
-const Together = together.default;
+/** @type {sinon.SinonStub} */
+let execStub;
+
+class Together extends together.Together {
+	// @ts-expect-error
+	get _exec() {
+		return execStub;
+	}
+
+	set _exec(next) {}
+}
 
 describe('together', function () {
-	/** @type {sinon.SinonStub} */
-	let execStub;
 	/** @type {sinon.SinonStub} */
 	let logStub;
 
 	beforeEach(function () {
-		execStub = sinon.stub(execa, 'command');
+		execStub = sinon.stub();
 		logStub = sinon.stub(console, 'log');
 	});
 

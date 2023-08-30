@@ -2,12 +2,13 @@
   "name": "@gradebook/together",
   "version": "0.2.0",
   "private": false,
+  "type": "module",
   "description": "Run multiple processes in a terminal",
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
   "homepage": "https://github.com/gradebook/utils/tree/master/packages/together#readme",
   "bugs": "https://github.com/gradebook/utils/issues",
   "license": "MIT",
-  "main": "lib/together.js",
+  "module": "lib/together.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -30,7 +31,7 @@
     "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\""
   },
   "dependencies": {
-    "execa": "^5.1.1"
+    "execa": "^8.0.1"
   },
   "devDependencies": {
     "chai": "4.3.8",

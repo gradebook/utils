@@ -1,7 +1,7 @@
 // @NOTE: we're not using concurrently because it can't handle readline (I think), so we lose support
 // for build progress
 import process from 'process';
-import * as execa from 'execa';
+import {execaCommand, type ExecaChildProcess, type Options} from 'execa';
 
 let cleanupScheduled = false;
 const instances: Together[] = [];
@@ -14,14 +14,14 @@ export function cleanup(): void {
 
 interface SpawnedProcess {
 	name: string;
-	child: execa.ExecaChildProcess;
+	child: ExecaChildProcess;
 }
 
-export type Command = [string, string, execa.Options?];
+export type Command = [string, string, Options?];
 
 export class Together {
+	protected readonly _exec = execaCommand;
 	private readonly _children: SpawnedProcess[] = [];
-
 	private _terminated = false;
 
 	constructor(commands: Command[]) {
@@ -35,7 +35,7 @@ export class Together {
 
 		for (const [name, command, options = {}] of commands) {
 			console.log('Launching', name);
-			const child = execa.command(command, Object.assign(options, {stdio: 'inherit'}));
+			const child = this._exec(command, Object.assign(options, {stdio: 'inherit'}));
 			this._children.push({name, child});
 		}
 	}
