@@ -37,7 +37,7 @@ export interface BasicRequest extends IncomingMessage {
 
 export type BasicCallback<T = string> = (error?: Error, id?: T) => void;
 
-export function createProfileHandler(getUser: (gid: string, table: string) => Promise<UserProfile>) {
+export function createProfileHandler(getUser: (gid: string, table: string | undefined) => Promise<UserProfile>) {
 	return async function handleProfile(
 		request: BasicRequest,
 		_: string,
@@ -51,7 +51,7 @@ export function createProfileHandler(getUser: (gid: string, table: string) => Pr
 			user = await getUser(profile.id, request._table);
 
 			if (user) {
-				callback(null, user);
+				callback(null!, user);
 				return;
 			}
 		} catch (error) {
@@ -68,7 +68,7 @@ export function createProfileHandler(getUser: (gid: string, table: string) => Pr
 			gid,
 			firstName,
 			lastName,
-			email: emails[0].value,
+			email: emails![0].value,
 			isNew: true,
 			// https://github.com/tgriesser/knex/issues/2649
 			settings: JSON.stringify({
@@ -80,12 +80,12 @@ export function createProfileHandler(getUser: (gid: string, table: string) => Pr
 		request.session.userProfile = user as NewUserSessionProfile;
 
 		// NOTE: serialization occurs with what is provided in the callback!
-		callback(null, user);
+		callback(null!, user);
 	};
 }
 
 export function createUserDeserializer(
-	getUser: (id: string, school: string) => Promise<UserProfile>,
+	getUser: (id: string, school: string | null) => Promise<UserProfile>,
 	domain: string | false = false,
 ): (request: BasicRequest, profile: string, callback: BasicCallback<UserProfile | object>) => Promise<void> {
 	domain = typeof domain === 'string' ? domain.replace(/^\./, '') : domain;
@@ -97,7 +97,7 @@ export function createUserDeserializer(
 	): Promise<void> {
 		// CASE: user has not approved their account
 		if (request.session.userProfile) {
-			callback(null, request.session.userProfile);
+			callback(null!, request.session.userProfile);
 			return;
 		}
 
@@ -106,17 +106,20 @@ export function createUserDeserializer(
 			return;
 		}
 
-		let [school, id] = profile.split(':');
+		let school: string | null;
+		let id: string;
+
+		([school, id] = profile.split(':'));
 
 		if (school === '__school__') {
-			school = request.session.school;
+			school = request.session.school!;
 		}
 
 		school = school === 'null' ? null : school;
 
 		if (domain && request._table && school !== request._table) {
 			request._passportRedirect = `//${school}.${domain}/my/`;
-			callback(null, {});
+			callback(null!, {});
 			return;
 		}
 
@@ -124,11 +127,11 @@ export function createUserDeserializer(
 			const user = await getUser(id, school);
 
 			if (!user) {
-				callback(null, null);
+				callback(null!, null!);
 				return;
 			}
 
-			callback(null, user);
+			callback(null!, user);
 			return;
 		} catch (error) {
 			callback(error as Error);
@@ -145,19 +148,19 @@ export function serializeUser(
 	if ('id' in profile) {
 		// CASE: User is new so return the special school identifier
 		if (profile.isNew) {
-			callback(null, `__school__:${profile.id}`);
+			callback(null!, `__school__:${profile.id}`);
 			return;
 		}
 
-		const table = request._table || null;
+		const table = request._table ?? null;
 
-		callback(null, `${table}:${profile.id}`);
+		callback(null!, `${table}:${profile.id}`);
 		return;
 	}
 
 	// CASE: user reference object
 	if ('school' in profile && 'school_id' in profile) {
-		callback(null, `${profile.school}:${profile.school_id}`);
+		callback(null!, `${profile.school}:${profile.school_id}`);
 		return;
 	}
 
@@ -168,7 +171,7 @@ export function serializeUser(
 }
 
 export function _parseNameFromGoogle(
-	{displayName, name: {givenName, familyName}}: Profile,
+	{displayName, name: {givenName, familyName} = {} as {givenName: string; familyName: string}}: Profile,
 ): {firstName: string; lastName: string} {
 	let firstName = givenName;
 	let lastName = familyName;

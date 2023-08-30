@@ -1,11 +1,11 @@
 /* eslint-env browser */
 export class ExternalWindowService {
 	public promise: Promise<void>;
-	private readonly _interval: number;
-	private readonly _window: Window;
+	private readonly _interval!: number;
+	private readonly _window: Window | null;
 	private readonly _listener$: () => void;
-	private _resolve: () => void;
-	private _reject: (error: Error) => void;
+	private _resolve!: () => void;
+	private _reject!: (error: Error) => void;
 
 	constructor(url: string, title = '') {
 		this.promise = new Promise((resolve, reject) => {

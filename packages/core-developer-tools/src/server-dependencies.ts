@@ -9,11 +9,11 @@ interface Log {
 
 export class ServerDependencies {
 	public knex: any;
-	public express: typeof ExpressDependency;
-	public middleware: Record<string, ExpressDependency.Handler>;
-	public logging: Log;
+	public express!: typeof ExpressDependency;
+	public middleware!: Record<string, ExpressDependency.Handler>;
+	public logging!: Log;
 
-	private serverRoot: string;
+	private serverRoot!: string;
 
 	async init(serverRoot: string) {
 		this.serverRoot = serverRoot;
