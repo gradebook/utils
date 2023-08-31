@@ -24,7 +24,10 @@ const messageFormatWithExclude: (ignore: string) => PinoPretty.PrettyOptions['me
 		}
 
 		if ('err' in log || 'error' in log || ('stack' in log && 'message' in log)) {
-			return prettyError((log as any).err ?? log.error ?? log, isColorSupported);
+			return prettyError(
+				(log as {err?: Error}).err ?? (log as {error?: Error}).error ?? log as Record<string, string>,
+				isColorSupported,
+			);
 		}
 
 		const response = log[messageKey];
@@ -49,8 +52,8 @@ const messageFormatWithExclude: (ignore: string) => PinoPretty.PrettyOptions['me
 };
 
 const createSafeLogger = (options: Partial<PinoPretty.PrettyOptions>) => PinoPretty.default({
-	// @ts-expect-error this is documented in the README, but not as part of the TS types.
 	customColors: `message:white,${ignitionColors}`,
+	// @ts-expect-error this is documented in the README, but not as part of the TS types.
 	useOnlyCustomProps: false,
 	hideObject: true,
 	messageFormat: messageFormatWithExclude(options.ignore ?? ''),
