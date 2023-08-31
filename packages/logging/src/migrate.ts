@@ -200,7 +200,7 @@ function migrateRequestKey(request: Record<string, unknown>, migrated: Record<st
 		delete request.meta;
 	}
 
-	if ('query' in request && Object.keys(request.query as any).length === 0) {
+	if ('query' in request && Object.keys(request.query as Record<string, unknown>).length === 0) {
 		request.query = null;
 	}
 

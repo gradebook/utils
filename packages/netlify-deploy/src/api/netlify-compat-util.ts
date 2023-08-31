@@ -18,7 +18,7 @@ export const log = (message = '', ...args) => {
 	}
 
 	message = typeof message === 'string' ? message : inspect(message);
-	stdout.write(`${format(message, ...args)}\n`);
+	stdout.write(`${format(message, ...args as string[])}\n`);
 };
 
 /**

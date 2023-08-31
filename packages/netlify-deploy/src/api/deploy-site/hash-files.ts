@@ -5,7 +5,9 @@ import {
 	fileFilterCtor, fileNormalizerCtor, hasherCtor, manifestCollectorCtor, type PartialFileObject,
 } from './hasher-segments.js';
 
-const pump = promisify(pumpCallback);
+const pump = promisify(pumpCallback as
+	(arg1: unknown, arg2: unknown, arg3: unknown, arg4: unknown, arg5: unknown, callback: () => any) => void,
+);
 
 export interface HashFilesOptions {
 	assetType?: string;

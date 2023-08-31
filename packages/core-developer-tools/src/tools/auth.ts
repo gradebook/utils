@@ -137,7 +137,7 @@ async function interceptAuth(request: Request, response: Response, next: NextFun
 
 async function useEmail(request: Request, response: Response) {
 	const host = getDatabase(request);
-	const id = await getId(request.body.email, host);
+	const id = await getId(request.body.email as string, host);
 	if (!id) {
 		response.status(500).json({
 			error: `Email ${request.body.email} not found`,

@@ -14,7 +14,7 @@ export interface PartialFileObject {
 }
 
 // A parallel transform stream segment ctor that hashes fileObj's created by folder-walker
-// TODO: use promises instead of callbacks
+// Netlify(TODO): use promises instead of callbacks
 export const hasherCtor = ({concurrentHash, hashAlgorithm}: {concurrentHash: number; hashAlgorithm: string}) => {
 	const hashaOptions = {algorithm: hashAlgorithm};
 	if (!concurrentHash) {
@@ -23,11 +23,11 @@ export const hasherCtor = ({concurrentHash, hashAlgorithm}: {concurrentHash: num
 
 	return transform(concurrentHash, {objectMode: true}, async (fileObject, cb) => {
 		try {
-			const hash = await hasha.fromFile(fileObject.filepath, hashaOptions);
+			const hash = await hasha.fromFile((fileObject as Record<string, string>).filepath, hashaOptions);
 			// Insert hash and asset type to file obj
 			return cb(null, {...fileObject, hash});
 		} catch (error: unknown) {
-			return cb(error as any);
+			return cb(error as Error);
 		}
 	});
 };
@@ -68,7 +68,7 @@ export const manifestCollectorCtor = (
 			msg: `Hashing ${fileObject.relname}`,
 			phase: 'progress',
 		});
-		cb(null as any);
+		cb(null!);
 	});
 };
 

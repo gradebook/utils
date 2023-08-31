@@ -1,5 +1,5 @@
 import {fetch as fetch_} from 'zx';
-import type {RequestInit} from 'node-fetch';
+import type {RequestInit} from 'node-fetch'; // eslint-disable-line import/no-extraneous-dependencies
 
 let fetch = fetch_;
 

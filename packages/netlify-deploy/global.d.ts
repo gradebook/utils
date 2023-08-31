@@ -1,5 +1,6 @@
 
 declare module 'through2-filter' {
+	// eslint-disable-next-line import/no-extraneous-dependencies
 	import type {Through2Constructor} from 'through2';
 
 	type FilterCallback = (chunk: any, index: number) => void;

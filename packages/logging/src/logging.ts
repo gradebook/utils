@@ -24,6 +24,7 @@ export async function createLogger(rawIgnitionOptions: RawLoggingOptions) {
 			req: requestSerializer,
 			res: responseSerializer,
 		},
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 	} as LoggerOptions, await getPinoTransport(options));
 }
 
