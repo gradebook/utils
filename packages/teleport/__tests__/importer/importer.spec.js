@@ -1,8 +1,12 @@
 // @ts-check
-const {expect} = require('chai');
-const sinon = require('sinon');
-const oid = require('bson-objectid').default;
-const {importer} = require('../../lib/api.js');
+import {expect} from 'chai';
+import sinon from 'sinon';
+import oid from 'bson-objectid';
+import {importer} from '../../lib/api.js';
+import {importJson} from '../../lib/shared/import-json.js';
+
+const exampleExport = await importJson(import.meta.url, './example-export.json');
+const exampleApiCalls = await importJson(import.meta.url, './example-api-calls.json');
 
 describe('Unit > Importer', function () {
 	it('generateAPICalls with a v0 export', function () {
@@ -12,8 +16,8 @@ describe('Unit > Importer', function () {
 
 		try {
 			expect(
-				importer.generateAPICalls(require('./example-export.json'), {gid: '1243'}),
-			).to.deep.equal(require('./example-api-calls.json'));
+				importer.generateAPICalls(exampleExport, {gid: '1243'}),
+			).to.deep.equal(exampleApiCalls);
 		} finally {
 			stub.restore();
 		}

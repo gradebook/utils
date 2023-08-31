@@ -1,7 +1,7 @@
 // @ts-check
-const {expect} = require('chai');
-const nock = require('nock');
-const {exporter} = require('../lib/api.js');
+import {expect} from 'chai';
+import nock from 'nock';
+import {exporter} from '../lib/api.js';
 
 describe('Unit > Exporter', function () {
 	it('getExport wraps request to server endpoint', async function () {
