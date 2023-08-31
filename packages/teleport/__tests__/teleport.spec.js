@@ -1,5 +1,3 @@
-module.exports = teleport;
-
-function teleport() {
+export function teleport() {
 	// @TODO
 }

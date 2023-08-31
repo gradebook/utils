@@ -1,8 +1,12 @@
-import v0 from './v0.json';
-import cutoffs from './cutoffs.json';
-import course from './course.json';
-import category from './category.json';
-import grade from './grade.json';
+import {importJson} from '../../shared/import-json.js';
+
+const [v0, cutoffs, course, category, grade] = await Promise.all([
+	importJson(import.meta.url, './v0.json'),
+	importJson(import.meta.url, './cutoffs.json'),
+	importJson(import.meta.url, './course.json'),
+	importJson(import.meta.url, './category.json'),
+	importJson(import.meta.url, './grade.json'),
+]);
 
 export const SCHEMAS = [
 	grade,
