@@ -79,7 +79,7 @@ const prepareProductionDeploy = async ({siteData}) => {
 	logJson({message: 'Deploying to main site URL...'});
 };
 
-const hasErrorMessage = (actual, expected) => {
+const hasErrorMessage = (actual: string, expected: string) => {
 	if (typeof actual === 'string') {
 		return actual.includes(expected);
 	}
@@ -96,26 +96,26 @@ const reportDeployError = ({error_, failAndExit}: {error_: any; failAndExit: typ
 
 			warn(`JSONHTTPError: ${message} ${error_.status}`);
 			warn(`\n${JSON.stringify(error_, null, '  ')}\n`);
-			failAndExit(error_);
+			failAndExit(error_ as Error);
 			return;
 		}
 
 		case error_.name === 'TextHTTPError': {
 			warn(`TextHTTPError: ${error_.status}`);
 			warn(`\n${error_}\n`);
-			failAndExit(error_);
+			failAndExit(error_ as Error);
 			return;
 		}
 
-		case hasErrorMessage(error_.message, 'Invalid filename'): {
-			warn(error_.message);
-			failAndExit(error_);
+		case hasErrorMessage(error_.message as string, 'Invalid filename'): {
+			warn(error_.message as string);
+			failAndExit(error_ as Error);
 			return;
 		}
 
 		default: {
 			warn(`\n${JSON.stringify(error_, null, '  ')}\n`);
-			failAndExit(error_);
+			failAndExit(error_ as Error);
 		}
 	}
 };
@@ -243,11 +243,11 @@ export const deploy = async (options: NetlifyDeployOptions) => {
 			siteData = response.siteFoundById;
 		} catch (error_: unknown) {
 			if (error_ && typeof error_ === 'object') {
-				// TODO specifically handle known cases (e.g. no account access)
+				// Netlify(TODO) specifically handle known cases (e.g. no account access)
 				if ((error_ as any).status === 404) {
 					error('Site not found');
 				} else {
-					error((error_ as any).message);
+					error((error_ as Error).message);
 				}
 			}
 

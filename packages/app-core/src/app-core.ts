@@ -9,6 +9,7 @@ export const config = await getConfig();
 let loadedLogger!: Logger;
 
 try {
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 	loadedLogger = await createLogger(config.get('logging'));
 } catch (error) {
 	process.stderr.write('Failed creating logger:\n');
@@ -18,4 +19,5 @@ try {
 
 export const logger = loadedLogger;
 // @todo: this config coercion happens 2x (once internally and once here) - can we limit it to 1x?
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 export const $$loggingConfig = createConfig(config.get('logging'));

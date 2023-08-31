@@ -15,7 +15,7 @@ export interface HttpLoggingOptions {
 }
 
 export const createIgnore = (allow: Throttler, path: string) => (request: IncomingMessage) => {
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument
 	const pathname = (request as any).path ?? new URL((request as any).originalUrl ?? request.url, 'https://smol.url').pathname;
 
 	if (pathname === path) {

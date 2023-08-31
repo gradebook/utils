@@ -41,6 +41,7 @@
     ],
     "plugins": "mocha",
     "rules": {
+      "unicorn/prefer-top-level-await": "warn",
       "@typescript-eslint/restrict-template-expressions": "off",
       "node/prefer-global/process": "off",
       "node/prefer-global/buffer": "off",

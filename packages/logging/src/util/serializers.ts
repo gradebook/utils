@@ -1,5 +1,4 @@
 import type {OutgoingMessage} from 'http';
-
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {configure as makeStringify} from 'safe-stable-stringify';
 
@@ -35,7 +34,7 @@ function removeSensitiveData(object: Record<any, unknown>) {
 		if (typeof value === 'object' && value) {
 			response[key] = Array.isArray(value)
 				? value.map(item => isObjectLike(item) ? removeSensitiveData(item) : item as unknown)
-				: removeSensitiveData(value as any);
+				: removeSensitiveData(value as Record<any, unknown>);
 			continue;
 		}
 

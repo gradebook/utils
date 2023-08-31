@@ -5,7 +5,7 @@ import {fileURLToPath} from 'url';
 import {readFileSync} from 'fs';
 import {createHmac} from 'crypto';
 import {fetch as fetch_} from 'zx';
-import type Fetch from 'node-fetch';
+import type Fetch from 'node-fetch'; // eslint-disable-line import/no-extraneous-dependencies
 
 const packageJsonFilePath = resolve(fileURLToPath(import.meta.url), '../../../package.json');
 const {name, version} = JSON.parse(readFileSync(packageJsonFilePath, 'utf8')) as Record<string, string>;
