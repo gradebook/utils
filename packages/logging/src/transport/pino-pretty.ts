@@ -18,13 +18,19 @@ const messageFormatWithExclude: (ignore: string) => PinoPretty.PrettyOptions['me
 	EXCLUDE_KEYS.add('time');
 
 	return (log, messageKey, _) => {
+		let messageBegin = '';
+
 		if ('req' in log) {
-		// @ts-expect-error we're using duck typing here
-			return createSuccessMessage(log.req, log.res, log.responseTime, isColorSupported);
+			// @ts-expect-error we're using duck typing here
+			messageBegin = createSuccessMessage(log.req, log.res, log.responseTime, isColorSupported);
 		}
 
 		if ('err' in log || 'error' in log || ('stack' in log && 'message' in log)) {
-			return prettyError(
+			if (messageBegin) {
+				messageBegin += '\n\n';
+			}
+
+			return messageBegin + prettyError(
 				(log as {err?: Error}).err ?? (log as {error?: Error}).error ?? log as Record<string, string>,
 				isColorSupported,
 			);
