@@ -1,7 +1,15 @@
-import * as PinoPretty from 'pino-pretty';
+import createPretty, {type PinoPretty} from 'pino-pretty';
 import {isColorSupported} from 'colorette'; // eslint-disable-line import/no-extraneous-dependencies
 import {createSuccessMessage} from '../util/create-http-success-log.js';
 import {prettyError} from '../util/pretty-error.js';
+
+interface PrettyFormatOptions {
+	disableRequestErrorFiltering?: boolean;
+}
+
+export type PrettyTransportOptions = PinoPretty.PrettyOptions & Partial<{
+	messageFormatOptions: PrettyFormatOptions;
+}>;
 
 const ignitionColors = Object.entries({
 	trace: 'grey',
@@ -12,9 +20,15 @@ const ignitionColors = Object.entries({
 	fatal: 'inverse',
 }).map(([level, color]) => `${level}:${color}`).join(',');
 
-type CreateMessageFormatter = (ignore: string) => PinoPretty.PrettyOptions['messageFormat'];
+type MessageFormatFunc = Exclude<PinoPretty.PrettyOptions['messageFormat'], string | undefined | false>;
 
-const messageFormatWithExclude: CreateMessageFormatter = (ignore: string) => {
+type CreateMessageFormatter = (ignore: string, messageFormatOptions: PrettyFormatOptions) => MessageFormatFunc;
+
+const messageFormatWithExclude: CreateMessageFormatter = (
+	ignore: string,
+	{disableRequestErrorFiltering}: PrettyFormatOptions,
+) => {
+	const filterRequestErrors = !disableRequestErrorFiltering;
 	const EXCLUDE_KEYS = new Set(ignore.split(','));
 	EXCLUDE_KEYS.add('level');
 	EXCLUDE_KEYS.add('time');
@@ -28,14 +42,21 @@ const messageFormatWithExclude: CreateMessageFormatter = (ignore: string) => {
 		}
 
 		if ('err' in log || 'error' in log || ('stack' in log && 'message' in log)) {
+			const error = (log as {err?: Error}).err ?? (log as {error?: Error}).error ?? log as Record<string, string>;
 			if (messageBegin) {
+				if (filterRequestErrors) {
+					// CASE: 404 - NotFoundError (generic 404) or PermissionError (403 error masked as a 404 to prevent snoops)
+					const errorIsFiltered = (log.res as {status: number}).status === 404 && (error.name === 'NotFoundError' || error.name === 'PermissionError');
+
+					if (errorIsFiltered) {
+						return messageBegin;
+					}
+				}
+
 				messageBegin += '\n\n';
 			}
 
-			return messageBegin + prettyError(
-				(log as {err?: Error}).err ?? (log as {error?: Error}).error ?? log as Record<string, string>,
-				isColorSupported,
-			);
+			return messageBegin + prettyError(error, isColorSupported);
 		}
 
 		const response = log[messageKey];
@@ -59,12 +80,16 @@ const messageFormatWithExclude: CreateMessageFormatter = (ignore: string) => {
 	};
 };
 
-const createSafeLogger = (options: Partial<PinoPretty.PrettyOptions>) => PinoPretty.default({
+const createSafeLogger = (options: Partial<PrettyTransportOptions>) => createPretty({
 	customColors: `message:white,${ignitionColors}`,
 	useOnlyCustomProps: false,
 	hideObject: true,
-	messageFormat: messageFormatWithExclude(options.ignore ?? ''),
+	messageFormat: messageFormatWithExclude(options.ignore ?? '', options.messageFormatOptions ?? {}),
 	...options,
 });
 
 export default createSafeLogger;
+
+export const __test = {
+	messageFormatWithExclude,
+};
