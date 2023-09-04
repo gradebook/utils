@@ -12,8 +12,10 @@ const ignitionColors = Object.entries({
 	fatal: 'inverse',
 }).map(([level, color]) => `${level}:${color}`).join(',');
 
-const messageFormatWithExclude: (ignore: string) => PinoPretty.PrettyOptions['messageFormat'] = (exclude: string) => {
-	const EXCLUDE_KEYS = new Set(exclude.split(','));
+type CreateMessageFormatter = (ignore: string) => PinoPretty.PrettyOptions['messageFormat'];
+
+const messageFormatWithExclude: CreateMessageFormatter = (ignore: string) => {
+	const EXCLUDE_KEYS = new Set(ignore.split(','));
 	EXCLUDE_KEYS.add('level');
 	EXCLUDE_KEYS.add('time');
 
