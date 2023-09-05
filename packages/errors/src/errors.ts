@@ -8,7 +8,7 @@ type WriteableBaseError = {
 	-readonly [K in keyof BaseError]: BaseError[K];
 };
 
-function applyErrorProperties(outerError: BaseError, innerError: Error) {
+function applyErrorProperties(outerError: BaseError, innerError: unknown) {
 	for (const property of Object.getOwnPropertyNames(innerError)) {
 		if (NON_INHERITABLE_PROPERTIES.has(property)) {
 			continue;
@@ -21,7 +21,7 @@ function applyErrorProperties(outerError: BaseError, innerError: Error) {
 		}
 
 		if (property === 'stack' && !outerError.hideStack) {
-			outerError[property] = wrapStack(outerError, innerError);
+			outerError[property] = wrapStack(outerError, innerError as BaseError);
 			continue;
 		}
 
@@ -47,7 +47,7 @@ export class BaseError extends Error implements Required<Omit<ErrorOptions, 'err
 	readonly property: string | null;
 	readonly redirect: string | null;
 	readonly hideStack: boolean;
-	readonly error: Error | null;
+	readonly error: Error | unknown | null;
 
 	constructor({
 		id,

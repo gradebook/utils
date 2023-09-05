@@ -15,5 +15,5 @@ export interface ErrorOptions {
 	hideStack?: boolean;
 	/** @deprecated */
 	err?: string | Error | null;
-	error?: string | Error | null;
+	error?: string | Error | unknown | null;
 }
