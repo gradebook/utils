@@ -59,6 +59,10 @@ const messageFormatWithExclude: CreateMessageFormatter = (
 			return messageBegin + prettyError(error, isColorSupported);
 		}
 
+		if (messageBegin) {
+			return messageBegin;
+		}
+
 		const response = log[messageKey];
 
 		if (typeof response === 'object') {

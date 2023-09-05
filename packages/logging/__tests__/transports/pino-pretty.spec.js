@@ -32,4 +32,19 @@ describe('Unit > Transports > PinoPretty', function () {
 		expect(logger(fakeMessage, '', ''))
 			.to.contain('at ');
 	});
+
+	it('Can log a successful request', function () {
+		const unusedMessage = 'Should not be included';
+		const fakeMessage = {
+			res: fakeResponse(),
+			req: fakeResponse(),
+			responseTime: 5,
+			message: unusedMessage,
+		};
+
+		const logger = __test.messageFormatWithExclude('', {});
+		expect(logger(fakeMessage, 'message', ''))
+			.to.contain('GET /')
+			.and.to.not.contain(unusedMessage);
+	});
 });
