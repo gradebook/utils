@@ -110,7 +110,8 @@ export function errorSerializer(this: unknown, error: unknown, depth = 16): unkn
 
 	for (const jsonKey of ERROR_JSON_PROPERTIES) {
 		if (jsonKey in error) {
-			response[jsonKey] = safeStringify(error[jsonKey]);
+			const rawValue = error[jsonKey] as unknown;
+			response[jsonKey] = typeof rawValue === 'string' ? rawValue : safeStringify(rawValue);
 		}
 	}
 

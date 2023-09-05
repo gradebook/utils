@@ -107,7 +107,7 @@ describe('Unit > Utils > Serializers', function () {
 			expect(errorSerializer(error)).to.deep.equal({
 				message: error.message,
 				name: 'InternalServerError',
-				help: JSON.stringify(error.help),
+				help: error.help,
 				stack: error.stack,
 			});
 
@@ -115,7 +115,7 @@ describe('Unit > Utils > Serializers', function () {
 				domain: 'test',
 				message: error.message,
 				name: error.name,
-				help: JSON.stringify(error.help),
+				help: error.help,
 				stack: error.stack,
 			});
 
@@ -124,7 +124,7 @@ describe('Unit > Utils > Serializers', function () {
 			expect(errorSerializer(error)).to.deep.equal({
 				message: error.message,
 				name: 'NotAnInternalServerError',
-				help: JSON.stringify(error.help),
+				help: error.help,
 				stack: error.stack,
 			});
 
