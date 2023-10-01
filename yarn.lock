@@ -640,10 +640,10 @@
     "@tufjs/canonical-json" "1.0.0"
     minimatch "^9.0.0"
 
-"@types/backoff@2.5.2":
-  version "2.5.2"
-  resolved "https://registry.yarnpkg.com/@types/backoff/-/backoff-2.5.2.tgz#960214100f1329e2a6022eac9dd43af28618ea15"
-  integrity sha512-oa1YvggujhVppgeIct3LBkbCVXKh97fvOFIR6VlFLxRCeswk/KBRQKg7zoX832vlCP5bGLOFqC9hY7vsDeL9AA==
+"@types/backoff@2.5.3":
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/@types/backoff/-/backoff-2.5.3.tgz#2aba2bc988d635a36e329dd6a36d44f1cb69314f"
+  integrity sha512-VrFd6Bssr24JIhUnpEdqhh8YDLMrkNwqqFmNYr7LpZj3fWxQ04GfUwfCGe1pd0wiLsSaSizf9II2mFEeZnxwvQ==
   dependencies:
     "@types/node" "*"
 
