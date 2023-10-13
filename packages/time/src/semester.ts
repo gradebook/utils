@@ -18,6 +18,7 @@ const DECEMBER = 11;
 
 interface CurrentSemesterState {
 	primarySemester: string;
+	primarySemesterStart: Date;
 	activeSemesters: string[];
 	serverAllowedSemesters: string[];
 }
@@ -26,6 +27,7 @@ export const data: CurrentSemesterState = {
 	// We compute semester data as part of the module initialization, so it's not possible for this to be null
 	// at run-time.
 	primarySemester: null!,
+	primarySemesterStart: null!,
 	activeSemesters: [],
 	serverAllowedSemesters: [],
 };
@@ -79,6 +81,11 @@ function isDateInServerWidenedRange(originalStart: Date, originalEnd: Date, cand
 	return candidate >= start && candidate <= end;
 }
 
+interface PrimarySemester {
+	start: Date;
+	name: string;
+}
+
 /**
  * Compute the primary semester
  *
@@ -92,46 +99,46 @@ function isDateInServerWidenedRange(originalStart: Date, originalEnd: Date, cand
  *
  * December 21 - January 09 = Winter;
  */
-function _getPrimarySemester(currentMonth: number, currentDay: number, currentYear: number): string {
+function _getPrimarySemester(currentMonth: number, currentDay: number, currentYear: number): PrimarySemester {
 	// CASE: January to May
 	if (currentMonth <= MAY) {
 		// CASE: Before January 10 -> Winter of LAST year
 		if (currentMonth === JANUARY && currentDay < 10) {
-			return `${currentYear - 1}W`;
+			return {start: new Date(currentYear - 1, DECEMBER, 21), name: `${currentYear - 1}W`};
 		}
 
 		// CASE: After May 27 -> Summer
 		if (currentMonth === MAY && currentDay > 27) {
-			return `${currentYear}U`;
+			return {start: new Date(currentYear, MAY, 28), name: `${currentYear}U`};
 		}
 
 		// CASE: Spring
-		return `${currentYear}S`;
+		return {start: new Date(currentYear, JANUARY, 10), name: `${currentYear}S`};
 	}
 
 	// CASE: Up to August
 	if (currentMonth <= AUGUST) {
 		// CASE: AFTER August 16 -> Fall
 		if (currentMonth === AUGUST && currentDay > 16) {
-			return `${currentYear}F`;
+			return {start: new Date(currentYear, AUGUST, 17), name: `${currentYear}F`};
 		}
 
 		// CASE: BEFORE (or on) August 16 -> Summer
-		return `${currentYear}U`;
+		return {start: new Date(currentYear, MAY, 28), name: `${currentYear}U`};
 	}
 
 	// CASE: NOT December -> Fall
 	if (currentMonth !== DECEMBER) {
-		return `${currentYear}F`;
+		return {start: new Date(currentYear, AUGUST, 17), name: `${currentYear}F`};
 	}
 
 	// CASE: After December 20 -> Winter
 	if (currentDay > 20) {
-		return `${currentYear}W`;
+		return {start: new Date(currentYear, DECEMBER, 21), name: `${currentYear}W`};
 	}
 
 	// CASE: In December but on or before December 20 -> Fall
-	return `${currentYear}F`;
+	return {start: new Date(currentYear, AUGUST, 17), name: `${currentYear}F`};
 }
 
 function _computeActiveSemesters(currentYear: number, currentDate: Date) {
@@ -169,7 +176,9 @@ export function computeSemesterData() {
 	const currentMonth = currentDate.getMonth();
 	const currentDay = currentDate.getDate();
 
-	data.primarySemester = _getPrimarySemester(currentMonth, currentDay, currentYear);
+	const {start, name} = _getPrimarySemester(currentMonth, currentDay, currentYear);
+	data.primarySemester = name;
+	data.primarySemesterStart = start;
 	_computeActiveSemesters(currentYear, currentDate);
 }
 
