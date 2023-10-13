@@ -1,3 +1,7 @@
+# 1.1.0
+
+ - :sparkles: expose semester start date (#210)
+
 # 1.0.0
 
 :boom: rename activeSemester => primarySemester and add serverAllowedSemesters
