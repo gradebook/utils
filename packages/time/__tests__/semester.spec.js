@@ -56,19 +56,21 @@ describe('Unit > Semester', function () {
 	});
 
 	it('_getPrimarySemester', function () {
-		expect(_getPrimarySemester(0, 1, 2020)).to.equal('2019W');
-		expect(_getPrimarySemester(0, 9, 2020)).to.equal('2019W');
-		expect(_getPrimarySemester(0, 10, 2020)).to.equal('2020S');
-		expect(_getPrimarySemester(0, 15, 2020)).to.equal('2020S');
-		expect(_getPrimarySemester(2, 15, 2020)).to.equal('2020S');
-		expect(_getPrimarySemester(4, 27, 2020)).to.equal('2020S');
-		expect(_getPrimarySemester(4, 28, 2020)).to.equal('2020U');
-		expect(_getPrimarySemester(6, 19, 2020)).to.equal('2020U');
-		expect(_getPrimarySemester(7, 16, 2020)).to.equal('2020U');
-		expect(_getPrimarySemester(7, 17, 2020)).to.equal('2020F');
-		expect(_getPrimarySemester(10, 11, 2020)).to.equal('2020F');
-		expect(_getPrimarySemester(11, 20, 2020)).to.equal('2020F');
-		expect(_getPrimarySemester(11, 21, 2020)).to.equal('2020W');
-		expect(_getPrimarySemester(11, 31, 2020)).to.equal('2020W');
+		/** @param {Parameters<typeof _getPrimarySemester>} args */
+		const doTest = (...args) => _getPrimarySemester(...args);
+		expect(doTest(0, 1, 2020)).to.deep.equal({start: new Date(2019, 11, 21), name: '2019W'});
+		expect(doTest(0, 9, 2020)).to.deep.equal({start: new Date(2019, 11, 21), name: '2019W'});
+		expect(doTest(0, 10, 2020)).to.deep.equal({start: new Date(2020, 0, 10), name: '2020S'});
+		expect(doTest(0, 15, 2020)).to.deep.equal({start: new Date(2020, 0, 10), name: '2020S'});
+		expect(doTest(2, 15, 2020)).to.deep.equal({start: new Date(2020, 0, 10), name: '2020S'});
+		expect(doTest(4, 27, 2020)).to.deep.equal({start: new Date(2020, 0, 10), name: '2020S'});
+		expect(doTest(4, 28, 2020)).to.deep.equal({start: new Date(2020, 4, 28), name: '2020U'});
+		expect(doTest(6, 19, 2020)).to.deep.equal({start: new Date(2020, 4, 28), name: '2020U'});
+		expect(doTest(7, 16, 2020)).to.deep.equal({start: new Date(2020, 4, 28), name: '2020U'});
+		expect(doTest(7, 17, 2020)).to.deep.equal({start: new Date(2020, 7, 17), name: '2020F'});
+		expect(doTest(10, 11, 2020)).to.deep.equal({start: new Date(2020, 7, 17), name: '2020F'});
+		expect(doTest(11, 20, 2020)).to.deep.equal({start: new Date(2020, 7, 17), name: '2020F'});
+		expect(doTest(11, 21, 2020)).to.deep.equal({start: new Date(2020, 11, 21), name: '2020W'});
+		expect(doTest(11, 31, 2020)).to.deep.equal({start: new Date(2020, 11, 21), name: '2020W'});
 	});
 });
