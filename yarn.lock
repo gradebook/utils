@@ -715,10 +715,10 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
-"@types/flush-write-stream@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@types/flush-write-stream/-/flush-write-stream-1.0.0.tgz#6bc902a50c86ae30938320d269d32843d9aa7d76"
-  integrity sha512-vABEdzyrFxWkHeoLnaxc9NILYA7BWlY2BHQifHDVSRUZbWVuPSB22nzygWeWmjA9en2OzTx6waY7YPs+m9yzmg==
+"@types/flush-write-stream@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@types/flush-write-stream/-/flush-write-stream-1.0.1.tgz#0ff4d3d787bbe61df2adb3e33094b80c387d7320"
+  integrity sha512-fQEhrQsrqL9CG2dSIVVjapgOQ9RxIVeRhnfqo+8cujQU/sAFH88lrrK8jU8JnQeyeYjg+8hZeaGz2hyph+e8XA==
   dependencies:
     "@types/node" "*"
 
