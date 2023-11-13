@@ -43,7 +43,7 @@
     "through2-map": "^3.0.0"
   },
   "devDependencies": {
-    "@types/backoff": "2.5.3",
+    "@types/backoff": "2.5.5",
     "@types/flush-write-stream": "1.0.1",
     "@types/folder-walker": "3.2.2",
     "@types/parallel-transform": "1.1.1",
