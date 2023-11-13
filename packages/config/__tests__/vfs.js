@@ -81,7 +81,7 @@ const files = {
 
 export class VirtualFileSystem {
 	readFileSync(file, ...rest) {
-		if (!file.startsWith('/vfs')) {
+		if (!(file.pathname ?? file).startsWith('/vfs')) {
 			return originalReadFileSync(file, ...rest);
 		}
 
