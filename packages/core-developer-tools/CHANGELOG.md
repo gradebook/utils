@@ -1,3 +1,7 @@
+# 0.2.2
+
+ - add internal api to clear GPA
+
 # 0.2.1
 
  - wrap dev sentry error page in iife
