@@ -867,10 +867,10 @@
     "@types/mime" "*"
     "@types/node" "*"
 
-"@types/through2-map@3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@types/through2-map/-/through2-map-3.0.1.tgz#b7ad299f567d1a9fc7dcd2b37e110326179f6797"
-  integrity sha512-IkNgvoosw97AiBs4NaLcFTV6KOIhWhC4MAGz3t3nVHr/y7duksrNH2h7csC0bBKbjZNL2Q73/EID0OHoggm5hQ==
+"@types/through2-map@3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@types/through2-map/-/through2-map-3.0.4.tgz#e0be2176ebdac3b33411ee90846a8ce3e4a21582"
+  integrity sha512-021N9/i2YhF8oln0JUrYXkfKt9WO6/FqhmsuiolycRGX+u28VUHyFOWh0E5ZuoqS25d99gg71bTmzTA4TbxPiA==
   dependencies:
     "@types/node" "*"
     "@types/through2" "*"
