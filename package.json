@@ -19,7 +19,7 @@
     "new": "node scripts/new.js"
   },
   "devDependencies": {
-    "@types/mocha": "10.0.2",
+    "@types/mocha": "10.0.6",
     "@types/node": "20.5.7",
     "c8": "8.0.1",
     "chai": "4.3.8",
