@@ -46,7 +46,7 @@
     "@types/backoff": "2.5.5",
     "@types/flush-write-stream": "1.0.2",
     "@types/folder-walker": "3.2.4",
-    "@types/parallel-transform": "1.1.1",
+    "@types/parallel-transform": "1.1.4",
     "@types/through2-map": "3.0.1"
   },
   "xo": false

@@ -821,10 +821,10 @@
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.1.tgz#d3357479a0fdfdd5907fe67e17e0a85c906e1301"
   integrity sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==
 
-"@types/parallel-transform@1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@types/parallel-transform/-/parallel-transform-1.1.1.tgz#acc29f98ebf4e7514033b38ab80960ecc7d5ff8f"
-  integrity sha512-ySAoqiEuHxq+Rf6ucWHTmOq7/2ZFnZ8lxlIxN1iN6Te4Pz3PKqjSuXnIq/sX3xQWoySHNJhyKtzKVurbAsAf4g==
+"@types/parallel-transform@1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@types/parallel-transform/-/parallel-transform-1.1.4.tgz#4cee14e3703f4ffcf1617b524707f2900addcee6"
+  integrity sha512-Dlw8uStux7ZL3FuKgw3h+zeBPv1gmJySEvyCuACjKzr6Aco43hW4LHHkmwsL6w8Q9GldlhdJwyRsFxyz/uwlqA==
   dependencies:
     "@types/node" "*"
 
