@@ -1,3 +1,7 @@
+# 0.2.1
+
+ - add sanity tests
+
 # 0.2.0
 
  - Switch to ESM
