@@ -5,12 +5,12 @@ export class TrustedRequestError extends Error {
 }
 
 export interface TrustedRequestConfig {
-	trustedIPs: string[];
+	trustedIps: string[];
 	trustProxy: boolean;
 }
 
-export function allowTrustedIPs(config: TrustedRequestConfig): RequestHandler {
-	const {trustedIPs: allowList = [], trustProxy = false} = config;
+export function allowTrustedIps(config: TrustedRequestConfig): RequestHandler {
+	const {trustedIps: allowList = [], trustProxy = false} = config;
 
 	return function isTrustedRequest(request: Request, response: Response, next: NextFunction) {
 		// Only allow local ips
