@@ -9,7 +9,7 @@ export interface TrustedRequestConfig {
 	trustProxy: boolean;
 }
 
-const allowTrustedIPs = (config: TrustedRequestConfig): RequestHandler => {
+export function allowTrustedIPs(config: TrustedRequestConfig): RequestHandler {
 	const {trustedIPs: allowList = [], trustProxy = false} = config;
 
 	return function isTrustedRequest(request: Request, response: Response, next: NextFunction) {
@@ -30,6 +30,4 @@ const allowTrustedIPs = (config: TrustedRequestConfig): RequestHandler => {
 
 		next();
 	};
-};
-
-export default allowTrustedIPs;
+}
