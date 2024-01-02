@@ -7,16 +7,18 @@ export class TrustedRequestError extends Error {
 export interface TrustedRequestConfig {
 	trustedIps: string[];
 	trustProxy: boolean;
+	message?: string;
 }
 
 export function allowTrustedIps(config: TrustedRequestConfig): RequestHandler {
 	const {trustProxy = false} = config;
 	const allowList = new Set(config.trustedIps);
+	const errorMessage = config.message ?? 'You are not authorized to access this resource';
 
 	return function isTrustedRequest(request: Request, response: Response, next: NextFunction) {
 		// Only allow local ips
 		if (!allowList.has(request.ip)) {
-			next(new TrustedRequestError('You are not authorized to access this resource'));
+			next(new TrustedRequestError(errorMessage));
 			return;
 		}
 
@@ -25,7 +27,7 @@ export function allowTrustedIps(config: TrustedRequestConfig): RequestHandler {
 			// We don't want to trust the x-forwarded-for header
 			&& ('x-real-ip' in request.headers || 'x-forwarded-for' in request.headers)
 		) {
-			next(new TrustedRequestError('You are not authorized to access this resource'));
+			next(new TrustedRequestError(errorMessage));
 			return;
 		}
 
