@@ -10,11 +10,12 @@ export interface TrustedRequestConfig {
 }
 
 export function allowTrustedIps(config: TrustedRequestConfig): RequestHandler {
-	const {trustedIps: allowList = [], trustProxy = false} = config;
+	const {trustProxy = false} = config;
+	const allowList = new Set(config.trustedIps);
 
 	return function isTrustedRequest(request: Request, response: Response, next: NextFunction) {
 		// Only allow local ips
-		if (!allowList.includes(request.ip)) {
+		if (!allowList.has(request.ip)) {
 			next(new TrustedRequestError('You are not authorized to access this resource'));
 			return;
 		}
