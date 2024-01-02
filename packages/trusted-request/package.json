@@ -8,6 +8,7 @@
   "bugs": "https://github.com/gradebook/utils/issues",
   "license": "MIT",
   "main": "lib/trusted-request.js",
+  "type": "module",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
