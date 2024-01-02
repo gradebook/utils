@@ -1,6 +1,6 @@
 {
   "name": "@gradebook/trusted-request",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Express middleware to limit requests to trusted IPs",
   "keywords": [],
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",
