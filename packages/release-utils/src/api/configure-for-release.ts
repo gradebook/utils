@@ -22,11 +22,19 @@ export async function importJson<JsonResponseType extends Record<string, any>>(
 	return JSON.parse(fileContents) as JsonResponseType;
 }
 
-export async function configureForRelease(shaOrTagName: string, $ = zx$): Promise<PackageJson> {
+export async function configureForRelease(shaOrTagName: string, $ = zx$): Promise<{
+	packageJson: PackageJson;
+	isMergeRef: boolean;
+}> {
 	let changedFiles: string[];
+	let isMergeRef: boolean;
 
 	try {
-		const changedFilesRaw = await $`git log ${shaOrTagName} --name-only --pretty= -1 --`;
+		const rawParentData = await $`git rev-list --parents -1 ${shaOrTagName}`;
+		isMergeRef = rawParentData.stdout.trim().split(' ').length > 2;
+		const ref = isMergeRef ? `${shaOrTagName}^@` : shaOrTagName;
+
+		const changedFilesRaw = await $`git log ${ref} --name-only --pretty= -1 --`;
 		changedFiles = changedFilesRaw.stdout.trim().split('\n');
 	} catch {
 		/* eslint-disable-next-line unicorn/no-process-exit */
@@ -49,5 +57,5 @@ export async function configureForRelease(shaOrTagName: string, $ = zx$): Promis
 	const packageJson = await importJson<PackageJson>(path.resolve(process.cwd(), packageFile));
 	process.chdir(path.dirname(packageFile));
 
-	return packageJson;
+	return {packageJson, isMergeRef};
 }

@@ -1,6 +1,6 @@
 import {exit} from 'process';
 import * as envCore from '../api/get-var-from-env.js';
-import {configureForRelease} from '../api/configure-for-release.js';
+import {loudConfigureForRelease} from '../api/wrap-configure-for-release.js';
 import {publishPossibleGitHubRelease} from '../api/publish-github-release.js';
 import {resolveTagName} from '../api/publish-package.js';
 
@@ -10,7 +10,7 @@ async function wrap() {
 	const token = envCore.getKeyFromEnvironment(envCore.tokenInGitHubActions);
 
 	try {
-		const packageJson = await configureForRelease(sha);
+		const packageJson = await loudConfigureForRelease(sha);
 		const tagName = await resolveTagName(sha, packageJson);
 		if (!tagName) {
 			throw new Error('Unable to find tag name');

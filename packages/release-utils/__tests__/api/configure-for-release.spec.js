@@ -18,9 +18,17 @@ describe('Unit > API > Configure For Release', function () {
 	/** @type {import('zx').$} */
 	let zx$;
 
+	before(function () {
+		sinon.stub(process, 'exit').throws();
+	});
+
 	beforeEach(function () {
 		$ = sinon.stub();
 		zx$ = convertSinonStubToZX($);
+	});
+
+	after(function () {
+		sinon.restore();
 	});
 
 	it('functional case', async function () {
@@ -31,9 +39,38 @@ describe('Unit > API > Configure For Release', function () {
 		const sha = 'thisisahash';
 
 		try {
-			await configureForRelease(sha, zx$);
-			expect($.calledOnce).to.be.true;
-			expect($.args[0][1]).to.include(sha);
+			const {isMergeRef} = await configureForRelease(sha, zx$);
+			expect($.calledTwice).to.be.true;
+			expect($.args[1][1]).to.include(sha);
+			expect($.args[1][1]).to.not.include('^@');
+			expect(isMergeRef).to.be.false;
+			expect(chdirStub.calledOnce).to.be.true;
+			expect(pathStub.calledOnce).to.be.true;
+		} finally {
+			chdirStub.restore();
+			pathStub.restore();
+		}
+	});
+
+	it('merge commit', async function () {
+		// Gradebook Server
+		$.callsFake(createZxStub({
+			tag: 'v4.8.11',
+			revList: [
+				'3df44b2bbb5f6d4a76dd1d3e08652dab2a0e699e',
+				'd8c6e3d43d18aaec0f0fa2ac9b7f7d8f2d465336',
+				'8bfe8e4d9707ffcf64aca957e4e29b91a65a022a',
+			]},
+		));
+
+		const chdirStub = sinon.stub(process, 'chdir');
+		const pathStub = sinon.stub(path, 'resolve').returns(validPackage);
+
+		try {
+			const {isMergeRef} = await configureForRelease('', zx$);
+			expect($.calledTwice).to.be.true;
+			expect($.args[1][1]).to.include('^@');
+			expect(isMergeRef).to.be.true;
 			expect(chdirStub.calledOnce).to.be.true;
 			expect(pathStub.calledOnce).to.be.true;
 		} finally {
