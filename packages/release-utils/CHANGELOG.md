@@ -1,3 +1,6 @@
+# 0.8.0
+ - add support for merge commits (#222)
+
 # 0.7.1
 
  - test-and-publish: add support for running a script before tests
