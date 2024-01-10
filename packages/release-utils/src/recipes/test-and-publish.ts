@@ -1,7 +1,7 @@
 import {exit} from 'process';
 import {$} from 'zx';
 import type {PackageJson as MinimalPackageJson} from '../api/configure-for-release.js';
-import {configureForRelease} from '../api/configure-for-release.js';
+import {loudConfigureForRelease} from '../api/wrap-configure-for-release.js';
 import * as envCore from '../api/get-var-from-env.js';
 import {publishPossibleGitHubRelease} from '../api/publish-github-release.js';
 import {publishPackage} from '../api/publish-package.js';
@@ -23,7 +23,7 @@ async function wrap() {
 	const repository = envCore.getKeyFromEnvironment(envCore.repositoryInGitHubActions);
 	const token = envCore.getKeyFromEnvironment(envCore.tokenInGitHubActions);
 
-	const packageJson = await configureForRelease(sha) as PackageJson;
+	const packageJson = await loudConfigureForRelease(sha) as PackageJson;
 
 	if (!packageJson.scripts?.[SPECIAL_SCRIPT] && !packageJson.scripts?.[FALLBACK_SCRIPT]) {
 		console.error('Package does not contain a test script');
