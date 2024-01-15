@@ -15,15 +15,10 @@ jobs:
       YARN_AUTH_TOKEN: ${{ secrets.NPM_RELEASE_TOKEN }}
       FORCE_COLOR: 1
     steps:
-      - uses: actions/checkout@v2
+      - uses: gradebook/actions/actions/setup@master
         with:
-          fetch-depth: 5
-      - uses: actions/setup-node@v3
-        with:
+          git-fetch-depth: 5
           node-version: 'lts/*'
-          cache: yarn
-        env:
-          FORCE_COLOR: 0
       - run: |
           yarn install --frozen-lockfile --prefer-offline
       - name: Build latest version of release-utils
