@@ -34,7 +34,7 @@
     "execa": "^8.0.1"
   },
   "devDependencies": {
-    "chai": "4.3.10",
+    "chai": "4.4.1",
     "sinon": "14.0.2"
   },
   "xo": false

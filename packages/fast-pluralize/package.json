@@ -34,7 +34,7 @@
     "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\""
   },
   "devDependencies": {
-    "chai": "4.3.10"
+    "chai": "4.4.1"
   },
   "xo": false,
   "targets": [
