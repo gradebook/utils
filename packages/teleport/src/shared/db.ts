@@ -1,4 +1,6 @@
-import {type Knex, knex} from 'knex';
+import {type Knex} from 'knex';
+
+export type Db = string | null;
 
 type KnexProxyFunction = (table: string) => Knex.QueryBuilder;
 
@@ -14,9 +16,9 @@ export type KnexTransactionProxy = KnexProxyFunction & {
 
 export type KnexProxy = KnexQueryProxy | KnexTransactionProxy;
 
-function createKnexProxy(instance: Knex.Transaction, database: string | null): KnexTransactionProxy;
-function createKnexProxy(instance: Knex, database: string | null): KnexQueryProxy;
-function createKnexProxy(instance: Knex | Knex.Transaction, database: string | null): KnexProxy {
+export function createKnexProxy(instance: Knex.Transaction, database: Db): KnexTransactionProxy;
+export function createKnexProxy(instance: Knex, database: Db): KnexQueryProxy;
+export function createKnexProxy(instance: Knex | Knex.Transaction, database: Db): KnexProxy {
 	const functionDeclaration = database
 		? (table: string) => instance(table).withSchema(database)
 		: (table: string) => instance(table);
@@ -28,18 +30,18 @@ function createKnexProxy(instance: Knex | Knex.Transaction, database: string | n
 
 export function runInKnexTransactionProxy<TResponse>(
 	knex: Knex,
-	database: string | null,
+	database: Db,
 	transactionCallback?: null
 ): Promise<Knex.Transaction<any, TResponse>>;
 export function runInKnexTransactionProxy<TResponse>(
 	knex: Knex,
-	database: string | null,
+	database: Db,
 	transactionCallback: (context: KnexTransactionProxy) => Promise<TResponse>
 ): Promise<TResponse>;
 // eslint-disable-next-line @typescript-eslint/promise-function-async
 export function runInKnexTransactionProxy<TResponse>(
 	knex: Knex,
-	database: string | null,
+	database: Db,
 	transactionCallback?: ((context: KnexTransactionProxy) => Promise<TResponse>) | null,
 ) {
 	if (transactionCallback) {
