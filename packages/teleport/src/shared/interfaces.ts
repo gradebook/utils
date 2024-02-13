@@ -50,21 +50,39 @@ export interface GradeRow extends MinimalGrade {
 	category_id: string;
 }
 
-export interface UserRow {
-	id: string;
-	gid: string;
+export interface ExportedUserRow {
 	firstName: string;
 	lastName: string;
-	created_at: string;
-	updated_at: string;
+	created: string;
+	updated: string;
 	email: string;
 	settings: string;
+}
+
+// Extend the exported row to explicitly track the differences
+export interface UserRow extends ExportedUserRow {
+	id: string;
+	gid: string;
+	donated_at: string | null;
+	total_school_changes: number | null;
+
+	firstName: never;
+	first_name: string;
+
+	lastName: never;
+	last_name: string;
+
+	created: never;
+	created_at: string;
+
+	updated: never;
+	updated_at: string;
 }
 
 type CourseQuery = ['courses', CourseRow];
 type CategoryQuery = ['categories', CategoryRow];
 type GradeQuery = ['grades', GradeRow];
-type UserQuery = ['users', UserRow];
+type UserQuery = ['users', ExportedUserRow];
 export type Query = CourseQuery | CategoryQuery | GradeQuery | UserQuery;
 
 export interface Course extends MinimalCourse {
