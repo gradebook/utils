@@ -37,7 +37,8 @@
   },
   "devDependencies": {
     "knex": "2.5.1",
-    "nock": "13.3.3"
+    "nock": "13.3.3",
+    "sqlite3": "^5.1.7"
   },
   "xo": false
 }
