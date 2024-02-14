@@ -18,14 +18,14 @@ describe('Unit > Exporter > Raw', function () {
 
 	it('Can handle users that do not exist', async function () {
 		const proxy = createKnexProxy(knex, null);
-		expect(await exportUserRows(proxy, null, '012345678901234567890123')).to.deep.equal({
+		expect(await exportUserRows(proxy, '012345678901234567890123')).to.deep.equal({
 			error: 'Unable to find user',
 		});
 	});
 
 	it('Generates an export', async function () {
 		const proxy = createKnexProxy(knex, null);
-		const userExport = await exportUserRows(proxy, null, '6158081ca3c0c1619d74088a');
+		const userExport = await exportUserRows(proxy, '6158081ca3c0c1619d74088a');
 
 		if ('error' in userExport) { // Only needed for type checking
 			expect(userExport.error).to.not.be.ok;
