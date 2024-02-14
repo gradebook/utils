@@ -1,15 +1,20 @@
 import {type Knex} from 'knex';
 
+const schemaName = Symbol('Schema');
 export type Db = string | null;
+
+interface SchemaName {
+	[schemaName]: Db;
+}
 
 type KnexProxyFunction = (table: string) => Knex.QueryBuilder;
 
-export type KnexQueryProxy = KnexProxyFunction & {
+export type KnexQueryProxy = KnexProxyFunction & SchemaName & {
 	// Force QB to only come from the knex proxy to ensure the schema is always set
 	[TKnex in Exclude<keyof Knex, keyof Knex.QueryBuilder>]: Knex[TKnex];
 };
 
-export type KnexTransactionProxy = KnexProxyFunction & {
+export type KnexTransactionProxy = KnexProxyFunction & SchemaName & {
 	// Force QB to only come from the knex proxy to ensure the schema is always set
 	[TKnexTransaction in Exclude<keyof Knex.Transaction, keyof Knex.QueryBuilder>]: Knex.Transaction[TKnexTransaction];
 };
@@ -24,7 +29,8 @@ export function createKnexProxy(instance: Knex | Knex.Transaction, database: Db)
 		: (table: string) => instance(table);
 
 	Object.assign(functionDeclaration, instance);
-	// @ts-expect-error All the properties are added through the Object.assign in the previous line
+	(functionDeclaration as KnexProxy)[schemaName] = database;
+	// @ts-expect-error All the properties are added through the previous lines
 	return functionDeclaration;
 }
 
@@ -64,4 +70,22 @@ export function assertInTransaction(instance: KnexProxy | Knex.QueryBuilder): in
 	}
 
 	return true;
+}
+
+const hostMigrationVersions = new Map<Db, string>();
+
+export async function getSchemaVersion(knex: KnexProxy) {
+	const db = knex[schemaName];
+
+	const cachedValue = hostMigrationVersions.get(db);
+	if (cachedValue !== undefined) {
+		return cachedValue;
+	}
+
+	const queryBuilder = knex('migrations');
+	const {version} = await queryBuilder.count('* as version').first<{version: number}>();
+
+	const freshValue = String(version);
+	hostMigrationVersions.set(db, freshValue);
+	return freshValue;
 }

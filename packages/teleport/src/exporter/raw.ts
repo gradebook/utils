@@ -1,23 +1,7 @@
 // @ts-check
 
 import {type CategoryRow, type CourseRow, type GradeRow, type UserRow} from '../shared/interfaces.js';
-import {type Db, type KnexProxy} from '../shared/db.js';
-
-const hostMigrationVersions = new Map<Db, string>();
-
-async function getSchemaVersion(knex: KnexProxy, db: Db) {
-	const cachedValue = hostMigrationVersions.get(db);
-	if (cachedValue !== undefined) {
-		return cachedValue;
-	}
-
-	const queryBuilder = knex('migrations');
-	const {version} = await queryBuilder.count('* as version').first<{version: number}>();
-
-	const freshValue = String(version);
-	hostMigrationVersions.set(db, freshValue);
-	return freshValue;
-}
+import {getSchemaVersion, type KnexProxy} from '../shared/db.js';
 
 export interface RawExportedUser {
 	version: string;
@@ -27,9 +11,7 @@ export interface RawExportedUser {
 	grades: GradeRow[];
 }
 
-export async function exportUserRows(
-	knex: KnexProxy, database: Db, userId: string,
-): Promise<{error: string} | RawExportedUser> {
+export async function exportUserRows(knex: KnexProxy, userId: string): Promise<{error: string} | RawExportedUser> {
 	const user = await knex('users')
 		.where('id', userId)
 		.first<UserRow | undefined>();
@@ -45,7 +27,7 @@ export async function exportUserRows(
 		courses,
 		grades,
 	] = await Promise.all([
-		getSchemaVersion(knex, database),
+		getSchemaVersion(knex),
 		knex('courses').where('user_id', userId).select<CourseRow[]>(),
 		knex('grades').where('user_id', userId).select<GradeRow[]>(),
 	]);
