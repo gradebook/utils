@@ -5,6 +5,7 @@ import {expect} from 'chai';
 import {exportUserRows} from '../../lib/exporter/raw.js';
 import {runSqlFile, useDatabase} from '../_utils/test-db.js';
 import {createKnexProxy} from '../../lib/shared/db.js';
+import {rawUserExport} from '../fixtures/raw-user-export.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -32,11 +33,6 @@ describe('Unit > Exporter > Raw', function () {
 			return;
 		}
 
-		expect(userExport.version).to.equal('2');
-		expect(userExport.user.firstName).to.not.exist;
-		expect(userExport.user.first_name).to.exist;
-		expect(userExport.courses).to.have.length(2);
-		expect(userExport.categories).to.have.length(10);
-		expect(userExport.grades).to.have.length(42);
+		expect(userExport).to.deep.equal(rawUserExport);
 	});
 });

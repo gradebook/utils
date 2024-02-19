@@ -1,0 +1,455 @@
+{
+  "version": "2",
+  "user": {
+    "id": "6158081ca3c0c1619d74088a",
+    "gid": "3100509430204398322951",
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john.doe@example.com",
+    "created_at": "2021-05-06 00:01:53",
+    "updated_at": "2024-02-03 12:37:54",
+    "settings": "{\"tour\":1,\"previous_notification\":\"2021-08-21T15:46:57.000-05:00\",\"redirectFromHome\":false,\"overallCredits\":134,\"overallGpa\":3.85,\"gpaSemester\":\"2023W\"}",
+    "total_school_changes": 0,
+    "donated_at": null
+  },
+  "courses": [
+    {
+      "id": "65ccd764244249271dc194f3",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "semester": "2020F",
+      "name": "LERN-101",
+      "credit_hours": 3,
+      "cutoffs": "{\"a\":90,\"b\":80,\"c\":70,\"d\":60}",
+      "settings": "{}"
+    },
+    {
+      "id": "65ccd764244249271dc194f4",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "semester": "2021S",
+      "name": "LERN-201",
+      "credit_hours": 3,
+      "cutoffs": "{\"a\":90,\"b\":80,\"c\":70,\"d\":60}",
+      "settings": "{}"
+    }
+  ],
+  "categories": [
+    {
+      "id": "65ccd8570a4770267b0596f9",
+      "course_id": "65ccd764244249271dc194f3",
+      "name": "Homework",
+      "weight": 25,
+      "position": 100,
+      "dropped_grades": 3
+    },
+    {
+      "id": "65ccd89b2a3d4dcdcd77eca8",
+      "course_id": "65ccd764244249271dc194f3",
+      "name": "Labs",
+      "weight": 25,
+      "position": 100,
+      "dropped_grades": 0
+    },
+    {
+      "id": "65ccd8a12c4fdc8ad12edc32",
+      "course_id": "65ccd764244249271dc194f3",
+      "name": "Exam 1",
+      "weight": 12.5,
+      "position": 100,
+      "dropped_grades": 3
+    },
+    {
+      "id": "65ccd8a4bef7915a90e3658b",
+      "course_id": "65ccd764244249271dc194f3",
+      "name": "Exam 2",
+      "weight": 12.5,
+      "position": 100,
+      "dropped_grades": 3
+    },
+    {
+      "id": "65ccd8a8faaa33b9b9f18563",
+      "course_id": "65ccd764244249271dc194f3",
+      "name": "Final",
+      "weight": 25,
+      "position": 100,
+      "dropped_grades": 3
+    },
+    {
+      "id": "65ccd8570a4770267b0596f0",
+      "course_id": "65ccd764244249271dc194f4",
+      "name": "Homework",
+      "weight": 25,
+      "position": 100,
+      "dropped_grades": 3
+    },
+    {
+      "id": "65ccd89b2a3d4dcdcd77eca9",
+      "course_id": "65ccd764244249271dc194f4",
+      "name": "Labs",
+      "weight": 25,
+      "position": 100,
+      "dropped_grades": 0
+    },
+    {
+      "id": "65ccd8a12c4fdc8ad12edc33",
+      "course_id": "65ccd764244249271dc194f4",
+      "name": "Exam 1",
+      "weight": 12.5,
+      "position": 100,
+      "dropped_grades": 3
+    },
+    {
+      "id": "65ccd8a4bef7915a90e3658c",
+      "course_id": "65ccd764244249271dc194f4",
+      "name": "Exam 2",
+      "weight": 12.5,
+      "position": 100,
+      "dropped_grades": 3
+    },
+    {
+      "id": "65ccd8a8faaa33b9b9f18564",
+      "course_id": "65ccd764244249271dc194f4",
+      "name": "Final",
+      "weight": 25,
+      "position": 100,
+      "dropped_grades": 3
+    }
+  ],
+  "grades": [
+    {
+      "id": "65ccd9fe660bfe9914688654",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f3",
+      "category_id": "65ccd8570a4770267b0596f9",
+      "name": "Homework 1",
+      "grade": 92
+    },
+    {
+      "id": "65ccd9fe660bfe9914688655",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f3",
+      "category_id": "65ccd8570a4770267b0596f9",
+      "name": "Homework 2",
+      "grade": 88
+    },
+    {
+      "id": "65ccd9fe660bfe9914688666",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f3",
+      "category_id": "65ccd8570a4770267b0596f9",
+      "name": "Homework 3",
+      "grade": 100
+    },
+    {
+      "id": "65ccd9fe660bfe9914688656",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f3",
+      "category_id": "65ccd8570a4770267b0596f9",
+      "name": "Homework 4",
+      "grade": 105
+    },
+    {
+      "id": "65ccd9fe660bfe9914688657",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f3",
+      "category_id": "65ccd8570a4770267b0596f9",
+      "name": "Homework 5",
+      "grade": 0
+    },
+    {
+      "id": "65ccd9fe660bfe9914688658",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f3",
+      "category_id": "65ccd8570a4770267b0596f9",
+      "name": "Homework 6",
+      "grade": 0
+    },
+    {
+      "id": "65ccd9fe660bfe9914688659",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f3",
+      "category_id": "65ccd8570a4770267b0596f9",
+      "name": "Homework 7",
+      "grade": 99
+    },
+    {
+      "id": "65ccd9fe660bfe9914688660",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f3",
+      "category_id": "65ccd8570a4770267b0596f9",
+      "name": "Homework 8",
+      "grade": 80
+    },
+    {
+      "id": "65ccd9fe660bfe9914688661",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f3",
+      "category_id": "65ccd8570a4770267b0596f9",
+      "name": "Homework 9",
+      "grade": 77
+    },
+    {
+      "id": "65ccd9fe660bfe9914688670",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f3",
+      "category_id": "65ccd89b2a3d4dcdcd77eca8",
+      "name": "Lab 1",
+      "grade": 78
+    },
+    {
+      "id": "65ccd9fe660bfe9914688671",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f3",
+      "category_id": "65ccd89b2a3d4dcdcd77eca8",
+      "name": "Lab 2",
+      "grade": 90
+    },
+    {
+      "id": "65ccd9fe660bfe9914688672",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f3",
+      "category_id": "65ccd89b2a3d4dcdcd77eca8",
+      "name": "Lab 3",
+      "grade": 90
+    },
+    {
+      "id": "65ccd9fe660bfe9914688673",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f3",
+      "category_id": "65ccd89b2a3d4dcdcd77eca8",
+      "name": "Lab 4",
+      "grade": 55
+    },
+    {
+      "id": "65ccd9fe660bfe9914688674",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f3",
+      "category_id": "65ccd89b2a3d4dcdcd77eca8",
+      "name": "Lab 5",
+      "grade": 0
+    },
+    {
+      "id": "65ccd9fe660bfe9914688675",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f3",
+      "category_id": "65ccd89b2a3d4dcdcd77eca8",
+      "name": "Lab 6",
+      "grade": 100
+    },
+    {
+      "id": "65ccd9fe660bfe9914688676",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f3",
+      "category_id": "65ccd89b2a3d4dcdcd77eca8",
+      "name": "Lab 7",
+      "grade": 100
+    },
+    {
+      "id": "65ccd9fe660bfe9914688677",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f3",
+      "category_id": "65ccd89b2a3d4dcdcd77eca8",
+      "name": "Lab 8",
+      "grade": 97
+    },
+    {
+      "id": "65ccd9fe660bfe9914688678",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f3",
+      "category_id": "65ccd89b2a3d4dcdcd77eca8",
+      "name": "Lab 9",
+      "grade": 92
+    },
+    {
+      "id": "65ccd9fe660bfe9914688663",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f3",
+      "category_id": "65ccd8a12c4fdc8ad12edc32",
+      "name": null,
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe660bfe9914688664",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f3",
+      "category_id": "65ccd8a4bef7915a90e3658b",
+      "name": null,
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe660bfe9914688665",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f3",
+      "category_id": "65ccd8a8faaa33b9b9f18563",
+      "name": null,
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe661bfe9914688654",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f4",
+      "category_id": "65ccd8570a4770267b0596f0",
+      "name": "Homework 1",
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe661bfe9914688655",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f4",
+      "category_id": "65ccd8570a4770267b0596f0",
+      "name": "Homework 2",
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe661bfe9914688666",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f4",
+      "category_id": "65ccd8570a4770267b0596f0",
+      "name": "Homework 3",
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe661bfe9914688656",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f4",
+      "category_id": "65ccd8570a4770267b0596f0",
+      "name": "Homework 4",
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe661bfe9914688657",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f4",
+      "category_id": "65ccd8570a4770267b0596f0",
+      "name": "Homework 5",
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe661bfe9914688658",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f4",
+      "category_id": "65ccd8570a4770267b0596f0",
+      "name": "Homework 6",
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe661bfe9914688659",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f4",
+      "category_id": "65ccd8570a4770267b0596f0",
+      "name": "Homework 7",
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe661bfe9914688660",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f4",
+      "category_id": "65ccd8570a4770267b0596f0",
+      "name": "Homework 8",
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe661bfe9914688661",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f4",
+      "category_id": "65ccd8570a4770267b0596f0",
+      "name": "Homework 9",
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe661bfe9914688670",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f4",
+      "category_id": "65ccd89b2a3d4dcdcd77eca9",
+      "name": "Lab 1",
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe661bfe9914688671",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f4",
+      "category_id": "65ccd89b2a3d4dcdcd77eca9",
+      "name": "Lab 2",
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe661bfe9914688672",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f4",
+      "category_id": "65ccd89b2a3d4dcdcd77eca9",
+      "name": "Lab 3",
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe661bfe9914688673",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f4",
+      "category_id": "65ccd89b2a3d4dcdcd77eca9",
+      "name": "Lab 4",
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe661bfe9914688674",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f4",
+      "category_id": "65ccd89b2a3d4dcdcd77eca9",
+      "name": "Lab 5",
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe661bfe9914688675",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f4",
+      "category_id": "65ccd89b2a3d4dcdcd77eca9",
+      "name": "Lab 6",
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe661bfe9914688676",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f4",
+      "category_id": "65ccd89b2a3d4dcdcd77eca9",
+      "name": "Lab 7",
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe661bfe9914688677",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f4",
+      "category_id": "65ccd89b2a3d4dcdcd77eca9",
+      "name": "Lab 8",
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe661bfe9914688678",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f4",
+      "category_id": "65ccd89b2a3d4dcdcd77eca9",
+      "name": "Lab 9",
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe661bfe9914688663",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f4",
+      "category_id": "65ccd8a12c4fdc8ad12edc33",
+      "name": null,
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe661bfe9914688664",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f4",
+      "category_id": "65ccd8a4bef7915a90e3658c",
+      "name": null,
+      "grade": null
+    },
+    {
+      "id": "65ccd9fe661bfe9914688665",
+      "user_id": "6158081ca3c0c1619d74088a",
+      "course_id": "65ccd764244249271dc194f4",
+      "category_id": "65ccd8a8faaa33b9b9f18564",
+      "name": null,
+      "grade": null
+    }
+  ]
+}
