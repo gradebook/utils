@@ -8,7 +8,7 @@
   "bugs": "https://github.com/gradebook/utils/issues",
   "license": "MIT",
   "type": "module",
-  "module": "lib/api.js",
+  "main": "lib/api.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
