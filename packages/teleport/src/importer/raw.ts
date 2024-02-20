@@ -1,7 +1,7 @@
-import {type RawExportedUser} from '../exporter/raw.js';
+import {type RawExport} from '../shared/interfaces.js';
 import {getSchemaVersion, type KnexProxy, assertInTransaction} from '../shared/db.js';
 
-export async function importUserRows(knex: KnexProxy, export_: RawExportedUser) {
+export async function importUserRows(knex: KnexProxy, export_: RawExport) {
 	assertInTransaction(knex);
 
 	const schemaVersion = await getSchemaVersion(knex);

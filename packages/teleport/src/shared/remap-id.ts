@@ -1,5 +1,5 @@
 import objectId from 'bson-objectid';
-import {type RawExportedUser} from '../exporter/raw.js';
+import {type RawExport} from '../shared/interfaces.js';
 
 const createSingleUpdater = (remappedIds: Map<string, string>) => (object: {id: string}) => {
 	const id = objectId().toHexString();
@@ -8,7 +8,7 @@ const createSingleUpdater = (remappedIds: Map<string, string>) => (object: {id: 
 	return id;
 };
 
-export function remapRawExportIds(userExport: RawExportedUser) {
+export function remapRawExportIds(userExport: RawExport) {
 	const remappedIds = new Map<string, string>();
 	const remapSingle = createSingleUpdater(remappedIds);
 	const userId = remapSingle(userExport.user);

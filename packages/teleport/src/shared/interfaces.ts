@@ -84,7 +84,7 @@ export interface PublicCategory extends MinimalCategory {
 
 export type PublicGrade = MinimalGrade;
 
-export interface Export {
+export interface PublicExport {
 	version: '0';
 	courses?: PublicCourse[];
 	user: {
@@ -95,4 +95,12 @@ export interface Export {
 		created_at: string;
 		updated_at: string;
 	};
+}
+
+export interface RawExport {
+	version: string;
+	user: UserRow;
+	courses: CourseRow[];
+	categories: CategoryRow[];
+	grades: GradeRow[];
 }

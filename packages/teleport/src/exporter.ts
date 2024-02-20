@@ -1,13 +1,7 @@
-import {type CategoryRow, type CourseRow, type GradeRow, type UserRow, type Export} from './shared/interfaces.js';
+import {
+	type CategoryRow, type CourseRow, type GradeRow, type UserRow, type PublicExport, type RawExport,
+} from './shared/interfaces.js';
 import {getSchemaVersion, type KnexProxy} from './shared/db.js';
-
-export interface RawExportedUser {
-	version: string;
-	user: UserRow;
-	courses: CourseRow[];
-	categories: CategoryRow[];
-	grades: GradeRow[];
-}
 
 export interface ExportOptions {
 	school: string;
@@ -18,7 +12,7 @@ export interface ExportOptions {
 
 export async function getExport(
 	{school, userId, hostname = 'gradebook.app', secure = false}: ExportOptions,
-): Promise<Export> {
+): Promise<PublicExport> {
 	const url = `http${secure ? 's' : ''}://${hostname}/api/v0/internal/raw-user-export?user=${userId}&school=${school}`;
 	const request = await fetch(url);
 
@@ -26,10 +20,10 @@ export async function getExport(
 		throw new Error(`Request failed: ${request.status} ${request.statusText}`);
 	}
 
-	return request.json() as Promise<Export>;
+	return request.json() as Promise<PublicExport>;
 }
 
-export async function exportUserRows(knex: KnexProxy, userId: string): Promise<{error: string} | RawExportedUser> {
+export async function exportUserRows(knex: KnexProxy, userId: string): Promise<{error: string} | RawExport> {
 	const user = await knex('users')
 		.where('id', userId)
 		.first<UserRow | undefined>();

@@ -2,8 +2,7 @@ import {Buffer} from 'buffer';
 import ObjectId from 'bson-objectid';
 import type {Format} from 'ajv';
 import AJV from 'ajv';
-import type {Export, Cutoffs} from '../shared/interfaces.js';
-import {type RawExportedUser} from '../exporter/raw.js';
+import type {PublicExport, Cutoffs, RawExport} from '../shared/interfaces.js';
 import {ValidationError} from './errors.js';
 import {SCHEMAS} from './schema/index.js';
 import {publicCourseToRaw} from './generators.js';
@@ -68,7 +67,7 @@ export function coerceJSON<T extends object>(payload: Buffer | string | object, 
 }
 
 // @TODO: validate remaining fields!
-export function validateUser(user: Export['user'], preserveDates: boolean): void {
+export function validateUser(user: PublicExport['user'], preserveDates: boolean): void {
 	const settings = coerceJSON(user.settings, 'settings');
 	for (const key of Object.keys(settings)) {
 		if (!VALID_SETTINGS.has(key)) {
@@ -88,8 +87,8 @@ export function validateUser(user: Export['user'], preserveDates: boolean): void
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function runBasicValidations(payload_: Buffer | string | object): Export {
-	const payload = coerceJSON<Export>(payload_);
+export function runBasicValidations(payload_: Buffer | string | object): PublicExport {
+	const payload = coerceJSON<PublicExport>(payload_);
 	const passesBasicValidations = validator.validate('gradebook-v0-import', payload);
 
 	if (!passesBasicValidations) {
@@ -110,7 +109,7 @@ export function runBasicValidations(payload_: Buffer | string | object): Export 
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function publicToRaw(data: Buffer | string | object, options: ImportOptions): RawExportedUser {
+export function publicToRaw(data: Buffer | string | object, options: ImportOptions): RawExport {
 	const uExport = runBasicValidations(data);
 	const uid = options.user_id ?? new ObjectId().toHexString();
 
@@ -124,7 +123,7 @@ export function publicToRaw(data: Buffer | string | object, options: ImportOptio
 	} = options;
 
 	validateUser(uExport.user, preserveDates);
-	const mappedExport: RawExportedUser = {
+	const mappedExport: RawExport = {
 		version: schemaVersion,
 		/* eslint-disable camelcase */
 		user: {
