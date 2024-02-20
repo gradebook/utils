@@ -35,7 +35,7 @@ describe('Unit > Exporter', function () {
 
 			const [lazyTest, easyTest] = await Promise.all([
 				exporter.getExport({school: 'lazy', userId: 'lazy', hostname: '192.168.1.200'}),
-				exporter.getExport({school: 'easy', userId: 'easy', secure: true}),
+				exporter.getExport({school: 'easy', userId: 'easy', hostname: 'gradebook.app', secure: true}),
 			]);
 
 			expect(lazyTest).to.deep.equal({user: 'lazy'});
