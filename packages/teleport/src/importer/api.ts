@@ -6,7 +6,7 @@ import type {Export, Cutoffs} from '../shared/interfaces.js';
 import {type RawExportedUser} from '../exporter/raw.js';
 import {ValidationError} from './errors.js';
 import {SCHEMAS} from './schema/index.js';
-import {generateCourseQuery} from './generators.js';
+import {publicCourseToRaw} from './generators.js';
 
 // Pulled from https://github.com/ajv-validator/ajv-formats/blob/ce49433448384b4c0b2407adafc345e43b85f8ea/src/formats.ts#L51
 const EMAIL: Format
@@ -110,7 +110,7 @@ export function runBasicValidations(payload_: Buffer | string | object): Export 
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function generateAPICalls(data: Buffer | string | object, options: ImportOptions): RawExportedUser {
+export function publicToRaw(data: Buffer | string | object, options: ImportOptions): RawExportedUser {
 	const uExport = runBasicValidations(data);
 	const uid = options.user_id ?? new ObjectId().toHexString();
 
@@ -173,7 +173,7 @@ export function generateAPICalls(data: Buffer | string | object, options: Import
 			throw new ValidationError({message: `Course ${ref} has too many categories`});
 		}
 
-		generateCourseQuery(course, mappedExport, maxGradesPerCategory, ref);
+		publicCourseToRaw(course, mappedExport, maxGradesPerCategory, ref);
 	}
 
 	return mappedExport;

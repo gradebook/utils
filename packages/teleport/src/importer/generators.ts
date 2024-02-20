@@ -4,7 +4,7 @@ import type {Course, Category, Grade, Query} from '../shared/interfaces.js';
 import {type RawExportedUser} from '../exporter/raw.js';
 import {ValidationError} from './errors.js';
 
-export function generateCourseQuery(
+export function publicCourseToRaw(
 	course: Course,
 	mappedExport: RawExportedUser,
 	maxGradesPerCategory: number,
@@ -35,11 +35,11 @@ export function generateCourseQuery(
 			throw new ValidationError({message: `Category ${ref} has too many grades`});
 		}
 
-		generateCategoryQuery(category, mappedExport, id);
+		publicCategoryToRaw(category, mappedExport, id);
 	}
 }
 
-export function generateCategoryQuery(category: Category, mappedExport: RawExportedUser, course_id: string) {
+export function publicCategoryToRaw(category: Category, mappedExport: RawExportedUser, course_id: string) {
 	const id = new ObjectId().toHexString();
 	mappedExport.categories.push({
 		id,
@@ -52,15 +52,15 @@ export function generateCategoryQuery(category: Category, mappedExport: RawExpor
 
 	if (Array.isArray(category.grades)) {
 		for (const grade of category.grades) {
-			generateGradeQuery(grade, mappedExport, course_id, id);
+			publicGradeToRaw(grade, mappedExport, course_id, id);
 		}
 		// CASE: All categories _must_ have at least one associated grade
 	} else {
-		generateGradeQuery({name: null, grade: null}, mappedExport, course_id, id);
+		publicGradeToRaw({name: null, grade: null}, mappedExport, course_id, id);
 	}
 }
 
-export function generateGradeQuery(grade: Grade, mappedExport: RawExportedUser, course_id: string, category_id: string) {
+export function publicGradeToRaw(grade: Grade, mappedExport: RawExportedUser, course_id: string, category_id: string) {
 	mappedExport.grades.push({
 		...grade,
 		id: new ObjectId().toHexString(),
