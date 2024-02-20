@@ -2,8 +2,8 @@ import {Buffer} from 'buffer';
 import ObjectId from 'bson-objectid';
 import type {Format} from 'ajv';
 import AJV from 'ajv';
-import type {Knex} from 'knex';
-import type {Export, Query, Cutoffs} from '../shared/interfaces.js';
+import type {Export, Cutoffs} from '../shared/interfaces.js';
+import {type RawExportedUser} from '../exporter/raw.js';
 import {ValidationError} from './errors.js';
 import {SCHEMAS} from './schema/index.js';
 import {generateCourseQuery} from './generators.js';
@@ -27,6 +27,7 @@ validator.addFormat('email', EMAIL);
 validator.addSchema(SCHEMAS);
 
 export interface ImportOptions {
+	schemaVersion: string;
 	maxCoursesPerSemester?: number;
 	maxCategoriesPerCourse?: number;
 	maxGradesPerCategory?: number;
@@ -109,12 +110,12 @@ export function runBasicValidations(payload_: Buffer | string | object): Export 
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function generateAPICalls(data: Buffer | string | object, options: ImportOptions): Query[] {
+export function generateAPICalls(data: Buffer | string | object, options: ImportOptions): RawExportedUser {
 	const uExport = runBasicValidations(data);
 	const uid = options.user_id ?? new ObjectId().toHexString();
-	const queries: Query[] = [];
 
 	const {
+		schemaVersion,
 		maxCoursesPerSemester = 7,
 		maxCategoriesPerCourse = 25,
 		maxGradesPerCategory = 40,
@@ -123,13 +124,38 @@ export function generateAPICalls(data: Buffer | string | object, options: Import
 	} = options;
 
 	validateUser(uExport.user, preserveDates);
-	queries.push(['users', {id: uid, gid, ...uExport.user}]);
-
-	const semesters = new Map<string, number>();
+	const mappedExport: RawExportedUser = {
+		version: schemaVersion,
+		/* eslint-disable camelcase */
+		user: {
+			id: uid,
+			gid,
+			email: uExport.user.email,
+			created_at: uExport.user.created_at,
+			updated_at: uExport.user.updated_at,
+			donated_at: null,
+			first_name: uExport.user.firstName,
+			last_name: uExport.user.lastName,
+			total_school_changes: 0,
+			settings: uExport.user.settings,
+		},
+		/* eslint-enable camelcase */
+		categories: [],
+		courses: [],
+		grades: [],
+	};
 
 	if (!Array.isArray(uExport.courses)) {
-		return queries;
+		return {
+			version: schemaVersion,
+			user: mappedExport.user,
+			categories: [],
+			courses: [],
+			grades: [],
+		};
 	}
+
+	const semesters = new Map<string, number>();
 
 	for (let i = 0; i < uExport.courses.length; ++i) {
 		const course = uExport.courses[i];
@@ -147,10 +173,10 @@ export function generateAPICalls(data: Buffer | string | object, options: Import
 			throw new ValidationError({message: `Course ${ref} has too many categories`});
 		}
 
-		queries.push(...generateCourseQuery(ref, uid, course, maxGradesPerCategory));
+		generateCourseQuery(course, mappedExport, maxGradesPerCategory, ref);
 	}
 
-	return queries;
+	return mappedExport;
 }
 
 export async function runQueries(knex: Knex, queries: Query[], preserveUser = false): Promise<void> {
