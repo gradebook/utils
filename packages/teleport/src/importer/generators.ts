@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
 import ObjectId from 'bson-objectid';
-import type {Course, Category, Grade, Query} from '../shared/interfaces.js';
+import type {PublicCourse, PublicCategory, PublicGrade} from '../shared/interfaces.js';
 import {type RawExportedUser} from '../exporter/raw.js';
 import {ValidationError} from './errors.js';
 
 export function publicCourseToRaw(
-	course: Course,
+	course: PublicCourse,
 	mappedExport: RawExportedUser,
 	maxGradesPerCategory: number,
 	courseRef: string,
@@ -39,7 +39,7 @@ export function publicCourseToRaw(
 	}
 }
 
-export function publicCategoryToRaw(category: Category, mappedExport: RawExportedUser, course_id: string) {
+export function publicCategoryToRaw(category: PublicCategory, mappedExport: RawExportedUser, course_id: string) {
 	const id = new ObjectId().toHexString();
 	mappedExport.categories.push({
 		id,
@@ -60,7 +60,7 @@ export function publicCategoryToRaw(category: Category, mappedExport: RawExporte
 	}
 }
 
-export function publicGradeToRaw(grade: Grade, mappedExport: RawExportedUser, course_id: string, category_id: string) {
+export function publicGradeToRaw(grade: PublicGrade, mappedExport: RawExportedUser, course_id: string, category_id: string) {
 	mappedExport.grades.push({
 		...grade,
 		id: new ObjectId().toHexString(),

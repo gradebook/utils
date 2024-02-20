@@ -178,33 +178,3 @@ export function publicToRaw(data: Buffer | string | object, options: ImportOptio
 
 	return mappedExport;
 }
-
-export async function runQueries(knex: Knex, queries: Query[], preserveUser = false): Promise<void> {
-	const txn = await knex.transaction();
-
-	if (!preserveUser) {
-		if (queries[0][0] !== 'users') {
-			throw new Error('Cannot find user in query list');
-		}
-
-		const {id} = queries[0][1];
-		await txn('grades').where('user_id', id).del();
-		await txn('categories').whereIn('id', txn('courses').select('id').where('user_id', id)).del();
-		await txn('courses').where('user_id', id).del();
-		await txn('users').where('id', id).del();
-	}
-
-	try {
-		for (const [table, data] of queries) {
-			/* eslint-disable-next-line no-await-in-loop */
-			await txn(table).insert(data);
-		}
-
-		await txn.commit();
-	} catch (error: unknown) {
-		await txn.rollback();
-		throw error;
-	}
-}
-
-export default generateAPICalls;

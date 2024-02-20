@@ -51,7 +51,7 @@ export interface GradeRow extends MinimalGrade {
 	category_id: string;
 }
 
-export interface ExportedUserRow {
+export interface PublicUserRow {
 	firstName: string;
 	lastName: string;
 	created: string;
@@ -61,7 +61,7 @@ export interface ExportedUserRow {
 }
 
 // Extend the exported row to explicitly track the differences
-interface UserRowWithAdditionalProperties extends ExportedUserRow {
+interface UserRowWithAdditionalProperties extends PublicUserRow {
 	id: string;
 	gid: string;
 	donated_at: string | null;
@@ -74,25 +74,19 @@ interface UserRowWithAdditionalProperties extends ExportedUserRow {
 
 export type UserRow = Omit<UserRowWithAdditionalProperties, 'firstName' | 'lastName' | 'created' | 'updated'>;
 
-type CourseQuery = ['courses', CourseRow];
-type CategoryQuery = ['categories', CategoryRow];
-type GradeQuery = ['grades', GradeRow];
-type UserQuery = ['users', ExportedUserRow];
-export type Query = CourseQuery | CategoryQuery | GradeQuery | UserQuery;
-
-export interface Course extends MinimalCourse {
-	categories?: Category[];
+export interface PublicCourse extends MinimalCourse {
+	categories?: PublicCategory[];
 }
 
-export interface Category extends MinimalCategory {
-	grades?: Grade[];
+export interface PublicCategory extends MinimalCategory {
+	grades?: PublicGrade[];
 }
 
-export type Grade = MinimalGrade;
+export type PublicGrade = MinimalGrade;
 
 export interface Export {
 	version: '0';
-	courses?: Course[];
+	courses?: PublicCourse[];
 	user: {
 		firstName: string;
 		lastName: string;
