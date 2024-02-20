@@ -1,6 +1,15 @@
-import type {Export} from './shared/interfaces.js';
+import {type CategoryRow, type CourseRow, type GradeRow, type UserRow, type Export} from './shared/interfaces.js';
+import {getSchemaVersion, type KnexProxy} from './shared/db.js';
 
-interface ExportOptions {
+export interface RawExportedUser {
+	version: string;
+	user: UserRow;
+	courses: CourseRow[];
+	categories: CategoryRow[];
+	grades: GradeRow[];
+}
+
+export interface ExportOptions {
 	school: string;
 	hostname?: string;
 	secure?: boolean;
@@ -18,4 +27,39 @@ export async function getExport(
 	}
 
 	return request.json() as Promise<Export>;
+}
+
+export async function exportUserRows(knex: KnexProxy, userId: string): Promise<{error: string} | RawExportedUser> {
+	const user = await knex('users')
+		.where('id', userId)
+		.first<UserRow | undefined>();
+
+	if (!user) {
+		return {
+			error: 'Unable to find user',
+		};
+	}
+
+	const [
+		version,
+		courses,
+		grades,
+	] = await Promise.all([
+		getSchemaVersion(knex),
+		knex('courses').where('user_id', userId).select<CourseRow[]>(),
+		knex('grades').where('user_id', userId).select<GradeRow[]>(),
+	]);
+
+	const courseIds = courses.map(course => course.id);
+	const categories = await knex('categories')
+		.whereIn('course_id', courseIds)
+		.select<CategoryRow[]>();
+
+	return {
+		version,
+		user,
+		courses,
+		categories,
+		grades,
+	};
 }
