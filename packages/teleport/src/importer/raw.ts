@@ -12,6 +12,9 @@ export async function importUserRows(knex: KnexProxy, export_: RawExport) {
 		};
 	}
 
+	// The school change is tracked as part of the import
+	export_.user.total_school_changes! += 1;
+
 	for (const table of ['users', 'courses', 'categories', 'grades'] as const) {
 		const key = table === 'users' ? 'user' : table;
 		await knex(table).insert(export_[key]); // eslint-disable-line no-await-in-loop
