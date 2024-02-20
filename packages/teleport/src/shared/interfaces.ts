@@ -4,6 +4,7 @@ export interface MinimalCourse {
 	name: string;
 	cutoffs: string;
 	credit_hours: string;
+	settings: string;
 }
 
 export interface MinimalCategory {
@@ -60,24 +61,18 @@ export interface ExportedUserRow {
 }
 
 // Extend the exported row to explicitly track the differences
-export interface UserRow extends ExportedUserRow {
+interface UserRowWithAdditionalProperties extends ExportedUserRow {
 	id: string;
 	gid: string;
 	donated_at: string | null;
 	total_school_changes: number | null;
-
-	firstName: never;
 	first_name: string;
-
-	lastName: never;
 	last_name: string;
-
-	created: never;
 	created_at: string;
-
-	updated: never;
 	updated_at: string;
 }
+
+export type UserRow = Omit<UserRowWithAdditionalProperties, 'firstName' | 'lastName' | 'created' | 'updated'>;
 
 type CourseQuery = ['courses', CourseRow];
 type CategoryQuery = ['categories', CategoryRow];
