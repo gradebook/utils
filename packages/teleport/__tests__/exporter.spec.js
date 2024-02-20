@@ -15,20 +15,20 @@ const knex = useDatabase();
 
 describe('Unit > Exporter', function () {
 	before(async function () {
-		await runSqlFile(knex, path.resolve(__dirname, '../fixtures/database-ddl.sql'));
-		await runSqlFile(knex, path.resolve(__dirname, '../fixtures/database-dml.sql'));
+		await runSqlFile(knex, path.resolve(__dirname, './fixtures/database-ddl.sql'));
+		await runSqlFile(knex, path.resolve(__dirname, './fixtures/database-dml.sql'));
 	});
 
 	it('getExport wraps request to server endpoint', async function () {
 		try {
 			nock('https://gradebook.app')
-				.get('/api/v0/internal/user-dump?user=easy&school=easy')
+				.get('/api/v0/internal/raw-user-export?user=easy&school=easy')
 				.reply(200, url => ({
 					user: new URL(url, 'https://gradebook.app').searchParams.get('user'),
 				}));
 
 			nock('http://192.168.1.200')
-				.get('/api/v0/internal/user-dump?user=lazy&school=lazy')
+				.get('/api/v0/internal/raw-user-export?user=lazy&school=lazy')
 				.reply(200, url => ({
 					user: new URL(url, 'http://192.168.1.200').searchParams.get('user'),
 				}));
