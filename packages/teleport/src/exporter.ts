@@ -5,13 +5,13 @@ import {getSchemaVersion, type KnexProxy} from './shared/db.js';
 
 export interface ExportOptions {
 	school: string;
-	hostname?: string;
-	secure?: boolean;
+	hostname: string;
 	userId: string;
+	secure?: boolean;
 }
 
 export async function getExport(
-	{school, userId, hostname = 'gradebook.app', secure = false}: ExportOptions,
+	{school, userId, hostname, secure = false}: ExportOptions,
 ): Promise<PublicExport> {
 	const url = `http${secure ? 's' : ''}://${hostname}/api/v0/internal/raw-user-export?user=${userId}&school=${school}`;
 	const request = await fetch(url);
