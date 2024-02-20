@@ -1,5 +1,3 @@
-import {URL} from 'url';
-import got from 'got';
 import type {Export} from './shared/interfaces.js';
 
 interface ExportOptions {
@@ -9,13 +7,15 @@ interface ExportOptions {
 	userId: string;
 }
 
-// @todo: Add client authentication
 export async function getExport(
 	{school, userId, hostname = 'gradebook.app', secure = false}: ExportOptions,
 ): Promise<Export> {
-	const user: Export = await got.get(
-		new URL(`/api/v0/internal/user-dump?user=${userId}&school=${school}`, `http${secure ? 's' : ''}://${hostname}`),
-	).json();
+	const url = `http${secure ? 's' : ''}://${hostname}/api/v0/internal/raw-user-export?user=${userId}&school=${school}`;
+	const request = await fetch(url);
 
-	return user;
+	if (!request.ok) {
+		throw new Error(`Request failed: ${request.status} ${request.statusText}`);
+	}
+
+	return request.json() as Promise<Export>;
 }
