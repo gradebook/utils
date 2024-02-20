@@ -38,7 +38,7 @@ describe('Unit > Importer', function () {
 
 		try {
 			expect(
-				importer.generateAPICalls(publicUserExport, {schemaVersion: rawUserExport.version, gid: rawUserExport.user.gid}),
+				importer.publicToRaw(publicUserExport, {schemaVersion: rawUserExport.version, gid: rawUserExport.user.gid}),
 			).to.deep.equal(rawUserExport);
 			expect(genId.next().done).to.be.true;
 		} finally {
