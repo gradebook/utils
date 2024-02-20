@@ -7,7 +7,7 @@ import {importUserRows} from '../../lib/importer/raw.js';
 import {runSqlFile, useDatabase} from '../_utils/test-db.js';
 import {createKnexProxy} from '../../lib/shared/db.js';
 import {rawUserExport} from '../fixtures/user-export.js';
-import {exportUserRows} from '../../lib/exporter/raw.js';
+import {exportUserRows} from '../../lib/exporter.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
