@@ -3,10 +3,7 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 import oid from 'bson-objectid';
 import {importer} from '../../lib/api.js';
-import {importJson} from '../../lib/shared/import-json.js';
-import {rawUserExport} from '../fixtures/raw-user-export.js';
-
-const exampleExport = await importJson(import.meta.url, './example-export.json');
+import {rawUserExport, publicUserExport} from '../fixtures/user-export.js';
 
 /**
  * Generator that yields object IDs in the same order (depth-first) to guarantee the public user export
@@ -41,7 +38,7 @@ describe('Unit > Importer', function () {
 
 		try {
 			expect(
-				importer.generateAPICalls(exampleExport, {schemaVersion: rawUserExport.version, gid: rawUserExport.user.gid}),
+				importer.generateAPICalls(publicUserExport, {schemaVersion: rawUserExport.version, gid: rawUserExport.user.gid}),
 			).to.deep.equal(rawUserExport);
 			expect(genId.next().done).to.be.true;
 		} finally {
