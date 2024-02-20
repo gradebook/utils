@@ -1,1381 +1,281 @@
 {
   "version": "0",
+  "user": {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "created_at": "2021-05-06 00:01:53",
+    "updated_at": "2024-02-03 12:37:54",
+    "settings": "{\"tour\":1,\"previous_notification\":\"2021-08-21T15:46:57.000-05:00\",\"redirectFromHome\":false,\"overallCredits\":134,\"overallGpa\":3.85,\"gpaSemester\":\"2023W\"}"
+  },
   "courses": [
     {
-      "semester": "2019F",
-      "name": "ECEN 403",
-      "credit_hours": null,
-      "cutoffs": "{\"A\":90.0,\"B\":80.0,\"C\":70.0,\"D\":60.0}",
-      "categories": [
-        {
-          "name": "FSR, ICD, Milestones & Validation",
-          "weight": 5,
-          "position": 100,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "ConOps",
-          "weight": 5,
-          "position": 50,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Presentation Updates",
-          "weight": 10,
-          "position": 300,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": "Presentation Update 1",
-              "grade": 100
-            },
-            {
-              "name": "Presentation Updates 2",
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Final Presentation",
-          "weight": 10,
-          "position": 400,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Final Project Demo",
-          "weight": 40,
-          "position": 500,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Final Report",
-          "weight": 30,
-          "position": 600,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "semester": "2019F",
-      "name": "CSCE 314",
-      "credit_hours": null,
-      "cutoffs": "{\"A\":90.0,\"B\":80.0,\"C\":70.0,\"D\":60.0}",
-      "categories": [
-        {
-          "name": "Midterm",
-          "weight": 20,
-          "position": 200,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Final",
-          "weight": 20,
-          "position": 300,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Programming Project",
-          "weight": 20,
-          "position": 400,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Labs",
-          "weight": 40,
-          "position": 100,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": "Lab 1 (Intro to Scheme)",
-              "grade": 100
-            },
-            {
-              "name": "Lab 2 (Basic Functions)",
-              "grade": 100
-            },
-            {
-              "name": "Lab 3 (Scheme Conditionals)",
-              "grade": 100
-            },
-            {
-              "name": "Lab 4 (Lists and Recursion)",
-              "grade": 100
-            },
-            {
-              "name": "Lab 5 (DrRacket)",
-              "grade": 100
-            },
-            {
-              "name": "Lab 6 (Trees)",
-              "grade": 100
-            },
-            {
-              "name": "Lab 7 (Grammar)",
-              "grade": 100
-            },
-            {
-              "name": "Lab 8 (Parsing)",
-              "grade": 100
-            },
-            {
-              "name": "Lab 9 (JavaIntro)",
-              "grade": 100
-            },
-            {
-              "name": "Lab 10 (JavaAbstraction)",
-              "grade": 100
-            },
-            {
-              "name": "Lab 11 (JavaCollections)",
-              "grade": 100
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "semester": "2019F",
-      "name": "ECEN 424",
-      "credit_hours": null,
-      "cutoffs": "{\"A\":90.0,\"B\":80.0,\"C\":70.0,\"D\":60.0}",
-      "categories": [
-        {
-          "name": "Homework",
-          "weight": 5,
-          "position": 100,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": "Homework 1",
-              "grade": 100
-            },
-            {
-              "name": "Homework 2",
-              "grade": 100
-            },
-            {
-              "name": "Homework 3",
-              "grade": 100
-            },
-            {
-              "name": "Homework 4",
-              "grade": 100
-            },
-            {
-              "name": "Homework 5",
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Quizzes",
-          "weight": 15,
-          "position": 175,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": "Quiz 1",
-              "grade": 100
-            },
-            {
-              "name": "Quiz 2",
-              "grade": 100
-            },
-            {
-              "name": "Quiz 3",
-              "grade": 100
-            },
-            {
-              "name": "Quiz 4",
-              "grade": 100
-            },
-            {
-              "name": "Quiz 5",
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Machine Problems",
-          "weight": 10,
-          "position": 150,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": "Machine Problem 1",
-              "grade": 100
-            },
-            {
-              "name": "Machine Problem 2",
-              "grade": 100
-            },
-            {
-              "name": "Machine Problem 3",
-              "grade": 100
-            },
-            {
-              "name": "Machine Problem 4",
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Exam 1",
-          "weight": 15,
-          "position": 200,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Exam 2",
-          "weight": 20,
-          "position": 300,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": "Exam 2",
-              "grade": 100
-            },
-            {
-              "name": "Exam 2",
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Exam 3",
-          "weight": 25,
-          "position": 400,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Project",
-          "weight": 10,
-          "position": 600,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "semester": "2019F",
-      "name": "ENGR 482",
-      "credit_hours": null,
-      "cutoffs": "{\"A\":90.0,\"B\":80.0,\"C\":70.0,\"D\":60.0}",
-      "categories": [
-        {
-          "name": "Online Quizzes",
-          "weight": 1,
-          "position": 200,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": "Analyzing Moral Problems",
-              "grade": 100
-            },
-            {
-              "name": "Utilitarian Ethics",
-              "grade": 100
-            },
-            {
-              "name": "Line Drawing",
-              "grade": 100
-            },
-            {
-              "name": "Duty Ethics",
-              "grade": 100
-            },
-            {
-              "name": "Aspirational Ethics",
-              "grade": 100
-            },
-            {
-              "name": "Risk Ethics",
-              "grade": 100
-            },
-            {
-              "name": "Impediments to Moral Responsibility",
-              "grade": 100
-            },
-            {
-              "name": "Engineering Professionalism",
-              "grade": 100
-            },
-            {
-              "name": "Privacy",
-              "grade": 100
-            },
-            {
-              "name": "Ethics and Artefacts",
-              "grade": 100
-            },
-            {
-              "name": "Ellul's Critique of the Technological Society",
-              "grade": 100
-            },
-            {
-              "name": "International Professionalism",
-              "grade": 100
-            },
-            {
-              "name": "Environmental Ethics and Sustainable Practices",
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Presentation",
-          "weight": 5,
-          "position": 1000,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Exam 1",
-          "weight": 20,
-          "position": 400,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Exam 2",
-          "weight": 20,
-          "position": 500,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Participation",
-          "weight": 5,
-          "position": 900,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Cultural Discourse Journal",
-          "weight": 5,
-          "position": 300,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": "Cultural Discourse Journal 1",
-              "grade": 100
-            },
-            {
-              "name": "Cultural Discourse Journal 2",
-              "grade": 100
-            },
-            {
-              "name": "Cultural Discourse Journal 3",
-              "grade": 100
-            },
-            {
-              "name": "Cultural Discourse Journal 4",
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Short Paper",
-          "weight": 10,
-          "position": 800,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": "Paper 1",
-              "grade": 100
-            },
-            {
-              "name": "Paper 2",
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Initial Essay",
-          "weight": 5,
-          "position": 550,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Attendance",
-          "weight": 0,
-          "position": 100,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": "8/29, 8/30",
-              "grade": 100
-            },
-            {
-              "name": "9/5, 9/6",
-              "grade": 100
-            },
-            {
-              "name": "9/10, 9/11",
-              "grade": 100
-            },
-            {
-              "name": "9/19, 9/20",
-              "grade": 100
-            },
-            {
-              "name": "Attendance 5",
-              "grade": null
-            },
-            {
-              "name": "Attendance 6",
-              "grade": null
-            },
-            {
-              "name": "Attendance 7",
-              "grade": null
-            },
-            {
-              "name": "Attendance 8",
-              "grade": null
-            },
-            {
-              "name": "Attendance 9",
-              "grade": null
-            },
-            {
-              "name": "Attendance 10",
-              "grade": null
-            },
-            {
-              "name": "Attendance 11",
-              "grade": null
-            },
-            {
-              "name": "Attendance 12",
-              "grade": null
-            },
-            {
-              "name": "Attendance 13",
-              "grade": null
-            },
-            {
-              "name": "Attendance 14",
-              "grade": null
-            },
-            {
-              "name": "Attendance 15",
-              "grade": null
-            },
-            {
-              "name": "Attendance 16",
-              "grade": null
-            },
-            {
-              "name": "Attendance 17",
-              "grade": null
-            },
-            {
-              "name": "Attendance 18",
-              "grade": null
-            },
-            {
-              "name": "Attendance 19",
-              "grade": null
-            },
-            {
-              "name": "Attendance 20",
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Final Essay",
-          "weight": 15,
-          "position": 675,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Online Quizzes after dropped",
-          "weight": 15,
-          "position": 1100,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "semester": "2019F",
-      "name": "ECEN 472",
-      "credit_hours": null,
-      "cutoffs": "{\"A\":90.0,\"B\":80.0,\"C\":70.0,\"D\":60.0}",
-      "categories": [
-        {
-          "name": "Labs",
-          "weight": 30,
-          "position": null,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": "Labs 1",
-              "grade": 100
-            },
-            {
-              "name": "Labs 2",
-              "grade": 100
-            },
-            {
-              "name": "Labs 3",
-              "grade": 100
-            },
-            {
-              "name": "Labs 4",
-              "grade": 100
-            },
-            {
-              "name": "Labs 5",
-              "grade": 100
-            },
-            {
-              "name": "Labs 6",
-              "grade": 100
-            },
-            {
-              "name": "Labs 7",
-              "grade": 100
-            },
-            {
-              "name": "Labs 8",
-              "grade": 100
-            },
-            {
-              "name": "Labs 9",
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Midterm 1",
-          "weight": 15,
-          "position": 100,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Midterm 2",
-          "weight": 15,
-          "position": 200,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Final",
-          "weight": 15,
-          "position": 300,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Homework / Quizzes",
-          "weight": 25,
-          "position": 400,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": "Homework / Quizzes 1",
-              "grade": 100
-            },
-            {
-              "name": "Homework / Quizzes 2",
-              "grade": 100
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "semester": "2020S",
-      "name": "ECEN 449",
-      "credit_hours": null,
-      "cutoffs": "{\"A\":90.0,\"B\":80.0,\"C\":70.0,\"D\":60.0}",
-      "categories": [
-        {
-          "name": "Homework",
-          "weight": 20,
-          "position": 100,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": "Homework 1",
-              "grade": 100
-            },
-            {
-              "name": "Homework 2",
-              "grade": null
-            },
-            {
-              "name": "Homework 3",
-              "grade": null
-            },
-            {
-              "name": "Homework 4",
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Lab",
-          "weight": 30,
-          "position": 200,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": "Lab 1",
-              "grade": 100
-            },
-            {
-              "name": "Lab 2",
-              "grade": 100
-            },
-            {
-              "name": "Lab 3",
-              "grade": 100
-            },
-            {
-              "name": "Lab 4",
-              "grade": 100
-            },
-            {
-              "name": "Lab 5",
-              "grade": 100
-            },
-            {
-              "name": "Lab 6",
-              "grade": null
-            },
-            {
-              "name": "Lab 7",
-              "grade": null
-            },
-            {
-              "name": "Lab 8",
-              "grade": null
-            },
-            {
-              "name": "Lab 9",
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Midterm",
-          "weight": 25,
-          "position": 300,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Final",
-          "weight": 25,
-          "position": 400,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": null
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "semester": "2020S",
-      "name": "ECEN 467",
-      "credit_hours": null,
-      "cutoffs": "{\"A\":90.0,\"B\":80.0,\"C\":70.0,\"D\":60.0}",
-      "categories": [
-        {
-          "name": "Homework and lab analysis",
-          "weight": 45,
-          "position": 100,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": "Homework 1",
-              "grade": 100
-            },
-            {
-              "name": "Lab 1",
-              "grade": 100
-            },
-            {
-              "name": "Homework 2",
-              "grade": 100
-            },
-            {
-              "name": "Lab 2",
-              "grade": null
-            },
-            {
-              "name": "Homework 3",
-              "grade": null
-            },
-            {
-              "name": "Lab 3",
-              "grade": null
-            },
-            {
-              "name": "Homework 4",
-              "grade": null
-            },
-            {
-              "name": "Lab 4",
-              "grade": null
-            },
-            {
-              "name": "Homework 5",
-              "grade": null
-            },
-            {
-              "name": "Lab 5",
-              "grade": null
-            },
-            {
-              "name": "Homework 6",
-              "grade": null
-            },
-            {
-              "name": "Lab 6",
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Midterm",
-          "weight": 25,
-          "position": 200,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Final",
-          "weight": 30,
-          "position": 300,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": null
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "semester": "2020S",
-      "name": "ECEN 423",
-      "credit_hours": null,
-      "cutoffs": "{\"A\":90.0,\"B\":80.0,\"C\":70.0,\"D\":60.0}",
-      "categories": [
-        {
-          "name": null,
-          "weight": null,
-          "position": 100,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": null,
-          "weight": null,
-          "position": 200,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": null
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "semester": "2020S",
-      "name": "ECEN 404",
-      "credit_hours": null,
-      "cutoffs": "{\"A\":90.0,\"B\":80.0,\"C\":70.0,\"D\":60.0}",
-      "categories": [
-        {
-          "name": "Bi-Weekly Updates",
-          "weight": 25,
-          "position": 100,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": "Bi-Weekly Update 1",
-              "grade": 100
-            },
-            {
-              "name": "Bi-Weekly Update 2",
-              "grade": 100
-            },
-            {
-              "name": "Bi-Weekly Update 3",
-              "grade": null
-            },
-            {
-              "name": "Bi-Weekly Update 4",
-              "grade": null
-            },
-            {
-              "name": "Bi-Weekly Update 5",
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Ethics Quizzes",
-          "weight": 2,
-          "position": 200,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Final Presentation",
-          "weight": 6,
-          "position": 300,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Video",
-          "weight": 1,
-          "position": 400,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Poster",
-          "weight": 1,
-          "position": 500,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Demo",
-          "weight": 40,
-          "position": 600,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Final Report",
-          "weight": 25,
-          "position": 700,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": null
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "semester": "2020U",
-      "name": "DEMO 101",
+      "semester": "2020F",
+      "name": "LERN-101",
       "credit_hours": 3,
-      "cutoffs": "{\"A\":90,\"B\":80,\"C\":70,\"D\":60}",
+      "cutoffs": "{\"a\":90,\"b\":80,\"c\":70,\"d\":60}",
+      "settings": "{}",
       "categories": [
-        {
-          "name": "Pos 2",
-          "weight": 10,
-          "position": 250,
-          "dropped_grades": null,
-          "grades": [
             {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Informational/Biography Project: Living Wax Museum",
-          "weight": 100,
-          "position": 200,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Pos 3",
-          "weight": 10,
-          "position": 300,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Pos 4",
-          "weight": 40,
-          "position": 400,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Pos 5",
-          "weight": 30,
-          "position": 500,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "This is a fantastical test",
-          "weight": 5,
-          "position": 600,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": "This is a fantastical test 1",
-              "grade": null
+              "name": "Homework",
+              "weight": 25,
+              "position": 100,
+              "dropped_grades": 3,
+              "grades": [
+                    {
+                      "name": "Homework 1",
+                      "grade": 92
+                    },
+                    {
+                      "name": "Homework 2",
+                      "grade": 88
+                    },
+                    {
+                      "name": "Homework 3",
+                      "grade": 100
+                    },
+                    {
+                      "name": "Homework 4",
+                      "grade": 105
+                    },
+                    {
+                      "name": "Homework 5",
+                      "grade": 0
+                    },
+                    {
+                      "name": "Homework 6",
+                      "grade": 0
+                    },
+                    {
+                      "name": "Homework 7",
+                      "grade": 99
+                    },
+                    {
+                      "name": "Homework 8",
+                      "grade": 80
+                    },
+                    {
+                      "name": "Homework 9",
+                      "grade": 77
+                    }
+              ]
             },
             {
-              "name": "This is a fantastical test 2",
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Pos 7",
-          "weight": 1,
-          "position": 700,
-          "dropped_grades": null,
-          "grades": [
+              "name": "Labs",
+              "weight": 25,
+              "position": 100,
+              "dropped_grades": 0,
+              "grades": [
+                    {
+                      "name": "Lab 1",
+                      "grade": 78
+                    },
+                    {
+                      "name": "Lab 2",
+                      "grade": 90
+                    },
+                    {
+                      "name": "Lab 3",
+                      "grade": 90
+                    },
+                    {
+                      "name": "Lab 4",
+                      "grade": 55
+                    },
+                    {
+                      "name": "Lab 5",
+                      "grade": 0
+                    },
+                    {
+                      "name": "Lab 6",
+                      "grade": 100
+                    },
+                    {
+                      "name": "Lab 7",
+                      "grade": 100
+                    },
+                    {
+                      "name": "Lab 8",
+                      "grade": 97
+                    },
+                    {
+                      "name": "Lab 9",
+                      "grade": 92
+                    }
+              ]
+            },
             {
-              "name": null,
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Pos 8",
-          "weight": 1,
-          "position": 800,
-          "dropped_grades": null,
-          "grades": [
+              "name": "Exam 1",
+              "weight": 12.5,
+              "position": 100,
+              "dropped_grades": 3,
+              "grades": [
+                    {
+                      "name": null,
+                      "grade": null
+                    }
+              ]
+            },
             {
-              "name": null,
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Pos 9",
-          "weight": 1,
-          "position": 900,
-          "dropped_grades": null,
-          "grades": [
+              "name": "Exam 2",
+              "weight": 12.5,
+              "position": 100,
+              "dropped_grades": 3,
+              "grades": [
+                {
+                  "name": null,
+                  "grade": null
+                }
+              ]
+            },
             {
-              "name": null,
-              "grade": null
+              "name": "Final",
+              "weight": 25,
+              "position": 100,
+              "dropped_grades": 3,
+              "grades": [
+                {
+                  "name": null,
+                  "grade": null
+                }
+              ]
             }
-          ]
-        },
-        {
-          "name": "Pos 10",
-          "weight": 1,
-          "position": 1000,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Pos 11",
-          "weight": 1,
-          "position": 1100,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Pos 12",
-          "weight": 1,
-          "position": 1200,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Pos 13",
-          "weight": 1,
-          "position": 1300,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Pos 14",
-          "weight": 1,
-          "position": 1400,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": null
-            }
-          ]
-        }
       ]
     },
     {
-      "semester": "2020U",
-      "name": "ECEN 424",
-      "credit_hours": 0,
-      "cutoffs": "{\"A\":90,\"B\":80,\"C\":70,\"D\":60}",
+      "semester": "2021S",
+      "name": "LERN-201",
+      "credit_hours": 3,
+      "cutoffs": "{\"a\":90,\"b\":80,\"c\":70,\"d\":60}",
+      "settings": "{}",
       "categories": [
-        {
-          "name": "Homework",
-          "weight": 5,
-          "position": null,
-          "dropped_grades": null,
-          "grades": [
             {
-              "name": "Homework 1",
-              "grade": null
+              "name": "Homework",
+              "weight": 25,
+              "position": 100,
+              "dropped_grades": 3,
+              "grades": [
+                {
+                  "name": "Homework 1",
+                  "grade": null
+                },
+                {
+                  "name": "Homework 2",
+                  "grade": null
+                },
+                {
+                  "name": "Homework 3",
+                  "grade": null
+                },
+                {
+                  "name": "Homework 4",
+                  "grade": null
+                },
+                {
+                  "name": "Homework 5",
+                  "grade": null
+                },
+                {
+                  "name": "Homework 6",
+                  "grade": null
+                },
+                {
+                  "name": "Homework 7",
+                  "grade": null
+                },
+                {
+                  "name": "Homework 8",
+                  "grade": null
+                },
+                {
+                  "name": "Homework 9",
+                  "grade": null
+                }
+              ]
             },
             {
-              "name": "Homework 2",
-              "grade": null
+              "name": "Labs",
+              "weight": 25,
+              "position": 100,
+              "dropped_grades": 0,
+              "grades": [
+                    {
+                      "name": "Lab 1",
+                      "grade": null
+                    },
+                    {
+                      "name": "Lab 2",
+                      "grade": null
+                    },
+                    {
+                      "name": "Lab 3",
+                      "grade": null
+                    },
+                    {
+                      "name": "Lab 4",
+                      "grade": null
+                    },
+                    {
+                      "name": "Lab 5",
+                      "grade": null
+                    },
+                    {
+                      "name": "Lab 6",
+                      "grade": null
+                    },
+                    {
+                      "name": "Lab 7",
+                      "grade": null
+                    },
+                    {
+                      "name": "Lab 8",
+                      "grade": null
+                    },
+                    {
+                      "name": "Lab 9",
+                      "grade": null
+                    }
+              ]
             },
             {
-              "name": "Homework 3",
-              "grade": null
+              "name": "Exam 1",
+              "weight": 12.5,
+              "position": 100,
+              "dropped_grades": 3,
+              "grades": [
+                    {
+                      "name": null,
+                      "grade": null
+                    }
+
+              ]
             },
             {
-              "name": "Homework 4",
-              "grade": null
+              "name": "Exam 2",
+              "weight": 12.5,
+              "position": 100,
+              "dropped_grades": 3,
+              "grades": [
+                {
+                  "name": null,
+                  "grade": null
+                }
+
+              ]
             },
             {
-              "name": "Homework 5",
-              "grade": null
+              "name": "Final",
+              "weight": 25,
+              "position": 100,
+              "dropped_grades": 3,
+              "grades": [
+                {
+                  "name": null,
+                  "grade": null
+                }
+              ]
             }
-          ]
-        },
-        {
-          "name": "Machine Problems",
-          "weight": 10,
-          "position": null,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": "Machine Problem 1",
-              "grade": null
-            },
-            {
-              "name": "Machine Problem 2",
-              "grade": null
-            },
-            {
-              "name": "Machine Problem 3",
-              "grade": null
-            },
-            {
-              "name": "Machine Problem 4",
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Exam 2",
-          "weight": 20,
-          "position": null,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": "Exam 2 1",
-              "grade": null
-            },
-            {
-              "name": "Exam 2 2",
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Exam 3",
-          "weight": 25,
-          "position": null,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Project",
-          "weight": 10,
-          "position": null,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": 100
-            }
-          ]
-        },
-        {
-          "name": "Quizzes",
-          "weight": 15,
-          "position": null,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": "Quiz 1",
-              "grade": null
-            },
-            {
-              "name": "Quiz 2",
-              "grade": null
-            },
-            {
-              "name": "Quiz 3",
-              "grade": null
-            },
-            {
-              "name": "Quiz 4",
-              "grade": null
-            },
-            {
-              "name": "Quiz 5",
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Exam 1",
-          "weight": 15,
-          "position": null,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": null,
-              "grade": null
-            }
-          ]
-        },
-        {
-          "name": "Category",
-          "weight": 0,
-          "position": 100,
-          "dropped_grades": null,
-          "grades": [
-            {
-              "name": "Category 1",
-              "grade": null
-            },
-            {
-              "name": "Category 2",
-              "grade": null
-            }
-          ]
-        }
       ]
     }
-  ],
-  "user": {
-    "first_name": "Example",
-    "last_name": "User",
-    "email": "example_user@gmail.com",
-    "created_at": "2019-03-16T17:03:53.000Z",
-    "updated_at": "2020-08-06 19:08:12",
-    "settings": "{\"tour\":true,\"redirectFromHome\":true,\"previous_notification\":\"2020-07-05T00:31:00.000-05:00\",\"overallCredits\":50,\"overallGpa\":3.8,\"gpaSemester\":\"2020U\"}"
-  }
+  ]
 }
