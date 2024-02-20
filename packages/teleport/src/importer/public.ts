@@ -7,6 +7,8 @@ import {ValidationError} from './errors.js';
 import {SCHEMAS} from './schema/index.js';
 import {publicCourseToRaw} from './generators.js';
 
+export * from './raw.js';
+
 // Pulled from https://github.com/ajv-validator/ajv-formats/blob/ce49433448384b4c0b2407adafc345e43b85f8ea/src/formats.ts#L51
 const EMAIL: Format
 	/* eslint-disable-next-line unicorn/better-regex */

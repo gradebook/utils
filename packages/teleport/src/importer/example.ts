@@ -1,5 +1,5 @@
 import {readFileSync} from 'fs';
-import {publicToRaw} from './api.js';
+import {publicToRaw} from './public.js';
 import {ValidationError} from './errors.js';
 
 const exampleExport = readFileSync('./export.json');
