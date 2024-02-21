@@ -1,13 +1,10 @@
 import {
-	type CategoryRow, type CourseRow, type GradeRow, type UserRow, type PublicExport, type RawExport,
+	type CategoryRow, type CourseRow, type GradeRow, type UserRow, type PublicExport, type RawExport, type RequestOptions,
 } from './shared/interfaces.js';
 import {getSchemaVersion, type KnexProxy} from './shared/db.js';
 
-export interface ExportOptions {
-	school: string;
-	hostname: string;
+export interface ExportOptions extends RequestOptions {
 	userId: string;
-	secure?: boolean;
 }
 
 export async function getExport(

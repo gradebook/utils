@@ -1,5 +1,27 @@
-import {type RawExport} from '../shared/interfaces.js';
+import {type RequestOptions, type RawExport} from '../shared/interfaces.js';
 import {getSchemaVersion, type KnexProxy, assertInTransaction} from '../shared/db.js';
+
+export type ImportOptions = RequestOptions;
+
+export async function putImport(
+	{school, hostname, secure = false}: ImportOptions,
+	export_: RawExport,
+): Promise<unknown> {
+	const url = `http${secure ? 's' : ''}://${hostname}/api/v0/internal/raw-user-import?school=${school}`;
+	const request = await fetch(url, {
+		method: 'POST',
+		headers: {
+			'content-type': 'application/json',
+		},
+		body: JSON.stringify(export_),
+	});
+
+	if (!request.ok) {
+		throw new Error(`Request failed: ${request.status} ${request.statusText}`);
+	}
+
+	return request.json();
+}
 
 export async function importUserRows(knex: KnexProxy, export_: RawExport) {
 	assertInTransaction(knex);
