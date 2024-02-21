@@ -104,3 +104,9 @@ export interface RawExport {
 	categories: CategoryRow[];
 	grades: GradeRow[];
 }
+
+export interface RequestOptions {
+	school: string;
+	hostname: string;
+	secure?: boolean;
+}

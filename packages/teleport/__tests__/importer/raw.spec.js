@@ -2,8 +2,9 @@
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {expect} from 'chai';
+import nock from 'nock';
 import {remapRawExportIds} from '../../lib/shared/remap-id.js';
-import {importUserRows} from '../../lib/importer/raw.js';
+import {importUserRows, putImport} from '../../lib/importer/raw.js';
 import {runSqlFile, useDatabase} from '../_utils/test-db.js';
 import {createKnexProxy} from '../../lib/shared/db.js';
 import {rawUserExport} from '../fixtures/user-export.js';
@@ -17,6 +18,40 @@ describe('Unit > Importer > Raw', function () {
 	before(async function () {
 		await runSqlFile(knex, path.resolve(__dirname, '../fixtures/database-ddl.sql'));
 		await runSqlFile(knex, path.resolve(__dirname, '../fixtures/database-dml.sql'));
+	});
+
+	it('putImport wraps request to server endpoint', async function () {
+		try {
+			nock('https://gradebook.app')
+				.post('/api/v0/internal/raw-user-import?school=easy')
+				.reply(200, (url, body) => ({
+					// @ts-expect-error
+					version: body.version,
+					// @ts-expect-error
+					user: body.user.id,
+					school: new URL(url, 'http://192.168.1.200').searchParams.get('school'),
+				}));
+
+			nock('http://192.168.1.200')
+				.post('/api/v0/internal/raw-user-import?school=lazy')
+				.reply(200, (url, body) => ({
+					// @ts-expect-error
+					version: body.version,
+					// @ts-expect-error
+					user: body.user.id,
+					school: new URL(url, 'http://192.168.1.200').searchParams.get('school'),
+				}));
+
+			const [lazyTest, easyTest] = await Promise.all([
+				putImport({school: 'lazy', hostname: '192.168.1.200'}, rawUserExport),
+				putImport({school: 'easy', hostname: 'gradebook.app', secure: true}, rawUserExport),
+			]);
+
+			expect(lazyTest).to.deep.equal({user: rawUserExport.user.id, version: rawUserExport.version, school: 'lazy'});
+			expect(easyTest).to.deep.equal({user: rawUserExport.user.id, version: rawUserExport.version, school: 'easy'});
+		} finally {
+			nock.cleanAll();
+		}
 	});
 
 	it('Requires a transaction', async function () {
