@@ -8,7 +8,7 @@
   "bugs": "https://github.com/gradebook/utils/issues",
   "license": "MIT",
   "type": "module",
-  "module": "lib/api.js",
+  "main": "lib/api.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -32,12 +32,13 @@
   },
   "dependencies": {
     "ajv": "^8.11.0",
-    "bson-objectid": "^2.0.3",
-    "got": "^11.8.2"
+    "bson-objectid": "^2.0.3"
   },
   "devDependencies": {
-    "knex": "2.5.1",
-    "nock": "13.3.3"
+    "@types/node": "^20.11.19",
+    "knex": "3.1.0",
+    "nock": "^14.0.0-beta.3",
+    "sqlite3": "^5.1.7"
   },
   "xo": false
 }

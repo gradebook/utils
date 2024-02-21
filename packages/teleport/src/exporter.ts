@@ -1,21 +1,56 @@
-import {URL} from 'url';
-import got from 'got';
-import type {Export} from './shared/interfaces.js';
+import {
+	type CategoryRow, type CourseRow, type GradeRow, type UserRow, type PublicExport, type RawExport, type RequestOptions,
+} from './shared/interfaces.js';
+import {getSchemaVersion, type KnexProxy} from './shared/db.js';
 
-interface ExportOptions {
-	school: string;
-	hostname?: string;
-	secure?: boolean;
+export interface ExportOptions extends RequestOptions {
 	userId: string;
 }
 
-// @todo: Add client authentication
 export async function getExport(
-	{school, userId, hostname = 'gradebook.app', secure = false}: ExportOptions,
-): Promise<Export> {
-	const user: Export = await got.get(
-		new URL(`/api/v0/internal/user-dump?user=${userId}&school=${school}`, `http${secure ? 's' : ''}://${hostname}`),
-	).json();
+	{school, userId, hostname, secure = false}: ExportOptions,
+): Promise<PublicExport> {
+	const url = `http${secure ? 's' : ''}://${hostname}/api/v0/internal/raw-user-export?user=${userId}&school=${school}`;
+	const request = await fetch(url);
 
-	return user;
+	if (!request.ok) {
+		throw new Error(`Request failed: ${request.status} ${request.statusText}`);
+	}
+
+	return request.json() as Promise<PublicExport>;
+}
+
+export async function exportUserRows(knex: KnexProxy, userId: string): Promise<{error: string} | RawExport> {
+	const user = await knex('users')
+		.where('id', userId)
+		.first<UserRow | undefined>();
+
+	if (!user) {
+		return {
+			error: 'Unable to find user',
+		};
+	}
+
+	const [
+		version,
+		courses,
+		grades,
+	] = await Promise.all([
+		getSchemaVersion(knex),
+		knex('courses').where('user_id', userId).select<CourseRow[]>(),
+		knex('grades').where('user_id', userId).select<GradeRow[]>(),
+	]);
+
+	const courseIds = courses.map(course => course.id);
+	const categories = await knex('categories')
+		.whereIn('course_id', courseIds)
+		.select<CategoryRow[]>();
+
+	return {
+		version,
+		user,
+		courses,
+		categories,
+		grades,
+	};
 }

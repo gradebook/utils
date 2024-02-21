@@ -1,60 +1,70 @@
 /* eslint-disable camelcase */
 import ObjectId from 'bson-objectid';
-import type {Course, Category, Grade, Query} from '../shared/interfaces.js';
+import type {PublicCourse, PublicCategory, PublicGrade, RawExport} from '../shared/interfaces.js';
 import {ValidationError} from './errors.js';
 
-export function generateCourseQuery(
-	_ref: string,
-	user_id: string,
-	course: Course,
+export function publicCourseToRaw(
+	course: PublicCourse,
+	mappedExport: RawExport,
 	maxGradesPerCategory: number,
-): Query[] {
+	courseRef: string,
+) {
+	const user_id = mappedExport.user.id;
 	const id = new ObjectId().toHexString();
-	const courseRow = {...course, id, user_id};
-	delete courseRow.categories;
 
-	const queries: Query[] = [['courses', courseRow]];
+	mappedExport.courses.push({
+		id,
+		user_id,
+		name: course.name,
+		semester: course.semester,
+		credit_hours: course.credit_hours,
+		cutoffs: course.cutoffs,
+		settings: course.settings,
+	});
 
 	if (!Array.isArray(course.categories)) {
-		return queries;
+		return;
 	}
 
 	for (let i = 0; i < course.categories.length; ++i) {
 		const category = course.categories[i];
-		const ref = `${_ref}.categories[${i}]`;
+		const ref = `${courseRef}.categories[${i}]`;
 
 		if (!category.grades || category.grades.length > maxGradesPerCategory) {
 			throw new ValidationError({message: `Category ${ref} has too many grades`});
 		}
 
-		queries.push(
-			...generateCategoryQuery(user_id, id, category),
-		);
+		publicCategoryToRaw(category, mappedExport, id);
 	}
-
-	return queries;
 }
 
-export function generateCategoryQuery(user_id: string, course_id: string, category: Category): Query[] {
+export function publicCategoryToRaw(category: PublicCategory, mappedExport: RawExport, course_id: string) {
 	const id = new ObjectId().toHexString();
-	const categoryRow = {...category, id, course_id};
-	delete categoryRow.grades;
-
-	const queries: Query[] = [['categories', categoryRow]];
+	mappedExport.categories.push({
+		id,
+		course_id,
+		name: category.name,
+		dropped_grades: category.dropped_grades,
+		weight: category.weight,
+		position: category.position,
+	});
 
 	if (Array.isArray(category.grades)) {
 		for (const grade of category.grades) {
-			queries.push(generateGradeQuery(grade, user_id, course_id, id));
+			publicGradeToRaw(grade, mappedExport, course_id, id);
 		}
 		// CASE: All categories _must_ have at least one associated grade
 	} else {
-		queries.push(generateGradeQuery({name: null, grade: null}, user_id, course_id, id));
+		publicGradeToRaw({name: null, grade: null}, mappedExport, course_id, id);
 	}
-
-	return queries;
 }
 
-export function generateGradeQuery(grade: Grade, user_id: string, course_id: string, category_id: string): Query {
-	const id = new ObjectId().toHexString();
-	return ['grades', {...grade, id, user_id, course_id, category_id}];
+export function publicGradeToRaw(grade: PublicGrade, mappedExport: RawExport, course_id: string, category_id: string) {
+	mappedExport.grades.push({
+		...grade,
+		id: new ObjectId().toHexString(),
+		user_id: mappedExport.user.id,
+		course_id,
+		category_id,
+	});
 }
