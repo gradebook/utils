@@ -30,6 +30,7 @@ export async function uploadGitHubReleaseAsset(url: string, asset: Asset, authTo
 	try {
 		const buffer = await readFile(assetPath);
 
+		// @ts-expect-error mime's types seem to be wrong
 		const type = mime.getType(assetPath);
 
 		if (!type) {

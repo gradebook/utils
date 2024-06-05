@@ -4,9 +4,9 @@ export class TrustedRequestError extends Error {
 	public readonly errorType = 'PermissionError'; // eslint-disable-line @typescript-eslint/class-literal-property-style
 	context: string;
 
-	constructor(message: string, requestIp: string) {
+	constructor(message: string, requestIp: string | undefined) {
 		super(message);
-		this.context = `From: ${requestIp}`;
+		this.context = `From: ${requestIp ?? '(unknown)'}`;
 	}
 }
 
@@ -23,7 +23,7 @@ export function allowTrustedIps(config: TrustedRequestConfig): RequestHandler {
 
 	return function isTrustedRequest(request: Request, response: Response, next: NextFunction) {
 		// Only allow local ips
-		if (!allowList.has(request.ip)) {
+		if (!request.ip || !allowList.has(request.ip)) {
 			next(new TrustedRequestError(errorMessage, request.ip));
 			return;
 		}
