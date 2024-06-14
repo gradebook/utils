@@ -14,6 +14,13 @@ interface GetRequestOptions {
 	includeHostInHeader?: boolean;
 }
 
+interface AuthFetchOptions {
+	headers: {
+		authorization: string;
+		host?: string;
+	};
+}
+
 type CachedToken = [number, string];
 
 export function getSafeExpiryFromJwt(jwt: string): number | null {
@@ -78,7 +85,7 @@ export class AuthManager {
 	async getRequestInfo(
 		serviceName: string,
 		{includeHostInHeader = true}: GetRequestOptions = {},
-	): Promise<[Resolution, RequestInit] | null> {
+	): Promise<[Resolution, AuthFetchOptions] | null> {
 		const resolution = this.#resolver.get(serviceName) ?? await this.#fetchServiceInfo(serviceName);
 		const fetchOptions = await this.#getFetchOptionsWithAuthorization(serviceName);
 
@@ -87,7 +94,7 @@ export class AuthManager {
 		}
 
 		if (includeHostInHeader) {
-			(fetchOptions.headers as Record<string, string>).host = resolution.hostname;
+			fetchOptions.headers.host = resolution.hostname;
 		}
 
 		return [resolution, fetchOptions];
@@ -97,7 +104,7 @@ export class AuthManager {
 		this.#resolver.delete(serviceName);
 	}
 
-	async #getFetchOptionsWithAuthorization(serviceName: string, retry = 3): Promise<RequestInit> {
+	async #getFetchOptionsWithAuthorization(serviceName: string, retry = 3): Promise<AuthFetchOptions> {
 		if (retry === 0) {
 			throw new Error('Unable to get JWT');
 		}
@@ -109,7 +116,7 @@ export class AuthManager {
 				headers: {
 					authorization: `Bearer ${existingToken[1]}`,
 				},
-			};
+			} satisfies Partial<RequestInit>;
 		}
 
 		if (!this.#serviceLocation.has(serviceName)) {
@@ -157,7 +164,7 @@ export class AuthManager {
 			headers: {
 				authorization: `Bearer ${response.token}`,
 			},
-		};
+		} satisfies Partial<RequestInit>;
 	}
 
 	async #fetchServiceInfo(serviceName: string): Promise<Readonly<Resolution> | null> {
