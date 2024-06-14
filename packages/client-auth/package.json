@@ -29,8 +29,6 @@
     "tsc": "tsc",
     "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\""
   },
-  "dependencies": {
-    "node-fetch": "^2.0.0"
-  },
+  "dependencies": {},
   "xo": false
 }

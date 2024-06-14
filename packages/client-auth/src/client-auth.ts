@@ -2,7 +2,6 @@ import {Buffer} from 'buffer';
 import * as path from 'path';
 import {URL} from 'url';
 import {setTimeout} from 'timers/promises';
-import fetchCore, {type RequestInit, type Response} from 'node-fetch';
 
 interface Resolution {
 	ip: string;
@@ -61,7 +60,7 @@ export class AuthManager {
 	constructor(
 		accessUrl: string,
 		private readonly serviceMap: string[][],
-		private readonly fetch = fetchCore,
+		private readonly fetch = globalThis.fetch,
 	) {
 		const parsedUrl = new URL(accessUrl);
 
