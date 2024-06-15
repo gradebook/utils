@@ -57,6 +57,9 @@ export class AuthManager {
 	readonly #gatewayRoot: string;
 	readonly #credentials: string;
 
+	/**
+	 * @param serviceMap see {@link AuthManager.setServiceMap}
+	 */
 	constructor(
 		accessUrl: string,
 		private readonly serviceMap: string[][] = [],
@@ -78,6 +81,29 @@ export class AuthManager {
 		}
 	}
 
+	/**
+  * Reconfigures the service buckets
+	*
+  * @param serviceMap - A 2D array of all services requiring Gateway auth,
+  *                     where each inner array represents a "bucket" of related services.
+	*
+	* Bucketing is done to reduce the number of tokens requested from Gateway.
+	* For example, if communicating with Service B after communicating with Service A is a common use case,
+	* service A and B can be bucketed together, and only 1 token will be requested/stored.
+	*
+	* Note: if a service is included in multiple buckets, the last included bucket will be used when requesting a fresh
+	* token for that service.
+	*
+	* Example:
+	*
+	*  Buckets: `[[a, b], [b,c]]`
+	*
+	*  1. Token is requested for a --> New token is requested for a,b
+	*  2. Token is requested for b --> Cached token for a,b is returned
+	*  3. Token for a,b expires
+	*  4. Token is requested for b --> New token is requested for b,c
+	*
+  */
 	setServiceMap(serviceMap: string[][]) {
 		this.#serviceLocation.clear();
 		for (const [bucketIndex, bucket] of serviceMap.entries()) {
@@ -87,6 +113,9 @@ export class AuthManager {
 		}
 	}
 
+	/**
+  * Retrieve the service location (ip/port/host) and authenticated fetch options for a given service
+  */
 	async getRequestInfo(
 		serviceName: string,
 		{includeHostInHeader = true}: GetRequestOptions = {},
@@ -105,6 +134,9 @@ export class AuthManager {
 		return [resolution, fetchOptions];
 	}
 
+	/**
+	 * Remove a service from the cached resolutions. This is not common, but is useful for services that move often
+	 */
 	serviceFailedConnecting(serviceName: string) {
 		this.#resolver.delete(serviceName);
 	}
