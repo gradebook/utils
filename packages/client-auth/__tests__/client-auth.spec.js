@@ -119,8 +119,7 @@ describe('Unit > Client Auth', function () {
 		await assertResponse(service.getRequestInfo('shared'), 0, 'shared.local', 2);
 		await assertResponse(service.getRequestInfo('group_2_0'), 1, 'group_2_0.local', 1);
 
-		// @ts-expect-error
-		expect(fetch.history.map(([url]) => url)).to.deep.equal([
+		expect(fetch.history?.map(([url]) => url)).to.deep.equal([
 			'https://gateway.local/api/v0/token',
 			'https://gateway.local/api/v0/resolve/shared',
 			'https://gateway.local/api/v0/resolve/group_2_0',
@@ -230,6 +229,34 @@ describe('Unit > Client Auth', function () {
 			expect(false, 'should have failed').to.be.ok;
 		} catch (error) {
 			expect(error.message).to.contain('Unable to get JWT');
+		}
+	});
+
+	it('Can reconfigure the service map', async function () {
+		fetch.handler = () => ({token: `t.${protectedHeader}`});
+		let response = await service.getRequestInfo('group_0_0');
+		try {
+			await service.getRequestInfo('single_service');
+			expect(false, 'Should have failed').to.be.true;
+		} catch (error) {
+			expect(error.message).to.contain('single_service').and.to.contain('service map');
+		}
+
+		expect(response).to.be.ok;
+
+		service.setServiceMap([['single_service']]);
+
+		response = await service.getRequestInfo('single_service');
+		expect(response).to.be.ok;
+		// Cached case - even though it was removed, a service in the same original bucket will have a valid token
+		response = await service.getRequestInfo('group_0_1');
+		expect(response).to.be.ok;
+
+		try {
+			await service.getRequestInfo('group_1_0');
+			expect(false, 'Should have failed').to.be.true;
+		} catch (error) {
+			expect(error.message).to.contain('group_1_0').and.to.contain('service map');
 		}
 	});
 });

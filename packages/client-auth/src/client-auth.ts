@@ -59,7 +59,7 @@ export class AuthManager {
 
 	constructor(
 		accessUrl: string,
-		private readonly serviceMap: string[][],
+		private readonly serviceMap: string[][] = [],
 		private readonly fetch = globalThis.fetch,
 	) {
 		const parsedUrl = new URL(accessUrl);
@@ -73,7 +73,13 @@ export class AuthManager {
 		parsedUrl.username = '';
 
 		this.#gatewayRoot = parsedUrl.href;
+		if (serviceMap) {
+			this.setServiceMap(serviceMap);
+		}
+	}
 
+	setServiceMap(serviceMap: string[][]) {
+		this.#serviceLocation.clear();
 		for (const [bucketIndex, bucket] of serviceMap.entries()) {
 			for (const serviceName of bucket) {
 				this.#serviceLocation.set(serviceName, bucketIndex);
