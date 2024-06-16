@@ -1,3 +1,8 @@
+# 0.2.1
+
+ - expose `createKeyStore` helper
+ - include audience in `readJwt` response
+
 # 0.2.0
 
  - use global nonce store rather than per-instance
