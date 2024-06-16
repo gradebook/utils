@@ -39,7 +39,7 @@ describe('Unit > Service Auth > JWT Parser', function () {
 	});
 
 	it('Fully valid', async function () {
-		expect(await readJwt(keyStore.read, keyStore.validJWE, AUD)).to.deep.equal({integration: 'testing'});
+		expect(await readJwt(keyStore.read, keyStore.validJWE, AUD)).to.deep.equal({integration: 'testing', audience: ['mailer']});
 		expect(keyStore.callHistory).to.deep.equal(['SUCCESS']);
 	});
 });

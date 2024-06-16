@@ -2,6 +2,7 @@ import {jwtVerify, type JWTVerifyGetKey} from 'jose';
 
 export interface GatewayToken {
 	integration: string;
+	audience?: string | string[];
 }
 
 export const IS_403 = 'Access denied';
@@ -22,9 +23,8 @@ export async function readJwt(
 		return typeof decryptedToken === 'string' ? decryptedToken : 'Invalid JWT';
 	}
 
-	const response: Partial<GatewayToken> = {
+	return {
 		integration: decryptedToken.payload.id,
+		audience: decryptedToken.payload.aud,
 	};
-
-	return response as GatewayToken;
 }
