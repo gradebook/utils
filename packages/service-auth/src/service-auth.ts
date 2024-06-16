@@ -34,9 +34,13 @@ export function resolvePaths(sourceUrl: string, requestedPath: string): URL {
 	return url;
 }
 
+export function createKeyStore(gatewayRoot: string) {
+	return jose
+		.createRemoteJWKSet(resolvePaths(gatewayRoot, '.well-known/jwks.json'));
+}
+
 export function useServiceAuth(options: ServiceAuthOptions) {
-	const keyStore = options.store ?? jose
-		.createRemoteJWKSet(resolvePaths(options.gatewayRoot!, '.well-known/jwks.json'));
+	const keyStore = options.store ?? createKeyStore(options.gatewayRoot!);
 
 	const nonceService = (options.requireNonce === undefined || options.requireNonce)
 		? useNonce() : useNoopNonce();
