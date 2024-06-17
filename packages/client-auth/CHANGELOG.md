@@ -1,3 +1,7 @@
+# 0.3.1
+
+ - fix: wrong service list requested after serviceMap update
+
 # 0.3.0
 
  - [potentially breaking] use built-in (`globalThis.fetch`) fetch
