@@ -63,6 +63,13 @@ describe('Unit > Client Auth', function () {
 		);
 	});
 
+	function assertServiceRequest(serviceName, index = -2) {
+		const [url, options] = fetch.history.at(index) ?? ['', {}];
+		const body = JSON.parse(String(options.body ?? '{}'));
+		expect(url.endsWith('/token')).to.be.true;
+		expect(body.permissions).to.be.an('array').and.contain(serviceName);
+	}
+
 	it('requires auth in accessUrl', function () {
 		const assertFailure = test => {
 			try {
@@ -110,12 +117,17 @@ describe('Unit > Client Auth', function () {
 		// The bucket resolution for a shared service chooses the last bucket match because internally it's a basic for loop
 		// The purpose of this test is to make sure that we reuse tokens/resolutions as much as possible.
 		await assertResponse(service.getRequestInfo('shared', {includeHostInHeader}), 0, 'shared.local', 1);
+		assertServiceRequest('shared');
+		assertServiceRequest('group_2_0');
 		includeHostInHeader = true;
 		await assertResponse(service.getRequestInfo('shared', {includeHostInHeader}), 0, 'shared.local', 1);
 		await assertResponse(service.getRequestInfo('group_2_0'), 1, 'group_2_0.local', 1);
+		// 1 token, 2 resolution
 		expect(fetch.history).to.have.length(3);
 
 		await assertResponse(service.getRequestInfo('group_0_0'), 2, 'group_0_0.local', 2);
+		assertServiceRequest('shared');
+		assertServiceRequest('group_0_0');
 		await assertResponse(service.getRequestInfo('shared'), 0, 'shared.local', 2);
 		await assertResponse(service.getRequestInfo('group_2_0'), 1, 'group_2_0.local', 1);
 
@@ -235,6 +247,7 @@ describe('Unit > Client Auth', function () {
 	it('Can reconfigure the service map', async function () {
 		fetch.handler = () => ({token: `t.${protectedHeader}`});
 		let response = await service.getRequestInfo('group_0_0');
+		assertServiceRequest('group_0_0');
 		try {
 			await service.getRequestInfo('single_service');
 			expect(false, 'Should have failed').to.be.true;
@@ -247,6 +260,7 @@ describe('Unit > Client Auth', function () {
 		service.setServiceMap([['single_service']]);
 
 		response = await service.getRequestInfo('single_service');
+		assertServiceRequest('single_service');
 		expect(response).to.be.ok;
 		// Cached case - even though it was removed, a service in the same original bucket will have a valid token
 		response = await service.getRequestInfo('group_0_1');

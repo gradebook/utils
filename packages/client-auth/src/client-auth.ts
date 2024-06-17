@@ -56,13 +56,15 @@ export class AuthManager {
 	#tokens = new Map<string, CachedToken>();
 	readonly #gatewayRoot: string;
 	readonly #credentials: string;
+	// @ts-expect-error the service map is set in `setServiceMap` which is called in the constructor
+	#serviceMap: string[][];
 
 	/**
 	 * @param serviceMap see {@link AuthManager.setServiceMap}
 	 */
 	constructor(
 		accessUrl: string,
-		private readonly serviceMap: string[][] = [],
+		serviceMap: string[][] = [],
 		private readonly fetch = globalThis.fetch,
 	) {
 		const parsedUrl = new URL(accessUrl);
@@ -76,9 +78,7 @@ export class AuthManager {
 		parsedUrl.username = '';
 
 		this.#gatewayRoot = parsedUrl.href;
-		if (serviceMap) {
-			this.setServiceMap(serviceMap);
-		}
+		this.setServiceMap(serviceMap);
 	}
 
 	/**
@@ -105,6 +105,7 @@ export class AuthManager {
 	*
   */
 	setServiceMap(serviceMap: string[][]) {
+		this.#serviceMap = serviceMap;
 		this.#serviceLocation.clear();
 		for (const [bucketIndex, bucket] of serviceMap.entries()) {
 			for (const serviceName of bucket) {
@@ -160,7 +161,7 @@ export class AuthManager {
 			throw new Error(`Service ${serviceName} is not included in the service map`);
 		}
 
-		const permissions = this.serviceMap[this.#serviceLocation.get(serviceName)!];
+		const permissions = this.#serviceMap[this.#serviceLocation.get(serviceName)!];
 		let request: Response;
 
 		try {
