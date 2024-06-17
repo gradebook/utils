@@ -9,6 +9,8 @@ const protectedHeader = Buffer.from(
 
 class FakeFetch {
 	constructor() {
+		/** @type {[url: string, options: RequestInit][]} */
+		this.history = [];
 		this.reset();
 	}
 
@@ -22,12 +24,10 @@ class FakeFetch {
 			throw new Error('Unable to resolve');
 		};
 
-		/** @type {[url: string, options: unknown][]} */
-		this.history = [];
+		this.history.length = 0;
 	}
 
 	proxy = (url, options) => {
-		// @ts-expect-error
 		this.history.push([url, options]);
 		// @ts-expect-error
 		const response = this.handler(url, options);
