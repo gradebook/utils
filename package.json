@@ -32,6 +32,10 @@
     "typescript": "5.2.2",
     "xo": "0.56.0"
   },
+  "// resolutions": "Pinned colorette because knex and pino both depend on it, and differing versions cause TS to fail (TS6200)",
+  "resolutions": {
+    "colorette": "2.0.20"
+  },
   "xo": {
     "ignores": [
       "lib"

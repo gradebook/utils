@@ -53,7 +53,6 @@ const messageFormatWithExclude: (ignore: string) => PinoPretty.PrettyOptions['me
 
 const createSafeLogger = (options: Partial<PinoPretty.PrettyOptions>) => PinoPretty.default({
 	customColors: `message:white,${ignitionColors}`,
-	// @ts-expect-error this is documented in the README, but not as part of the TS types.
 	useOnlyCustomProps: false,
 	hideObject: true,
 	messageFormat: messageFormatWithExclude(options.ignore ?? ''),

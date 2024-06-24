@@ -31,9 +31,9 @@
   },
   "dependencies": {
     "@tryghost/bunyan-rotating-filestream": "^0.0.7",
-    "pino": "^8.7.0",
-    "pino-http": "^8.2.1",
-    "pino-pretty": "^10.2.0"
+    "pino": "^9.2.0",
+    "pino-http": "^10.1.0",
+    "pino-pretty": "^11.2.1"
   },
   "xo": false
 }
