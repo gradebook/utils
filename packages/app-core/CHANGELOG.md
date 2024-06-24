@@ -1,3 +1,9 @@
+# 0.1.2
+
+ - fix: catch logger initialization errors and dump to stdout
+ - chore: enable typescript strict null checks
+ - chore: update @gradebook/logging
+
 # 0.1.1
 
  - upgrade @gradebook/logging
