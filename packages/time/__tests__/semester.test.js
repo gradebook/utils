@@ -27,10 +27,12 @@ describe('Unit > Semester', function () {
 		expect(blankSemester.year).to.be.equal(-1);
 		expect(blankSemester.toString()).to.be.equal('Semesters');
 
-		expect(function () {
-			// eslint-disable-next-line no-new
-			new Semester('2034FALL');
-		}).to.throw('Semester "2034FALL" is not a valid semester');
+		try {
+			const semester = new Semester('2034FALL');
+			expect(semester).to.equal('should have thrown');
+		} catch (error) {
+			expect(error.message).to.equal('Semester "2034FALL" is not a valid semester');
+		}
 	});
 
 	it('isSemester', function () {
