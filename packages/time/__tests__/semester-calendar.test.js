@@ -1,6 +1,6 @@
 // @ts-check
 import {expect} from 'chai';
-import {__testHelper} from '../lib/calendar.js';
+import {__testHelper} from '../lib/semester-calendar.js';
 
 const {
 	getFallActiveRange,
