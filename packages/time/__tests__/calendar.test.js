@@ -1,6 +1,6 @@
 // @ts-check
 import {expect} from 'chai';
-import {__testHelper} from '../lib/semester.js';
+import {__testHelper} from '../lib/calendar.js';
 
 const {
 	getFallActiveRange,
@@ -17,7 +17,7 @@ const verifyDate = (candidate, year, month, day) => {
 	expect(candidate.getDate(), 'day').to.equal(day);
 };
 
-describe('Unit > Semester', function () {
+describe('Unit > Calendar', function () {
 	it('getSpringActiveRange', function () {
 		verifyDate(getSpringActiveRange(2018).start, 2017, 10, 1);
 		verifyDate(getSpringActiveRange(2018).end, 2018, 5, 10);
