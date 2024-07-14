@@ -17,7 +17,7 @@ const verifyDate = (candidate, year, month, day) => {
 	expect(candidate.getDate(), 'day').to.equal(day);
 };
 
-describe('Unit > Calendar', function () {
+describe('Unit > Semester Calendar', function () {
 	it('getSpringActiveRange', function () {
 		verifyDate(getSpringActiveRange(2018).start, 2017, 10, 1);
 		verifyDate(getSpringActiveRange(2018).end, 2018, 5, 10);
