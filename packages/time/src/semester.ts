@@ -15,9 +15,23 @@ export interface ParsedSemester {
 	emoji: string;
 }
 
+/**
+ * Represents a semester with a given year and season.
+ */
 export class Semester {
+	/**
+	 * 5-character semester identifier (e.g. 2020F, 2034S, etc.)
+	 */
 	readonly raw: string;
+
+	/**
+	 * 4-digit year
+	 */
 	readonly year: number;
+
+	/**
+	 * Number representing expected order in a year (spring = 1, summer = 2, etc.)
+	 */
 	readonly semesterNumber: number;
 	private readonly _parsed: ParsedSemester | null;
 
@@ -43,10 +57,21 @@ export class Semester {
 		this.semesterNumber = semesterSortOrder[this._parsed.season];
 	}
 
+	/**
+	 * Checks if the given string is a valid 5-character semester identifier
+	 *
+	 * @param {string} questionable - String to validate
+	 */
 	static isSemester(questionable: string): boolean {
 		return questionable.length === 5 && /\d{4}[sufw]/i.test(questionable);
 	}
 
+	/**
+	 * Parses a 5-character semester code and returns a structure with year, season, and icon
+	 *
+	 * @param {string} string - 5-character semester code
+	 * @returns {ParsedSemester | false} Parsed semester or false if invalid
+	 */
 	static parse(semester: string): ParsedSemester | false {
 		if (semester.length !== 5) {
 			return false;
@@ -83,6 +108,12 @@ export class Semester {
 		};
 	}
 
+	/**
+	 * Returns the semester year, season, and emoji (optional) as a string
+	 *
+	 * @param {boolean} [includeEmoji=false] - Whether to include the season emoji in string
+	 * @returns {string} Parsed semester or false if invalid
+	 */
 	toString(includeEmoji = false): string {
 		if (!this._parsed) {
 			return 'Semesters';
