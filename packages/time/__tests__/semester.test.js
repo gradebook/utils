@@ -1,23 +1,27 @@
 // @ts-check
 
 import {expect} from 'chai';
-import Semester from '../lib/semester.js';
+import {Semester} from '../lib/semester.js';
 
 const assertParsedSemester = (semesterString, year, season) => {
 	const result = Semester.parse(semesterString);
-	expect(result).to.not.be.an('boolean');
-	if (result) {
-		expect(result.year).to.equal(year);
-		expect(result.season).to.equal(season);
+	expect(result).to.not.equal(false);
+	if (!result) {
+		return;
 	}
+
+	expect(result.year).to.equal(year);
+	expect(result.season).to.equal(season);
 };
 
 const assertSemesterToString = (semesterString, readableString, emoji = false) => {
 	const result = new Semester(semesterString);
-	expect(result).to.not.be.an('boolean');
-	if (result) {
-		expect(result.toString(emoji)).to.equal(readableString);
+	expect(result).to.not.equal(false);
+	if (!result) {
+		return;
 	}
+
+	expect(result.toString(emoji)).to.equal(readableString);
 };
 
 describe('Unit > Semester', function () {
