@@ -15,7 +15,7 @@ export interface ParsedSemester {
 	emoji: string;
 }
 
-export default class Semester {
+export class Semester {
 	readonly raw: string;
 	readonly year: number;
 	readonly semesterNumber: number;
