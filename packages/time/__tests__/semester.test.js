@@ -3,7 +3,7 @@
 import {expect} from 'chai';
 import Semester from '../lib/semester.js';
 
-const verifyReadable = (semesterString, year, season) => {
+const assertParsedSemester = (semesterString, year, season) => {
 	const result = Semester.parse(semesterString);
 	expect(result).to.not.be.an('boolean');
 	if (result) {
@@ -12,7 +12,7 @@ const verifyReadable = (semesterString, year, season) => {
 	}
 };
 
-const verifyString = (semesterString, readableString, emoji = false) => {
+const assertSemesterToString = (semesterString, readableString, emoji = false) => {
 	const result = new Semester(semesterString);
 	expect(result).to.not.be.an('boolean');
 	if (result) {
@@ -44,16 +44,16 @@ describe('Unit > Semester', function () {
 		expect(Semester.parse('TooLongString')).to.be.false;
 		expect(Semester.parse('Smol')).to.be.false;
 		expect(Semester.parse('FFFFF')).to.be.false;
-		verifyReadable('2020F', 2020, 'Fall');
-		verifyReadable('2019S', 2019, 'Spring');
-		verifyReadable('3069U', 3069, 'Summer');
-		verifyReadable('2025W', 2025, 'Winter');
+		assertParsedSemester('2020F', 2020, 'Fall');
+		assertParsedSemester('2019S', 2019, 'Spring');
+		assertParsedSemester('3069U', 3069, 'Summer');
+		assertParsedSemester('2025W', 2025, 'Winter');
 	});
 
 	it('toString', function () {
-		verifyString('2020F', 'Fall 2020');
-		verifyString('2020F', 'Fall 2020 🍁', true);
-		verifyString('3069U', 'Summer 3069');
-		verifyString('3069U', 'Summer 3069 ☀️', true);
+		assertSemesterToString('2020F', 'Fall 2020');
+		assertSemesterToString('2020F', 'Fall 2020 🍁', true);
+		assertSemesterToString('3069U', 'Summer 3069');
+		assertSemesterToString('3069U', 'Summer 3069 ☀️', true);
 	});
 });
