@@ -3,27 +3,6 @@
 import {expect} from 'chai';
 import {Semester} from '../lib/semester.js';
 
-const assertParsedSemester = (semesterString, year, season) => {
-	const result = Semester.parse(semesterString);
-	expect(result).to.not.equal(false);
-	if (!result) {
-		return;
-	}
-
-	expect(result.year).to.equal(year);
-	expect(result.season).to.equal(season);
-};
-
-const assertSemesterToString = (semesterString, readableString, emoji = false) => {
-	const result = new Semester(semesterString);
-	expect(result).to.not.equal(false);
-	if (!result) {
-		return;
-	}
-
-	expect(result.toString(emoji)).to.equal(readableString);
-};
-
 describe('Unit > Semester', function () {
 	it('constructor', function () {
 		const blankSemester = new Semester('');
@@ -47,6 +26,17 @@ describe('Unit > Semester', function () {
 	});
 
 	it('parse', function () {
+		const assertParsedSemester = (semesterString, year, season) => {
+			const result = Semester.parse(semesterString);
+			expect(result).to.not.equal(false);
+			if (!result) {
+				return;
+			}
+
+			expect(result.year).to.equal(year);
+			expect(result.season).to.equal(season);
+		};
+
 		expect(Semester.parse('TooLongString')).to.be.false;
 		expect(Semester.parse('Smol')).to.be.false;
 		expect(Semester.parse('FFFFF')).to.be.false;
@@ -57,6 +47,16 @@ describe('Unit > Semester', function () {
 	});
 
 	it('toString', function () {
+		const assertSemesterToString = (semesterString, readableString, emoji = false) => {
+			const result = new Semester(semesterString);
+			expect(result).to.not.equal(false);
+			if (!result) {
+				return;
+			}
+
+			expect(result.toString(emoji)).to.equal(readableString);
+		};
+
 		assertSemesterToString('2020F', 'Fall 2020');
 		assertSemesterToString('2020F', 'Fall 2020 🍁', true);
 		assertSemesterToString('3069U', 'Summer 3069');
