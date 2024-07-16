@@ -1,3 +1,7 @@
+# 1.2.0
+
+ - feat: add Semester parsing APIs
+
 # 1.1.0
 
  - :sparkles: expose semester start date (#210)
