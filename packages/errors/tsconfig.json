@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig-esm.json",
+  "include": [
+    "src/",
+    "__tests__/"
+  ],
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "outDir": "lib",
+    "strict": true
+  }
+}
