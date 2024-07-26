@@ -2,11 +2,12 @@ import {Buffer} from 'buffer';
 import ObjectId from 'bson-objectid';
 import type {Format} from 'ajv';
 import AJV from 'ajv';
-import type {Knex} from 'knex';
-import type {Export, Query, Cutoffs} from '../shared/interfaces.js';
+import type {PublicExport, Cutoffs, RawExport} from '../shared/interfaces.js';
 import {ValidationError} from './errors.js';
 import {SCHEMAS} from './schema/index.js';
-import {generateCourseQuery} from './generators.js';
+import {publicCourseToRaw} from './generators.js';
+
+export * from './raw.js';
 
 // Pulled from https://github.com/ajv-validator/ajv-formats/blob/ce49433448384b4c0b2407adafc345e43b85f8ea/src/formats.ts#L51
 const EMAIL: Format
@@ -27,6 +28,7 @@ validator.addFormat('email', EMAIL);
 validator.addSchema(SCHEMAS);
 
 export interface ImportOptions {
+	schemaVersion: string;
 	maxCoursesPerSemester?: number;
 	maxCategoriesPerCourse?: number;
 	maxGradesPerCategory?: number;
@@ -67,7 +69,7 @@ export function coerceJSON<T extends object>(payload: Buffer | string | object, 
 }
 
 // @TODO: validate remaining fields!
-export function validateUser(user: Export['user'], preserveDates: boolean): void {
+export function validateUser(user: PublicExport['user'], preserveDates: boolean): void {
 	const settings = coerceJSON(user.settings, 'settings');
 	for (const key of Object.keys(settings)) {
 		if (!VALID_SETTINGS.has(key)) {
@@ -87,8 +89,8 @@ export function validateUser(user: Export['user'], preserveDates: boolean): void
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function runBasicValidations(payload_: Buffer | string | object): Export {
-	const payload = coerceJSON<Export>(payload_);
+export function runBasicValidations(payload_: Buffer | string | object): PublicExport {
+	const payload = coerceJSON<PublicExport>(payload_);
 	const passesBasicValidations = validator.validate('gradebook-v0-import', payload);
 
 	if (!passesBasicValidations) {
@@ -109,12 +111,12 @@ export function runBasicValidations(payload_: Buffer | string | object): Export 
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function generateAPICalls(data: Buffer | string | object, options: ImportOptions): Query[] {
+export function publicToRaw(data: Buffer | string | object, options: ImportOptions): RawExport {
 	const uExport = runBasicValidations(data);
 	const uid = options.user_id ?? new ObjectId().toHexString();
-	const queries: Query[] = [];
 
 	const {
+		schemaVersion,
 		maxCoursesPerSemester = 7,
 		maxCategoriesPerCourse = 25,
 		maxGradesPerCategory = 40,
@@ -123,13 +125,38 @@ export function generateAPICalls(data: Buffer | string | object, options: Import
 	} = options;
 
 	validateUser(uExport.user, preserveDates);
-	queries.push(['users', {id: uid, gid, ...uExport.user}]);
-
-	const semesters = new Map<string, number>();
+	const mappedExport: RawExport = {
+		version: schemaVersion,
+		/* eslint-disable camelcase */
+		user: {
+			id: uid,
+			gid,
+			email: uExport.user.email,
+			created_at: uExport.user.created_at,
+			updated_at: uExport.user.updated_at,
+			donated_at: null,
+			first_name: uExport.user.firstName,
+			last_name: uExport.user.lastName,
+			total_school_changes: 0,
+			settings: uExport.user.settings,
+		},
+		/* eslint-enable camelcase */
+		categories: [],
+		courses: [],
+		grades: [],
+	};
 
 	if (!Array.isArray(uExport.courses)) {
-		return queries;
+		return {
+			version: schemaVersion,
+			user: mappedExport.user,
+			categories: [],
+			courses: [],
+			grades: [],
+		};
 	}
+
+	const semesters = new Map<string, number>();
 
 	for (let i = 0; i < uExport.courses.length; ++i) {
 		const course = uExport.courses[i];
@@ -147,38 +174,8 @@ export function generateAPICalls(data: Buffer | string | object, options: Import
 			throw new ValidationError({message: `Course ${ref} has too many categories`});
 		}
 
-		queries.push(...generateCourseQuery(ref, uid, course, maxGradesPerCategory));
+		publicCourseToRaw(course, mappedExport, maxGradesPerCategory, ref);
 	}
 
-	return queries;
+	return mappedExport;
 }
-
-export async function runQueries(knex: Knex, queries: Query[], preserveUser = false): Promise<void> {
-	const txn = await knex.transaction();
-
-	if (!preserveUser) {
-		if (queries[0][0] !== 'users') {
-			throw new Error('Cannot find user in query list');
-		}
-
-		const {id} = queries[0][1];
-		await txn('grades').where('user_id', id).del();
-		await txn('categories').whereIn('id', txn('courses').select('id').where('user_id', id)).del();
-		await txn('courses').where('user_id', id).del();
-		await txn('users').where('id', id).del();
-	}
-
-	try {
-		for (const [table, data] of queries) {
-			/* eslint-disable-next-line no-await-in-loop */
-			await txn(table).insert(data);
-		}
-
-		await txn.commit();
-	} catch (error: unknown) {
-		await txn.rollback();
-		throw error;
-	}
-}
-
-export default generateAPICalls;

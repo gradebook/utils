@@ -1,0 +1,281 @@
+{
+  "version": "0",
+  "user": {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "created_at": "2021-05-06 00:01:53",
+    "updated_at": "2024-02-03 12:37:54",
+    "settings": "{\"tour\":1,\"previous_notification\":\"2021-08-21T15:46:57.000-05:00\",\"redirectFromHome\":false,\"overallCredits\":134,\"overallGpa\":3.85,\"gpaSemester\":\"2023W\"}"
+  },
+  "courses": [
+    {
+      "semester": "2020F",
+      "name": "LERN-101",
+      "credit_hours": 3,
+      "cutoffs": "{\"a\":90,\"b\":80,\"c\":70,\"d\":60}",
+      "settings": "{}",
+      "categories": [
+            {
+              "name": "Homework",
+              "weight": 25,
+              "position": 100,
+              "dropped_grades": 3,
+              "grades": [
+                    {
+                      "name": "Homework 1",
+                      "grade": 92
+                    },
+                    {
+                      "name": "Homework 2",
+                      "grade": 88
+                    },
+                    {
+                      "name": "Homework 3",
+                      "grade": 100
+                    },
+                    {
+                      "name": "Homework 4",
+                      "grade": 105
+                    },
+                    {
+                      "name": "Homework 5",
+                      "grade": 0
+                    },
+                    {
+                      "name": "Homework 6",
+                      "grade": 0
+                    },
+                    {
+                      "name": "Homework 7",
+                      "grade": 99
+                    },
+                    {
+                      "name": "Homework 8",
+                      "grade": 80
+                    },
+                    {
+                      "name": "Homework 9",
+                      "grade": 77
+                    }
+              ]
+            },
+            {
+              "name": "Labs",
+              "weight": 25,
+              "position": 100,
+              "dropped_grades": 0,
+              "grades": [
+                    {
+                      "name": "Lab 1",
+                      "grade": 78
+                    },
+                    {
+                      "name": "Lab 2",
+                      "grade": 90
+                    },
+                    {
+                      "name": "Lab 3",
+                      "grade": 90
+                    },
+                    {
+                      "name": "Lab 4",
+                      "grade": 55
+                    },
+                    {
+                      "name": "Lab 5",
+                      "grade": 0
+                    },
+                    {
+                      "name": "Lab 6",
+                      "grade": 100
+                    },
+                    {
+                      "name": "Lab 7",
+                      "grade": 100
+                    },
+                    {
+                      "name": "Lab 8",
+                      "grade": 97
+                    },
+                    {
+                      "name": "Lab 9",
+                      "grade": 92
+                    }
+              ]
+            },
+            {
+              "name": "Exam 1",
+              "weight": 12.5,
+              "position": 100,
+              "dropped_grades": 3,
+              "grades": [
+                    {
+                      "name": null,
+                      "grade": null
+                    }
+              ]
+            },
+            {
+              "name": "Exam 2",
+              "weight": 12.5,
+              "position": 100,
+              "dropped_grades": 3,
+              "grades": [
+                {
+                  "name": null,
+                  "grade": null
+                }
+              ]
+            },
+            {
+              "name": "Final",
+              "weight": 25,
+              "position": 100,
+              "dropped_grades": 3,
+              "grades": [
+                {
+                  "name": null,
+                  "grade": null
+                }
+              ]
+            }
+      ]
+    },
+    {
+      "semester": "2021S",
+      "name": "LERN-201",
+      "credit_hours": 3,
+      "cutoffs": "{\"a\":90,\"b\":80,\"c\":70,\"d\":60}",
+      "settings": "{}",
+      "categories": [
+            {
+              "name": "Homework",
+              "weight": 25,
+              "position": 100,
+              "dropped_grades": 3,
+              "grades": [
+                {
+                  "name": "Homework 1",
+                  "grade": null
+                },
+                {
+                  "name": "Homework 2",
+                  "grade": null
+                },
+                {
+                  "name": "Homework 3",
+                  "grade": null
+                },
+                {
+                  "name": "Homework 4",
+                  "grade": null
+                },
+                {
+                  "name": "Homework 5",
+                  "grade": null
+                },
+                {
+                  "name": "Homework 6",
+                  "grade": null
+                },
+                {
+                  "name": "Homework 7",
+                  "grade": null
+                },
+                {
+                  "name": "Homework 8",
+                  "grade": null
+                },
+                {
+                  "name": "Homework 9",
+                  "grade": null
+                }
+              ]
+            },
+            {
+              "name": "Labs",
+              "weight": 25,
+              "position": 100,
+              "dropped_grades": 0,
+              "grades": [
+                    {
+                      "name": "Lab 1",
+                      "grade": null
+                    },
+                    {
+                      "name": "Lab 2",
+                      "grade": null
+                    },
+                    {
+                      "name": "Lab 3",
+                      "grade": null
+                    },
+                    {
+                      "name": "Lab 4",
+                      "grade": null
+                    },
+                    {
+                      "name": "Lab 5",
+                      "grade": null
+                    },
+                    {
+                      "name": "Lab 6",
+                      "grade": null
+                    },
+                    {
+                      "name": "Lab 7",
+                      "grade": null
+                    },
+                    {
+                      "name": "Lab 8",
+                      "grade": null
+                    },
+                    {
+                      "name": "Lab 9",
+                      "grade": null
+                    }
+              ]
+            },
+            {
+              "name": "Exam 1",
+              "weight": 12.5,
+              "position": 100,
+              "dropped_grades": 3,
+              "grades": [
+                    {
+                      "name": null,
+                      "grade": null
+                    }
+
+              ]
+            },
+            {
+              "name": "Exam 2",
+              "weight": 12.5,
+              "position": 100,
+              "dropped_grades": 3,
+              "grades": [
+                {
+                  "name": null,
+                  "grade": null
+                }
+
+              ]
+            },
+            {
+              "name": "Final",
+              "weight": 25,
+              "position": 100,
+              "dropped_grades": 3,
+              "grades": [
+                {
+                  "name": null,
+                  "grade": null
+                }
+              ]
+            }
+      ]
+    }
+  ]
+}

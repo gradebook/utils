@@ -9,7 +9,7 @@
   "properties": {
     "name": {
       "type": "string",
-      "pattern": "^[A-Z]{3,4} \\d{3,4}$"
+      "pattern": "^[A-Z]{3,4}-\\d{3,4}$"
     },
     "semester": {
       "type": "string",
@@ -31,6 +31,11 @@
     "cutoffs": {
       "type": "string",
       "minLength": 10,
+      "maxLength": 200
+    },
+    "settings": {
+      "type": "string",
+      "minLength": 2,
       "maxLength": 200
     }
   }

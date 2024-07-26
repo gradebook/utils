@@ -4,6 +4,7 @@ export interface MinimalCourse {
 	name: string;
 	cutoffs: string;
 	credit_hours: string;
+	settings: string;
 }
 
 export interface MinimalCategory {
@@ -50,36 +51,42 @@ export interface GradeRow extends MinimalGrade {
 	category_id: string;
 }
 
-export interface UserRow {
-	id: string;
-	gid: string;
+export interface PublicUserRow {
 	firstName: string;
 	lastName: string;
-	created_at: string;
-	updated_at: string;
+	created: string;
+	updated: string;
 	email: string;
 	settings: string;
 }
 
-type CourseQuery = ['courses', CourseRow];
-type CategoryQuery = ['categories', CategoryRow];
-type GradeQuery = ['grades', GradeRow];
-type UserQuery = ['users', UserRow];
-export type Query = CourseQuery | CategoryQuery | GradeQuery | UserQuery;
-
-export interface Course extends MinimalCourse {
-	categories?: Category[];
+// Extend the exported row to explicitly track the differences
+interface UserRowWithAdditionalProperties extends PublicUserRow {
+	id: string;
+	gid: string;
+	donated_at: string | null;
+	total_school_changes: number | null;
+	first_name: string;
+	last_name: string;
+	created_at: string;
+	updated_at: string;
 }
 
-export interface Category extends MinimalCategory {
-	grades?: Grade[];
+export type UserRow = Omit<UserRowWithAdditionalProperties, 'firstName' | 'lastName' | 'created' | 'updated'>;
+
+export interface PublicCourse extends MinimalCourse {
+	categories?: PublicCategory[];
 }
 
-export type Grade = MinimalGrade;
+export interface PublicCategory extends MinimalCategory {
+	grades?: PublicGrade[];
+}
 
-export interface Export {
+export type PublicGrade = MinimalGrade;
+
+export interface PublicExport {
 	version: '0';
-	courses?: Course[];
+	courses?: PublicCourse[];
 	user: {
 		firstName: string;
 		lastName: string;
@@ -88,4 +95,18 @@ export interface Export {
 		created_at: string;
 		updated_at: string;
 	};
+}
+
+export interface RawExport {
+	version: string;
+	user: UserRow;
+	courses: CourseRow[];
+	categories: CategoryRow[];
+	grades: GradeRow[];
+}
+
+export interface RequestOptions {
+	school: string;
+	hostname: string;
+	secure?: boolean;
 }
