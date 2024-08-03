@@ -1,5 +1,5 @@
 import {PersistentSocket} from './alerting/persistent-socket.js';
-import {config} from './app-core.js';
+import {config, logger} from './app-core.js';
 
 export interface Alert {
 	message: string;
@@ -43,7 +43,7 @@ function assertCanSendAlerts(): void {
 export async function sendAlert(message: string, channel?: string, wait?: number): Promise<void> {
 	assertCanSendAlerts();
 
-	_socket ??= new PersistentSocket(socketPath);
+	_socket ??= new PersistentSocket(socketPath, logger);
 
 	if (!message) {
 		throw new TypeError('Message is required');

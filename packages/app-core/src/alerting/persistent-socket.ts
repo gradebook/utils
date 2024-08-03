@@ -1,7 +1,7 @@
 import {type Buffer} from 'node:buffer';
 import {TransformStream} from 'node:stream/web';
 import {Socket} from 'node:net';
-import {logger} from '../app-core.js';
+import {type Logger} from 'pino'; // eslint-disable-line import/no-extraneous-dependencies
 import {RingFifo} from './fifo.js';
 
 const DEFAULT_BACKOFF_TIMEOUT = 500;
@@ -36,7 +36,7 @@ export class PersistentSocket {
 	private socketReady!: Promise<void>;
 	private writingMessage = '';
 
-	constructor(private readonly socketPath: string) {
+	constructor(private readonly socketPath: string, private readonly logger: Logger) {
 		void this.processIncomingMessages();
 		this.createSocket();
 	}
@@ -105,7 +105,7 @@ export class PersistentSocket {
 
 					if (this.writingMessage) {
 						if (!this.messageQueue.prioritize(this.writingMessage)) {
-							logger.warn(`[app-core]: dropped alert ${this.writingMessage}`);
+							this.logger.warn(`[app-core]: dropped alert ${this.writingMessage}`);
 						}
 
 						this.writingMessage = '';
@@ -192,8 +192,8 @@ export class PersistentSocket {
 				throw new TypeError('Invalid message');
 			}
 		} catch (error) {
-			logger.warn(`[app-core]: Failed parsing message from alerting socket: ${message}`);
-			logger.warn(error);
+			this.logger.warn(`[app-core]: Failed parsing message from alerting socket: ${message}`);
+			this.logger.warn(error);
 			return;
 		}
 
@@ -205,14 +205,14 @@ export class PersistentSocket {
 				if (listener) {
 					listener();
 				} else {
-					logger.warn(`[app-core]: Received ack for unknown sequence: ${parsed.sequence}`);
+					this.logger.warn(`[app-core]: Received ack for unknown sequence: ${parsed.sequence}`);
 				}
 
 				break;
 			}
 
 			default: {
-				logger.error(`[app-core]: Unknown message from alerting socket: ${message}`);
+				this.logger.error(`[app-core]: Unknown message from alerting socket: ${message}`);
 				break;
 			}
 		}
