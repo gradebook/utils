@@ -37,25 +37,16 @@ function newLineTransformer() {
 }
 
 class PersistentSocket {
-	static async create(socketPath: string): Promise<PersistentSocket> {
-		return new Promise((resolve, reject) => {
-			const socket = new Socket();
-			// TODO: set this up
-			socket.connect(socketPath, () => {
-				resolve(new PersistentSocket(socketPath, socket));
-			});
-		});
-	}
-
+	private _socket!: Socket;
 	private readonly messageQueue = new RingFifo<string>(255);
 	private readonly _ackWatchers = new Map<number, () => void>();
 	private readonly readTransformer = newLineTransformer();
 	private readonly readTransformerIngest = this.readTransformer.writable.getWriter();
 	private socketBackoff = 0;
-	private socketReady: Promise<void>;
+	private socketReady!: Promise<void>;
 	private writingMessage = '';
 
-	constructor(private readonly socketPath: string, private _socket: Socket) {
+	constructor(private readonly socketPath: string) {
 		void this.processIncomingMessages();
 		this.createSocket();
 	}
@@ -267,18 +258,10 @@ function assertCanSendAlerts(): void {
 	}
 }
 
-function getSocket(): Promise<PersistentSocket> | PersistentSocket {
-	if (_socket) {
-		return _socket;
-	}
-
-	return PersistentSocket.create(socketPath);
-}
-
 export async function sendAlert(message: string, channel?: string, wait?: number): Promise<void> {
 	assertCanSendAlerts();
 
-	const socket = await getSocket();
+	_socket ??= new PersistentSocket(socketPath);
 
 	if (!message) {
 		throw new TypeError('Message is required');
@@ -299,9 +282,9 @@ export async function sendAlert(message: string, channel?: string, wait?: number
 		payload += ',"ack":true';
 	}
 
-	socket.write(payload + '}\n');
+	_socket.write(payload + '}\n');
 
 	if (wait !== undefined) {
-		return socket.waitForAck(thisSequence, wait);
+		return _socket.waitForAck(thisSequence, wait);
 	}
 }
