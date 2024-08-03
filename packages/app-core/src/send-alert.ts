@@ -43,7 +43,6 @@ class SocketWrapper {
 		});
 	}
 
-	private _buffer = '';
 	private readonly _ackWatchers = new Map<number, () => void>();
 	private readonly readTransformer = newLineTransformer();
 
