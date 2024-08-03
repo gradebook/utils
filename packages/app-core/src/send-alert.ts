@@ -37,7 +37,7 @@ function newLineTransformer() {
 }
 
 class PersistentSocket {
-	private _socket!: Socket;
+	private socket!: Socket;
 	private readonly messageQueue = new RingFifo<string>(255);
 	private readonly _ackWatchers = new Map<number, () => void>();
 	private readonly readTransformer = newLineTransformer();
@@ -89,9 +89,9 @@ class PersistentSocket {
 	}
 
 	private createSocket(): void {
-		this._socket?.destroy();
-		this._socket = new Socket();
-		const socket = this._socket;
+		this.socket?.destroy();
+		this.socket = new Socket();
+		const socket = this.socket;
 
 		this.socketReady = new Promise((resolve, reject) => {
 			setTimeout(() => {
@@ -148,7 +148,7 @@ class PersistentSocket {
 
 		this.writingMessage = message;
 
-		const flushed = this._socket.write(message, 'utf8');
+		const flushed = this.socket.write(message, 'utf8');
 
 		// eslint-disable-next-line @typescript-eslint/promise-function-async
 		const callback = () => this.drainOutgoingMessages(true);
@@ -156,7 +156,7 @@ class PersistentSocket {
 		if (flushed) {
 			setImmediate(callback);
 		} else {
-			this._socket.once('drain', callback);
+			this.socket.once('drain', callback);
 		}
 	}
 
@@ -167,7 +167,7 @@ class PersistentSocket {
 	}
 
 	private batchMessages(): string {
-		const highWaterMark = this._socket.writableHighWaterMark * 0.9;
+		const highWaterMark = this.socket.writableHighWaterMark * 0.9;
 
 		let message = '';
 		while (true) { // eslint-disable-line no-constant-condition
