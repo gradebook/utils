@@ -9,6 +9,9 @@ export interface Alert {
 	channel?: string;
 }
 
+const DEFAULT_BACKOFF_TIMEOUT = 500;
+const MAX_BACKOFF_TIMEOUT = 15_000;
+
 let loaded = false;
 let name = '';
 let socketPath = '';
@@ -48,6 +51,7 @@ class PersistentSocket {
 	private readonly _ackWatchers = new Map<number, () => void>();
 	private readonly readTransformer = newLineTransformer();
 	private readonly readTransformerIngest = this.readTransformer.writable.getWriter();
+	private socketBackoff = 0;
 	private socketReady: Promise<void>;
 	private writingMessage = '';
 
@@ -99,16 +103,25 @@ class PersistentSocket {
 		const socket = this._socket;
 
 		this.socketReady = new Promise((resolve, reject) => {
-			let handled = false;
-			socket.connect(this.socketPath, () => {
-				if (!handled) {
-					handled = true;
-					resolve();
-				}
-			});
+			setTimeout(() => {
+				let handled = false;
+				socket.connect(this.socketPath, () => {
+					this.socketBackoff = 0;
+					if (!handled) {
+						handled = true;
+						resolve();
+					}
+				});
 
-			socket.on('error', error => {
-				if (handled) {
+				socket.on('error', error => {
+					const previousBackoff = this.socketBackoff || DEFAULT_BACKOFF_TIMEOUT;
+					this.socketBackoff = Math.min(previousBackoff * 2, MAX_BACKOFF_TIMEOUT);
+
+					if (!handled) {
+						handled = true;
+						reject(error);
+					}
+
 					if (this.writingMessage) {
 						if (!this.messageQueue.prioritize(this.writingMessage)) {
 							logger.warn(`[app-core]: dropped alert ${this.writingMessage}`);
@@ -118,14 +131,11 @@ class PersistentSocket {
 					}
 
 					this.createSocket();
-				} else {
-					handled = true;
-					reject(error);
-				}
-			});
+				});
 
-			// eslint-disable-next-line @typescript-eslint/promise-function-async
-			socket.on('data', buffer => this.readTransformerIngest.write(buffer));
+				// eslint-disable-next-line @typescript-eslint/promise-function-async
+				socket.on('data', buffer => this.readTransformerIngest.write(buffer));
+			}, this.socketBackoff);
 		});
 	}
 
