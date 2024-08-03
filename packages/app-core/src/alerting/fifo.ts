@@ -9,6 +9,11 @@ export class RingFifo<T> {
 		this.store = Array.from({length: size});
 	}
 
+	get size() {
+		const {length} = this.store;
+		return this.full ? length : (this.tail - this.head + length) % length;
+	}
+
 	/**
 	 * Adds an item to the queue
 	 * @param item - the item to add

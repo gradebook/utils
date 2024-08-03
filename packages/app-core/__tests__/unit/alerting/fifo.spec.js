@@ -21,6 +21,18 @@ describe('RingFifo', function () {
 		}
 	});
 
+	it('size', function () {
+		expect(buffer.size).to.equal(0);
+		buffer.push(1);
+		buffer.push(3);
+		buffer.push(2);
+		buffer.pop();
+
+		expect(buffer.size).to.equal(2);
+		buffer.pop();
+		expect(buffer.size).to.equal(1);
+	});
+
 	it('add', function () {
 		expect(buffer.push(1)).to.equal(true);
 		expect(buffer.push(2)).to.equal(true);
