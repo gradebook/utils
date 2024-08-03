@@ -108,7 +108,17 @@ class PersistentSocket {
 			});
 
 			socket.on('error', error => {
-				if (!handled) {
+				if (handled) {
+					if (this.writingMessage) {
+						if (!this.messageQueue.prioritize(this.writingMessage)) {
+							logger.warn(`[app-core]: dropped alert ${this.writingMessage}`);
+						}
+
+						this.writingMessage = '';
+					}
+
+					this.createSocket();
+				} else {
 					handled = true;
 					reject(error);
 				}
