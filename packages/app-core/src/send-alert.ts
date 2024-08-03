@@ -1,4 +1,6 @@
 import {Socket} from 'node:net';
+import {type Buffer} from 'node:buffer';
+import {TransformStream} from 'node:stream/web';
 import {config, logger} from './app-core.js';
 
 export interface Alert {
@@ -10,6 +12,25 @@ let loaded = false;
 let name = '';
 let socketPath = '';
 let sequence = 0;
+
+function newLineTransformer() {
+	let buffer = '';
+	return new TransformStream<Buffer, string>({
+		transform(chunk, controller) {
+			const message = chunk.toString('utf8');
+			buffer += message;
+			if (!message.includes('\n')) {
+				return;
+			}
+
+			const messages = buffer.split('\n');
+			buffer = messages.pop() ?? '';
+			for (const message of messages) {
+				controller.enqueue(message);
+			}
+		},
+	});
+}
 
 class SocketWrapper {
 	static async create(socketPath: string): Promise<SocketWrapper> {
@@ -24,13 +45,12 @@ class SocketWrapper {
 
 	private _buffer = '';
 	private readonly _ackWatchers = new Map<number, () => void>();
+	private readonly readTransformer = newLineTransformer();
 
 	constructor(private readonly _socket: Socket) {
-		_socket.on('data', buffer => {
-			const data = buffer.toString('utf8');
-			this._buffer += data;
-			this._maybeFlushBuffers();
-		});
+		// eslint-disable-next-line @typescript-eslint/promise-function-async
+		_socket.on('data', buffer => this.readTransformer.writable.getWriter().write(buffer));
+		void this.processIncomingMessages();
 	}
 
 	// eslint-disable-next-line @typescript-eslint/promise-function-async
@@ -62,21 +82,9 @@ class SocketWrapper {
 		return this._socket.write;
 	}
 
-	private _maybeFlushBuffers(): void {
-		const lines = this._buffer.split('\n');
-		if (lines.length === 0) {
-			return;
-		}
-
-		this._buffer = lines.pop() ?? '';
-
-		for (const rawLine of lines) {
-			const line = rawLine.trim();
-			if (!line) {
-				continue;
-			}
-
-			this._processMessage(line);
+	private async processIncomingMessages() {
+		for await (const message of this.readTransformer.readable) {
+			this._processMessage(message);
 		}
 	}
 
