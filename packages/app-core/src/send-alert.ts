@@ -55,11 +55,14 @@ class SocketWrapper {
 	// eslint-disable-next-line @typescript-eslint/promise-function-async
 	waitForAck(sequence: number, timeout: number): Promise<void> {
 		return new Promise((resolve, reject) => {
+			// CASE: infinite timer, we don't need to conditionally resolve
 			if (timeout === 0) {
 				this._ackWatchers.set(sequence, resolve);
 				return;
 			}
 
+			// CASE: there is a timer, so we need to either resolve (response before timer)
+			// or reject (no response, or response comes after timeout)
 			const timer = setTimeout(() => {
 				const shouldReject = this._ackWatchers.delete(sequence);
 				if (shouldReject) {
