@@ -32,24 +32,25 @@ function newLineTransformer() {
 	});
 }
 
-class SocketWrapper {
-	static async create(socketPath: string): Promise<SocketWrapper> {
+class PersistentSocket {
+	static async create(socketPath: string): Promise<PersistentSocket> {
 		return new Promise((resolve, reject) => {
 			const socket = new Socket();
 			// TODO: set this up
 			socket.connect(socketPath, () => {
-				resolve(new SocketWrapper(socket));
+				resolve(new PersistentSocket(socketPath, socket));
 			});
 		});
 	}
 
 	private readonly _ackWatchers = new Map<number, () => void>();
 	private readonly readTransformer = newLineTransformer();
+	private readonly readTransformerIngest = this.readTransformer.writable.getWriter();
+	private socketReady: Promise<void>;
 
-	constructor(private readonly _socket: Socket) {
-		// eslint-disable-next-line @typescript-eslint/promise-function-async
-		_socket.on('data', buffer => this.readTransformer.writable.getWriter().write(buffer));
+	constructor(private readonly socketPath: string, private _socket: Socket) {
 		void this.processIncomingMessages();
+		this.createSocket();
 	}
 
 	// eslint-disable-next-line @typescript-eslint/promise-function-async
@@ -82,6 +83,32 @@ class SocketWrapper {
 
 	get write() {
 		return this._socket.write;
+	}
+
+	private createSocket(): void {
+		this._socket?.destroy();
+		this._socket = new Socket();
+		const socket = this._socket;
+
+		this.socketReady = new Promise((resolve, reject) => {
+			let handled = false;
+			socket.connect(this.socketPath, () => {
+				if (!handled) {
+					handled = true;
+					resolve();
+				}
+			});
+
+			socket.on('error', error => {
+				if (!handled) {
+					handled = true;
+					reject(error);
+				}
+			});
+
+			// eslint-disable-next-line @typescript-eslint/promise-function-async
+			socket.on('data', buffer => this.readTransformerIngest.write(buffer));
+		});
 	}
 
 	private async processIncomingMessages() {
@@ -131,7 +158,7 @@ class SocketWrapper {
 	}
 }
 
-let _socket: SocketWrapper;
+let _socket: PersistentSocket;
 
 export function canSendAlerts(): boolean {
 	if (loaded) {
@@ -160,12 +187,12 @@ function assertCanSendAlerts(): void {
 	}
 }
 
-function getSocket(): Promise<SocketWrapper> | SocketWrapper {
+function getSocket(): Promise<PersistentSocket> | PersistentSocket {
 	if (_socket) {
 		return _socket;
 	}
 
-	return SocketWrapper.create(socketPath);
+	return PersistentSocket.create(socketPath);
 }
 
 export async function sendAlert(message: string, channel?: string, wait?: number): Promise<void> {
