@@ -2,6 +2,7 @@ import {Socket} from 'node:net';
 import {type Buffer} from 'node:buffer';
 import {TransformStream} from 'node:stream/web';
 import {config, logger} from './app-core.js';
+import {RingFifo} from './alerting/fifo.js';
 
 export interface Alert {
 	message: string;
@@ -43,10 +44,12 @@ class PersistentSocket {
 		});
 	}
 
+	private readonly messageQueue = new RingFifo<string>(255);
 	private readonly _ackWatchers = new Map<number, () => void>();
 	private readonly readTransformer = newLineTransformer();
 	private readonly readTransformerIngest = this.readTransformer.writable.getWriter();
 	private socketReady: Promise<void>;
+	private writingMessage = '';
 
 	constructor(private readonly socketPath: string, private _socket: Socket) {
 		void this.processIncomingMessages();
@@ -81,8 +84,13 @@ class PersistentSocket {
 		});
 	}
 
-	get write() {
-		return this._socket.write;
+	write(message: string) {
+		if (this.messageQueue.add(message)) {
+			void this.drainOutgoingMessages();
+			return true;
+		}
+
+		return false;
 	}
 
 	private createSocket(): void {
@@ -111,10 +119,62 @@ class PersistentSocket {
 		});
 	}
 
+	private async drainOutgoingMessages(fromSuccessfulWrite = false) {
+		if (fromSuccessfulWrite || this.writingMessage) {
+			return;
+		}
+
+		try {
+			await this.socketReady;
+		} catch {
+			return;
+		}
+
+		const message = this.batchMessages();
+		if (!message) {
+			return;
+		}
+
+		this.writingMessage = message;
+
+		const flushed = this._socket.write(message, 'utf8');
+
+		// eslint-disable-next-line @typescript-eslint/promise-function-async
+		const callback = () => this.drainOutgoingMessages(true);
+
+		if (flushed) {
+			setImmediate(callback);
+		} else {
+			this._socket.once('drain', callback);
+		}
+	}
+
 	private async processIncomingMessages() {
 		for await (const message of this.readTransformer.readable) {
 			this._processMessage(message);
 		}
+	}
+
+	private batchMessages(): string {
+		const highWaterMark = this._socket.writableHighWaterMark * 0.9;
+
+		let message = '';
+		while (true) { // eslint-disable-line no-constant-condition
+			const nextMessage = this.messageQueue.next();
+			if (!nextMessage) {
+				break;
+			}
+
+			// Add 1 for the newline
+			if ((message.length + nextMessage.length + 1) > highWaterMark) {
+				this.messageQueue.prioritize(nextMessage);
+				break;
+			}
+
+			message += nextMessage + '\n';
+		}
+
+		return message;
 	}
 
 	private _processMessage(message: string): void {
@@ -219,7 +279,7 @@ export async function sendAlert(message: string, channel?: string, wait?: number
 		payload += ',"ack":true';
 	}
 
-	socket.write(payload + '}\n', 'utf8');
+	socket.write(payload + '}\n');
 
 	if (wait !== undefined) {
 		return socket.waitForAck(thisSequence, wait);
