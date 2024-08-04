@@ -127,8 +127,10 @@ export class PersistentSocket {
 		});
 	}
 
-	private async drainOutgoingMessages(fromSuccessfulWrite = false) {
-		if (fromSuccessfulWrite || this.writingMessage) {
+	private async drainOutgoingMessages() {
+		// CASE: a drain is already in progress
+		// CASE: there are no messages to drain
+		if (this.writingMessage || this.messageQueue.size === 0) {
 			return;
 		}
 
@@ -147,8 +149,10 @@ export class PersistentSocket {
 
 		const flushed = this.socket.write(message, 'utf8');
 
-		// eslint-disable-next-line @typescript-eslint/promise-function-async
-		const callback = () => this.drainOutgoingMessages(true);
+		const callback = () => {
+			this.writingMessage = '';
+			void this.drainOutgoingMessages();
+		};
 
 		if (flushed) {
 			setImmediate(callback);
