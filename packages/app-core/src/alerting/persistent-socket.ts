@@ -166,7 +166,8 @@ export class PersistentSocket {
 	private batchMessages(): string {
 		const highWaterMark = this.socket.writableHighWaterMark * 0.9;
 
-		let message = '';
+		// Allow a single message to be larger than the high water mark, but buffer future messages
+		let message = this.messageQueue.next() ?? '';
 		while (true) { // eslint-disable-line no-constant-condition
 			const nextMessage = this.messageQueue.next();
 			if (!nextMessage) {
