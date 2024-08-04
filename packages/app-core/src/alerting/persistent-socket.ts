@@ -53,18 +53,13 @@ export class PersistentSocket {
 			// CASE: there is a timer, so we need to either resolve (response before timer)
 			// or reject (no response, or response comes after timeout)
 			const timer = setTimeout(() => {
-				const shouldReject = this._ackWatchers.delete(sequence);
-				if (shouldReject) {
+				this._ackWatchers.delete(sequence);
 					reject(new Error('Timeout waiting for ack'));
-				}
 			}, timeout);
 
 			this._ackWatchers.set(sequence, () => {
-				const shouldContinue = this._ackWatchers.delete(sequence);
-				if (shouldContinue) {
 					clearTimeout(timer);
 					resolve();
-				}
 			});
 		});
 	}
