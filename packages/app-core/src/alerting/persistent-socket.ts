@@ -180,7 +180,7 @@ export class PersistentSocket {
 				break;
 			}
 
-			message += nextMessage + '\n';
+			message += nextMessage;
 		}
 
 		return message;
