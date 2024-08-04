@@ -29,7 +29,7 @@ function newLineTransformer() {
 export class PersistentSocket {
 	private socket!: Socket;
 	private readonly messageQueue = new RingFifo<string>(255);
-	private readonly _ackWatchers = new Map<number, () => void>();
+	private readonly _ackWatchers = new Map<number, (errored: boolean) => void>();
 	private readonly readTransformer = newLineTransformer();
 	private readonly readTransformerIngest = this.readTransformer.writable.getWriter();
 	private socketBackoff = 0;
@@ -46,7 +46,7 @@ export class PersistentSocket {
 		return new Promise((resolve, reject) => {
 			// CASE: infinite timer, we don't need to conditionally resolve
 			if (timeout === 0) {
-				this._ackWatchers.set(sequence, resolve);
+				this._ackWatchers.set(sequence, () => resolve());
 				return;
 			}
 
@@ -57,9 +57,13 @@ export class PersistentSocket {
 					reject(new Error('Timeout waiting for ack'));
 			}, timeout);
 
-			this._ackWatchers.set(sequence, () => {
+			this._ackWatchers.set(sequence, errored => {
 					clearTimeout(timer);
+				if (errored) {
+					reject(new Error('Socket errored'));
+				} else {
 					resolve();
+				}
 			});
 		});
 	}
@@ -105,6 +109,14 @@ export class PersistentSocket {
 
 						this.writingMessage = '';
 					}
+
+					try {
+						for (const callback of this._ackWatchers.values()) {
+							callback(true);
+						}
+
+						this._ackWatchers.clear();
+					} catch {}
 
 					this.createSocket();
 				});
@@ -198,7 +210,7 @@ export class PersistentSocket {
 				this._ackWatchers.delete(parsed.sequence);
 
 				if (listener) {
-					listener();
+					listener(false);
 				} else {
 					this.logger.warn(`[app-core]: Received ack for unknown sequence: ${parsed.sequence}`);
 				}
