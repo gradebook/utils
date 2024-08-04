@@ -196,7 +196,7 @@ export class PersistentSocket {
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			parsed = JSON.parse(message);
 
-			if (!parsed || typeof parsed !== 'object') {
+			if (!parsed || typeof parsed !== 'object' || typeof parsed.type !== 'string') {
 				throw new TypeError('Invalid message');
 			}
 		} catch (error) {
