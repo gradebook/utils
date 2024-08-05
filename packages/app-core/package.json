@@ -23,7 +23,7 @@
   "scripts": {
     "autorelease:hook.pre": "yarn --cwd ../config tsc && yarn --cwd ../logging tsc",
     "pretest": "tsc",
-    "test": "echo no tests",
+    "test": "mocha --recursive __tests__",
     "prepublish": "tsc",
     "tsc": "tsc",
     "lint": "yarn --cwd ../../ xo \"`pwd`/**/*\""
