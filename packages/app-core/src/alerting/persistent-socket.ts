@@ -1,6 +1,6 @@
 import {type Buffer} from 'node:buffer';
 import {TransformStream} from 'node:stream/web';
-import {Socket} from 'node:net';
+import {Socket as NativeSocket} from 'node:net';
 import {type Logger} from 'pino'; // eslint-disable-line import/no-extraneous-dependencies
 import {RingFifo} from './fifo.js';
 
@@ -18,7 +18,7 @@ function newLineTransformer() {
 			}
 
 			const messages = buffer.split('\n');
-			buffer = messages.pop() ?? '';
+			buffer = messages.pop()!;
 			for (const message of messages) {
 				controller.enqueue(message);
 			}
@@ -26,9 +26,17 @@ function newLineTransformer() {
 	});
 }
 
+let Socket = NativeSocket;
+
+export const __test = {
+	setSocketImplementation(SocketImplementation: typeof Socket) {
+		Socket = SocketImplementation;
+	},
+};
+
 export class PersistentSocket {
-	private socket!: Socket;
-	private readonly messageQueue = new RingFifo<string>(255);
+	private socket!: NativeSocket;
+	private readonly messageQueue: RingFifo<string>;
 	private readonly _ackWatchers = new Map<number, (errored: boolean) => void>();
 	private readonly readTransformer = newLineTransformer();
 	private readonly readTransformerIngest = this.readTransformer.writable.getWriter();
@@ -36,7 +44,12 @@ export class PersistentSocket {
 	private socketReady!: Promise<void>;
 	private writingMessage = '';
 
-	constructor(private readonly socketPath: string, private readonly logger: Logger) {
+	constructor(
+		private readonly socketPath: string,
+		private readonly logger: Logger,
+		queuedMessageLimit = 255,
+	) {
+		this.messageQueue = new RingFifo(queuedMessageLimit);
 		void this.processIncomingMessages();
 		this.createSocket();
 	}
@@ -54,11 +67,11 @@ export class PersistentSocket {
 			// or reject (no response, or response comes after timeout)
 			const timer = setTimeout(() => {
 				this._ackWatchers.delete(sequence);
-					reject(new Error('Timeout waiting for ack'));
+				reject(new Error('Timeout waiting for ack'));
 			}, timeout);
 
 			this._ackWatchers.set(sequence, errored => {
-					clearTimeout(timer);
+				clearTimeout(timer);
 				if (errored) {
 					reject(new Error('Socket errored'));
 				} else {
@@ -103,6 +116,7 @@ export class PersistentSocket {
 						reject(error);
 					}
 
+					// If we were writing a message, recover it
 					if (this.writingMessage) {
 						if (!this.messageQueue.prioritize(this.writingMessage)) {
 							this.logger.warn(`[app-core]: dropped alert ${this.writingMessage}`);
@@ -111,13 +125,12 @@ export class PersistentSocket {
 						this.writingMessage = '';
 					}
 
-					try {
-						for (const callback of this._ackWatchers.values()) {
-							callback(true);
-						}
+					// Remove all ackWatchers
+					for (const callback of this._ackWatchers.values()) {
+						callback(true);
+					}
 
-						this._ackWatchers.clear();
-					} catch {}
+					this._ackWatchers.clear();
 
 					this.createSocket();
 				});
@@ -167,6 +180,7 @@ export class PersistentSocket {
 		for await (const message of this.readTransformer.readable) {
 			this._processMessage(message);
 		}
+		/* c8 ignore next - the pipe will never be destroyed, so the for loop will never break */
 	}
 
 	private batchMessages(): string {
