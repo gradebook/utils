@@ -87,6 +87,7 @@ export class PersistentSocket {
 				let handled = false;
 				socket.connect(this.socketPath, () => {
 					this.socketBackoff = 0;
+					void this.drainOutgoingMessages();
 					if (!handled) {
 						handled = true;
 						resolve();
@@ -137,6 +138,7 @@ export class PersistentSocket {
 		try {
 			await this.socketReady;
 		} catch {
+			// If the socket fails to be created, it will be recreated, and the drain will be retried
 			return;
 		}
 
