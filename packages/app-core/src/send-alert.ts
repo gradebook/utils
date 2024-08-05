@@ -51,26 +51,32 @@ export async function sendAlert(message: string, channel?: string, wait?: number
 
 	const thisSequence = sequence++;
 
-	const messageString = message.replace('"', '\\"');
+	const messageString = message.replaceAll('"', '\\"');
 	// Name is pre-stringified
-	let payload = `{"sequence":"${thisSequence}","name":${name},"message":${messageString}`;
+	let payload = `{"sequence":"${thisSequence}","name":${name},"message":"${messageString}"`;
 
 	if (channel) {
-		const channelString = channel.replace('"', '\\"');
-		payload += `,"channel":${channelString}`;
+		const channelString = channel.replaceAll('"', '\\"');
+		payload += `,"channel":"${channelString}"`;
 	}
 
-	if (wait) {
+	let response;
+
+	if (wait !== undefined) {
 		payload += ',"ack":true';
+		response = _socket.waitForAck(thisSequence, wait);
 	}
 
 	_socket.write(payload + '}\n');
 
-	if (wait !== undefined) {
-		return _socket.waitForAck(thisSequence, wait);
-	}
+	return response;
 }
 
 export const __test = {
-	PersistentSocket,
+	setSocket(socket: PersistentSocket) {
+		name = JSON.stringify('test');
+		socketPath = '/path/to/socket';
+		loaded = true;
+		_socket = socket;
+	},
 };
