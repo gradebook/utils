@@ -1,76 +1,10 @@
 // @ts-check
-import {Socket} from 'node:net';
 import {inspect} from 'node:util';
 import {setTimeout} from 'node:timers/promises';
 import {expect} from 'chai';
 import sinon from 'sinon';
 import {PersistentSocket, __test} from '../../../lib/alerting/persistent-socket.js';
-
-/** @type {TestSocket} */
-let alertingSocket;
-
-class TestSocket extends Socket {
-	constructor() {
-		super();
-
-		alertingSocket = this; // eslint-disable-line unicorn/no-this-assignment
-		this.connectCallback = null;
-		this.drainCallback = null;
-		this.errorCallback = null;
-		this.dataCallback = null;
-		this.writeHistory = [];
-		this.writeWasSuccessful = true;
-		this.customHighWaterMark = 0;
-	}
-
-	// @ts-expect-error
-	get writableHighWaterMark() {
-		if (this.customHighWaterMark > 0) {
-			return this.customHighWaterMark;
-		}
-
-		return super.writableHighWaterMark;
-	}
-
-	connect(path, callback) {
-		this.connectCallback = callback;
-		return this;
-	}
-
-	once(event, callback) {
-		const callbackKey = `${event}Callback`;
-		if (this[callbackKey]) {
-			throw new Error('Not supported');
-		}
-
-		this[callbackKey] = (...args) => {
-			callback(...args);
-			this[callbackKey] = null;
-		};
-
-		return this;
-	}
-
-	on(event, callback) {
-		const callbackKey = `${event}Callback`;
-		if (this[callbackKey] === null) {
-			this[callbackKey] = callback;
-			return this;
-		}
-
-		// Called by the parent class
-		if (event === 'end') {
-			return this;
-		}
-
-		throw new Error(`on:${event} not implemented`);
-	}
-
-	write(message) {
-		this.writeHistory.push(message);
-		return this.writeWasSuccessful;
-	}
-}
+import {TestSocket} from '../../fixtures/test-socket.js';
 
 /**
  * Wrapper around `setTimeout(0)` that requires explaining why it's needed
@@ -126,7 +60,7 @@ describe('Unit > PersistentSocket', function () {
 
 	beforeEach(function () {
 		// @ts-expect-error
-		alertingSocket = null;
+		TestSocket.instance = null;
 		clock = sinon.useFakeTimers();
 
 		logger = {
@@ -136,7 +70,7 @@ describe('Unit > PersistentSocket', function () {
 		};
 
 		socket = new PersistentSocket('/test/socket/path', logger);
-		expect(alertingSocket, 'TestSocket was instantiated').to.be.ok;
+		expect(TestSocket.instance, 'TestSocket was instantiated').to.be.ok;
 		clock.tick(0); // "wait" for the backoff timer
 	});
 
@@ -146,7 +80,7 @@ describe('Unit > PersistentSocket', function () {
 	});
 
 	it('creates a socket on construction', function () {
-		expect(alertingSocket.connectCallback).to.be.ok;
+		expect(TestSocket.instance.connectCallback).to.be.ok;
 		promiseShouldBe(socketStatus(), 'pending');
 	});
 
@@ -156,12 +90,12 @@ describe('Unit > PersistentSocket', function () {
 		socket.write(message);
 		await nextMicrotask('Socket write handling is async');
 
-		expect(alertingSocket.writeHistory).to.deep.equal([]);
+		expect(TestSocket.instance.writeHistory).to.deep.equal([]);
 
-		alertingSocket.connectCallback();
+		TestSocket.instance.connectCallback();
 		await nextMicrotask('Socket write handling is async');
 
-		expect(alertingSocket.writeHistory).to.deep.equal([message]);
+		expect(TestSocket.instance.writeHistory).to.deep.equal([message]);
 	});
 
 	describe('waitForAck', function () {
@@ -172,7 +106,7 @@ describe('Unit > PersistentSocket', function () {
 			const ackPromise = socket.waitForAck(sequence, 0);
 			expect(clock.countTimers()).to.equal(originalTimerCount);
 
-			alertingSocket.dataCallback(JSON.stringify({type: 'ack', sequence}) + '\n');
+			TestSocket.instance.dataCallback(JSON.stringify({type: 'ack', sequence}) + '\n');
 
 			await ackPromise;
 		});
@@ -184,7 +118,7 @@ describe('Unit > PersistentSocket', function () {
 			const ackPromise = socket.waitForAck(sequence, timeout);
 
 			clock.tick(timeout - 1);
-			alertingSocket.dataCallback(JSON.stringify({type: 'ack', sequence}) + '\n');
+			TestSocket.instance.dataCallback(JSON.stringify({type: 'ack', sequence}) + '\n');
 
 			await ackPromise;
 		});
@@ -196,7 +130,7 @@ describe('Unit > PersistentSocket', function () {
 			const ackPromise = socket.waitForAck(sequence, timeout);
 
 			clock.tick(timeout + 1);
-			alertingSocket.dataCallback(JSON.stringify({type: 'ack', sequence}) + '\n');
+			TestSocket.instance.dataCallback(JSON.stringify({type: 'ack', sequence}) + '\n');
 
 			const [ackResult] = await Promise.allSettled([ackPromise]);
 
@@ -218,12 +152,12 @@ describe('Unit > PersistentSocket', function () {
 		});
 
 		it('invalid sequence', async function () {
-			alertingSocket.dataCallback('{"type": "ack", "sequence": 1}');
+			TestSocket.instance.dataCallback('{"type": "ack", "sequence": 1}');
 			await nextMicrotask('Socket read handling is async');
 
 			expect(logger.warn.called, 'No newline').to.be.false;
 
-			alertingSocket.dataCallback('\n');
+			TestSocket.instance.dataCallback('\n');
 			await setTimeout(0);
 
 			expect(logger.warn.calledOnce).to.be.true;
@@ -231,11 +165,11 @@ describe('Unit > PersistentSocket', function () {
 		});
 
 		it('socket closed', async function () {
-			alertingSocket.connectCallback();
+			TestSocket.instance.connectCallback();
 
 			const promise = socket.waitForAck(1, 1000);
 
-			alertingSocket.errorCallback(new Error('socket closed'));
+			TestSocket.instance.errorCallback(new Error('socket closed'));
 
 			const [ackResult] = await Promise.allSettled([promise]);
 			expect(ackResult.status).to.equal('rejected');
@@ -243,94 +177,94 @@ describe('Unit > PersistentSocket', function () {
 	});
 
 	it('batches buffered messages', async function () {
-		alertingSocket.customHighWaterMark = 20;
+		TestSocket.instance.customHighWaterMark = 20;
 
 		socket.write('message1');
 		socket.write('message2');
 		socket.write('message3');
 
-		alertingSocket.connectCallback();
+		TestSocket.instance.connectCallback();
 		await nextMicrotask('Socket write handling is async');
-		expect(alertingSocket.writeHistory).to.deep.equal(['message1message2', 'message3']);
+		expect(TestSocket.instance.writeHistory).to.deep.equal(['message1message2', 'message3']);
 	});
 
 	it('writes wait for flush', async function () {
-		alertingSocket.writeWasSuccessful = false;
-		alertingSocket.connectCallback();
+		TestSocket.instance.writeWasSuccessful = false;
+		TestSocket.instance.connectCallback();
 
 		socket.write('message1');
-		expect(alertingSocket.drainCallback).to.not.be.ok;
+		expect(TestSocket.instance.drainCallback).to.not.be.ok;
 		await nextMicrotask('Socket write handling is async');
 
-		expect(alertingSocket.drainCallback).to.be.ok;
-		alertingSocket.drainCallback();
+		expect(TestSocket.instance.drainCallback).to.be.ok;
+		TestSocket.instance.drainCallback();
 	});
 
 	it('retries a failed message', async function () {
-		alertingSocket.connectCallback();
+		TestSocket.instance.connectCallback();
 
 		socket.write('message1');
 		await nextMicrotask('await socketReady in drain delays by 1 tick');
 
-		alertingSocket.errorCallback(new Error('socket disconnected'));
+		TestSocket.instance.errorCallback(new Error('socket disconnected'));
 
 		clock.tick(backoffTime());
-		alertingSocket.connectCallback();
+		TestSocket.instance.connectCallback();
 
 		await nextMicrotask('Socket write handling is async');
-		expect(alertingSocket.writeHistory).to.deep.equal(['message1']);
+		expect(TestSocket.instance.writeHistory).to.deep.equal(['message1']);
 	});
 
 	it('write queue is full', async function () {
 		socket = new PersistentSocket('/test/socket/path', logger, 1);
 		clock.tick(0);
 
-		alertingSocket.connectCallback();
+		TestSocket.instance.connectCallback();
 
 		expect(socket.write('message1')).to.be.true;
 		expect(socket.write('message2')).to.be.false;
 
 		await nextMicrotask('Socket write handling is async');
-		expect(alertingSocket.writeHistory).to.deep.equal(['message1']);
+		expect(TestSocket.instance.writeHistory).to.deep.equal(['message1']);
 	});
 
 	describe('error handling', function () {
 		it('before creation', async function () {
-			const originalAlertingSocket = alertingSocket;
+			const originalAlertingSocket = TestSocket.instance;
 			const originalSocketStatus = socketStatus();
 
-			alertingSocket.errorCallback(new Error('Socket error'));
+			TestSocket.instance.errorCallback(new Error('Socket error'));
 
-			expect(originalAlertingSocket).to.not.equal(alertingSocket);
+			expect(originalAlertingSocket).to.not.equal(TestSocket.instance);
 			expect(originalSocketStatus).to.not.equal(socketStatus());
 			promiseShouldBe(originalSocketStatus, 'rejected');
 			promiseShouldBe(socketStatus(), 'pending');
 		});
 
 		it('after creation', async function () {
-			const originalAlertingSocket = alertingSocket;
-			alertingSocket.connectCallback();
+			const originalAlertingSocket = TestSocket.instance;
+			TestSocket.instance.connectCallback();
 
 			socket.write('hello');
 
-			alertingSocket.errorCallback(new Error('Socket error'));
+			TestSocket.instance.errorCallback(new Error('Socket error'));
 			await nextMicrotask('Socket recreation is async');
 
-			expect(alertingSocket).to.not.equal(originalAlertingSocket);
-			expect(alertingSocket.connectCallback, 'backoff').to.not.be.ok;
+			expect(TestSocket.instance).to.not.equal(originalAlertingSocket);
+			expect(TestSocket.instance.connectCallback, 'backoff').to.not.be.ok;
 
 			clock.tick(backoffTime());
-			expect(alertingSocket.connectCallback).to.be.ok;
+			expect(TestSocket.instance.connectCallback).to.be.ok;
 
-			expect(alertingSocket.writeHistory).to.deep.equal(['hello']);
+			expect(TestSocket.instance.writeHistory).to.deep.equal(['hello']);
 		});
 
 		it('weird incoming data', async function () {
-			alertingSocket.connectCallback();
+			TestSocket.instance.connectCallback();
 
 			const message = '{"sequence": 0, "type": "typo"}\n{"type":3}\n{}\nThis is not json\n';
 
-			alertingSocket.dataCallback(message);
+			TestSocket.instance.dataCallback(message);
 			await nextMicrotask('Socket write handling is async');
 
 			expect(logger.warn.callCount).to.equal(6);
@@ -347,10 +281,10 @@ describe('Unit > PersistentSocket', function () {
 		it('writing with unstable socket', async function () {
 			socket.write('Hello, world!');
 
-			alertingSocket.errorCallback(new Error('Socket error'));
+			TestSocket.instance.errorCallback(new Error('Socket error'));
 			await nextMicrotask('Socket error handling is async');
 
-			expect(alertingSocket.writeHistory).to.deep.equal([]);
+			expect(TestSocket.instance.writeHistory).to.deep.equal([]);
 			// @ts-expect-error
 			expect(socket.messageQueue.store[0], 'Message should still be queued')
 				.to.equal('Hello, world!');
@@ -360,19 +294,19 @@ describe('Unit > PersistentSocket', function () {
 			socket = new PersistentSocket('/test/socket/path', logger, 1);
 			clock.tick(0);
 
-			alertingSocket.connectCallback();
+			TestSocket.instance.connectCallback();
 
 			socket.write('message1');
 			await nextMicrotask('await socketReady in drain delays by 1 tick');
 			socket.write('blockingMessage');
 
-			alertingSocket.errorCallback(new Error('socket disconnected'));
+			TestSocket.instance.errorCallback(new Error('socket disconnected'));
 
 			clock.tick(backoffTime());
-			alertingSocket.connectCallback();
+			TestSocket.instance.connectCallback();
 
 			await nextMicrotask('Socket write handling is async');
-			expect(alertingSocket.writeHistory).to.deep.equal(['blockingMessage']);
+			expect(TestSocket.instance.writeHistory).to.deep.equal(['blockingMessage']);
 			expect(logger.warn.args[0][0]).to.contain('message1');
 		});
 	});
