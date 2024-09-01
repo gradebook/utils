@@ -37,7 +37,7 @@
   "devDependencies": {
     "@types/node": "20.14.13",
     "knex": "3.1.0",
-    "nock": "14.0.0-beta.9",
+    "nock": "14.0.0-beta.11",
     "sqlite3": "5.1.7"
   },
   "xo": false
