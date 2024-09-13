@@ -27,6 +27,7 @@ describe('Unit > Config Parser', function () {
 			rotation: DEFAULT_ROTATION,
 			healthcheck: DEFAULT_HEALTHCHECK,
 			transports: ['stdout'],
+			prettyTransportDisableRequestErrorFiltering: false,
 		});
 	});
 

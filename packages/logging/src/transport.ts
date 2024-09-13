@@ -2,8 +2,8 @@ import {type Stream} from 'node:stream';
 import {mkdir, stat} from 'fs/promises';
 import {once} from 'events';
 import {multistream, transport} from 'pino';
-import {type PrettyOptions} from 'pino-pretty';
 import {type LoggingOptions} from './config.js';
+import {type PrettyTransportOptions} from './transport/pino-pretty.js';
 import {type FileRotationOptions} from './transport/pino-file-rotate.js';
 
 const getFileName = (options: LoggingOptions, rawLevel: string) => {
@@ -28,13 +28,16 @@ const annotateWithLevel = (builder: ThreadStreamFromOptions) => async (options: 
 };
 
 export const transportBuilders: Record<string | symbol, ThreadStreamFromOptions> = {
-	stdout: annotateWithLevel(() => transport<PrettyOptions>({
+	stdout: annotateWithLevel((options: LoggingOptions) => transport<PrettyTransportOptions>({
 		target: './transport/pino-pretty.js',
 		options: {
 			// We use SYS here because it's expected that servers are in UTC time, but developer's machines
 			// will be in their own time zone
 			translateTime: 'SYS:yyyy-mm-dd HH:MM:ss',
 			ignore: 'env,domain,hostname,pid,name,req,res,responseTime',
+			messageFormatOptions: {
+				disableRequestErrorFiltering: options.prettyTransportDisableRequestErrorFiltering,
+			},
 		},
 	}) as ThreadStream),
 	stdoutRaw: annotateWithLevel(() => transport({target: 'pino/file'}) as ThreadStream),
