@@ -5,11 +5,11 @@ export class RingFifo<T> {
 	protected tail = 0;
 	protected full = false;
 
-	constructor(size: number) {
-		this.store = Array.from({length: size});
+	constructor(capacity: number) {
+		this.store = Array.from({length: capacity});
 	}
 
-	get size() {
+	get count() {
 		const {length} = this.store;
 		return this.full ? length : (this.tail - this.head + length) % length;
 	}

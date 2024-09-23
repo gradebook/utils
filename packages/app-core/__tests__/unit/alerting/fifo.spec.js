@@ -27,7 +27,7 @@ class RingFifoTest extends RingFifo {
  */
 function expectQueueItems(queue, expected) {
 	expect(queue.toArray()).to.deep.equal(expected);
-	expect(queue.size).to.equal(expected.length);
+	expect(queue.count).to.equal(expected.length);
 }
 
 describe('RingFifo', function () {
@@ -39,21 +39,21 @@ describe('RingFifo', function () {
 	});
 
 	it('empty', function () {
-		expect(queue.size).to.equal(0);
+		expect(queue.count).to.equal(0);
 		expectQueueItems(queue, []);
 		expect(queue.next()).to.equal(undefined);
 	});
 
-	it('size', function () {
-		expect(queue.size).to.equal(0);
+	it('count', function () {
+		expect(queue.count).to.equal(0);
 		queue.add(1);
 		queue.add(3);
 		queue.add(2);
 		queue.next();
 
-		expect(queue.size).to.equal(2);
+		expect(queue.count).to.equal(2);
 		queue.next();
-		expect(queue.size).to.equal(1);
+		expect(queue.count).to.equal(1);
 	});
 
 	it('add', function () {

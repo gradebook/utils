@@ -144,7 +144,7 @@ export class PersistentSocket {
 	private async drainOutgoingMessages() {
 		// CASE: a drain is already in progress
 		// CASE: there are no messages to drain
-		if (this.writingMessage || this.messageQueue.size === 0) {
+		if (this.writingMessage || this.messageQueue.count === 0) {
 			return;
 		}
 
