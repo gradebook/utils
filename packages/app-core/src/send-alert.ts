@@ -40,7 +40,7 @@ function assertCanSendAlerts(): void {
 	}
 }
 
-export async function sendAlert(message: string, channel?: string, wait?: number): Promise<void> {
+export async function sendAlert(message: string, channel?: string, timeout?: number): Promise<void> {
 	assertCanSendAlerts();
 
 	_socket ??= new PersistentSocket(socketPath, logger);
@@ -62,9 +62,9 @@ export async function sendAlert(message: string, channel?: string, wait?: number
 
 	let response;
 
-	if (wait !== undefined) {
+	if (timeout !== undefined) {
 		payload += ',"ack":true';
-		response = _socket.waitForAck(thisSequence, wait);
+		response = _socket.waitForAck(thisSequence, timeout);
 	}
 
 	_socket.write(payload + '}\n');
