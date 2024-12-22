@@ -95,6 +95,15 @@ export interface RawLoggingOptions {
 	 * @default 'info'
 	 */
 	level?: string;
+	/**
+	 * @description Control if the PrettyTransport (used for stdout) should filter common errors when logging a request
+	 * - The request will still be logged, but the error associated with the request will be skipped
+	 * - Request error filtering prevents noise in stdout for common failures (e.g. `404 NotFoundError`s)
+	 * - In an ideal world, you would be able to provide a filtering function, but because of Pino's Worker architecture,
+	 *   that's not currently possible
+	 * @default true
+	 */
+	prettyTransportDisableRequestErrorFiltering?: boolean;
 	// Documented in SafeObjectCoercedConfig
 	rotation?: boolean | Partial<RotationObject>;
 	// Documented in SafeObjectCoercedConfig
@@ -136,6 +145,7 @@ export function createSafeOptions(options: RawLoggingOptions): LoggingOptions {
 		domain: options.domain ?? 'localhost',
 		level: options.level ?? 'info',
 		path: (options.path ?? cwd() + '/logs').replace(/\/$/, '') + '/',
+		prettyTransportDisableRequestErrorFiltering: options.prettyTransportDisableRequestErrorFiltering ?? false,
 		rotation: options.rotation === false ? null : (
 			(options.rotation === true || !options.rotation) ? {
 				...DEFAULT_ROTATION_OPTIONS,
