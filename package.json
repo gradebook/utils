@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "lint": "xo",
-    "lerna": "node scripts/lerna.js && lerna",
+    "lerna": "node scripts/lerna.js && NODE_OPTIONS=\"$NODE_OPTIONS --disable-warning=DEP0040\" lerna",
     "tsc": "node scripts/tsc.js && tsc",
     "new": "node scripts/new.js"
   },
