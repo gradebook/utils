@@ -1,10 +1,7 @@
-import {fetch as fetch_} from 'zx';
-import type {RequestInit} from 'node-fetch'; // eslint-disable-line import/no-extraneous-dependencies
+let fetch = globalThis.fetch;
 
-let fetch = fetch_;
-
-export function __testDependencyInjector(fetchOverride?: typeof fetch_) {
-	fetch = fetchOverride ?? fetch_;
+export function __testDependencyInjector(fetchOverride?: typeof globalThis['fetch']) {
+	fetch = fetchOverride ?? globalThis.fetch;
 }
 
 export interface FindReleaseByTagNameOptions {
@@ -38,7 +35,7 @@ export async function makeGitHubRequest<ResponseType>(url: string, authToken: st
 			throw new Error(`Fetch failed with status code ${response.status}`);
 		}
 
-		return response.json();
+		return response.json() as Promise<ResponseType>;
 	});
 }
 

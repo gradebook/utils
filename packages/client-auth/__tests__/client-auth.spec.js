@@ -17,7 +17,7 @@ class FakeFetch {
 	reset() {
 		/**
 		 * @param {string} _
-		 * @param {import('node-fetch').RequestInit} __
+		 * @param {RequestInit} __
 		 * @returns {any}
 		 */
 		this.handler = (_, __) => {
