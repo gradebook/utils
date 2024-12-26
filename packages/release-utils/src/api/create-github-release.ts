@@ -1,5 +1,3 @@
-import {fetch} from 'zx';
-
 interface GitHubPutReleaseBody {
 	tag_name: string;
 	target_commitish?: string;
@@ -59,7 +57,7 @@ export default async function createGitHubReleaseFromExistingTag({
 			accept: 'application/vnd.github.v3+json',
 			authorization: `Bearer ${token}`,
 		},
-	}).then(async (response): Promise<GithubPutReleaseResponse> => response.json());
+	}).then(async response => response.json() as Promise<GithubPutReleaseResponse>);
 
 	if (assets.length === 0) {
 		return body.id;
