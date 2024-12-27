@@ -1,6 +1,6 @@
 {
   "name": "@gradebook/client-auth",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Authorization management for service:service authentication using a centralized gateway",
   "keywords": [],
   "author": "Vikas Potluri <vikaspotluri123.github@gmail.com>",

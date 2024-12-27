@@ -1,3 +1,7 @@
+# 0.4.0
+
+ - feat: make `getFetchOptionsWithAuthorization` public
+
 # 0.3.1
 
  - fix: wrong service list requested after serviceMap update
