@@ -115,14 +115,14 @@ export class AuthManager {
 	}
 
 	/**
-  * Retrieve the service location (ip/port/host) and authenticated fetch options for a given service
-  */
+	 * Retrieve the service location (ip/port/host) and authenticated fetch options for a given service
+	 */
 	async getRequestInfo(
 		serviceName: string,
 		{includeHostInHeader = true}: GetRequestOptions = {},
 	): Promise<[Resolution, AuthFetchOptions] | null> {
 		const resolution = this.#resolver.get(serviceName) ?? await this.#fetchServiceInfo(serviceName);
-		const fetchOptions = await this.#getFetchOptionsWithAuthorization(serviceName);
+		const fetchOptions = await this.getFetchOptionsWithAuthorization(serviceName);
 
 		if (!resolution) {
 			return null;
@@ -142,8 +142,13 @@ export class AuthManager {
 		this.#resolver.delete(serviceName);
 	}
 
-	async #getFetchOptionsWithAuthorization(serviceName: string, retry = 3): Promise<AuthFetchOptions> {
-		if (retry === 0) {
+	/**
+	 * Retrieve authenticated fetch options for a given service
+	 * @param serviceName the service that will be used
+	 * @param _retry - (internal) the number of retries left to communicate with the gateway
+	 */
+	async getFetchOptionsWithAuthorization(serviceName: string, _retry = 3): Promise<AuthFetchOptions> {
+		if (_retry === 0) {
 			throw new Error('Unable to get JWT');
 		}
 
@@ -177,7 +182,7 @@ export class AuthManager {
 			});
 		} catch {
 			await setTimeout(100);
-			return this.#getFetchOptionsWithAuthorization(serviceName, retry - 1);
+			return this.getFetchOptionsWithAuthorization(serviceName, _retry - 1);
 		}
 
 		const response = await request.json() as {token: string} | {error: string};
@@ -207,7 +212,7 @@ export class AuthManager {
 
 	async #fetchServiceInfo(serviceName: string): Promise<Readonly<Resolution> | null> {
 		const url = resolvePaths(this.#gatewayRoot, `/api/v0/resolve/${serviceName}`);
-		const options = await this.#getFetchOptionsWithAuthorization(serviceName);
+		const options = await this.getFetchOptionsWithAuthorization(serviceName);
 		const response = await this.fetch(url.href, options);
 
 		if (!response.ok) {
