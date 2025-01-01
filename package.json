@@ -29,7 +29,7 @@
     "lerna": "7.4.2",
     "mocha": "10.7.3",
     "sinon": "15.2.0",
-    "typescript": "5.2.2",
+    "typescript": "5.7.2",
     "xo": "0.56.0"
   },
   "// resolutions": "Pinned colorette because knex and pino both depend on it, and differing versions cause TS to fail (TS6200)",
