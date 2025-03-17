@@ -7,8 +7,24 @@ import type {PackageJson} from './configure-for-release.js';
 const SEMVER_REGEX = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/;
 
 async function getTagNameFromRef(ref: string, $ = zx$) {
-	const rawResponse = await $`git tag --points-at ${ref}`;
-	return rawResponse.stdout.trim().split('\n').shift();
+	const noThrow = $.nothrow;
+	try {
+		$.nothrow = true;
+		const rawResponse = await $`git tag --points-at ${ref}`;
+		if (rawResponse.exitCode !== 0) {
+			// CASE: Something weird h
+			if (rawResponse.stderr?.includes('malformed object name')) {
+				console.warn(`Warning: ${ref} is not a valid git ref.`);
+				return;
+			}
+
+			throw new Error('Unexpected error');
+		}
+
+		return rawResponse.stdout.trim().split('\n').shift();
+	} finally {
+		$.nothrow = noThrow;
+	}
 }
 
 export function getReleaseTag(candidate: string) {
