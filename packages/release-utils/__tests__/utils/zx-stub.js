@@ -9,12 +9,14 @@ export function createZxStub({
 	return wrapTaggedTemplateLiteral(command => {
 		if (command.startsWith('git rev-list')) {
 			return {
+				exitCode: 0,
 				stdout: revList.join(' '),
 			};
 		}
 
 		if (command.startsWith('git log')) {
 			return {
+				exitCode: 0,
 				stdout: fileList.join('\n'),
 			};
 		}
@@ -22,6 +24,7 @@ export function createZxStub({
 		if (command.startsWith('git tag')) {
 			const stdout = typeof tag === 'function' ? tag(command) : tag;
 			return {
+				exitCode: 0,
 				stdout,
 			};
 		}
