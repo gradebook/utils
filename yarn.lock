@@ -224,10 +224,10 @@
     yargs "16.2.0"
     yargs-parser "20.2.4"
 
-"@mswjs/interceptors@^0.38.5":
-  version "0.38.6"
-  resolved "https://registry.yarnpkg.com/@mswjs/interceptors/-/interceptors-0.38.6.tgz#0646060b5572ff884cf475af90505e757115eddf"
-  integrity sha512-qFlpmObPqeUs4u3oFYv/OM/xyX+pNa5TRAjqjvMhbGYlyMhzSrE5UfncL2rUcEeVfD9Gebgff73hPwqcOwJQNA==
+"@mswjs/interceptors@^0.39.3":
+  version "0.39.5"
+  resolved "https://registry.yarnpkg.com/@mswjs/interceptors/-/interceptors-0.39.5.tgz#6f0571493bf76291a60b62234ed0add2c4bd970e"
+  integrity sha512-B9nHSJYtsv79uo7QdkZ/b/WoKm20IkVSmTc/WCKarmDtFwM0dRx2ouEniqwNkzCSLn3fydzKmnMzjtfdOWt3VQ==
   dependencies:
     "@open-draft/deferred-promise" "^2.2.0"
     "@open-draft/logger" "^0.3.0"
@@ -4881,12 +4881,12 @@ nise@^5.1.4:
     just-extend "^4.0.2"
     path-to-regexp "^1.7.0"
 
-nock@14.0.4:
-  version "14.0.4"
-  resolved "https://registry.yarnpkg.com/nock/-/nock-14.0.4.tgz#10a63116d13c37f169a52ad4bbf0173af34c1992"
-  integrity sha512-86fh+gIKH8H02+y0/HKAOZZXn6OwgzXvl6JYwfjvKkoKxUWz54wIIDU/+w24xzMvk/R8pNVXOrvTubyl+Ml6cg==
+nock@14.0.7:
+  version "14.0.7"
+  resolved "https://registry.yarnpkg.com/nock/-/nock-14.0.7.tgz#dc4d109784a1656c4e956c7ac48b2742a140f8af"
+  integrity sha512-ubwvvhSzNPqc7Nm3a/iYolwqb7lo1zfllDKO1ODsYu3KnarmQEya5yV70ZUwhVxYIl1ePuX3W+lHw2un+pUfpQ==
   dependencies:
-    "@mswjs/interceptors" "^0.38.5"
+    "@mswjs/interceptors" "^0.39.3"
     json-stringify-safe "^5.0.1"
     propagate "^2.0.0"
 
