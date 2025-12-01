@@ -733,10 +733,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/folder-walker@3.2.4":
-  version "3.2.4"
-  resolved "https://registry.yarnpkg.com/@types/folder-walker/-/folder-walker-3.2.4.tgz#7193ab21da1f48f45b97058aae22cf74106e2607"
-  integrity sha512-cPmE7kf1d643DyX1ckpuuuD/NALd146RWTY0RS1ejxn9Vtq8NnhfmlzN43ofIC1lZTLqW04ewAx3CHp7cVZh6Q==
+"@types/folder-walker@3.2.5":
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/@types/folder-walker/-/folder-walker-3.2.5.tgz#d63b07e5a72f52c1799d7d6389fdd60c2deff40f"
+  integrity sha512-9hRv6922xSAokk16e+SHU5Q1DBQOK/cB+b1aDPNbePl9tm7aw6AceGBU4qSaJqxO//j1IAWmqynlwlUuWI89JQ==
   dependencies:
     "@types/node" "*"
 
