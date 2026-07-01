@@ -35,7 +35,7 @@
     "bson-objectid": "^2.0.3"
   },
   "devDependencies": {
-    "@types/node": "20.19.39",
+    "@types/node": "20.19.43",
     "knex": "3.1.0",
     "nock": "14.0.14",
     "sqlite3": "5.1.7"
