@@ -868,18 +868,18 @@
     "@types/mime" "*"
     "@types/node" "*"
 
-"@types/through2-map@3.0.4":
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/@types/through2-map/-/through2-map-3.0.4.tgz#e0be2176ebdac3b33411ee90846a8ce3e4a21582"
-  integrity sha512-021N9/i2YhF8oln0JUrYXkfKt9WO6/FqhmsuiolycRGX+u28VUHyFOWh0E5ZuoqS25d99gg71bTmzTA4TbxPiA==
+"@types/through2-map@3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@types/through2-map/-/through2-map-3.0.5.tgz#cde3a483ba57a01665b56dfcc7f6c507d5ec7bd5"
+  integrity sha512-wNWHVBDXh3aOl/qdjFJvVRTp5P3BiYp4C68so0NdyxVlAQow1iiywG+MujqugT5FjGpUSezSyBal7QstSVv0tQ==
   dependencies:
     "@types/node" "*"
-    "@types/through2" "*"
+    "@types/through2" "<5"
 
-"@types/through2@*":
-  version "2.0.38"
-  resolved "https://registry.yarnpkg.com/@types/through2/-/through2-2.0.38.tgz#a4e957b5a41dd8d2bd01d6d1bed2b29a22db2853"
-  integrity sha512-YFu+nHmjxMurkH1BSzA0Z1WrKDAY8jUKPZctNQn7mc+/KKtp2XxnclHFXxdB1m7Iqnzb5aywgP8TMK283LezGQ==
+"@types/through2@<5":
+  version "2.0.41"
+  resolved "https://registry.yarnpkg.com/@types/through2/-/through2-2.0.41.tgz#3e5e1720d71ffdfa03c22f2aad6593d12a47034f"
+  integrity sha512-ryQ0tidWkb1O1JuYvWKyMLYEtOWDqF5mHerJzKz/gQpoAaJq2l/dsMPBF0B5BNVT34rbARYJ5/tsZwLfUi2kwQ==
   dependencies:
     "@types/node" "*"
 
