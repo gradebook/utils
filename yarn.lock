@@ -641,12 +641,12 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"
   integrity sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==
 
-"@tryghost/bunyan-rotating-filestream@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@tryghost/bunyan-rotating-filestream/-/bunyan-rotating-filestream-0.0.7.tgz#3957de91e4e9b58999f0bbe19242080543dcfc4a"
-  integrity sha512-dswM+dxG8J7WpVoSjzAdoWXqqB5Dg0C2T7Zh6eoUvl5hkA8yWWJi/fS4jNXlHF700lWQ0g8/t+leJ7SGSWd+aw==
+"@tryghost/bunyan-rotating-filestream@^0.0.16":
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/@tryghost/bunyan-rotating-filestream/-/bunyan-rotating-filestream-0.0.16.tgz#2222fa05f3ed6ed0029a02823445d2ebbdf55b38"
+  integrity sha512-mzGjjJASERVCk2RukeJMorJ2uLh94x8uhFrn9SIH4p7eukU9P13XW2/7FVDXMLEYSLHUg+Ao1UbTtwoubc2h+Q==
   dependencies:
-    long-timeout "^0.1.1"
+    long-timeout "0.1.1"
 
 "@tufjs/canonical-json@1.0.0":
   version "1.0.0"
@@ -4442,7 +4442,7 @@ log-symbols@^4.0.0, log-symbols@^4.1.0:
     chalk "^4.1.0"
     is-unicode-supported "^0.1.0"
 
-long-timeout@^0.1.1:
+long-timeout@0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/long-timeout/-/long-timeout-0.1.1.tgz#9721d788b47e0bcb5a24c2e2bee1a0da55dab514"
   integrity sha512-BFRuQUqc7x2NWxfJBCyUrN8iYUYznzL9JROmRz1gZ6KlOIgmoD+njPVbb+VNn2nGMKggMsK79iUNErillsrx7w==
